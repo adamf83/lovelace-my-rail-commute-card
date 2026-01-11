@@ -165,21 +165,51 @@ class UKRailCommuteCard extends LitElement {
     // Auto-discover train sensors based on entity naming pattern
     const baseName = this.config.entity
       .replace('sensor.', '')
-      .replace('_summary', '');
+      .replace('_summary', '')
+      .replace('_commute_summary', ''); // Also handle _commute_summary
 
-    const trainSensors = Object.keys(hass.states)
-      .filter(entityId =>
-        entityId.startsWith(`sensor.${baseName}_train_`) ||
-        entityId.startsWith(`sensor.${baseName.replace(/_/g, '_')}_train_`)
-      )
-      .sort((a, b) => {
-        // Sort by train number
-        const numA = parseInt(a.match(/_train_(\d+)$/)?.[1] || '0');
-        const numB = parseInt(b.match(/_train_(\d+)$/)?.[1] || '0');
-        return numA - numB;
-      });
+    console.log('=== TRAIN SENSOR DISCOVERY DEBUG ===');
+    console.log('Config entity:', this.config.entity);
+    console.log('Base name:', baseName);
 
-    console.log('Found train sensors:', trainSensors);
+    // Show ALL sensors that contain the base name
+    const allRelated = Object.keys(hass.states).filter(e =>
+      e.includes(baseName) || e.includes(baseName.replace(/_/g, '-'))
+    );
+    console.log('All related sensors found:', allRelated);
+
+    // Try multiple naming patterns
+    const patterns = [
+      `sensor.${baseName}_train_`,
+      `sensor.${baseName}_train`,  // without trailing underscore
+      `sensor.${baseName.replace(/_/g, '-')}_train_`,  // with dashes
+      `sensor.${baseName.replace(/_/g, '')}_train_`,   // no separators
+    ];
+
+    console.log('Trying patterns:', patterns);
+
+    let trainSensors = [];
+    for (const pattern of patterns) {
+      const found = Object.keys(hass.states).filter(entityId =>
+        entityId.startsWith(pattern)
+      );
+      if (found.length > 0) {
+        console.log(`✓ Pattern "${pattern}" found ${found.length} sensors:`, found);
+        trainSensors = found;
+        break;
+      } else {
+        console.log(`✗ Pattern "${pattern}" found nothing`);
+      }
+    }
+
+    // Sort by train number
+    trainSensors.sort((a, b) => {
+      const numA = parseInt(a.match(/train[_-]?(\d+)$/i)?.[1] || '0');
+      const numB = parseInt(b.match(/train[_-]?(\d+)$/i)?.[1] || '0');
+      return numA - numB;
+    });
+
+    console.log('Final sorted train sensors:', trainSensors);
 
     const trains = trainSensors.map(entityId => {
       const entity = hass.states[entityId];
