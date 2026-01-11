@@ -583,9 +583,11 @@ class UKRailCommuteCard extends LitElement {
       composed: true,
     });
 
-    // Show more info for the summary entity
+    // Show more info for the individual train if available, otherwise summary
+    const entityId = train?.train_id || this.config.entity;
+
     event.detail = {
-      entityId: this.config.entity
+      entityId: entityId
     };
 
     this.dispatchEvent(event);
