@@ -14,6 +14,7 @@ import {
   getTrainIcon,
   shouldShowTrains
 } from './utils.js';
+import './editor.js'; // Import editor to bundle it
 
 console.info(
   '%c UK-RAIL-COMMUTE-CARD \n%c Version 1.0.0 ',
