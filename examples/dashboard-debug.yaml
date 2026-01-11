@@ -1,0 +1,11 @@
+# Debug Configuration for UK Rail Commute Card
+# Use this to troubleshoot issues
+
+type: custom:uk-rail-commute-card
+entity: sensor.london_bridge_to_east_croydon_summary  # YOUR ACTUAL ENTITY
+title: Morning Commute
+view: full
+show_platform: true
+show_operator: true
+show_calling_points: true
+show_last_updated: true
