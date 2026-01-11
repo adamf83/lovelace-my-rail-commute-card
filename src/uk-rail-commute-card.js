@@ -52,8 +52,13 @@ class UKRailCommuteCard extends LitElement {
   }
 
   setConfig(config) {
-    if (!config.entity) {
-      throw new Error('You must specify an entity');
+    if (!config) {
+      throw new Error('Invalid configuration');
+    }
+
+    // Allow empty entity during initial setup, but store config anyway
+    if (!config.entity && config.entity !== '') {
+      throw new Error('Please select a rail commute summary sensor');
     }
     this.config = {
       view: 'full',
@@ -116,12 +121,20 @@ class UKRailCommuteCard extends LitElement {
   set hass(hass) {
     this._hass = hass;
 
+    // If no entity configured yet (during initial setup), show loading
+    if (!this.config.entity) {
+      this._loading = false;
+      this._trains = [];
+      return;
+    }
+
     // Get the summary sensor
     const summaryEntity = hass.states[this.config.entity];
 
     if (!summaryEntity) {
       console.error('Entity not found:', this.config.entity);
       this._loading = false;
+      this._trains = [];
       return;
     }
 
@@ -285,6 +298,11 @@ class UKRailCommuteCard extends LitElement {
   }
 
   render() {
+    // Check if entity is configured
+    if (!this.config.entity) {
+      return this._renderEmpty('No entity selected', 'Please select a rail commute summary sensor in the card configuration');
+    }
+
     if (this._loading) {
       return this._renderLoading();
     }
@@ -701,10 +719,11 @@ class UKRailCommuteCard extends LitElement {
 
   static getStubConfig() {
     return {
-      entity: 'sensor.morning_commute_summary',
+      entity: '', // User must select their entity
       view: 'full',
       show_platform: true,
-      show_operator: true
+      show_operator: true,
+      show_calling_points: false
     };
   }
 }
