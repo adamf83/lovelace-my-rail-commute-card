@@ -1,12 +1,12 @@
-# UK Rail Commute Card
+# National Rail Commute Card
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
-[![GitHub Release](https://img.shields.io/github/release/yourusername/lovelace-uk-rail-commute-card.svg?style=flat-square)](https://github.com/yourusername/lovelace-uk-rail-commute-card/releases)
-[![License](https://img.shields.io/github/license/yourusername/lovelace-uk-rail-commute-card.svg?style=flat-square)](LICENSE)
+[![GitHub Release](https://img.shields.io/github/release/yourusername/lovelace-national-rail-commute-card.svg?style=flat-square)](https://github.com/yourusername/lovelace-national-rail-commute-card/releases)
+[![License](https://img.shields.io/github/license/yourusername/lovelace-national-rail-commute-card.svg?style=flat-square)](LICENSE)
 
 A beautiful, feature-rich custom Lovelace card for Home Assistant that displays UK rail departure information in a station-board-inspired interface. Designed to work seamlessly with the UK Rail Commute integration.
 
-![UK Rail Commute Card](screenshots/full-view.png)
+![National Rail Commute Card](screenshots/full-view.png)
 
 ## Features
 
@@ -47,19 +47,19 @@ A beautiful, feature-rich custom Lovelace card for Home Assistant that displays 
 1. Open HACS in Home Assistant
 2. Go to "Frontend"
 3. Click the "+" button
-4. Search for "UK Rail Commute Card"
+4. Search for "National Rail Commute Card"
 5. Click "Install"
 6. Refresh your browser
 
 ### Manual Installation
 
-1. Download `uk-rail-commute-card.js` from the [latest release](https://github.com/yourusername/lovelace-uk-rail-commute-card/releases)
-2. Copy it to `/config/www/uk-rail-commute-card.js`
+1. Download `national-rail-commute-card.js` from the [latest release](https://github.com/yourusername/lovelace-national-rail-commute-card/releases)
+2. Copy it to `/config/www/national-rail-commute-card.js`
 3. Add the resource to your Lovelace configuration:
 
    ```yaml
    resources:
-     - url: /local/uk-rail-commute-card.js
+     - url: /local/national-rail-commute-card.js
        type: module
    ```
 
@@ -72,7 +72,7 @@ A beautiful, feature-rich custom Lovelace card for Home Assistant that displays 
 Add this to your Lovelace dashboard:
 
 ```yaml
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.morning_commute_summary
 ```
 
@@ -81,7 +81,7 @@ That's it! The card will display with sensible defaults.
 ### Using the Visual Editor
 
 1. In edit mode, click "Add Card"
-2. Search for "UK Rail Commute Card"
+2. Search for "National Rail Commute Card"
 3. Select your summary entity
 4. Configure options using the visual interface
 5. Save!
@@ -91,7 +91,7 @@ That's it! The card will display with sensible defaults.
 ### Full Configuration Options
 
 ```yaml
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.morning_commute_summary
 
 # Display Options
@@ -178,7 +178,7 @@ colors:
 The default view showing all train information with complete details.
 
 ```yaml
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.morning_commute_summary
 view: full
 ```
@@ -193,7 +193,7 @@ view: full
 Space-efficient layout showing essential information only.
 
 ```yaml
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.morning_commute_summary
 view: compact
 compact_height: true
@@ -209,7 +209,7 @@ compact_height: true
 Shows only the next departing train with full details.
 
 ```yaml
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.morning_commute_summary
 view: next-only
 show_calling_points: true
@@ -226,7 +226,7 @@ font_size: large
 Classic UK railway station board aesthetic with monospace font.
 
 ```yaml
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.morning_commute_summary
 view: board
 ```
@@ -243,7 +243,7 @@ view: board
 ```yaml
 type: vertical-stack
 cards:
-  - type: custom:uk-rail-commute-card
+  - type: custom:national-rail-commute-card
     entity: sensor.morning_commute_summary
     title: Morning Trains
     view: full
@@ -264,7 +264,7 @@ cards:
 ### Mobile-Optimized Compact Card
 
 ```yaml
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.morning_commute_summary
 view: compact
 compact_height: true
@@ -276,7 +276,7 @@ show_animations: false
 ### Delayed Trains Only
 
 ```yaml
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.morning_commute_summary
 title: Delayed Services
 hide_on_time_trains: true
@@ -290,7 +290,7 @@ colors:
 ### Classic Departure Board
 
 ```yaml
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.morning_commute_summary
 view: board
 show_header: false
@@ -300,7 +300,7 @@ theme: dark
 ### Next Train with Navigation
 
 ```yaml
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.morning_commute_summary
 view: next-only
 title: Next Departure
@@ -325,7 +325,7 @@ See [examples/automations.yaml](examples/automations.yaml) for complete automati
 
 ### Card Not Showing
 
-**Problem:** Card appears as "Custom element doesn't exist: uk-rail-commute-card"
+**Problem:** Card appears as "Custom element doesn't exist: national-rail-commute-card"
 
 **Solution:**
 1. Verify the card is installed in `/config/www/` or via HACS
@@ -391,8 +391,8 @@ See [examples/automations.yaml](examples/automations.yaml) for complete automati
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/lovelace-uk-rail-commute-card.git
-cd lovelace-uk-rail-commute-card
+git clone https://github.com/yourusername/lovelace-national-rail-commute-card.git
+cd lovelace-national-rail-commute-card
 
 # Install dependencies
 npm install
@@ -404,16 +404,16 @@ npm run build
 npm run watch
 ```
 
-The built file will be in `dist/uk-rail-commute-card.js`.
+The built file will be in `dist/national-rail-commute-card.js`.
 
 ### Testing Locally
 
 1. Build the project: `npm run build`
-2. Copy `dist/uk-rail-commute-card.js` to `/config/www/`
+2. Copy `dist/national-rail-commute-card.js` to `/config/www/`
 3. Add as a resource with `?v=X` parameter to bust cache:
    ```yaml
    resources:
-     - url: /local/uk-rail-commute-card.js?v=1
+     - url: /local/national-rail-commute-card.js?v=1
        type: module
    ```
 4. Increment `v` parameter each time you update
@@ -421,9 +421,9 @@ The built file will be in `dist/uk-rail-commute-card.js`.
 ### Project Structure
 
 ```
-lovelace-uk-rail-commute-card/
+lovelace-national-rail-commute-card/
 ├── src/
-│   ├── uk-rail-commute-card.js    # Main card component
+│   ├── national-rail-commute-card.js    # Main card component
 │   ├── styles.js                   # CSS styles
 │   ├── editor.js                   # Visual editor
 │   └── utils.js                    # Helper functions
@@ -451,8 +451,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Support
 
-- 📖 [Documentation](https://github.com/yourusername/lovelace-uk-rail-commute-card)
-- 🐛 [Issue Tracker](https://github.com/yourusername/lovelace-uk-rail-commute-card/issues)
+- 📖 [Documentation](https://github.com/yourusername/lovelace-national-rail-commute-card)
+- 🐛 [Issue Tracker](https://github.com/yourusername/lovelace-national-rail-commute-card/issues)
 - 💬 [Community Forum](https://community.home-assistant.io/)
 
 ## Changelog

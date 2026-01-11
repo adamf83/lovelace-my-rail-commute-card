@@ -17,12 +17,12 @@ import {
 import './editor.js'; // Import editor to bundle it
 
 console.info(
-  '%c UK-RAIL-COMMUTE-CARD \n%c Version 1.0.0 ',
+  '%c NATIONAL-RAIL-COMMUTE-CARD \n%c Version 1.0.0 ',
   'color: cyan; font-weight: bold; background: black',
   'color: white; font-weight: bold; background: dimgray',
 );
 
-class UKRailCommuteCard extends LitElement {
+class NationalRailCommuteCard extends LitElement {
   static get properties() {
     return {
       hass: { type: Object },
@@ -714,7 +714,7 @@ class UKRailCommuteCard extends LitElement {
   // ==================== CUSTOM CARD HELPERS ====================
 
   static getConfigElement() {
-    return document.createElement('uk-rail-commute-card-editor');
+    return document.createElement('national-rail-commute-card-editor');
   }
 
   static getStubConfig() {
@@ -729,16 +729,16 @@ class UKRailCommuteCard extends LitElement {
 }
 
 // Register the card
-customElements.define('uk-rail-commute-card', UKRailCommuteCard);
+customElements.define('national-rail-commute-card', NationalRailCommuteCard);
 
 // Register with card picker
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: 'uk-rail-commute-card',
-  name: 'UK Rail Commute Card',
-  description: 'Display UK rail departure information in a beautiful station-board interface',
+  type: 'national-rail-commute-card',
+  name: 'National Rail Commute Card',
+  description: 'Display UK National Rail departure information in a beautiful station-board interface',
   preview: true,
-  documentationURL: 'https://github.com/yourusername/lovelace-uk-rail-commute-card',
+  documentationURL: 'https://github.com/adamf83/lovelace-national-rail-commute-card',
 });
 
-export default UKRailCommuteCard;
+export default NationalRailCommuteCard;

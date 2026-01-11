@@ -1,7 +1,7 @@
 # Compact View Configuration
 # Perfect for mobile dashboards or space-constrained layouts
 
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.evening_commute_summary
 view: compact
 title: Evening Trains

@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 
-class UKRailCommuteCardEditor extends LitElement {
+class NationalRailCommuteCardEditor extends LitElement {
   static get properties() {
     return {
       hass: { type: Object },
@@ -490,6 +490,6 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 }
 
-customElements.define('uk-rail-commute-card-editor', UKRailCommuteCardEditor);
+customElements.define('national-rail-commute-card-editor', NationalRailCommuteCardEditor);
 
-export default UKRailCommuteCardEditor;
+export default NationalRailCommuteCardEditor;

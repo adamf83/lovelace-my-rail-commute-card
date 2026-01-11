@@ -130,6 +130,6 @@ automation:
   #   - entity: binary_sensor.morning_commute_severe_disruption
   #     state: "on"
   # card:
-  #   type: custom:uk-rail-commute-card
+  #   type: custom:national-rail-commute-card
   #   entity: sensor.morning_commute_summary
   #   title: "⚠️ DISRUPTION ALERT"

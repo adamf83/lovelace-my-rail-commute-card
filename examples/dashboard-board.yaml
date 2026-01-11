@@ -2,7 +2,7 @@
 # Mimics a real UK railway station departure board
 # Classic monospace font with amber text on dark background
 
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.morning_commute_summary
 view: board
 title: Platform Display

@@ -2,7 +2,7 @@
 # Only shows trains that are delayed
 # Perfect for focusing attention on problems
 
-type: custom:uk-rail-commute-card
+type: custom:national-rail-commute-card
 entity: sensor.morning_commute_summary
 hide_on_time_trains: true
 min_delay_to_show: 5

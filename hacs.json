@@ -1,6 +1,6 @@
 {
-  "name": "UK Rail Commute Card",
+  "name": "National Rail Commute Card",
   "render_readme": true,
-  "filename": "uk-rail-commute-card.js",
+  "filename": "national-rail-commute-card.js",
   "content_in_root": false
 }
