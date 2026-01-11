@@ -185,8 +185,25 @@ class UKRailCommuteCard extends LitElement {
       const entity = hass.states[entityId];
       if (!entity) return null;
 
+      console.log(`Parsing ${entityId}:`, {
+        state: entity.state,
+        attributes: entity.attributes
+      });
+
+      // Handle calling_points - might be array or comma-separated string
+      let callingPoints = entity.attributes.calling_points ||
+                         entity.attributes.stops ||
+                         entity.attributes.calling_at ||
+                         entity.attributes['Calling at'] || // Handle "Calling at: X, Y, Z"
+                         [];
+
+      // If it's a string, split by comma
+      if (typeof callingPoints === 'string') {
+        callingPoints = callingPoints.split(',').map(s => s.trim()).filter(s => s);
+      }
+
       // Parse train data from entity state and attributes
-      return {
+      const train = {
         train_id: entityId,
         scheduled_departure: entity.attributes.scheduled_departure ||
                            entity.attributes.scheduled ||
@@ -195,31 +212,35 @@ class UKRailCommuteCard extends LitElement {
                           entity.attributes.expected ||
                           entity.attributes.estimated ||
                           entity.state,
-        platform: entity.attributes.platform || '',
+        platform: entity.attributes.platform || entity.attributes.Platform || '',
         operator: entity.attributes.operator ||
-                 entity.attributes.service_operator || '',
+                 entity.attributes.service_operator ||
+                 entity.attributes.Operator || '',
         is_cancelled: entity.attributes.is_cancelled ||
                      entity.attributes.cancelled ||
                      entity.state === 'Cancelled' ||
+                     entity.state === 'Canceled' ||
                      false,
         delay_minutes: parseInt(entity.attributes.delay_minutes ||
                                entity.attributes.delay ||
                                entity.attributes.minutes_late ||
+                               entity.attributes['Delay minutes'] ||
                                '0'),
         delay_reason: entity.attributes.delay_reason ||
-                     entity.attributes.reason || '',
-        calling_points: entity.attributes.calling_points ||
-                       entity.attributes.stops ||
-                       entity.attributes.calling_at ||
-                       [],
+                     entity.attributes.reason ||
+                     entity.attributes['Delay reason'] || '',
+        calling_points: callingPoints,
         journey_duration: entity.attributes.journey_duration ||
                          entity.attributes.duration || '',
         service_type: entity.attributes.service_type ||
                      entity.attributes.type || ''
       };
+
+      console.log(`Parsed train ${entityId}:`, train);
+      return train;
     }).filter(train => train !== null);
 
-    console.log('Parsed trains:', trains);
+    console.log('All parsed trains:', trains);
     return trains;
   }
 

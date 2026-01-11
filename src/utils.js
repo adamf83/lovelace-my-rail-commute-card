@@ -3,16 +3,22 @@
  */
 
 /**
- * Format ISO time string to HH:MM
- * @param {string} timeStr - ISO time string
+ * Format ISO time string or HH:MM to HH:MM
+ * @param {string} timeStr - ISO time string or already formatted HH:MM
  * @returns {string} Formatted time (HH:MM)
  */
 export function formatTime(timeStr) {
   if (!timeStr) return '—';
 
+  // If it's already in HH:MM format, return as-is
+  if (/^\d{1,2}:\d{2}$/.test(timeStr)) {
+    return timeStr;
+  }
+
+  // Try to parse as ISO datetime
   try {
     const date = new Date(timeStr);
-    if (isNaN(date.getTime())) return '—';
+    if (isNaN(date.getTime())) return timeStr; // Return original if can't parse
 
     return date.toLocaleTimeString('en-GB', {
       hour: '2-digit',
@@ -21,7 +27,7 @@ export function formatTime(timeStr) {
     });
   } catch (e) {
     console.error('Error formatting time:', e);
-    return '—';
+    return timeStr; // Return original on error
   }
 }
 
