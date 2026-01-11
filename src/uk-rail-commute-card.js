@@ -127,8 +127,13 @@ class UKRailCommuteCard extends LitElement {
 
     // Extract train data - try multiple sources
     if (summaryEntity.attributes.all_trains && summaryEntity.attributes.all_trains.length > 0) {
-      // Method 1: Direct all_trains attribute
-      this._trains = summaryEntity.attributes.all_trains;
+      // Method 1: Direct all_trains attribute from integration
+      // Add train_id based on entity naming pattern
+      const baseName = this.config.entity.replace('sensor.', '').replace('_summary', '').replace('_commute_summary', '');
+      this._trains = summaryEntity.attributes.all_trains.map((train, index) => ({
+        ...train,
+        train_id: `sensor.${baseName}_train_${train.train_number || (index + 1)}` // Add train_id for click handler
+      }));
     } else {
       // Method 2: Auto-discover individual train sensors
       this._trains = this._getTrainsFromIndividualSensors(hass);
