@@ -1,0 +1,869 @@
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const t=globalThis,e=t.ShadowRoot&&(void 0===t.ShadyCSS||t.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,i=Symbol(),r=new WeakMap;let s=class{constructor(t,e,r){if(this._$cssResult$=!0,r!==i)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e}get styleSheet(){let t=this.o;const i=this.t;if(e&&void 0===t){const e=void 0!==i&&1===i.length;e&&(t=r.get(i)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),e&&r.set(i,t))}return t}toString(){return this.cssText}};const o=e?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const i of t.cssRules)e+=i.cssText;return(t=>new s("string"==typeof t?t:t+"",void 0,i))(e)})(t):t,{is:n,defineProperty:a,getOwnPropertyDescriptor:c,getOwnPropertyNames:d,getOwnPropertySymbols:l,getPrototypeOf:h}=Object,p=globalThis,u=p.trustedTypes,m=u?u.emptyScript:"",_=p.reactiveElementPolyfillSupport,f=(t,e)=>t,g={toAttribute(t,e){switch(e){case Boolean:t=t?m:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let i=t;switch(e){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t)}catch(t){i=null}}return i}},y=(t,e)=>!n(t,e),$={attribute:!0,type:String,converter:g,reflect:!1,useDefault:!1,hasChanged:y};
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */Symbol.metadata??=Symbol("metadata"),p.litPropertyMetadata??=new WeakMap;let v=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=$){if(e.state&&(e.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((e=Object.create(e)).wrapped=!0),this.elementProperties.set(t,e),!e.noAccessor){const i=Symbol(),r=this.getPropertyDescriptor(t,i,e);void 0!==r&&a(this.prototype,t,r)}}static getPropertyDescriptor(t,e,i){const{get:r,set:s}=c(this.prototype,t)??{get(){return this[e]},set(t){this[e]=t}};return{get:r,set(e){const o=r?.call(this);s?.call(this,e),this.requestUpdate(t,o,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??$}static _$Ei(){if(this.hasOwnProperty(f("elementProperties")))return;const t=h(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty(f("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(f("properties"))){const t=this.properties,e=[...d(t),...l(t)];for(const i of e)this.createProperty(i,t[i])}const t=this[Symbol.metadata];if(null!==t){const e=litPropertyMetadata.get(t);if(void 0!==e)for(const[t,i]of e)this.elementProperties.set(t,i)}this._$Eh=new Map;for(const[t,e]of this.elementProperties){const i=this._$Eu(t,e);void 0!==i&&this._$Eh.set(i,t)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const i=new Set(t.flat(1/0).reverse());for(const t of i)e.unshift(o(t))}else void 0!==t&&e.push(o(t));return e}static _$Eu(t,e){const i=e.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(t=>this.enableUpdating=t),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(t=>t(this))}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){const t=new Map,e=this.constructor.elementProperties;for(const i of e.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t)}createRenderRoot(){const i=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((i,r)=>{if(e)i.adoptedStyleSheets=r.map(t=>t instanceof CSSStyleSheet?t:t.styleSheet);else for(const e of r){const r=document.createElement("style"),s=t.litNonce;void 0!==s&&r.setAttribute("nonce",s),r.textContent=e.cssText,i.appendChild(r)}})(i,this.constructor.elementStyles),i}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach(t=>t.hostConnected?.())}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach(t=>t.hostDisconnected?.())}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$ET(t,e){const i=this.constructor.elementProperties.get(t),r=this.constructor._$Eu(t,i);if(void 0!==r&&!0===i.reflect){const s=(void 0!==i.converter?.toAttribute?i.converter:g).toAttribute(e,i.type);this._$Em=t,null==s?this.removeAttribute(r):this.setAttribute(r,s),this._$Em=null}}_$AK(t,e){const i=this.constructor,r=i._$Eh.get(t);if(void 0!==r&&this._$Em!==r){const t=i.getPropertyOptions(r),s="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:g;this._$Em=r;const o=s.fromAttribute(e,t.type);this[r]=o??this._$Ej?.get(r)??o,this._$Em=null}}requestUpdate(t,e,i,r=!1,s){if(void 0!==t){const o=this.constructor;if(!1===r&&(s=this[t]),i??=o.getPropertyOptions(t),!((i.hasChanged??y)(s,e)||i.useDefault&&i.reflect&&s===this._$Ej?.get(t)&&!this.hasAttribute(o._$Eu(t,i))))return;this.C(t,e,i)}!1===this.isUpdatePending&&(this._$ES=this._$EP())}C(t,e,{useDefault:i,reflect:r,wrapped:s},o){i&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,o??e??this[t]),!0!==s||void 0!==o)||(this._$AL.has(t)||(this.hasUpdated||i||(e=void 0),this._$AL.set(t,e)),!0===r&&this._$Em!==t&&(this._$Eq??=new Set).add(t))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,e]of this._$Ep)this[t]=e;this._$Ep=void 0}const t=this.constructor.elementProperties;if(t.size>0)for(const[e,i]of t){const{wrapped:t}=i,r=this[e];!0!==t||this._$AL.has(e)||void 0===r||this.C(e,void 0,i,r)}}let t=!1;const e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach(t=>t.hostUpdate?.()),this.update(e)):this._$EM()}catch(e){throw t=!1,this._$EM(),e}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach(t=>t.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Eq&&=this._$Eq.forEach(t=>this._$ET(t,this[t])),this._$EM()}updated(t){}firstUpdated(t){}};v.elementStyles=[],v.shadowRootOptions={mode:"open"},v[f("elementProperties")]=new Map,v[f("finalized")]=new Map,_?.({ReactiveElement:v}),(p.reactiveElementVersions??=[]).push("2.1.2");
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const w=globalThis,b=t=>t,x=w.trustedTypes,A=x?x.createPolicy("lit-html",{createHTML:t=>t}):void 0,E="$lit$",S=`lit$${Math.random().toFixed(9).slice(2)}$`,T="?"+S,C=`<${T}>`,k=document,O=()=>k.createComment(""),P=t=>null===t||"object"!=typeof t&&"function"!=typeof t,U=Array.isArray,z="[ \t\n\f\r]",R=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,M=/-->/g,N=/>/g,H=RegExp(`>|${z}(?:([^\\s"'>=/]+)(${z}*=${z}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),j=/'/g,D=/"/g,I=/^(?:script|style|textarea|title)$/i,L=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),B=Symbol.for("lit-noChange"),V=Symbol.for("lit-nothing"),F=new WeakMap,W=k.createTreeWalker(k,129);function q(t,e){if(!U(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==A?A.createHTML(e):e}const J=(t,e)=>{const i=t.length-1,r=[];let s,o=2===e?"<svg>":3===e?"<math>":"",n=R;for(let e=0;e<i;e++){const i=t[e];let a,c,d=-1,l=0;for(;l<i.length&&(n.lastIndex=l,c=n.exec(i),null!==c);)l=n.lastIndex,n===R?"!--"===c[1]?n=M:void 0!==c[1]?n=N:void 0!==c[2]?(I.test(c[2])&&(s=RegExp("</"+c[2],"g")),n=H):void 0!==c[3]&&(n=H):n===H?">"===c[0]?(n=s??R,d=-1):void 0===c[1]?d=-2:(d=n.lastIndex-c[2].length,a=c[1],n=void 0===c[3]?H:'"'===c[3]?D:j):n===D||n===j?n=H:n===M||n===N?n=R:(n=H,s=void 0);const h=n===H&&t[e+1].startsWith("/>")?" ":"";o+=n===R?i+C:d>=0?(r.push(a),i.slice(0,d)+E+i.slice(d)+S+h):i+S+(-2===d?e:h)}return[q(t,o+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),r]};class K{constructor({strings:t,_$litType$:e},i){let r;this.parts=[];let s=0,o=0;const n=t.length-1,a=this.parts,[c,d]=J(t,e);if(this.el=K.createElement(c,i),W.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(r=W.nextNode())&&a.length<n;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(E)){const e=d[o++],i=r.getAttribute(t).split(S),n=/([.?@])?(.*)/.exec(e);a.push({type:1,index:s,name:n[2],strings:i,ctor:"."===n[1]?Q:"?"===n[1]?tt:"@"===n[1]?et:Z}),r.removeAttribute(t)}else t.startsWith(S)&&(a.push({type:6,index:s}),r.removeAttribute(t));if(I.test(r.tagName)){const t=r.textContent.split(S),e=t.length-1;if(e>0){r.textContent=x?x.emptyScript:"";for(let i=0;i<e;i++)r.append(t[i],O()),W.nextNode(),a.push({type:2,index:++s});r.append(t[e],O())}}}else if(8===r.nodeType)if(r.data===T)a.push({type:2,index:s});else{let t=-1;for(;-1!==(t=r.data.indexOf(S,t+1));)a.push({type:7,index:s}),t+=S.length-1}s++}}static createElement(t,e){const i=k.createElement("template");return i.innerHTML=t,i}}function X(t,e,i=t,r){if(e===B)return e;let s=void 0!==r?i._$Co?.[r]:i._$Cl;const o=P(e)?void 0:e._$litDirective$;return s?.constructor!==o&&(s?._$AO?.(!1),void 0===o?s=void 0:(s=new o(t),s._$AT(t,i,r)),void 0!==r?(i._$Co??=[])[r]=s:i._$Cl=s),void 0!==s&&(e=X(t,s._$AS(t,e.values),s,r)),e}class G{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,r=(t?.creationScope??k).importNode(e,!0);W.currentNode=r;let s=W.nextNode(),o=0,n=0,a=i[0];for(;void 0!==a;){if(o===a.index){let e;2===a.type?e=new Y(s,s.nextSibling,this,t):1===a.type?e=new a.ctor(s,a.name,a.strings,this,t):6===a.type&&(e=new it(s,this,t)),this._$AV.push(e),a=i[++n]}o!==a?.index&&(s=W.nextNode(),o++)}return W.currentNode=k,r}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class Y{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,r){this.type=2,this._$AH=V,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=r,this._$Cv=r?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=X(this,t,e),P(t)?t===V||null==t||""===t?(this._$AH!==V&&this._$AR(),this._$AH=V):t!==this._$AH&&t!==B&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>U(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==V&&P(this._$AH)?this._$AA.nextSibling.data=t:this.T(k.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,r="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=K.createElement(q(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===r)this._$AH.p(e);else{const t=new G(r,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=F.get(t.strings);return void 0===e&&F.set(t.strings,e=new K(t)),e}k(t){U(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,r=0;for(const s of t)r===e.length?e.push(i=new Y(this.O(O()),this.O(O()),this,this.options)):i=e[r],i._$AI(s),r++;r<e.length&&(this._$AR(i&&i._$AB.nextSibling,r),e.length=r)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=b(t).nextSibling;b(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class Z{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,r,s){this.type=1,this._$AH=V,this._$AN=void 0,this.element=t,this.name=e,this._$AM=r,this.options=s,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=V}_$AI(t,e=this,i,r){const s=this.strings;let o=!1;if(void 0===s)t=X(this,t,e,0),o=!P(t)||t!==this._$AH&&t!==B,o&&(this._$AH=t);else{const r=t;let n,a;for(t=s[0],n=0;n<s.length-1;n++)a=X(this,r[i+n],e,n),a===B&&(a=this._$AH[n]),o||=!P(a)||a!==this._$AH[n],a===V?t=V:t!==V&&(t+=(a??"")+s[n+1]),this._$AH[n]=a}o&&!r&&this.j(t)}j(t){t===V?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class Q extends Z{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===V?void 0:t}}class tt extends Z{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==V)}}class et extends Z{constructor(t,e,i,r,s){super(t,e,i,r,s),this.type=5}_$AI(t,e=this){if((t=X(this,t,e,0)??V)===B)return;const i=this._$AH,r=t===V&&i!==V||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,s=t!==V&&(i===V||r);r&&this.element.removeEventListener(this.name,this,i),s&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class it{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){X(this,t)}}const rt=w.litHtmlPolyfillSupport;rt?.(K,Y),(w.litHtmlVersions??=[]).push("3.3.2");const st=globalThis;
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */class ot extends v{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,i)=>{const r=i?.renderBefore??e;let s=r._$litPart$;if(void 0===s){const t=i?.renderBefore??null;r._$litPart$=s=new Y(e.insertBefore(O(),t),t,void 0,i??{})}return s._$AI(t),s})(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return B}}ot._$litElement$=!0,ot.finalized=!0,st.litElementHydrateSupport?.({LitElement:ot});const nt=st.litElementPolyfillSupport;nt?.({LitElement:ot}),(st.litElementVersions??=[]).push("4.2.2");const at=((t,...e)=>{const r=1===t.length?t[0]:e.reduce((e,i,r)=>e+(t=>{if(!0===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(i)+t[r+1],t[0]);return new s(r,t,i)})`
+  :host {
+    --status-on-time: var(--custom-on-time-color, #4caf50);
+    --status-minor-delay: var(--custom-minor-delay-color, #ff9800);
+    --status-major-delay: var(--custom-major-delay-color, #f44336);
+    --status-cancelled: var(--custom-cancelled-color, #d32f2f);
+    --status-unknown: #9e9e9e;
+
+    --card-padding: 16px;
+    --row-padding: 12px;
+    --border-radius: 8px;
+
+    display: block;
+  }
+
+  ha-card {
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ==================== HEADER ==================== */
+
+  .card-header {
+    padding: var(--card-padding);
+    border-bottom: 1px solid var(--divider-color, #e0e0e0);
+    background: var(--card-background-color, #fff);
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  .header-title {
+    flex: 1;
+  }
+
+  .route {
+    margin-top: 4px;
+    font-size: 0.9rem;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  /* ==================== CONTENT ==================== */
+
+  .card-content {
+    padding: 0;
+  }
+
+  /* ==================== FULL VIEW ==================== */
+
+  .train-row {
+    padding: var(--row-padding) var(--card-padding);
+    border-bottom: 1px solid var(--divider-color, #e0e0e0);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .train-row:hover {
+    background-color: var(--secondary-background-color, #f5f5f5);
+  }
+
+  .train-row:last-child {
+    border-bottom: none;
+  }
+
+  .train-main {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 4px;
+  }
+
+  .train-time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+  }
+
+  .train-time ha-icon {
+    --mdc-icon-size: 20px;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  .time {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--primary-text-color, #212121);
+  }
+
+  .expected-time {
+    font-size: 1rem;
+    color: var(--status-minor-delay);
+    margin-left: 4px;
+  }
+
+  .train-platform {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color, #757575);
+    flex: 0 0 auto;
+  }
+
+  .train-status {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .train-details {
+    margin-left: 32px;
+    font-size: 0.85rem;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  .operator {
+    font-weight: 500;
+  }
+
+  .delay-reason {
+    margin-top: 4px;
+    font-style: italic;
+    color: var(--status-minor-delay);
+  }
+
+  .calling-points {
+    margin-top: 4px;
+  }
+
+  .journey-time {
+    margin-top: 4px;
+    font-size: 0.8rem;
+  }
+
+  /* ==================== STATUS COLORS ==================== */
+
+  .train-row.on-time .train-status {
+    color: var(--status-on-time);
+  }
+
+  .train-row.minor-delay .train-status {
+    color: var(--status-minor-delay);
+  }
+
+  .train-row.major-delay .train-status {
+    color: var(--status-major-delay);
+  }
+
+  .train-row.cancelled {
+    opacity: 0.6;
+  }
+
+  .train-row.cancelled .train-status {
+    color: var(--status-cancelled);
+  }
+
+  .train-row.cancelled .time {
+    text-decoration: line-through;
+  }
+
+  /* ==================== COMPACT VIEW ==================== */
+
+  .card-content.compact {
+    padding: 8px 0;
+  }
+
+  .train-row-compact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px var(--card-padding);
+    border-bottom: 1px solid var(--divider-color, #e0e0e0);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .train-row-compact:hover {
+    background-color: var(--secondary-background-color, #f5f5f5);
+  }
+
+  .train-row-compact:last-child {
+    border-bottom: none;
+  }
+
+  .train-row-compact .time {
+    font-size: 1.1rem;
+    font-weight: 500;
+    flex: 0 0 auto;
+    min-width: 60px;
+  }
+
+  .train-row-compact .platform {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color, #757575);
+    flex: 1;
+    text-align: center;
+  }
+
+  .train-row-compact .status {
+    font-size: 0.9rem;
+    font-weight: 500;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .train-row-compact.on-time .status {
+    color: var(--status-on-time);
+  }
+
+  .train-row-compact.minor-delay .status {
+    color: var(--status-minor-delay);
+  }
+
+  .train-row-compact.major-delay .status {
+    color: var(--status-major-delay);
+  }
+
+  .train-row-compact.cancelled .status {
+    color: var(--status-cancelled);
+  }
+
+  .train-row-compact.cancelled .time {
+    text-decoration: line-through;
+    opacity: 0.6;
+  }
+
+  /* ==================== NEXT-ONLY VIEW ==================== */
+
+  .card-content.next-only {
+    padding: var(--card-padding);
+    text-align: center;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .next-train-time {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 16px 0;
+    color: var(--primary-text-color, #212121);
+  }
+
+  .next-train-expected {
+    font-size: 1rem;
+    color: var(--status-minor-delay);
+    margin-bottom: 16px;
+  }
+
+  .next-train-platform {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 12px 0;
+    color: var(--primary-text-color, #212121);
+  }
+
+  .next-train-status {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 12px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .next-train-status.on-time {
+    color: var(--status-on-time);
+  }
+
+  .next-train-status.minor-delay {
+    color: var(--status-minor-delay);
+  }
+
+  .next-train-status.major-delay {
+    color: var(--status-major-delay);
+  }
+
+  .next-train-status.cancelled {
+    color: var(--status-cancelled);
+  }
+
+  .next-train-operator {
+    font-size: 1rem;
+    color: var(--secondary-text-color, #757575);
+    margin: 12px 0;
+  }
+
+  .next-train-calling {
+    margin-top: 16px;
+    font-size: 0.9rem;
+    text-align: left;
+    padding: 12px;
+    background: var(--secondary-background-color, #f5f5f5);
+    border-radius: var(--border-radius);
+    color: var(--primary-text-color, #212121);
+  }
+
+  .next-train-calling strong {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  /* ==================== DEPARTURE BOARD VIEW ==================== */
+
+  ha-card.departure-board {
+    background: #1a1a1a;
+    color: #ffcc00;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  .board-header {
+    padding: var(--card-padding);
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 2px solid #333;
+    letter-spacing: 2px;
+  }
+
+  .board-content {
+    padding: 0;
+  }
+
+  .board-table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .board-row {
+    display: table-row;
+  }
+
+  .board-row > span {
+    display: table-cell;
+    padding: 8px 12px;
+    border-bottom: 1px solid #333;
+    vertical-align: middle;
+  }
+
+  .board-header-row {
+    font-weight: 700;
+    border-bottom: 2px solid #ffcc00;
+  }
+
+  .board-header-row > span {
+    border-bottom: 2px solid #ffcc00;
+  }
+
+  .board-row:not(.board-header-row) {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .board-row:not(.board-header-row):hover {
+    background-color: #252525;
+  }
+
+  .col-time {
+    width: 20%;
+  }
+
+  .col-dest {
+    width: 40%;
+  }
+
+  .col-plat {
+    width: 15%;
+    text-align: center;
+  }
+
+  .col-status {
+    width: 25%;
+  }
+
+  .board-row.cancelled {
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
+
+  .board-row.major-delay .col-status {
+    animation: flash 1s infinite;
+  }
+
+  @keyframes flash {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.5; }
+  }
+
+  /* ==================== FOOTER ==================== */
+
+  .card-footer {
+    padding: 8px var(--card-padding);
+    border-top: 1px solid var(--divider-color, #e0e0e0);
+    font-size: 0.8rem;
+    color: var(--secondary-text-color, #757575);
+    text-align: center;
+    background: var(--card-background-color, #fff);
+  }
+
+  /* ==================== EMPTY STATE ==================== */
+
+  .card-content.empty {
+    padding: 48px var(--card-padding);
+    text-align: center;
+  }
+
+  .empty-icon {
+    --mdc-icon-size: 64px;
+    color: var(--disabled-text-color, #bdbdbd);
+    margin-bottom: 16px;
+  }
+
+  .empty-message {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--primary-text-color, #212121);
+  }
+
+  .empty-submessage {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  /* ==================== LOADING STATE ==================== */
+
+  .card-content.loading {
+    padding: 48px var(--card-padding);
+    text-align: center;
+  }
+
+  .loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--divider-color, #e0e0e0);
+    border-top-color: var(--primary-color, #03a9f4);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loading-message {
+    margin-top: 16px;
+    font-size: 0.9rem;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  /* ==================== REFRESH TOAST ==================== */
+
+  .refresh-toast {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 24px;
+    font-size: 0.9rem;
+    animation: fadeInOut 2s ease-in-out;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  @keyframes fadeInOut {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* ==================== ANIMATIONS ==================== */
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .train-row,
+  .train-row-compact {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  /* Disable animations if user prefers reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* ==================== RESPONSIVE ==================== */
+
+  @media (max-width: 600px) {
+    .train-main {
+      flex-wrap: wrap;
+    }
+
+    .time {
+      font-size: 1.3rem;
+    }
+
+    .next-train-time {
+      font-size: 2.5rem;
+    }
+
+    .board-row > span {
+      padding: 6px 8px;
+      font-size: 0.85rem;
+    }
+
+    .col-dest {
+      width: 35%;
+    }
+
+    .col-status {
+      width: 30%;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .train-platform {
+      flex-basis: 100%;
+      margin-left: 32px;
+    }
+
+    .card-padding {
+      --card-padding: 12px;
+    }
+  }
+
+  /* ==================== COMPACT HEIGHT MODE ==================== */
+
+  ha-card.compact-height .train-row {
+    padding: 8px var(--card-padding);
+  }
+
+  ha-card.compact-height .train-main {
+    margin-bottom: 0;
+  }
+
+  ha-card.compact-height .train-details {
+    display: none;
+  }
+
+  ha-card.compact-height .card-content.next-only {
+    min-height: 150px;
+    padding: 12px;
+  }
+
+  ha-card.compact-height .next-train-time {
+    font-size: 2rem;
+    margin: 8px 0;
+  }
+
+  /* ==================== CUSTOM THEME OVERRIDES ==================== */
+
+  :host([theme="light"]) ha-card {
+    background: #ffffff;
+    color: #212121;
+  }
+
+  :host([theme="dark"]) ha-card {
+    background: #1e1e1e;
+    color: #ffffff;
+  }
+
+  :host([theme="dark"]) .card-header,
+  :host([theme="dark"]) .card-footer {
+    background: #2c2c2c;
+    border-color: #404040;
+  }
+
+  :host([theme="dark"]) .train-row:hover,
+  :host([theme="dark"]) .train-row-compact:hover {
+    background-color: #2c2c2c;
+  }
+
+  :host([theme="dark"]) .train-row,
+  :host([theme="dark"]) .train-row-compact {
+    border-color: #404040;
+  }
+
+  :host([theme="dark"]) .next-train-calling {
+    background: #2c2c2c;
+  }
+
+  /* ==================== FONT SIZE VARIANTS ==================== */
+
+  :host([font-size="small"]) .time {
+    font-size: 1.2rem;
+  }
+
+  :host([font-size="small"]) .next-train-time {
+    font-size: 2.5rem;
+  }
+
+  :host([font-size="large"]) .time {
+    font-size: 1.8rem;
+  }
+
+  :host([font-size="large"]) .next-train-time {
+    font-size: 3.5rem;
+  }
+
+  :host([font-size="large"]) .train-details,
+  :host([font-size="large"]) .operator {
+    font-size: 1rem;
+  }
+
+  /* ==================== NO ANIMATIONS MODE ==================== */
+
+  :host([no-animations]) .train-row,
+  :host([no-animations]) .train-row-compact,
+  :host([no-animations]) * {
+    animation: none !important;
+    transition: none !important;
+  }
+`;function ct(t){if(!t)return"—";try{const e=new Date(t);return isNaN(e.getTime())?"—":e.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:!1})}catch(t){return console.error("Error formatting time:",t),"—"}}function dt(t){return t?t.is_cancelled?"cancelled":t.delay_minutes>=10?"major-delay":t.delay_minutes>0?"minor-delay":"on-time":"unknown"}function lt(t,e=!0){return e&&t?t.is_cancelled?"❌":t.delay_minutes>=10?"🔴":t.delay_minutes>0?"⚠️":"✓":""}function ht(t){return t?t.is_cancelled?"Cancelled":t.delay_minutes>0?`Delayed ${t.delay_minutes} min${1!==t.delay_minutes?"s":""}`:"On time":"Unknown"}console.info("%c UK-RAIL-COMMUTE-CARD \n%c Version 1.0.0 ","color: cyan; font-weight: bold; background: black","color: white; font-weight: bold; background: dimgray");class pt extends ot{static get properties(){return{hass:{type:Object},config:{type:Object},_trains:{type:Array},_origin:{type:String},_destination:{type:String},_lastUpdated:{type:String},_hasDisruption:{type:Boolean},_loading:{type:Boolean}}}static get styles(){return at}constructor(){super(),this._trains=[],this._origin="",this._destination="",this._lastUpdated="",this._hasDisruption=!1,this._loading=!0,this._pressTimer=null}setConfig(t){if(!t.entity)throw new Error("You must specify an entity");this.config={view:"full",theme:"auto",show_header:!0,show_route:!0,show_last_updated:!1,show_platform:!0,show_operator:!0,show_calling_points:!1,show_delay_reason:!0,show_journey_time:!1,show_service_type:!1,max_calling_points:3,hide_on_time_trains:!1,only_show_disrupted:!1,min_delay_to_show:0,auto_refresh:!0,refresh_interval:60,card_style:"departure-board",font_size:"medium",compact_height:!1,show_animations:!0,status_icons:!0,...t},t.colors&&(t.colors.on_time&&this.style.setProperty("--custom-on-time-color",t.colors.on_time),t.colors.minor_delay&&this.style.setProperty("--custom-minor-delay-color",t.colors.minor_delay),t.colors.major_delay&&this.style.setProperty("--custom-major-delay-color",t.colors.major_delay),t.colors.cancelled&&this.style.setProperty("--custom-cancelled-color",t.colors.cancelled)),t.theme&&"auto"!==t.theme&&this.setAttribute("theme",t.theme),t.font_size&&this.setAttribute("font-size",t.font_size),!1===t.show_animations&&this.setAttribute("no-animations","")}set hass(t){this._hass=t;const e=t.states[this.config.entity];if(!e)return console.error("Entity not found:",this.config.entity),void(this._loading=!1);var i;if(this._trains=e.attributes.all_trains||[],this._origin=e.attributes.origin_name||"",this._destination=e.attributes.destination_name||"",this._lastUpdated=e.attributes.last_updated||"",this._trains=(i=this._trains)&&0!==i.length?[...i].sort((t,e)=>new Date(t.scheduled_departure).getTime()-new Date(e.scheduled_departure).getTime()):[],this._trains=function(t,e){if(!t||0===t.length)return[];let i=[...t];return e.hide_on_time_trains&&(i=i.filter(t=>t.is_cancelled||t.delay_minutes>0)),e.min_delay_to_show>0&&(i=i.filter(t=>t.is_cancelled||t.delay_minutes>=e.min_delay_to_show)),i}(this._trains,this.config),this.config.disruption_entity){const e=t.states[this.config.disruption_entity];this._hasDisruption="on"===e?.state}this._loading=!1,this.requestUpdate()}getCardSize(){const t=this.config.view||"full",e=this._trains?.length||0;switch(t){case"compact":return 1+Math.ceil(.5*e);case"next-only":return 3;default:return 2+e}}render(){if(this._loading)return this._renderLoading();if(t=this._hasDisruption,this.config.only_show_disrupted&&!t)return this._renderEmpty("No disruption detected","Trains will appear when there is disruption");var t;if(!this._trains||0===this._trains.length)return this._renderEmpty();switch(this.config.view||"full"){case"compact":return this._renderCompact();case"next-only":return this._renderNextOnly();case"board":return this._renderBoard();default:return this._renderFull()}}_renderHeader(){const t=!1!==this.config.show_header,e=!1!==this.config.show_route;if(!t)return"";const i=this.config.title||"Rail Commute";return L`
+      <div class="card-header">
+        <div class="header-content">
+          <ha-icon icon="mdi:train"></ha-icon>
+          <span class="header-title">${i}</span>
+        </div>
+        ${e&&this._origin&&this._destination?L`
+          <div class="route">
+            ${this._origin} → ${this._destination}
+          </div>
+        `:""}
+      </div>
+    `}_renderFooter(){return!1===this.config.show_last_updated?"":L`
+      <div class="card-footer">
+        <span class="last-updated">
+          Last updated: ${function(t){if(!t)return"Unknown";try{const e=new Date,i=new Date(t),r=Math.floor((e-i)/1e3);if(r<0)return"Just now";if(r<60)return"Just now";if(r<3600){const t=Math.floor(r/60);return`${t} minute${1!==t?"s":""} ago`}if(r<86400){const t=Math.floor(r/3600);return`${t} hour${1!==t?"s":""} ago`}const s=Math.floor(r/86400);return`${s} day${1!==s?"s":""} ago`}catch(t){return console.error("Error calculating relative time:",t),"Unknown"}}(this._lastUpdated)}
+        </span>
+      </div>
+    `}_renderFull(){const t=this.config.compact_height?"compact-height":"";return L`
+      <ha-card class="${t}">
+        ${this._renderHeader()}
+
+        <div class="card-content">
+          ${this._trains.map(t=>this._renderTrainRow(t))}
+        </div>
+
+        ${this._renderFooter()}
+      </ha-card>
+    `}_renderTrainRow(t){const e=dt(t),i=!1!==this.config.status_icons?lt(t):"",r=!1!==this.config.show_platform,s=!1!==this.config.show_operator,o=!1!==this.config.show_delay_reason,n=!0===this.config.show_calling_points,a=!0===this.config.show_journey_time;return L`
+      <div
+        class="train-row ${e}"
+        @click="${()=>this._handleTap(t)}"
+        @touchstart="${this._handleTouchStart}"
+        @touchend="${this._handleTouchEnd}"
+        @touchmove="${this._handleTouchMove}"
+      >
+        <div class="train-main">
+          <div class="train-time">
+            <ha-icon icon="${function(t){return t?t.is_cancelled?"mdi:close-circle":t.delay_minutes>0?"mdi:train-variant":"mdi:train":"mdi:train"}(t)}"></ha-icon>
+            <span class="time">${ct(t.scheduled_departure)}</span>
+            ${t.expected_departure&&t.expected_departure!==t.scheduled_departure?L`
+              <span class="expected-time">${ct(t.expected_departure)}</span>
+            `:""}
+          </div>
+
+          ${r?L`
+            <div class="train-platform">
+              Platform ${t.platform||"—"}
+            </div>
+          `:""}
+
+          <div class="train-status">
+            ${i}
+            ${ht(t)}
+          </div>
+        </div>
+
+        <div class="train-details">
+          ${s&&t.operator?L`
+            <span class="operator">${t.operator}</span>
+          `:""}
+
+          ${o&&t.delay_reason?L`
+            <div class="delay-reason">
+              → ${t.delay_reason}
+            </div>
+          `:""}
+
+          ${n&&t.calling_points&&t.calling_points.length>0?L`
+            <div class="calling-points">
+              Calling at: ${function(t,e=3){if(!t||0===t.length)return"";const i=t.slice(0,e),r=t.length-e;let s=i.join(", ");return r>0&&(s+=` +${r} more`),s}(t.calling_points,this.config.max_calling_points)}
+            </div>
+          `:""}
+
+          ${a&&t.journey_duration?L`
+            <div class="journey-time">
+              Journey time: ${t.journey_duration} mins
+            </div>
+          `:""}
+        </div>
+      </div>
+    `}_renderCompact(){return L`
+      <ha-card class="${this.config.compact_height?"compact-height":""}">
+        ${this._renderHeader()}
+
+        <div class="card-content compact">
+          ${this._trains.map(t=>L`
+            <div
+              class="train-row-compact ${dt(t)}"
+              @click="${()=>this._handleTap(t)}"
+              @touchstart="${this._handleTouchStart}"
+              @touchend="${this._handleTouchEnd}"
+              @touchmove="${this._handleTouchMove}"
+            >
+              <span class="time">${ct(t.scheduled_departure)}</span>
+              <span class="platform">Plat ${t.platform||"—"}</span>
+              <span class="status">
+                ${!1!==this.config.status_icons?lt(t):""}
+                ${t.delay_minutes>0?` +${t.delay_minutes}m`:""}
+              </span>
+            </div>
+          `)}
+        </div>
+
+        ${this._renderFooter()}
+      </ha-card>
+    `}_renderNextOnly(){const t=this._trains[0];if(!t)return this._renderEmpty();const e=dt(t),i=!1!==this.config.status_icons?lt(t):"";return L`
+      <ha-card class="${this.config.compact_height?"compact-height":""}">
+        ${this._renderHeader()}
+
+        <div class="card-content next-only">
+          <div class="next-train-time">
+            ${ct(t.scheduled_departure)}
+          </div>
+
+          ${t.expected_departure&&t.expected_departure!==t.scheduled_departure?L`
+            <div class="next-train-expected">
+              Expected: ${ct(t.expected_departure)}
+            </div>
+          `:""}
+
+          <div class="next-train-platform">
+            Platform ${t.platform||"—"}
+          </div>
+
+          <div class="next-train-status ${e}">
+            ${i} ${ht(t)}
+          </div>
+
+          ${t.operator?L`
+            <div class="next-train-operator">
+              ${t.operator}
+            </div>
+          `:""}
+
+          ${t.calling_points&&t.calling_points.length>0?L`
+            <div class="next-train-calling">
+              <strong>Calling at:</strong><br>
+              ${t.calling_points.join(", ")}
+            </div>
+          `:""}
+        </div>
+
+        ${this._renderFooter()}
+      </ha-card>
+    `}_renderBoard(){return L`
+      <ha-card class="departure-board">
+        <div class="board-header">
+          DEPARTURES  ${this._origin||""}
+        </div>
+
+        <div class="board-content">
+          <div class="board-table">
+            <div class="board-row board-header-row">
+              <span class="col-time">Time</span>
+              <span class="col-dest">Dest</span>
+              <span class="col-plat">Plat</span>
+              <span class="col-status">Status</span>
+            </div>
+
+            ${this._trains.map(t=>L`
+              <div
+                class="board-row ${dt(t)}"
+                @click="${()=>this._handleTap(t)}"
+                @touchstart="${this._handleTouchStart}"
+                @touchend="${this._handleTouchEnd}"
+                @touchmove="${this._handleTouchMove}"
+              >
+                <span class="col-time">
+                  ${ct(t.scheduled_departure)}
+                </span>
+                <span class="col-dest">
+                  ${function(t){if(!t)return"";if(t.length<=12)return t;const e={London:"Ldn",Street:"St",Bridge:"Bdg",Junction:"Jn",Central:"Cen",International:"Intl",Station:"Stn",Road:"Rd",Cross:"X",Park:"Pk"};let i=t;for(const[t,r]of Object.entries(e))i=i.replace(new RegExp(t,"g"),r);return i.length>12&&(i=i.substring(0,11)+"…"),i}(this._destination||"")}
+                </span>
+                <span class="col-plat">
+                  ${t.platform||"—"}
+                </span>
+                <span class="col-status">
+                  ${function(t){return t?t.is_cancelled?"Cancelled":t.expected_departure&&t.expected_departure!==t.scheduled_departure?`Exp ${ct(t.expected_departure)}`:"On time":"Unknown"}(t)}
+                </span>
+              </div>
+            `)}
+          </div>
+        </div>
+      </ha-card>
+    `}_renderEmpty(t="No trains found",e="Check your time window or station codes"){return L`
+      <ha-card>
+        ${this._renderHeader()}
+
+        <div class="card-content empty">
+          <ha-icon icon="mdi:train-variant" class="empty-icon"></ha-icon>
+          <div class="empty-message">${t}</div>
+          <div class="empty-submessage">${e}</div>
+        </div>
+      </ha-card>
+    `}_renderLoading(){return L`
+      <ha-card>
+        ${this._renderHeader()}
+
+        <div class="card-content loading">
+          <div class="loading-spinner"></div>
+          <div class="loading-message">Loading train information...</div>
+        </div>
+      </ha-card>
+    `}_handleTap(t){switch(this.config.tap_action?.action||"more-info"){case"more-info":this._showMoreInfo(t);break;case"url":this._openUrl(t);break;case"navigate":this._navigate(t)}}_showMoreInfo(t){const e=new Event("hass-more-info",{bubbles:!0,composed:!0});e.detail={entityId:this.config.entity},this.dispatchEvent(e)}_openUrl(t){const e=this.config.tap_action?.url_path;if(e)window.open(e,"_blank");else{const t=`https://www.nationalrail.co.uk/journey-planner/?from=${this._origin||""}&to=${this._destination||""}`;window.open(t,"_blank")}}_navigate(t){const e=this.config.tap_action?.navigation_path;if(e){window.history.pushState(null,"",e);const t=new Event("location-changed",{bubbles:!0,composed:!0});this.dispatchEvent(t)}}_handleTouchStart(t){this._pressTimer=setTimeout(()=>{this._handleHold()},500)}_handleTouchEnd(){this._pressTimer&&(clearTimeout(this._pressTimer),this._pressTimer=null)}_handleTouchMove(){this._pressTimer&&(clearTimeout(this._pressTimer),this._pressTimer=null)}_handleHold(){"refresh"===(this.config.hold_action?.action||"refresh")&&this._refreshData()}_refreshData(){this._hass&&(this._hass.callService("homeassistant","update_entity",{entity_id:this.config.entity}),this._showRefreshFeedback())}_showRefreshFeedback(){const t=document.createElement("div");t.className="refresh-toast",t.textContent="Refreshing...",this.shadowRoot.appendChild(t),setTimeout(()=>{t.remove()},2e3)}static getConfigElement(){return document.createElement("uk-rail-commute-card-editor")}static getStubConfig(){return{entity:"sensor.morning_commute_summary",view:"full",show_platform:!0,show_operator:!0}}}customElements.define("uk-rail-commute-card",pt),window.customCards=window.customCards||[],window.customCards.push({type:"uk-rail-commute-card",name:"UK Rail Commute Card",description:"Display UK rail departure information in a beautiful station-board interface",preview:!0,documentationURL:"https://github.com/yourusername/lovelace-uk-rail-commute-card"});export{pt as default};

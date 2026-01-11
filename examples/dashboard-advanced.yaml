@@ -1,0 +1,50 @@
+# Advanced UK Rail Commute Card Configuration
+# This example shows all available options
+
+type: custom:uk-rail-commute-card
+entity: sensor.morning_commute_summary
+
+# Display Options
+title: Morning Commute
+view: full                    # Options: full | compact | next-only | board
+theme: auto                   # Options: auto | light | dark
+show_header: true
+show_route: true
+show_last_updated: true
+
+# Train Details
+show_platform: true
+show_operator: true
+show_calling_points: true
+show_delay_reason: true
+show_journey_time: false
+show_service_type: false
+max_calling_points: 5
+
+# Filtering
+hide_on_time_trains: false
+min_delay_to_show: 0
+only_show_disrupted: false
+
+# Styling
+font_size: medium             # Options: small | medium | large
+compact_height: false
+show_animations: true
+status_icons: true
+
+# Advanced
+disruption_entity: binary_sensor.morning_commute_severe_disruption
+refresh_interval: 60
+
+# Interactions
+tap_action:
+  action: more-info
+hold_action:
+  action: refresh
+
+# Custom Colors (optional)
+colors:
+  on_time: '#4caf50'
+  minor_delay: '#ff9800'
+  major_delay: '#f44336'
+  cancelled: '#d32f2f'

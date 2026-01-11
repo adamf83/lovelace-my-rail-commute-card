@@ -1,0 +1,10 @@
+# Disruption-Only View
+# Only shows trains when there's disruption detected
+# Useful for notification boards that stay hidden during normal service
+
+type: custom:uk-rail-commute-card
+entity: sensor.morning_commute_summary
+disruption_entity: binary_sensor.morning_commute_severe_disruption
+only_show_disrupted: true
+title: Service Disruption Alert
+show_delay_reason: true

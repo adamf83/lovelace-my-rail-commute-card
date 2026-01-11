@@ -1,0 +1,135 @@
+# Example Automations for UK Rail Commute Card
+
+# Automation 1: Notify on Severe Disruption
+automation:
+  - alias: "Rail: Notify on Severe Disruption"
+    description: "Send notification when severe disruption detected on commute route"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.morning_commute_severe_disruption
+        to: "on"
+    action:
+      - service: notify.mobile_app
+        data:
+          title: "⚠️ Rail Disruption Alert"
+          message: "Severe disruption detected on your morning commute route!"
+          data:
+            tag: rail_disruption
+            priority: high
+
+  # Automation 2: Notify on Train Delay
+  - alias: "Rail: Notify on Train Delay"
+    description: "Alert when next train is delayed more than 10 minutes"
+    trigger:
+      - platform: state
+        entity_id: sensor.morning_commute_next_train
+    condition:
+      - condition: template
+        value_template: "{{ state_attr('sensor.morning_commute_next_train', 'delay_minutes') | int > 10 }}"
+    action:
+      - service: notify.mobile_app
+        data:
+          title: "🚂 Train Delayed"
+          message: >
+            Your {{ states.sensor.morning_commute_next_train.attributes.scheduled_departure | as_timestamp | timestamp_custom('%H:%M') }} train is delayed by
+            {{ state_attr('sensor.morning_commute_next_train', 'delay_minutes') }} minutes.
+            {% if state_attr('sensor.morning_commute_next_train', 'delay_reason') %}
+            Reason: {{ state_attr('sensor.morning_commute_next_train', 'delay_reason') }}
+            {% endif %}
+
+  # Automation 3: Morning Commute Reminder
+  - alias: "Rail: Morning Commute Reminder"
+    description: "Send notification 30 mins before next train"
+    trigger:
+      - platform: time_pattern
+        minutes: "/5"
+    condition:
+      - condition: time
+        after: "07:00:00"
+        before: "09:30:00"
+      - condition: state
+        entity_id: person.home_owner
+        state: "home"
+    action:
+      - service: notify.mobile_app
+        data:
+          title: "🚆 Time to Leave"
+          message: >
+            Your next train leaves at {{ state_attr('sensor.morning_commute_next_train', 'scheduled_departure') | as_timestamp | timestamp_custom('%H:%M') }}
+            from Platform {{ state_attr('sensor.morning_commute_next_train', 'platform') }}.
+            {% if state_attr('sensor.morning_commute_next_train', 'is_cancelled') %}
+            ⚠️ This service has been cancelled!
+            {% elif state_attr('sensor.morning_commute_next_train', 'delay_minutes') | int > 0 %}
+            Delayed by {{ state_attr('sensor.morning_commute_next_train', 'delay_minutes') }} minutes.
+            {% else %}
+            ✓ Running on time.
+            {% endif %}
+
+  # Automation 4: TTS Announcement (Smart Speaker)
+  - alias: "Rail: Announce Next Train"
+    description: "Announce next train details via smart speaker"
+    trigger:
+      - platform: time
+        at: "08:00:00"
+    condition:
+      - condition: state
+        entity_id: person.home_owner
+        state: "home"
+    action:
+      - service: tts.google_translate_say
+        entity_id: media_player.kitchen_speaker
+        data:
+          message: >
+            Good morning. Your next train to {{ state_attr('sensor.morning_commute_summary', 'destination_name') }}
+            departs at {{ state_attr('sensor.morning_commute_next_train', 'scheduled_departure') | as_timestamp | timestamp_custom('%H:%M') }}
+            from platform {{ state_attr('sensor.morning_commute_next_train', 'platform') }}.
+            {% if state_attr('sensor.morning_commute_next_train', 'delay_minutes') | int > 0 %}
+            Please note, this service is delayed by {{ state_attr('sensor.morning_commute_next_train', 'delay_minutes') }} minutes.
+            {% endif %}
+
+  # Automation 5: Update Dashboard on Cancellation
+  - alias: "Rail: Flash Lights on Cancellation"
+    description: "Flash lights red when train is cancelled"
+    trigger:
+      - platform: state
+        entity_id: sensor.morning_commute_next_train
+    condition:
+      - condition: template
+        value_template: "{{ state_attr('sensor.morning_commute_next_train', 'is_cancelled') }}"
+    action:
+      - service: light.turn_on
+        target:
+          entity_id: light.hallway
+        data:
+          rgb_color: [255, 0, 0]
+          brightness: 255
+      - delay:
+          seconds: 2
+      - service: light.turn_off
+        target:
+          entity_id: light.hallway
+      - delay:
+          seconds: 1
+      - service: light.turn_on
+        target:
+          entity_id: light.hallway
+        data:
+          rgb_color: [255, 0, 0]
+          brightness: 255
+      - delay:
+          seconds: 2
+      - service: light.turn_off
+        target:
+          entity_id: light.hallway
+
+  # Automation 6: Conditional Card Visibility
+  # Note: This uses conditional card in Lovelace, not an automation
+  # Include this in your dashboard YAML:
+  # type: conditional
+  # conditions:
+  #   - entity: binary_sensor.morning_commute_severe_disruption
+  #     state: "on"
+  # card:
+  #   type: custom:uk-rail-commute-card
+  #   entity: sensor.morning_commute_summary
+  #   title: "⚠️ DISRUPTION ALERT"

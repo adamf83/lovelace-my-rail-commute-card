@@ -1,0 +1,10 @@
+# Next Train Only View
+# Shows only the next departing train with full details
+# Great for glanceable displays or focus on immediate next train
+
+type: custom:uk-rail-commute-card
+entity: sensor.morning_commute_summary
+view: next-only
+title: Next Train
+show_calling_points: true
+font_size: large

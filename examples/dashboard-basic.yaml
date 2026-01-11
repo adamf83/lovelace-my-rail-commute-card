@@ -1,0 +1,5 @@
+# Basic UK Rail Commute Card Configuration
+# This is the simplest setup - just specify your summary entity
+
+type: custom:uk-rail-commute-card
+entity: sensor.morning_commute_summary
