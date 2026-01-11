@@ -60,11 +60,21 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   setConfig(config) {
-    this._config = config;
+    this._config = { ...config }; // Create a copy to ensure reactivity
+    this.requestUpdate(); // Force re-render
+  }
+
+  set hass(hass) {
+    this._hass = hass;
+    this.requestUpdate(); // Force re-render when hass changes
+  }
+
+  get hass() {
+    return this._hass;
   }
 
   render() {
-    if (!this.hass || !this._config) {
+    if (!this._hass || !this._config) {
       return html``;
     }
 
@@ -76,8 +86,8 @@ class UKRailCommuteCardEditor extends LitElement {
         <div class="option">
           <ha-entity-picker
             label="Summary Entity (Required)"
-            .hass=${this.hass}
-            .value=${this._config.entity}
+            .hass=${this._hass}
+            .value=${this._config.entity || ''}
             .includeDomains=${['sensor']}
             @value-changed=${this._entityChanged}
             allow-custom-entity
@@ -259,7 +269,7 @@ class UKRailCommuteCardEditor extends LitElement {
         <div class="option">
           <ha-entity-picker
             label="Disruption Sensor (Optional)"
-            .hass=${this.hass}
+            .hass=${this._hass}
             .value=${this._config.disruption_entity || ''}
             .includeDomains=${['binary_sensor']}
             @value-changed=${this._disruptionEntityChanged}
@@ -342,7 +352,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _entityChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     this._config = { ...this._config, entity: ev.detail.value };
@@ -350,7 +360,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _titleChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     this._config = { ...this._config, title: ev.target.value };
@@ -358,7 +368,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _viewChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     this._config = { ...this._config, view: ev.target.value };
@@ -366,7 +376,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _themeChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     this._config = { ...this._config, theme: ev.target.value };
@@ -374,7 +384,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _fontSizeChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     this._config = { ...this._config, font_size: ev.target.value };
@@ -383,7 +393,7 @@ class UKRailCommuteCardEditor extends LitElement {
 
   _toggleChanged(key) {
     return (ev) => {
-      if (!this._config || !this.hass) {
+      if (!this._config || !this._hass) {
         return;
       }
       this._config = { ...this._config, [key]: ev.target.checked };
@@ -392,7 +402,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _minDelayChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     const value = parseInt(ev.target.value) || 0;
@@ -401,7 +411,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _maxCallingPointsChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     const value = parseInt(ev.target.value) || 3;
@@ -410,7 +420,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _disruptionEntityChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     this._config = { ...this._config, disruption_entity: ev.detail.value };
@@ -418,7 +428,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _refreshIntervalChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     const value = parseInt(ev.target.value) || 60;
@@ -427,7 +437,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _tapActionChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     this._config = {
@@ -438,7 +448,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _urlPathChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     this._config = {
@@ -449,7 +459,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _navigationPathChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     this._config = {
@@ -460,7 +470,7 @@ class UKRailCommuteCardEditor extends LitElement {
   }
 
   _holdActionChanged(ev) {
-    if (!this._config || !this.hass) {
+    if (!this._config || !this._hass) {
       return;
     }
     this._config = {
