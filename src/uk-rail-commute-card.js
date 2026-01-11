@@ -125,15 +125,31 @@ class UKRailCommuteCard extends LitElement {
       return;
     }
 
-    // Extract train data
-    this._trains = summaryEntity.attributes.all_trains || [];
-    this._origin = summaryEntity.attributes.origin_name || '';
-    this._destination = summaryEntity.attributes.destination_name || '';
-    this._lastUpdated = summaryEntity.attributes.last_updated || '';
+    // Extract train data - try multiple sources
+    if (summaryEntity.attributes.all_trains && summaryEntity.attributes.all_trains.length > 0) {
+      // Method 1: Direct all_trains attribute
+      this._trains = summaryEntity.attributes.all_trains;
+    } else {
+      // Method 2: Auto-discover individual train sensors
+      this._trains = this._getTrainsFromIndividualSensors(hass);
+    }
+
+    // Get route information
+    this._origin = summaryEntity.attributes.origin_name ||
+                   summaryEntity.attributes.origin ||
+                   summaryEntity.attributes.from_station || '';
+    this._destination = summaryEntity.attributes.destination_name ||
+                        summaryEntity.attributes.destination ||
+                        summaryEntity.attributes.to_station || '';
+    this._lastUpdated = summaryEntity.attributes.last_updated ||
+                        summaryEntity.last_updated ||
+                        summaryEntity.last_changed || '';
 
     // Sort and filter trains
-    this._trains = sortTrains(this._trains);
-    this._trains = filterTrains(this._trains, this.config);
+    if (this._trains && this._trains.length > 0) {
+      this._trains = sortTrains(this._trains);
+      this._trains = filterTrains(this._trains, this.config);
+    }
 
     // Get disruption sensor if configured
     if (this.config.disruption_entity) {
@@ -143,6 +159,68 @@ class UKRailCommuteCard extends LitElement {
 
     this._loading = false;
     this.requestUpdate();
+  }
+
+  _getTrainsFromIndividualSensors(hass) {
+    // Auto-discover train sensors based on entity naming pattern
+    const baseName = this.config.entity
+      .replace('sensor.', '')
+      .replace('_summary', '');
+
+    const trainSensors = Object.keys(hass.states)
+      .filter(entityId =>
+        entityId.startsWith(`sensor.${baseName}_train_`) ||
+        entityId.startsWith(`sensor.${baseName.replace(/_/g, '_')}_train_`)
+      )
+      .sort((a, b) => {
+        // Sort by train number
+        const numA = parseInt(a.match(/_train_(\d+)$/)?.[1] || '0');
+        const numB = parseInt(b.match(/_train_(\d+)$/)?.[1] || '0');
+        return numA - numB;
+      });
+
+    console.log('Found train sensors:', trainSensors);
+
+    const trains = trainSensors.map(entityId => {
+      const entity = hass.states[entityId];
+      if (!entity) return null;
+
+      // Parse train data from entity state and attributes
+      return {
+        train_id: entityId,
+        scheduled_departure: entity.attributes.scheduled_departure ||
+                           entity.attributes.scheduled ||
+                           entity.state,
+        expected_departure: entity.attributes.expected_departure ||
+                          entity.attributes.expected ||
+                          entity.attributes.estimated ||
+                          entity.state,
+        platform: entity.attributes.platform || '',
+        operator: entity.attributes.operator ||
+                 entity.attributes.service_operator || '',
+        is_cancelled: entity.attributes.is_cancelled ||
+                     entity.attributes.cancelled ||
+                     entity.state === 'Cancelled' ||
+                     false,
+        delay_minutes: parseInt(entity.attributes.delay_minutes ||
+                               entity.attributes.delay ||
+                               entity.attributes.minutes_late ||
+                               '0'),
+        delay_reason: entity.attributes.delay_reason ||
+                     entity.attributes.reason || '',
+        calling_points: entity.attributes.calling_points ||
+                       entity.attributes.stops ||
+                       entity.attributes.calling_at ||
+                       [],
+        journey_duration: entity.attributes.journey_duration ||
+                         entity.attributes.duration || '',
+        service_type: entity.attributes.service_type ||
+                     entity.attributes.type || ''
+      };
+    }).filter(train => train !== null);
+
+    console.log('Parsed trains:', trains);
+    return trains;
   }
 
   getCardSize() {
