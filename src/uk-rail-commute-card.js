@@ -233,15 +233,35 @@ class UKRailCommuteCard extends LitElement {
       }
 
       // Parse train data from entity state and attributes
+      const scheduledDep = entity.attributes.scheduled_departure ||
+                          entity.attributes.scheduled ||
+                          entity.attributes.departure ||
+                          entity.attributes.departure_time ||
+                          entity.state;
+
+      const expectedDep = entity.attributes.expected_departure ||
+                         entity.attributes.expected ||
+                         entity.attributes.estimated ||
+                         entity.attributes.estimated_departure ||
+                         entity.state;
+
+      console.log(`Time extraction for ${entityId}:`, {
+        state: entity.state,
+        scheduled_departure: entity.attributes.scheduled_departure,
+        scheduled: entity.attributes.scheduled,
+        departure: entity.attributes.departure,
+        departure_time: entity.attributes.departure_time,
+        expected_departure: entity.attributes.expected_departure,
+        expected: entity.attributes.expected,
+        estimated: entity.attributes.estimated,
+        EXTRACTED_scheduled: scheduledDep,
+        EXTRACTED_expected: expectedDep
+      });
+
       const train = {
         train_id: entityId,
-        scheduled_departure: entity.attributes.scheduled_departure ||
-                           entity.attributes.scheduled ||
-                           entity.state,
-        expected_departure: entity.attributes.expected_departure ||
-                          entity.attributes.expected ||
-                          entity.attributes.estimated ||
-                          entity.state,
+        scheduled_departure: scheduledDep,
+        expected_departure: expectedDep,
         platform: entity.attributes.platform || entity.attributes.Platform || '',
         operator: entity.attributes.operator ||
                  entity.attributes.service_operator ||
