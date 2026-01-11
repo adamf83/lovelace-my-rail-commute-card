@@ -8,17 +8,22 @@
  * @returns {string} Formatted time (HH:MM)
  */
 export function formatTime(timeStr) {
-  if (!timeStr) return '—';
+  if (!timeStr || timeStr === 'unknown' || timeStr === 'Unknown') return '—';
 
-  // If it's already in HH:MM format, return as-is
-  if (/^\d{1,2}:\d{2}$/.test(timeStr)) {
-    return timeStr;
+  // Convert to string if it's not already
+  const str = String(timeStr).trim();
+  if (!str) return '—';
+
+  // If it's already in HH:MM or HH:MM:SS format, extract HH:MM
+  const timeMatch = str.match(/(\d{1,2}):(\d{2})(?::\d{2})?/);
+  if (timeMatch) {
+    return `${timeMatch[1].padStart(2, '0')}:${timeMatch[2]}`;
   }
 
   // Try to parse as ISO datetime
   try {
-    const date = new Date(timeStr);
-    if (isNaN(date.getTime())) return timeStr; // Return original if can't parse
+    const date = new Date(str);
+    if (isNaN(date.getTime())) return str; // Return original if can't parse
 
     return date.toLocaleTimeString('en-GB', {
       hour: '2-digit',
@@ -26,8 +31,7 @@ export function formatTime(timeStr) {
       hour12: false
     });
   } catch (e) {
-    console.error('Error formatting time:', e);
-    return timeStr; // Return original on error
+    return str; // Return original on error
   }
 }
 

@@ -168,16 +168,6 @@ class UKRailCommuteCard extends LitElement {
       .replace('_summary', '')
       .replace('_commute_summary', ''); // Also handle _commute_summary
 
-    console.log('=== TRAIN SENSOR DISCOVERY DEBUG ===');
-    console.log('Config entity:', this.config.entity);
-    console.log('Base name:', baseName);
-
-    // Show ALL sensors that contain the base name
-    const allRelated = Object.keys(hass.states).filter(e =>
-      e.includes(baseName) || e.includes(baseName.replace(/_/g, '-'))
-    );
-    console.log('All related sensors found:', allRelated);
-
     // Try multiple naming patterns
     const patterns = [
       `sensor.${baseName}_train_`,
@@ -186,19 +176,14 @@ class UKRailCommuteCard extends LitElement {
       `sensor.${baseName.replace(/_/g, '')}_train_`,   // no separators
     ];
 
-    console.log('Trying patterns:', patterns);
-
     let trainSensors = [];
     for (const pattern of patterns) {
       const found = Object.keys(hass.states).filter(entityId =>
         entityId.startsWith(pattern)
       );
       if (found.length > 0) {
-        console.log(`✓ Pattern "${pattern}" found ${found.length} sensors:`, found);
         trainSensors = found;
         break;
-      } else {
-        console.log(`✗ Pattern "${pattern}" found nothing`);
       }
     }
 
@@ -209,16 +194,9 @@ class UKRailCommuteCard extends LitElement {
       return numA - numB;
     });
 
-    console.log('Final sorted train sensors:', trainSensors);
-
     const trains = trainSensors.map(entityId => {
       const entity = hass.states[entityId];
       if (!entity) return null;
-
-      console.log(`Parsing ${entityId}:`, {
-        state: entity.state,
-        attributes: entity.attributes
-      });
 
       // Handle calling_points - might be array or comma-separated string
       let callingPoints = entity.attributes.calling_points ||
@@ -232,31 +210,24 @@ class UKRailCommuteCard extends LitElement {
         callingPoints = callingPoints.split(',').map(s => s.trim()).filter(s => s);
       }
 
-      // Parse train data from entity state and attributes
+      // Parse train data - try all possible time attribute names
       const scheduledDep = entity.attributes.scheduled_departure ||
                           entity.attributes.scheduled ||
                           entity.attributes.departure ||
                           entity.attributes.departure_time ||
+                          entity.attributes.std || // Standard UK rail API
+                          entity.attributes.aimed_departure_time ||
+                          entity.attributes['Scheduled Departure'] ||
                           entity.state;
 
       const expectedDep = entity.attributes.expected_departure ||
                          entity.attributes.expected ||
                          entity.attributes.estimated ||
                          entity.attributes.estimated_departure ||
-                         entity.state;
-
-      console.log(`Time extraction for ${entityId}:`, {
-        state: entity.state,
-        scheduled_departure: entity.attributes.scheduled_departure,
-        scheduled: entity.attributes.scheduled,
-        departure: entity.attributes.departure,
-        departure_time: entity.attributes.departure_time,
-        expected_departure: entity.attributes.expected_departure,
-        expected: entity.attributes.expected,
-        estimated: entity.attributes.estimated,
-        EXTRACTED_scheduled: scheduledDep,
-        EXTRACTED_expected: expectedDep
-      });
+                         entity.attributes.etd || // Standard UK rail API
+                         entity.attributes.expected_arrival ||
+                         entity.attributes['Expected Departure'] ||
+                         scheduledDep; // Fall back to scheduled if no expected
 
       const train = {
         train_id: entityId,
@@ -286,11 +257,9 @@ class UKRailCommuteCard extends LitElement {
                      entity.attributes.type || ''
       };
 
-      console.log(`Parsed train ${entityId}:`, train);
       return train;
     }).filter(train => train !== null);
 
-    console.log('All parsed trains:', trains);
     return trains;
   }
 
