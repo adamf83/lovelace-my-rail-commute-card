@@ -4,9 +4,9 @@ import terser from '@rollup/plugin-terser';
 import babel from '@rollup/plugin-babel';
 
 export default {
-  input: 'src/national-rail-commute-card.js',
+  input: 'src/my-rail-commute-card.js',
   output: {
-    file: 'dist/national-rail-commute-card.js',
+    file: 'dist/my-rail-commute-card.js',
     format: 'es',
   },
   plugins: [

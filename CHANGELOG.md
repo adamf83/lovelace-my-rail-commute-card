@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2026-01-12
+
+### Changed
+- Rebranded from "National Rail Commute Card" to "My Rail Commute Card" to match the integration name
+- Updated all references, documentation, and file names
+
 ## [1.0.0] - 2026-01-11
 
 ### Added
