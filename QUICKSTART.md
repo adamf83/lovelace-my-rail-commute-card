@@ -15,15 +15,15 @@ A complete, production-ready Lovelace card for Home Assistant that displays UK r
 ## Project Structure
 
 ```
-lovelace-national-rail-commute-card/
+lovelace-my-rail-commute-card/
 ├── src/                                    # Source files
-│   ├── national-rail-commute-card.js            # Main card component
+│   ├── my-rail-commute-card.js            # Main card component
 │   ├── styles.js                          # All CSS styles
 │   ├── editor.js                          # Visual editor
 │   └── utils.js                           # Helper functions
 │
 ├── dist/                                   # Production build
-│   └── national-rail-commute-card.js            # Built & minified (42KB)
+│   └── my-rail-commute-card.js            # Built & minified (42KB)
 │
 ├── examples/                               # Example configs
 │   ├── dashboard-basic.yaml
@@ -48,17 +48,17 @@ lovelace-national-rail-commute-card/
 ### Option 1: HACS (When Published)
 
 1. Open HACS → Frontend
-2. Search "National Rail Commute Card"
+2. Search "My Rail Commute Card"
 3. Install
 4. Refresh browser
 
 ### Option 2: Manual Installation
 
-1. Copy `dist/national-rail-commute-card.js` to `/config/www/`
+1. Copy `dist/my-rail-commute-card.js` to `/config/www/`
 2. Add resource in Lovelace:
    ```yaml
    resources:
-     - url: /local/national-rail-commute-card.js
+     - url: /local/my-rail-commute-card.js
        type: module
    ```
 3. Refresh browser
@@ -67,14 +67,14 @@ lovelace-national-rail-commute-card/
 
 **Using UI:**
 1. Edit dashboard → Add Card
-2. Search "National Rail Commute Card"
+2. Search "My Rail Commute Card"
 3. Select your entity
 4. Configure options
 5. Save
 
 **Using YAML:**
 ```yaml
-type: custom:national-rail-commute-card
+type: custom:my-rail-commute-card
 entity: sensor.morning_commute_summary
 ```
 
@@ -82,7 +82,7 @@ entity: sensor.morning_commute_summary
 
 ### Source Files
 
-- **national-rail-commute-card.js** (870 lines)
+- **my-rail-commute-card.js** (870 lines)
   - Main Lit component
   - All rendering logic
   - Data handling from summary sensor
@@ -137,7 +137,7 @@ npm run build
 npm run watch
 ```
 
-Output: `dist/national-rail-commute-card.js` (42KB minified)
+Output: `dist/my-rail-commute-card.js` (42KB minified)
 
 ## View Modes Preview
 

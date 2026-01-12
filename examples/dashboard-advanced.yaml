@@ -1,7 +1,7 @@
 # Advanced UK Rail Commute Card Configuration
 # This example shows all available options
 
-type: custom:national-rail-commute-card
+type: custom:my-rail-commute-card
 entity: sensor.morning_commute_summary
 
 # Display Options

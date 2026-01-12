@@ -1,9 +1,9 @@
 {
-  "name": "national-rail-commute-card",
+  "name": "my-rail-commute-card",
   "version": "1.0.0",
-  "description": "A custom Lovelace card for Home Assistant that displays UK National Rail departure information",
+  "description": "A custom Lovelace card for Home Assistant that displays My Rail Commute departure information",
   "type": "module",
-  "main": "dist/national-rail-commute-card.js",
+  "main": "dist/my-rail-commute-card.js",
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
@@ -14,7 +14,7 @@
     "lovelace",
     "custom-card",
     "uk-rail",
-    "national-rail"
+    "my-rail-commute"
   ],
   "author": "",
   "license": "MIT",

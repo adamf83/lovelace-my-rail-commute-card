@@ -2,7 +2,7 @@
 # Shows only the next departing train with full details
 # Great for glanceable displays or focus on immediate next train
 
-type: custom:national-rail-commute-card
+type: custom:my-rail-commute-card
 entity: sensor.morning_commute_summary
 view: next-only
 title: Next Train
