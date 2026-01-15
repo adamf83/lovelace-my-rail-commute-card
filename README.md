@@ -1,8 +1,8 @@
 # My Rail Commute Card
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
-[![GitHub Release](https://img.shields.io/github/release/yourusername/lovelace-my-rail-commute-card.svg?style=flat-square)](https://github.com/yourusername/lovelace-my-rail-commute-card/releases)
-[![License](https://img.shields.io/github/license/yourusername/lovelace-my-rail-commute-card.svg?style=flat-square)](LICENSE)
+[![GitHub Release](https://img.shields.io/github/release/adamf83/lovelace-my-rail-commute-card.svg?style=flat-square)](https://github.com/adamf83/lovelace-my-rail-commute-card/releases)
+[![License](https://img.shields.io/github/license/adamf83/lovelace-my-rail-commute-card.svg?style=flat-square)](LICENSE)
 
 A beautiful, feature-rich custom Lovelace card for Home Assistant that displays UK rail departure information in a station-board-inspired interface. Designed to work seamlessly with the My Rail Commute integration.
 
@@ -53,7 +53,7 @@ A beautiful, feature-rich custom Lovelace card for Home Assistant that displays 
 
 ### Manual Installation
 
-1. Download `my-rail-commute-card.js` from the [latest release](https://github.com/yourusername/lovelace-my-rail-commute-card/releases)
+1. Download `my-rail-commute-card.js` from the [latest release](https://github.com/adamf83/lovelace-my-rail-commute-card/releases)
 2. Copy it to `/config/www/my-rail-commute-card.js`
 3. Add the resource to your Lovelace configuration:
 
@@ -391,7 +391,7 @@ See [examples/automations.yaml](examples/automations.yaml) for complete automati
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/lovelace-my-rail-commute-card.git
+git clone https://github.com/adamf83/lovelace-my-rail-commute-card.git
 cd lovelace-my-rail-commute-card
 
 # Install dependencies
@@ -451,8 +451,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Support
 
-- 📖 [Documentation](https://github.com/yourusername/lovelace-my-rail-commute-card)
-- 🐛 [Issue Tracker](https://github.com/yourusername/lovelace-my-rail-commute-card/issues)
+- 📖 [Documentation](https://github.com/adamf83/lovelace-my-rail-commute-card)
+- 🐛 [Issue Tracker](https://github.com/adamf83/lovelace-my-rail-commute-card/issues)
 - 💬 [Community Forum](https://community.home-assistant.io/)
 
 ## Changelog
@@ -471,7 +471,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Related Projects
 
-- [My Rail Commute Integration](https://github.com/yourusername/uk-rail-commute) - The integration this card is designed for
+- [My Rail Commute Integration](https://github.com/adamf83/uk-rail-commute) - The integration this card is designed for
 - [UK Transport Sensor](https://github.com/other/uk-transport) - Alternative transport integration
 
 ---
