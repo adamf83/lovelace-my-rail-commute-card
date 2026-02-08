@@ -217,6 +217,18 @@ export const styles = css`
     gap: 4px;
   }
 
+  .train-row-compact .status .status-icon {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .train-row-compact .status .delay-text {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
+
   .train-row-compact.on-time .status {
     color: var(--status-on-time);
   }

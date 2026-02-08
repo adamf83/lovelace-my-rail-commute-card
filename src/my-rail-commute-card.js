@@ -463,8 +463,8 @@ class MyRailCommuteCard extends LitElement {
               <span class="time">${formatTime(train.scheduled_departure)}</span>
               <span class="platform">Plat ${train.platform || '—'}</span>
               <span class="status">
-                ${this.config.status_icons !== false ? getStatusIcon(train) : ''}
-                ${train.delay_minutes > 0 ? ` +${train.delay_minutes}m` : ''}
+                ${this.config.status_icons !== false ? html`<span class="status-icon">${getStatusIcon(train)}</span>` : ''}
+                ${train.delay_minutes > 0 ? html`<span class="delay-text">+${train.delay_minutes}m</span>` : ''}
               </span>
             </div>
           `)}
