@@ -721,7 +721,7 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
         color: var(--secondary-text-color);
         margin-top: 4px;
       }
-    `}setConfig(t){this._config={...t},this.requestUpdate()}set hass(t){this._hass=t,this.requestUpdate()}get hass(){return this._hass}render(){return this._hass&&this._config?B`
+    `}setConfig(t){this._config={...t},this.requestUpdate()}set hass(t){this._hass=t,this.requestUpdate()}get hass(){return this._hass}_filterSummaryEntities(t){const e=t.entity_id.toLowerCase();return e.endsWith("_summary")||e.includes("commute")||e.includes("rail")||e.includes("train")}render(){return this._hass&&this._config?B`
       <div class="card-config">
         <!-- Basic Configuration -->
         <div class="section-header">Basic Configuration</div>
@@ -732,10 +732,11 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
             .hass=${this._hass}
             .value=${this._config.entity||""}
             .includeDomains=${["sensor"]}
+            .entityFilter=${this._filterSummaryEntities.bind(this)}
             @value-changed=${this._entityChanged}
             allow-custom-entity
           ></ha-entity-picker>
-          <div class="info">Select your rail commute summary sensor</div>
+          <div class="info">Select your rail commute summary sensor (e.g., ending in _summary)</div>
         </div>
 
         <div class="option">

@@ -73,6 +73,16 @@ class MyRailCommuteCardEditor extends LitElement {
     return this._hass;
   }
 
+  // Filter entities to only show rail commute summary sensors
+  _filterSummaryEntities(entity) {
+    const entityId = entity.entity_id.toLowerCase();
+    // Show sensors that end with _summary or contain commute/rail/train
+    return entityId.endsWith('_summary') ||
+           entityId.includes('commute') ||
+           entityId.includes('rail') ||
+           entityId.includes('train');
+  }
+
   render() {
     if (!this._hass || !this._config) {
       return html``;
@@ -89,10 +99,11 @@ class MyRailCommuteCardEditor extends LitElement {
             .hass=${this._hass}
             .value=${this._config.entity || ''}
             .includeDomains=${['sensor']}
+            .entityFilter=${this._filterSummaryEntities.bind(this)}
             @value-changed=${this._entityChanged}
             allow-custom-entity
           ></ha-entity-picker>
-          <div class="info">Select your rail commute summary sensor</div>
+          <div class="info">Select your rail commute summary sensor (e.g., ending in _summary)</div>
         </div>
 
         <div class="option">
