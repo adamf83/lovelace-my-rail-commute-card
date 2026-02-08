@@ -233,6 +233,18 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
     gap: 4px;
   }
 
+  .train-row-compact .status .status-icon {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .train-row-compact .status .delay-text {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
+
   .train-row-compact.on-time .status {
     color: var(--status-on-time);
   }
@@ -1076,8 +1088,8 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
               <span class="time">${lt(t.scheduled_departure)}</span>
               <span class="platform">Plat ${t.platform||"—"}</span>
               <span class="status">
-                ${!1!==this.config.status_icons?dt(t):""}
-                ${t.delay_minutes>0?` +${t.delay_minutes}m`:""}
+                ${!1!==this.config.status_icons?B`<span class="status-icon">${dt(t)}</span>`:""}
+                ${t.delay_minutes>0?B`<span class="delay-text">+${t.delay_minutes}m</span>`:""}
               </span>
             </div>
           `)}
