@@ -358,6 +358,17 @@ class MyRailCommuteCard extends LitElement {
     `;
   }
 
+  _renderDisruptionBanner() {
+    if (!this._hasDisruption || !this.config.disruption_entity) return '';
+
+    return html`
+      <div class="disruption-banner">
+        <ha-icon icon="mdi:alert-circle" class="disruption-icon"></ha-icon>
+        <span class="disruption-text">Disruption on this route</span>
+      </div>
+    `;
+  }
+
   _renderFooter() {
     if (this.config.show_last_updated === false) return '';
 
@@ -376,6 +387,7 @@ class MyRailCommuteCard extends LitElement {
     return html`
       <ha-card class="${compactClass}">
         ${this._renderHeader()}
+        ${this._renderDisruptionBanner()}
 
         <div class="card-content">
           ${this._trains.map(train => this._renderTrainRow(train))}
@@ -455,6 +467,7 @@ class MyRailCommuteCard extends LitElement {
     return html`
       <ha-card class="${this.config.compact_height ? 'compact-height' : ''}">
         ${this._renderHeader()}
+        ${this._renderDisruptionBanner()}
 
         <div class="card-content compact">
           ${this._trains.map(train => html`
@@ -493,6 +506,7 @@ class MyRailCommuteCard extends LitElement {
     return html`
       <ha-card class="${this.config.compact_height ? 'compact-height' : ''}">
         ${this._renderHeader()}
+        ${this._renderDisruptionBanner()}
 
         <div class="card-content next-only">
           <div class="next-train-time">
@@ -538,6 +552,7 @@ class MyRailCommuteCard extends LitElement {
         <div class="board-header">
           DEPARTURES  ${this._origin || ''}
         </div>
+        ${this._renderDisruptionBanner()}
 
         <div class="board-content">
           <div class="board-table">

@@ -51,6 +51,40 @@ export const styles = css`
     color: var(--secondary-text-color, #757575);
   }
 
+  /* ==================== DISRUPTION BANNER ==================== */
+
+  .disruption-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px var(--card-padding);
+    background: var(--status-major-delay);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .disruption-icon {
+    --mdc-icon-size: 20px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .disruption-text {
+    flex: 1;
+  }
+
+  ha-card.departure-board .disruption-banner {
+    background: #b71c1c;
+    color: #ffcc00;
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 1px;
+  }
+
+  ha-card.departure-board .disruption-icon {
+    color: #ffcc00;
+  }
+
   /* ==================== CONTENT ==================== */
 
   .card-content {
