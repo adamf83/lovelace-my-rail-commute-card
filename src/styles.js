@@ -9,6 +9,7 @@ export const styles = css`
     --status-minor-delay: var(--custom-minor-delay-color, #ff9800);
     --status-major-delay: var(--custom-major-delay-color, #f44336);
     --status-cancelled: var(--custom-cancelled-color, #d32f2f);
+    --status-no-service: var(--custom-no-service-color, #9e9e9e);
     --status-unknown: #9e9e9e;
 
     --card-padding: 16px;
@@ -48,6 +49,40 @@ export const styles = css`
     margin-top: 4px;
     font-size: 0.9rem;
     color: var(--secondary-text-color, #757575);
+  }
+
+  /* ==================== DISRUPTION BANNER ==================== */
+
+  .disruption-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px var(--card-padding);
+    background: var(--status-major-delay);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .disruption-icon {
+    --mdc-icon-size: 20px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .disruption-text {
+    flex: 1;
+  }
+
+  ha-card.departure-board .disruption-banner {
+    background: #b71c1c;
+    color: #ffcc00;
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 1px;
+  }
+
+  ha-card.departure-board .disruption-icon {
+    color: #ffcc00;
   }
 
   /* ==================== CONTENT ==================== */
@@ -170,6 +205,14 @@ export const styles = css`
     text-decoration: line-through;
   }
 
+  .train-row.no-service {
+    opacity: 0.6;
+  }
+
+  .train-row.no-service .train-status {
+    color: var(--status-no-service);
+  }
+
   /* ==================== COMPACT VIEW ==================== */
 
   .card-content.compact {
@@ -217,6 +260,18 @@ export const styles = css`
     gap: 4px;
   }
 
+  .train-row-compact .status .status-icon {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .train-row-compact .status .delay-text {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
+
   .train-row-compact.on-time .status {
     color: var(--status-on-time);
   }
@@ -235,6 +290,14 @@ export const styles = css`
 
   .train-row-compact.cancelled .time {
     text-decoration: line-through;
+    opacity: 0.6;
+  }
+
+  .train-row-compact.no-service .status {
+    color: var(--status-no-service);
+  }
+
+  .train-row-compact.no-service .time {
     opacity: 0.6;
   }
 
@@ -293,6 +356,10 @@ export const styles = css`
 
   .next-train-status.cancelled {
     color: var(--status-cancelled);
+  }
+
+  .next-train-status.no-service {
+    color: var(--status-no-service);
   }
 
   .next-train-operator {
@@ -392,6 +459,10 @@ export const styles = css`
   .board-row.cancelled {
     opacity: 0.5;
     text-decoration: line-through;
+  }
+
+  .board-row.no-service {
+    opacity: 0.5;
   }
 
   .board-row.major-delay .col-status {

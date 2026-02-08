@@ -14,7 +14,7 @@ const t=globalThis,e=t.ShadowRoot&&(void 0===t.ShadyCSS||t.ShadyCSS.nativeShadow
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{createHTML:t=>t}):void 0,E="$lit$",S=`lit$${Math.random().toFixed(9).slice(2)}$`,T="?"+S,k=`<${T}>`,O=document,P=()=>O.createComment(""),z=t=>null===t||"object"!=typeof t&&"function"!=typeof t,R=Array.isArray,U="[ \t\n\f\r]",M=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,D=/-->/g,N=/>/g,H=RegExp(`>|${U}(?:([^\\s"'>=/]+)(${U}*=${U}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),I=/'/g,j=/"/g,L=/^(?:script|style|textarea|title)$/i,B=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),F=Symbol.for("lit-noChange"),V=Symbol.for("lit-nothing"),W=new WeakMap,q=O.createTreeWalker(O,129);function J(t,e){if(!R(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==A?A.createHTML(e):e}const X=(t,e)=>{const i=t.length-1,s=[];let a,o=2===e?"<svg>":3===e?"<math>":"",n=M;for(let e=0;e<i;e++){const i=t[e];let r,c,l=-1,h=0;for(;h<i.length&&(n.lastIndex=h,c=n.exec(i),null!==c);)h=n.lastIndex,n===M?"!--"===c[1]?n=D:void 0!==c[1]?n=N:void 0!==c[2]?(L.test(c[2])&&(a=RegExp("</"+c[2],"g")),n=H):void 0!==c[3]&&(n=H):n===H?">"===c[0]?(n=a??M,l=-1):void 0===c[1]?l=-2:(l=n.lastIndex-c[2].length,r=c[1],n=void 0===c[3]?H:'"'===c[3]?j:I):n===j||n===I?n=H:n===D||n===N?n=M:(n=H,a=void 0);const d=n===H&&t[e+1].startsWith("/>")?" ":"";o+=n===M?i+k:l>=0?(s.push(r),i.slice(0,l)+E+i.slice(l)+S+d):i+S+(-2===l?e:d)}return[J(t,o+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),s]};class G{constructor({strings:t,_$litType$:e},i){let s;this.parts=[];let a=0,o=0;const n=t.length-1,r=this.parts,[c,l]=X(t,e);if(this.el=G.createElement(c,i),q.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(s=q.nextNode())&&r.length<n;){if(1===s.nodeType){if(s.hasAttributes())for(const t of s.getAttributeNames())if(t.endsWith(E)){const e=l[o++],i=s.getAttribute(t).split(S),n=/([.?@])?(.*)/.exec(e);r.push({type:1,index:a,name:n[2],strings:i,ctor:"."===n[1]?tt:"?"===n[1]?et:"@"===n[1]?it:Q}),s.removeAttribute(t)}else t.startsWith(S)&&(r.push({type:6,index:a}),s.removeAttribute(t));if(L.test(s.tagName)){const t=s.textContent.split(S),e=t.length-1;if(e>0){s.textContent=C?C.emptyScript:"";for(let i=0;i<e;i++)s.append(t[i],P()),q.nextNode(),r.push({type:2,index:++a});s.append(t[e],P())}}}else if(8===s.nodeType)if(s.data===T)r.push({type:2,index:a});else{let t=-1;for(;-1!==(t=s.data.indexOf(S,t+1));)r.push({type:7,index:a}),t+=S.length-1}a++}}static createElement(t,e){const i=O.createElement("template");return i.innerHTML=t,i}}function Y(t,e,i=t,s){if(e===F)return e;let a=void 0!==s?i._$Co?.[s]:i._$Cl;const o=z(e)?void 0:e._$litDirective$;return a?.constructor!==o&&(a?._$AO?.(!1),void 0===o?a=void 0:(a=new o(t),a._$AT(t,i,s)),void 0!==s?(i._$Co??=[])[s]=a:i._$Cl=a),void 0!==a&&(e=Y(t,a._$AS(t,e.values),a,s)),e}class Z{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,s=(t?.creationScope??O).importNode(e,!0);q.currentNode=s;let a=q.nextNode(),o=0,n=0,r=i[0];for(;void 0!==r;){if(o===r.index){let e;2===r.type?e=new K(a,a.nextSibling,this,t):1===r.type?e=new r.ctor(a,r.name,r.strings,this,t):6===r.type&&(e=new st(a,this,t)),this._$AV.push(e),r=i[++n]}o!==r?.index&&(a=q.nextNode(),o++)}return q.currentNode=O,s}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class K{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,s){this.type=2,this._$AH=V,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Y(this,t,e),z(t)?t===V||null==t||""===t?(this._$AH!==V&&this._$AR(),this._$AH=V):t!==this._$AH&&t!==F&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>R(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==V&&z(this._$AH)?this._$AA.nextSibling.data=t:this.T(O.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=G.createElement(J(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(e);else{const t=new Z(s,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=W.get(t.strings);return void 0===e&&W.set(t.strings,e=new G(t)),e}k(t){R(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,s=0;for(const a of t)s===e.length?e.push(i=new K(this.O(P()),this.O(P()),this,this.options)):i=e[s],i._$AI(a),s++;s<e.length&&(this._$AR(i&&i._$AB.nextSibling,s),e.length=s)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=x(t).nextSibling;x(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class Q{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,s,a){this.type=1,this._$AH=V,this._$AN=void 0,this.element=t,this.name=e,this._$AM=s,this.options=a,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=V}_$AI(t,e=this,i,s){const a=this.strings;let o=!1;if(void 0===a)t=Y(this,t,e,0),o=!z(t)||t!==this._$AH&&t!==F,o&&(this._$AH=t);else{const s=t;let n,r;for(t=a[0],n=0;n<a.length-1;n++)r=Y(this,s[i+n],e,n),r===F&&(r=this._$AH[n]),o||=!z(r)||r!==this._$AH[n],r===V?t=V:t!==V&&(t+=(r??"")+a[n+1]),this._$AH[n]=r}o&&!s&&this.j(t)}j(t){t===V?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class tt extends Q{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===V?void 0:t}}class et extends Q{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==V)}}class it extends Q{constructor(t,e,i,s,a){super(t,e,i,s,a),this.type=5}_$AI(t,e=this){if((t=Y(this,t,e,0)??V)===F)return;const i=this._$AH,s=t===V&&i!==V||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,a=t!==V&&(i===V||s);s&&this.element.removeEventListener(this.name,this,i),a&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class st{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Y(this,t)}}const at=b.litHtmlPolyfillSupport;at?.(G,K),(b.litHtmlVersions??=[]).push("3.3.2");const ot=globalThis;
+const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{createHTML:t=>t}):void 0,E="$lit$",S=`lit$${Math.random().toFixed(9).slice(2)}$`,T="?"+S,k=`<${T}>`,O=document,P=()=>O.createComment(""),z=t=>null===t||"object"!=typeof t&&"function"!=typeof t,R=Array.isArray,D="[ \t\n\f\r]",N=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,U=/-->/g,M=/>/g,I=RegExp(`>|${D}(?:([^\\s"'>=/]+)(${D}*=${D}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),H=/'/g,j=/"/g,L=/^(?:script|style|textarea|title)$/i,B=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),F=Symbol.for("lit-noChange"),V=Symbol.for("lit-nothing"),W=new WeakMap,q=O.createTreeWalker(O,129);function J(t,e){if(!R(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==A?A.createHTML(e):e}const X=(t,e)=>{const i=t.length-1,s=[];let a,o=2===e?"<svg>":3===e?"<math>":"",n=N;for(let e=0;e<i;e++){const i=t[e];let r,c,l=-1,h=0;for(;h<i.length&&(n.lastIndex=h,c=n.exec(i),null!==c);)h=n.lastIndex,n===N?"!--"===c[1]?n=U:void 0!==c[1]?n=M:void 0!==c[2]?(L.test(c[2])&&(a=RegExp("</"+c[2],"g")),n=I):void 0!==c[3]&&(n=I):n===I?">"===c[0]?(n=a??N,l=-1):void 0===c[1]?l=-2:(l=n.lastIndex-c[2].length,r=c[1],n=void 0===c[3]?I:'"'===c[3]?j:H):n===j||n===H?n=I:n===U||n===M?n=N:(n=I,a=void 0);const d=n===I&&t[e+1].startsWith("/>")?" ":"";o+=n===N?i+k:l>=0?(s.push(r),i.slice(0,l)+E+i.slice(l)+S+d):i+S+(-2===l?e:d)}return[J(t,o+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),s]};class G{constructor({strings:t,_$litType$:e},i){let s;this.parts=[];let a=0,o=0;const n=t.length-1,r=this.parts,[c,l]=X(t,e);if(this.el=G.createElement(c,i),q.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(s=q.nextNode())&&r.length<n;){if(1===s.nodeType){if(s.hasAttributes())for(const t of s.getAttributeNames())if(t.endsWith(E)){const e=l[o++],i=s.getAttribute(t).split(S),n=/([.?@])?(.*)/.exec(e);r.push({type:1,index:a,name:n[2],strings:i,ctor:"."===n[1]?tt:"?"===n[1]?et:"@"===n[1]?it:Q}),s.removeAttribute(t)}else t.startsWith(S)&&(r.push({type:6,index:a}),s.removeAttribute(t));if(L.test(s.tagName)){const t=s.textContent.split(S),e=t.length-1;if(e>0){s.textContent=C?C.emptyScript:"";for(let i=0;i<e;i++)s.append(t[i],P()),q.nextNode(),r.push({type:2,index:++a});s.append(t[e],P())}}}else if(8===s.nodeType)if(s.data===T)r.push({type:2,index:a});else{let t=-1;for(;-1!==(t=s.data.indexOf(S,t+1));)r.push({type:7,index:a}),t+=S.length-1}a++}}static createElement(t,e){const i=O.createElement("template");return i.innerHTML=t,i}}function Y(t,e,i=t,s){if(e===F)return e;let a=void 0!==s?i._$Co?.[s]:i._$Cl;const o=z(e)?void 0:e._$litDirective$;return a?.constructor!==o&&(a?._$AO?.(!1),void 0===o?a=void 0:(a=new o(t),a._$AT(t,i,s)),void 0!==s?(i._$Co??=[])[s]=a:i._$Cl=a),void 0!==a&&(e=Y(t,a._$AS(t,e.values),a,s)),e}class Z{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,s=(t?.creationScope??O).importNode(e,!0);q.currentNode=s;let a=q.nextNode(),o=0,n=0,r=i[0];for(;void 0!==r;){if(o===r.index){let e;2===r.type?e=new K(a,a.nextSibling,this,t):1===r.type?e=new r.ctor(a,r.name,r.strings,this,t):6===r.type&&(e=new st(a,this,t)),this._$AV.push(e),r=i[++n]}o!==r?.index&&(a=q.nextNode(),o++)}return q.currentNode=O,s}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class K{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,s){this.type=2,this._$AH=V,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Y(this,t,e),z(t)?t===V||null==t||""===t?(this._$AH!==V&&this._$AR(),this._$AH=V):t!==this._$AH&&t!==F&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>R(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==V&&z(this._$AH)?this._$AA.nextSibling.data=t:this.T(O.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=G.createElement(J(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(e);else{const t=new Z(s,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=W.get(t.strings);return void 0===e&&W.set(t.strings,e=new G(t)),e}k(t){R(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,s=0;for(const a of t)s===e.length?e.push(i=new K(this.O(P()),this.O(P()),this,this.options)):i=e[s],i._$AI(a),s++;s<e.length&&(this._$AR(i&&i._$AB.nextSibling,s),e.length=s)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=x(t).nextSibling;x(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class Q{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,s,a){this.type=1,this._$AH=V,this._$AN=void 0,this.element=t,this.name=e,this._$AM=s,this.options=a,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=V}_$AI(t,e=this,i,s){const a=this.strings;let o=!1;if(void 0===a)t=Y(this,t,e,0),o=!z(t)||t!==this._$AH&&t!==F,o&&(this._$AH=t);else{const s=t;let n,r;for(t=a[0],n=0;n<a.length-1;n++)r=Y(this,s[i+n],e,n),r===F&&(r=this._$AH[n]),o||=!z(r)||r!==this._$AH[n],r===V?t=V:t!==V&&(t+=(r??"")+a[n+1]),this._$AH[n]=r}o&&!s&&this.j(t)}j(t){t===V?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class tt extends Q{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===V?void 0:t}}class et extends Q{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==V)}}class it extends Q{constructor(t,e,i,s,a){super(t,e,i,s,a),this.type=5}_$AI(t,e=this){if((t=Y(this,t,e,0)??V)===F)return;const i=this._$AH,s=t===V&&i!==V||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,a=t!==V&&(i===V||s);s&&this.element.removeEventListener(this.name,this,i),a&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class st{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Y(this,t)}}const at=b.litHtmlPolyfillSupport;at?.(G,K),(b.litHtmlVersions??=[]).push("3.3.2");const ot=globalThis;
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -25,6 +25,7 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
     --status-minor-delay: var(--custom-minor-delay-color, #ff9800);
     --status-major-delay: var(--custom-major-delay-color, #f44336);
     --status-cancelled: var(--custom-cancelled-color, #d32f2f);
+    --status-no-service: var(--custom-no-service-color, #9e9e9e);
     --status-unknown: #9e9e9e;
 
     --card-padding: 16px;
@@ -64,6 +65,40 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
     margin-top: 4px;
     font-size: 0.9rem;
     color: var(--secondary-text-color, #757575);
+  }
+
+  /* ==================== DISRUPTION BANNER ==================== */
+
+  .disruption-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px var(--card-padding);
+    background: var(--status-major-delay);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .disruption-icon {
+    --mdc-icon-size: 20px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .disruption-text {
+    flex: 1;
+  }
+
+  ha-card.departure-board .disruption-banner {
+    background: #b71c1c;
+    color: #ffcc00;
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 1px;
+  }
+
+  ha-card.departure-board .disruption-icon {
+    color: #ffcc00;
   }
 
   /* ==================== CONTENT ==================== */
@@ -186,6 +221,14 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
     text-decoration: line-through;
   }
 
+  .train-row.no-service {
+    opacity: 0.6;
+  }
+
+  .train-row.no-service .train-status {
+    color: var(--status-no-service);
+  }
+
   /* ==================== COMPACT VIEW ==================== */
 
   .card-content.compact {
@@ -233,6 +276,18 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
     gap: 4px;
   }
 
+  .train-row-compact .status .status-icon {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .train-row-compact .status .delay-text {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
+
   .train-row-compact.on-time .status {
     color: var(--status-on-time);
   }
@@ -251,6 +306,14 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
 
   .train-row-compact.cancelled .time {
     text-decoration: line-through;
+    opacity: 0.6;
+  }
+
+  .train-row-compact.no-service .status {
+    color: var(--status-no-service);
+  }
+
+  .train-row-compact.no-service .time {
     opacity: 0.6;
   }
 
@@ -309,6 +372,10 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
 
   .next-train-status.cancelled {
     color: var(--status-cancelled);
+  }
+
+  .next-train-status.no-service {
+    color: var(--status-no-service);
   }
 
   .next-train-operator {
@@ -408,6 +475,10 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
   .board-row.cancelled {
     opacity: 0.5;
     text-decoration: line-through;
+  }
+
+  .board-row.no-service {
+    opacity: 0.5;
   }
 
   .board-row.major-delay .col-status {
@@ -662,7 +733,7 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
     animation: none !important;
     transition: none !important;
   }
-`;function lt(t){if(!t||"unknown"===t||"Unknown"===t)return"—";const e=String(t).trim();if(!e)return"—";const i=e.match(/(\d{1,2}):(\d{2})(?::\d{2})?/);if(i)return`${i[1].padStart(2,"0")}:${i[2]}`;try{const t=new Date(e);return isNaN(t.getTime())?e:t.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:!1})}catch(t){return e}}function ht(t){return t?t.is_cancelled?"cancelled":t.delay_minutes>=10?"major-delay":t.delay_minutes>0?"minor-delay":"on-time":"unknown"}function dt(t,e=!0){return e&&t?t.is_cancelled?"❌":t.delay_minutes>=10?"🔴":t.delay_minutes>0?"⚠️":"✓":""}function pt(t){return t?t.is_cancelled?"Cancelled":t.delay_minutes>0?`Delayed ${t.delay_minutes} min${1!==t.delay_minutes?"s":""}`:"On time":"Unknown"}customElements.define("my-rail-commute-card-editor",class extends nt{static get properties(){return{hass:{type:Object},_config:{type:Object}}}static get styles(){return o`
+`;function lt(t){if(!t||"unknown"===t||"Unknown"===t)return"—";const e=String(t).trim();if(!e)return"—";const i=e.match(/(\d{1,2}):(\d{2})(?::\d{2})?/);if(i)return`${i[1].padStart(2,"0")}:${i[2]}`;try{const t=new Date(e);return isNaN(t.getTime())?e:t.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:!1})}catch(t){return e}}function ht(t){return t?t.is_cancelled?"cancelled":t.is_no_service?"no-service":t.delay_minutes>=10?"major-delay":t.delay_minutes>0?"minor-delay":"on-time":"unknown"}function dt(t,e=!0){return e&&t?t.is_cancelled?"❌":t.is_no_service?"⊗":t.delay_minutes>=10?"🔴":t.delay_minutes>0?"⚠️":"✓":""}function pt(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.delay_minutes>0?`Delayed ${t.delay_minutes} min${1!==t.delay_minutes?"s":""}`:"On time":"Unknown"}customElements.define("my-rail-commute-card-editor",class extends nt{static get properties(){return{hass:{type:Object},_config:{type:Object}}}static get styles(){return o`
       .card-config {
         padding: 16px;
       }
@@ -709,7 +780,7 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
         color: var(--secondary-text-color);
         margin-top: 4px;
       }
-    `}setConfig(t){this._config={...t},this.requestUpdate()}set hass(t){this._hass=t,this.requestUpdate()}get hass(){return this._hass}render(){return this._hass&&this._config?B`
+    `}setConfig(t){this._config={...t},this.requestUpdate()}set hass(t){this._hass=t,this.requestUpdate()}get hass(){return this._hass}_filterSummaryEntities(t){const e=this._hass.states[t.entity_id];if("my_rail_commute"===e?.attributes?.integration)return!0;const i=t.entity_id.toLowerCase();return i.endsWith("_summary")||i.includes("commute")||i.includes("rail")||i.includes("train")}render(){return this._hass&&this._config?B`
       <div class="card-config">
         <!-- Basic Configuration -->
         <div class="section-header">Basic Configuration</div>
@@ -720,10 +791,11 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
             .hass=${this._hass}
             .value=${this._config.entity||""}
             .includeDomains=${["sensor"]}
+            .entityFilter=${this._filterSummaryEntities.bind(this)}
             @value-changed=${this._entityChanged}
             allow-custom-entity
           ></ha-entity-picker>
-          <div class="info">Select your rail commute summary sensor</div>
+          <div class="info">Select your My Rail Commute summary sensor (from my_rail_commute integration)</div>
         </div>
 
         <div class="option">
@@ -979,7 +1051,7 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
           </ha-select>
         </div>
       </div>
-    `:B``}_entityChanged(t){this._config&&this._hass&&(this._config={...this._config,entity:t.detail.value},this._fireConfigChanged())}_titleChanged(t){this._config&&this._hass&&(this._config={...this._config,title:t.target.value},this._fireConfigChanged())}_viewChanged(t){this._config&&this._hass&&(this._config={...this._config,view:t.target.value},this._fireConfigChanged())}_themeChanged(t){this._config&&this._hass&&(this._config={...this._config,theme:t.target.value},this._fireConfigChanged())}_fontSizeChanged(t){this._config&&this._hass&&(this._config={...this._config,font_size:t.target.value},this._fireConfigChanged())}_toggleChanged(t){return e=>{this._config&&this._hass&&(this._config={...this._config,[t]:e.target.checked},this._fireConfigChanged())}}_minDelayChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value)||0;this._config={...this._config,min_delay_to_show:e},this._fireConfigChanged()}_maxCallingPointsChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value)||3;this._config={...this._config,max_calling_points:e},this._fireConfigChanged()}_disruptionEntityChanged(t){this._config&&this._hass&&(this._config={...this._config,disruption_entity:t.detail.value},this._fireConfigChanged())}_refreshIntervalChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value)||60;this._config={...this._config,refresh_interval:e},this._fireConfigChanged()}_tapActionChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{action:t.target.value}},this._fireConfigChanged())}_urlPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,url_path:t.target.value}},this._fireConfigChanged())}_navigationPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,navigation_path:t.target.value}},this._fireConfigChanged())}_holdActionChanged(t){this._config&&this._hass&&(this._config={...this._config,hold_action:{action:t.target.value}},this._fireConfigChanged())}_fireConfigChanged(){const t=new CustomEvent("config-changed",{detail:{config:this._config},bubbles:!0,composed:!0});this.dispatchEvent(t)}}),console.info("%c MY-RAIL-COMMUTE-CARD \n%c Version 1.0.0 ","color: cyan; font-weight: bold; background: black","color: white; font-weight: bold; background: dimgray");class ut extends nt{static get properties(){return{hass:{type:Object},config:{type:Object},_trains:{type:Array},_origin:{type:String},_destination:{type:String},_lastUpdated:{type:String},_hasDisruption:{type:Boolean},_loading:{type:Boolean}}}static get styles(){return ct}constructor(){super(),this._trains=[],this._origin="",this._destination="",this._lastUpdated="",this._hasDisruption=!1,this._loading=!0,this._pressTimer=null}setConfig(t){if(!t)throw new Error("Invalid configuration");if(!t.entity&&""!==t.entity)throw new Error("Please select a rail commute summary sensor");this.config={view:"full",theme:"auto",show_header:!0,show_route:!0,show_last_updated:!1,show_platform:!0,show_operator:!0,show_calling_points:!1,show_delay_reason:!0,show_journey_time:!1,show_service_type:!1,max_calling_points:3,hide_on_time_trains:!1,only_show_disrupted:!1,min_delay_to_show:0,auto_refresh:!0,refresh_interval:60,card_style:"departure-board",font_size:"medium",compact_height:!1,show_animations:!0,status_icons:!0,...t},t.colors&&(t.colors.on_time&&this.style.setProperty("--custom-on-time-color",t.colors.on_time),t.colors.minor_delay&&this.style.setProperty("--custom-minor-delay-color",t.colors.minor_delay),t.colors.major_delay&&this.style.setProperty("--custom-major-delay-color",t.colors.major_delay),t.colors.cancelled&&this.style.setProperty("--custom-cancelled-color",t.colors.cancelled)),t.theme&&"auto"!==t.theme&&this.setAttribute("theme",t.theme),t.font_size&&this.setAttribute("font-size",t.font_size),!1===t.show_animations&&this.setAttribute("no-animations","")}set hass(t){if(this._hass=t,!this.config.entity)return this._loading=!1,void(this._trains=[]);const e=t.states[this.config.entity];if(!e)return console.error("Entity not found:",this.config.entity),this._loading=!1,void(this._trains=[]);if(e.attributes.all_trains&&e.attributes.all_trains.length>0){const t=this.config.entity.replace("sensor.","").replace("_summary","").replace("_commute_summary","");this._trains=e.attributes.all_trains.map((e,i)=>({...e,train_id:`sensor.${t}_train_${e.train_number||i+1}`}))}else this._trains=this._getTrainsFromIndividualSensors(t);var i;if(this._origin=e.attributes.origin_name||e.attributes.origin||e.attributes.from_station||"",this._destination=e.attributes.destination_name||e.attributes.destination||e.attributes.to_station||"",this._lastUpdated=e.attributes.last_updated||e.last_updated||e.last_changed||"",this._trains&&this._trains.length>0&&(this._trains=(i=this._trains)&&0!==i.length?[...i].sort((t,e)=>new Date(t.scheduled_departure).getTime()-new Date(e.scheduled_departure).getTime()):[],this._trains=function(t,e){if(!t||0===t.length)return[];let i=[...t];return e.hide_on_time_trains&&(i=i.filter(t=>t.is_cancelled||t.delay_minutes>0)),e.min_delay_to_show>0&&(i=i.filter(t=>t.is_cancelled||t.delay_minutes>=e.min_delay_to_show)),i}(this._trains,this.config)),this.config.disruption_entity){const e=t.states[this.config.disruption_entity];this._hasDisruption="on"===e?.state}this._loading=!1,this.requestUpdate()}_getTrainsFromIndividualSensors(t){const e=this.config.entity.replace("sensor.","").replace("_summary","").replace("_commute_summary",""),i=[`sensor.${e}_train_`,`sensor.${e}_train`,`sensor.${e.replace(/_/g,"-")}_train_`,`sensor.${e.replace(/_/g,"")}_train_`];let s=[];for(const e of i){const i=Object.keys(t.states).filter(t=>t.startsWith(e));if(i.length>0){s=i;break}}s.sort((t,e)=>parseInt(t.match(/train[_-]?(\d+)$/i)?.[1]||"0")-parseInt(e.match(/train[_-]?(\d+)$/i)?.[1]||"0"));const a=s.map(e=>{const i=t.states[e];if(!i)return null;let s=i.attributes.calling_points||i.attributes.stops||i.attributes.calling_at||i.attributes["Calling at"]||[];"string"==typeof s&&(s=s.split(",").map(t=>t.trim()).filter(t=>t));const a=i.attributes.scheduled_departure||i.attributes.scheduled||i.attributes.departure||i.attributes.departure_time||i.attributes.std||i.attributes.aimed_departure_time||i.attributes["Scheduled Departure"]||i.state;return{train_id:e,scheduled_departure:a,expected_departure:i.attributes.expected_departure||i.attributes.expected||i.attributes.estimated||i.attributes.estimated_departure||i.attributes.etd||i.attributes.expected_arrival||i.attributes["Expected Departure"]||a,platform:i.attributes.platform||i.attributes.Platform||"",operator:i.attributes.operator||i.attributes.service_operator||i.attributes.Operator||"",is_cancelled:i.attributes.is_cancelled||i.attributes.cancelled||"Cancelled"===i.state||"Canceled"===i.state||!1,delay_minutes:parseInt(i.attributes.delay_minutes||i.attributes.delay||i.attributes.minutes_late||i.attributes["Delay minutes"]||"0"),delay_reason:i.attributes.delay_reason||i.attributes.reason||i.attributes["Delay reason"]||"",calling_points:s,journey_duration:i.attributes.journey_duration||i.attributes.duration||"",service_type:i.attributes.service_type||i.attributes.type||""}}).filter(t=>null!==t);return a}getCardSize(){const t=this.config.view||"full",e=this._trains?.length||0;switch(t){case"compact":return 1+Math.ceil(.5*e);case"next-only":return 3;default:return 2+e}}render(){if(!this.config.entity)return this._renderEmpty("No entity selected","Please select a rail commute summary sensor in the card configuration");if(this._loading)return this._renderLoading();if(t=this._hasDisruption,this.config.only_show_disrupted&&!t)return this._renderEmpty("No disruption detected","Trains will appear when there is disruption");var t;if(!this._trains||0===this._trains.length)return this._renderEmpty();switch(this.config.view||"full"){case"compact":return this._renderCompact();case"next-only":return this._renderNextOnly();case"board":return this._renderBoard();default:return this._renderFull()}}_renderHeader(){const t=!1!==this.config.show_header,e=!1!==this.config.show_route;if(!t)return"";const i=this.config.title||"Rail Commute";return B`
+    `:B``}_entityChanged(t){this._config&&this._hass&&(this._config={...this._config,entity:t.detail.value},this._fireConfigChanged())}_titleChanged(t){this._config&&this._hass&&(this._config={...this._config,title:t.target.value},this._fireConfigChanged())}_viewChanged(t){this._config&&this._hass&&(this._config={...this._config,view:t.target.value},this._fireConfigChanged())}_themeChanged(t){this._config&&this._hass&&(this._config={...this._config,theme:t.target.value},this._fireConfigChanged())}_fontSizeChanged(t){this._config&&this._hass&&(this._config={...this._config,font_size:t.target.value},this._fireConfigChanged())}_toggleChanged(t){return e=>{this._config&&this._hass&&(this._config={...this._config,[t]:e.target.checked},this._fireConfigChanged())}}_minDelayChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value)||0;this._config={...this._config,min_delay_to_show:e},this._fireConfigChanged()}_maxCallingPointsChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value)||3;this._config={...this._config,max_calling_points:e},this._fireConfigChanged()}_disruptionEntityChanged(t){this._config&&this._hass&&(this._config={...this._config,disruption_entity:t.detail.value},this._fireConfigChanged())}_refreshIntervalChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value)||60;this._config={...this._config,refresh_interval:e},this._fireConfigChanged()}_tapActionChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{action:t.target.value}},this._fireConfigChanged())}_urlPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,url_path:t.target.value}},this._fireConfigChanged())}_navigationPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,navigation_path:t.target.value}},this._fireConfigChanged())}_holdActionChanged(t){this._config&&this._hass&&(this._config={...this._config,hold_action:{action:t.target.value}},this._fireConfigChanged())}_fireConfigChanged(){const t=new CustomEvent("config-changed",{detail:{config:this._config},bubbles:!0,composed:!0});this.dispatchEvent(t)}}),console.info("%c MY-RAIL-COMMUTE-CARD \n%c Version 1.0.0 ","color: cyan; font-weight: bold; background: black","color: white; font-weight: bold; background: dimgray");class ut extends nt{static get properties(){return{hass:{type:Object},config:{type:Object},_trains:{type:Array},_origin:{type:String},_destination:{type:String},_lastUpdated:{type:String},_hasDisruption:{type:Boolean},_loading:{type:Boolean}}}static get styles(){return ct}constructor(){super(),this._trains=[],this._origin="",this._destination="",this._lastUpdated="",this._hasDisruption=!1,this._loading=!0,this._pressTimer=null}setConfig(t){if(!t)throw new Error("Invalid configuration");if(!t.entity&&""!==t.entity)throw new Error("Please select a rail commute summary sensor");this.config={view:"full",theme:"auto",show_header:!0,show_route:!0,show_last_updated:!1,show_platform:!0,show_operator:!0,show_calling_points:!1,show_delay_reason:!0,show_journey_time:!1,show_service_type:!1,max_calling_points:3,hide_on_time_trains:!1,only_show_disrupted:!1,min_delay_to_show:0,auto_refresh:!0,refresh_interval:60,card_style:"departure-board",font_size:"medium",compact_height:!1,show_animations:!0,status_icons:!0,...t},t.colors&&(t.colors.on_time&&this.style.setProperty("--custom-on-time-color",t.colors.on_time),t.colors.minor_delay&&this.style.setProperty("--custom-minor-delay-color",t.colors.minor_delay),t.colors.major_delay&&this.style.setProperty("--custom-major-delay-color",t.colors.major_delay),t.colors.cancelled&&this.style.setProperty("--custom-cancelled-color",t.colors.cancelled)),t.theme&&"auto"!==t.theme&&this.setAttribute("theme",t.theme),t.font_size&&this.setAttribute("font-size",t.font_size),!1===t.show_animations&&this.setAttribute("no-animations","")}set hass(t){if(this._hass=t,!this.config.entity)return this._loading=!1,void(this._trains=[]);const e=t.states[this.config.entity];if(!e)return console.error("Entity not found:",this.config.entity),this._loading=!1,void(this._trains=[]);if(e.attributes.all_trains&&e.attributes.all_trains.length>0){const t=this.config.entity.replace("sensor.","").replace("_summary","").replace("_commute_summary","");this._trains=e.attributes.all_trains.map((e,i)=>({...e,train_id:`sensor.${t}_train_${e.train_number||i+1}`}))}else this._trains=this._getTrainsFromIndividualSensors(t);var i;if(this._origin=e.attributes.origin_name||e.attributes.origin||e.attributes.from_station||"",this._destination=e.attributes.destination_name||e.attributes.destination||e.attributes.to_station||"",this._lastUpdated=e.attributes.last_updated||e.last_updated||e.last_changed||"",this._trains&&this._trains.length>0&&(this._trains=(i=this._trains)&&0!==i.length?[...i].sort((t,e)=>new Date(t.scheduled_departure).getTime()-new Date(e.scheduled_departure).getTime()):[],this._trains=function(t,e){if(!t||0===t.length)return[];let i=[...t];return e.hide_on_time_trains&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||t.delay_minutes>0)),e.min_delay_to_show>0&&(i=i.filter(t=>t.is_cancelled||t.delay_minutes>=e.min_delay_to_show)),i}(this._trains,this.config)),this.config.disruption_entity){const e=t.states[this.config.disruption_entity];this._hasDisruption="on"===e?.state}this._loading=!1,this.requestUpdate()}_getTrainsFromIndividualSensors(t){const e=this.config.entity.replace("sensor.","").replace("_summary","").replace("_commute_summary",""),i=[`sensor.${e}_train_`,`sensor.${e}_train`,`sensor.${e.replace(/_/g,"-")}_train_`,`sensor.${e.replace(/_/g,"")}_train_`];let s=[];for(const e of i){const i=Object.keys(t.states).filter(t=>t.startsWith(e));if(i.length>0){s=i;break}}s.sort((t,e)=>parseInt(t.match(/train[_-]?(\d+)$/i)?.[1]||"0")-parseInt(e.match(/train[_-]?(\d+)$/i)?.[1]||"0"));const a=s.map(e=>{const i=t.states[e];if(!i)return null;let s=i.attributes.calling_points||i.attributes.stops||i.attributes.calling_at||i.attributes["Calling at"]||[];"string"==typeof s&&(s=s.split(",").map(t=>t.trim()).filter(t=>t));const a=i.attributes.scheduled_departure||i.attributes.scheduled||i.attributes.departure||i.attributes.departure_time||i.attributes.std||i.attributes.aimed_departure_time||i.attributes["Scheduled Departure"]||i.state;return{train_id:e,scheduled_departure:a,expected_departure:i.attributes.expected_departure||i.attributes.expected||i.attributes.estimated||i.attributes.estimated_departure||i.attributes.etd||i.attributes.expected_arrival||i.attributes["Expected Departure"]||a,platform:i.attributes.platform||i.attributes.Platform||"",operator:i.attributes.operator||i.attributes.service_operator||i.attributes.Operator||"",is_cancelled:i.attributes.is_cancelled||i.attributes.cancelled||"Cancelled"===i.state||"Canceled"===i.state||!1,is_no_service:i.attributes.is_no_service||i.attributes.no_service||"No service"===i.state||"No Service"===i.state||!1,delay_minutes:parseInt(i.attributes.delay_minutes||i.attributes.delay||i.attributes.minutes_late||i.attributes["Delay minutes"]||"0"),delay_reason:i.attributes.delay_reason||i.attributes.reason||i.attributes["Delay reason"]||"",calling_points:s,journey_duration:i.attributes.journey_duration||i.attributes.duration||"",service_type:i.attributes.service_type||i.attributes.type||""}}).filter(t=>null!==t);return a}getCardSize(){const t=this.config.view||"full",e=this._trains?.length||0;switch(t){case"compact":return 1+Math.ceil(.5*e);case"next-only":return 3;default:return 2+e}}render(){if(!this.config.entity)return this._renderEmpty("No entity selected","Please select a rail commute summary sensor in the card configuration");if(this._loading)return this._renderLoading();if(t=this._hasDisruption,this.config.only_show_disrupted&&!t)return this._renderEmpty("No disruption detected","Trains will appear when there is disruption");var t;if(!this._trains||0===this._trains.length)return this._renderEmpty();switch(this.config.view||"full"){case"compact":return this._renderCompact();case"next-only":return this._renderNextOnly();case"board":return this._renderBoard();default:return this._renderFull()}}_renderHeader(){const t=!1!==this.config.show_header,e=!1!==this.config.show_route;if(!t)return"";const i=this.config.title||"Rail Commute";return B`
       <div class="card-header">
         <div class="header-content">
           <ha-icon icon="mdi:train"></ha-icon>
@@ -991,7 +1063,12 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
           </div>
         `:""}
       </div>
-    `}_renderFooter(){return!1===this.config.show_last_updated?"":B`
+    `}_renderDisruptionBanner(){return this._hasDisruption&&this.config.disruption_entity?B`
+      <div class="disruption-banner">
+        <ha-icon icon="mdi:alert-circle" class="disruption-icon"></ha-icon>
+        <span class="disruption-text">Disruption on this route</span>
+      </div>
+    `:""}_renderFooter(){return!1===this.config.show_last_updated?"":B`
       <div class="card-footer">
         <span class="last-updated">
           Last updated: ${function(t){if(!t)return"Unknown";try{const e=new Date,i=new Date(t),s=Math.floor((e-i)/1e3);if(s<0)return"Just now";if(s<60)return"Just now";if(s<3600){const t=Math.floor(s/60);return`${t} minute${1!==t?"s":""} ago`}if(s<86400){const t=Math.floor(s/3600);return`${t} hour${1!==t?"s":""} ago`}const a=Math.floor(s/86400);return`${a} day${1!==a?"s":""} ago`}catch(t){return console.error("Error calculating relative time:",t),"Unknown"}}(this._lastUpdated)}
@@ -1000,6 +1077,7 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
     `}_renderFull(){const t=this.config.compact_height?"compact-height":"";return B`
       <ha-card class="${t}">
         ${this._renderHeader()}
+        ${this._renderDisruptionBanner()}
 
         <div class="card-content">
           ${this._trains.map(t=>this._renderTrainRow(t))}
@@ -1063,6 +1141,7 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
     `}_renderCompact(){return B`
       <ha-card class="${this.config.compact_height?"compact-height":""}">
         ${this._renderHeader()}
+        ${this._renderDisruptionBanner()}
 
         <div class="card-content compact">
           ${this._trains.map(t=>B`
@@ -1076,8 +1155,8 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
               <span class="time">${lt(t.scheduled_departure)}</span>
               <span class="platform">Plat ${t.platform||"—"}</span>
               <span class="status">
-                ${!1!==this.config.status_icons?dt(t):""}
-                ${t.delay_minutes>0?` +${t.delay_minutes}m`:""}
+                ${!1!==this.config.status_icons?B`<span class="status-icon">${dt(t)}</span>`:""}
+                ${t.delay_minutes>0?B`<span class="delay-text">+${t.delay_minutes}m</span>`:""}
               </span>
             </div>
           `)}
@@ -1088,6 +1167,7 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
     `}_renderNextOnly(){const t=this._trains[0];if(!t)return this._renderEmpty();const e=ht(t),i=!1!==this.config.status_icons?dt(t):"";return B`
       <ha-card class="${this.config.compact_height?"compact-height":""}">
         ${this._renderHeader()}
+        ${this._renderDisruptionBanner()}
 
         <div class="card-content next-only">
           <div class="next-train-time">
@@ -1129,6 +1209,7 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
         <div class="board-header">
           DEPARTURES  ${this._origin||""}
         </div>
+        ${this._renderDisruptionBanner()}
 
         <div class="board-content">
           <div class="board-table">
@@ -1157,7 +1238,7 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
                   ${t.platform||"—"}
                 </span>
                 <span class="col-status">
-                  ${function(t){return t?t.is_cancelled?"Cancelled":t.expected_departure&&t.expected_departure!==t.scheduled_departure?`Exp ${lt(t.expected_departure)}`:"On time":"Unknown"}(t)}
+                  ${function(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.expected_departure&&t.expected_departure!==t.scheduled_departure?`Exp ${lt(t.expected_departure)}`:"On time":"Unknown"}(t)}
                 </span>
               </div>
             `)}
