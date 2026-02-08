@@ -260,6 +260,11 @@ class MyRailCommuteCard extends LitElement {
                      entity.state === 'Cancelled' ||
                      entity.state === 'Canceled' ||
                      false,
+        is_no_service: entity.attributes.is_no_service ||
+                      entity.attributes.no_service ||
+                      entity.state === 'No service' ||
+                      entity.state === 'No Service' ||
+                      false,
         delay_minutes: parseInt(entity.attributes.delay_minutes ||
                                entity.attributes.delay ||
                                entity.attributes.minutes_late ||
