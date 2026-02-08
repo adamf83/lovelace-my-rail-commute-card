@@ -73,10 +73,17 @@ class MyRailCommuteCardEditor extends LitElement {
     return this._hass;
   }
 
-  // Filter entities to only show rail commute summary sensors
+  // Filter entities to show rail commute summary sensors
+  // Shows entities from my_rail_commute integration OR entities matching naming patterns
   _filterSummaryEntities(entity) {
+    // Check if entity is from my_rail_commute integration
+    const entityInfo = this._hass.states[entity.entity_id];
+    if (entityInfo?.attributes?.integration === 'my_rail_commute') {
+      return true;
+    }
+
+    // Fallback: Check entity ID patterns for compatible sensors
     const entityId = entity.entity_id.toLowerCase();
-    // Show sensors that end with _summary or contain commute/rail/train
     return entityId.endsWith('_summary') ||
            entityId.includes('commute') ||
            entityId.includes('rail') ||
@@ -103,7 +110,7 @@ class MyRailCommuteCardEditor extends LitElement {
             @value-changed=${this._entityChanged}
             allow-custom-entity
           ></ha-entity-picker>
-          <div class="info">Select your rail commute summary sensor (e.g., ending in _summary)</div>
+          <div class="info">Select your My Rail Commute summary sensor (from my_rail_commute integration)</div>
         </div>
 
         <div class="option">
