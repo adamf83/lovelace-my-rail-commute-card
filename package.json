@@ -1,6 +1,6 @@
 {
   "name": "my-rail-commute-card",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A custom Lovelace card for Home Assistant that displays My Rail Commute departure information",
   "type": "module",
   "main": "dist/my-rail-commute-card.js",
