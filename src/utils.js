@@ -75,6 +75,7 @@ export function getStatusClass(train) {
   if (!train) return 'unknown';
 
   if (train.is_cancelled) return 'cancelled';
+  if (train.is_no_service) return 'no-service';
   if (train.delay_minutes >= 10) return 'major-delay';
   if (train.delay_minutes > 0) return 'minor-delay';
   return 'on-time';
@@ -91,6 +92,7 @@ export function getStatusIcon(train, useIcons = true) {
   if (!train) return '';
 
   if (train.is_cancelled) return '❌';
+  if (train.is_no_service) return '⊗';
   if (train.delay_minutes >= 10) return '🔴';
   if (train.delay_minutes > 0) return '⚠️';
   return '✓';
@@ -105,6 +107,7 @@ export function getStatusText(train) {
   if (!train) return 'Unknown';
 
   if (train.is_cancelled) return 'Cancelled';
+  if (train.is_no_service) return 'No service';
   if (train.delay_minutes > 0) {
     return `Delayed ${train.delay_minutes} min${train.delay_minutes !== 1 ? 's' : ''}`;
   }
@@ -120,6 +123,7 @@ export function getBoardStatus(train) {
   if (!train) return 'Unknown';
 
   if (train.is_cancelled) return 'Cancelled';
+  if (train.is_no_service) return 'No service';
   if (train.expected_departure && train.expected_departure !== train.scheduled_departure) {
     return `Exp ${formatTime(train.expected_departure)}`;
   }
@@ -194,7 +198,7 @@ export function filterTrains(trains, config) {
   // Filter out on-time trains if configured
   if (config.hide_on_time_trains) {
     filtered = filtered.filter(train =>
-      train.is_cancelled || train.delay_minutes > 0
+      train.is_cancelled || train.is_no_service || train.delay_minutes > 0
     );
   }
 
@@ -283,6 +287,7 @@ export function getStatusColor(status, customColors = {}) {
     'minor-delay': '#ff9800',
     'major-delay': '#f44336',
     'cancelled': '#d32f2f',
+    'no-service': '#9e9e9e',
     'unknown': '#9e9e9e'
   };
 

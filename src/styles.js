@@ -9,6 +9,7 @@ export const styles = css`
     --status-minor-delay: var(--custom-minor-delay-color, #ff9800);
     --status-major-delay: var(--custom-major-delay-color, #f44336);
     --status-cancelled: var(--custom-cancelled-color, #d32f2f);
+    --status-no-service: var(--custom-no-service-color, #9e9e9e);
     --status-unknown: #9e9e9e;
 
     --card-padding: 16px;
@@ -170,6 +171,14 @@ export const styles = css`
     text-decoration: line-through;
   }
 
+  .train-row.no-service {
+    opacity: 0.6;
+  }
+
+  .train-row.no-service .train-status {
+    color: var(--status-no-service);
+  }
+
   /* ==================== COMPACT VIEW ==================== */
 
   .card-content.compact {
@@ -250,6 +259,14 @@ export const styles = css`
     opacity: 0.6;
   }
 
+  .train-row-compact.no-service .status {
+    color: var(--status-no-service);
+  }
+
+  .train-row-compact.no-service .time {
+    opacity: 0.6;
+  }
+
   /* ==================== NEXT-ONLY VIEW ==================== */
 
   .card-content.next-only {
@@ -305,6 +322,10 @@ export const styles = css`
 
   .next-train-status.cancelled {
     color: var(--status-cancelled);
+  }
+
+  .next-train-status.no-service {
+    color: var(--status-no-service);
   }
 
   .next-train-operator {
@@ -404,6 +425,10 @@ export const styles = css`
   .board-row.cancelled {
     opacity: 0.5;
     text-decoration: line-through;
+  }
+
+  .board-row.no-service {
+    opacity: 0.5;
   }
 
   .board-row.major-delay .col-status {
