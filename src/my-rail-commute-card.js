@@ -163,16 +163,24 @@ class MyRailCommuteCard extends LitElement {
                         summaryEntity.last_updated ||
                         summaryEntity.last_changed || '';
 
-    // Sort and filter trains
+    // Sort trains
     if (this._trains && this._trains.length > 0) {
       this._trains = sortTrains(this._trains);
-      this._trains = filterTrains(this._trains, this.config);
     }
 
-    // Get disruption sensor if configured
+    // Detect disruption: from disruption_entity if configured, otherwise auto-detect from train data
     if (this.config.disruption_entity) {
       const disruptionEntity = hass.states[this.config.disruption_entity];
       this._hasDisruption = disruptionEntity?.state === 'on';
+    } else {
+      this._hasDisruption = this._trains.some(
+        train => train.is_cancelled || train.delay_minutes >= 10
+      );
+    }
+
+    // Filter trains
+    if (this._trains && this._trains.length > 0) {
+      this._trains = filterTrains(this._trains, this.config);
     }
 
     this._loading = false;
@@ -359,7 +367,7 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _renderDisruptionBanner() {
-    if (!this._hasDisruption || !this.config.disruption_entity) return '';
+    if (!this._hasDisruption) return '';
 
     return html`
       <div class="disruption-banner">
