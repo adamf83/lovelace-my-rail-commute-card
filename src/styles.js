@@ -137,6 +137,7 @@ export const styles = css`
     font-size: 1rem;
     color: var(--status-minor-delay);
     margin-left: 4px;
+    min-width: 3.5rem;
   }
 
   .train-platform {

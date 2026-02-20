@@ -153,6 +153,7 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
     font-size: 1rem;
     color: var(--status-minor-delay);
     margin-left: 4px;
+    min-width: 3.5rem;
   }
 
   .train-platform {
@@ -1097,9 +1098,7 @@ const b=globalThis,x=t=>t,C=b.trustedTypes,A=C?C.createPolicy("lit-html",{create
           <div class="train-time">
             <ha-icon icon="${function(t){return t?t.is_cancelled?"mdi:close-circle":t.delay_minutes>0?"mdi:train-variant":"mdi:train":"mdi:train"}(t)}"></ha-icon>
             <span class="time">${lt(t.scheduled_departure)}</span>
-            ${t.expected_departure&&t.expected_departure!==t.scheduled_departure?B`
-              <span class="expected-time">${lt(t.expected_departure)}</span>
-            `:""}
+            <span class="expected-time">${t.expected_departure&&t.expected_departure!==t.scheduled_departure?lt(t.expected_departure):""}</span>
           </div>
 
           ${s?B`
