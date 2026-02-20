@@ -221,8 +221,8 @@ export const styles = css`
   }
 
   .train-row-compact {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 60px 1fr 70px;
     align-items: center;
     padding: 8px var(--card-padding);
     border-bottom: 1px solid var(--divider-color, #e0e0e0);
@@ -241,23 +241,20 @@ export const styles = css`
   .train-row-compact .time {
     font-size: 1.1rem;
     font-weight: 500;
-    flex: 0 0 auto;
-    min-width: 60px;
   }
 
   .train-row-compact .platform {
     font-size: 0.9rem;
     color: var(--secondary-text-color, #757575);
-    flex: 1;
     text-align: center;
   }
 
   .train-row-compact .status {
     font-size: 0.9rem;
     font-weight: 500;
-    flex: 0 0 auto;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 4px;
   }
 
