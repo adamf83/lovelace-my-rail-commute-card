@@ -419,9 +419,7 @@ class MyRailCommuteCard extends LitElement {
           <div class="train-time">
             <ha-icon icon="${getTrainIcon(train)}"></ha-icon>
             <span class="time">${formatTime(train.scheduled_departure)}</span>
-            ${train.expected_departure && train.expected_departure !== train.scheduled_departure ? html`
-              <span class="expected-time">${formatTime(train.expected_departure)}</span>
-            ` : ''}
+            <span class="expected-time">${train.expected_departure && train.expected_departure !== train.scheduled_departure ? formatTime(train.expected_departure) : ''}</span>
           </div>
 
           ${showPlatform ? html`
