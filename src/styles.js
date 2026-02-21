@@ -56,22 +56,59 @@ export const styles = css`
   .disruption-banner {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px var(--card-padding);
+    gap: 10px;
+    padding: 10px var(--card-padding);
     background: var(--status-major-delay);
     color: #fff;
     font-size: 0.9rem;
     font-weight: 500;
+    border-left: 4px solid rgba(0, 0, 0, 0.25);
+    transition: filter 0.15s ease;
+  }
+
+  .disruption-banner.disruption-minor {
+    background: var(--status-minor-delay);
+    border-left-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .disruption-banner.disruption-clickable {
+    cursor: pointer;
+  }
+
+  .disruption-banner.disruption-clickable:hover {
+    filter: brightness(1.1);
   }
 
   .disruption-icon {
-    --mdc-icon-size: 20px;
+    --mdc-icon-size: 22px;
     color: #fff;
     flex-shrink: 0;
   }
 
-  .disruption-text {
+  .disruption-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .disruption-label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  .disruption-message {
+    font-size: 0.82rem;
+    font-weight: 400;
+    opacity: 0.9;
+  }
+
+  .disruption-chevron {
+    --mdc-icon-size: 18px;
+    color: rgba(255, 255, 255, 0.75);
+    flex-shrink: 0;
   }
 
   ha-card.departure-board .disruption-banner {
@@ -79,10 +116,20 @@ export const styles = css`
     color: #ffcc00;
     font-family: 'Courier New', Courier, monospace;
     letter-spacing: 1px;
+    border-left-color: rgba(0, 0, 0, 0.4);
+  }
+
+  ha-card.departure-board .disruption-banner.disruption-minor {
+    background: #e65100;
+    color: #ffcc00;
   }
 
   ha-card.departure-board .disruption-icon {
     color: #ffcc00;
+  }
+
+  ha-card.departure-board .disruption-chevron {
+    color: rgba(255, 204, 0, 0.7);
   }
 
   /* ==================== CONTENT ==================== */
