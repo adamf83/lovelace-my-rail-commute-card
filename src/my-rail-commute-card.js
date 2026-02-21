@@ -32,6 +32,8 @@ class MyRailCommuteCard extends LitElement {
       _destination: { type: String },
       _lastUpdated: { type: String },
       _hasDisruption: { type: Boolean },
+      _disruptionSeverity: { type: String },
+      _disruptionMessage: { type: String },
       _loading: { type: Boolean }
     };
   }
@@ -47,8 +49,18 @@ class MyRailCommuteCard extends LitElement {
     this._destination = '';
     this._lastUpdated = '';
     this._hasDisruption = false;
+    this._disruptionSeverity = 'severe';
+    this._disruptionMessage = '';
     this._loading = true;
     this._pressTimer = null;
+  }
+
+  // Returns true for any truthy sensor state: 'on', 'On', 'ON', 'yes', 'Yes', 'true', 'True', '1', boolean true
+  _isActiveState(value) {
+    if (value === null || value === undefined) return false;
+    if (typeof value === 'boolean') return value;
+    const s = String(value).toLowerCase().trim();
+    return s === 'on' || s === 'yes' || s === 'true' || s === '1';
   }
 
   setConfig(config) {
@@ -169,16 +181,33 @@ class MyRailCommuteCard extends LitElement {
     }
 
     // Detect disruption from the integration's has_disruption attribute.
-    // The value can be 'Yes', 'on', or boolean true depending on the integration/HA version.
-    const disruption = summaryEntity.attributes.has_disruption;
-    this._hasDisruption = disruption === 'Yes' || disruption === 'yes' ||
-                          disruption === 'on' || disruption === true;
+    // Uses _isActiveState() to handle 'Yes', 'on', 'true', '1', boolean true, etc.
+    this._hasDisruption = this._isActiveState(summaryEntity.attributes.has_disruption);
+    this._disruptionSeverity = summaryEntity.attributes.disruption_severity ||
+                               summaryEntity.attributes.disruption_level ||
+                               summaryEntity.attributes.severity || 'severe';
+    this._disruptionMessage = summaryEntity.attributes.disruption_message ||
+                              summaryEntity.attributes.disruption_reason ||
+                              summaryEntity.attributes.reason || '';
 
-    // Also check disruption_entity (binary_sensor) if configured - its state will be 'on' when active
+    // Also check disruption_entity (binary_sensor) if configured.
+    // Handles any truthy state value: 'on', 'On', 'Yes', 'yes', 'True', '1', etc.
     if (this.config.disruption_entity) {
       const disruptionEntity = hass.states[this.config.disruption_entity];
-      if (disruptionEntity && disruptionEntity.state === 'on') {
+      if (disruptionEntity && this._isActiveState(disruptionEntity.state)) {
         this._hasDisruption = true;
+        // Pull severity/message from the binary sensor's attributes if not already set
+        if (!this._disruptionMessage) {
+          this._disruptionMessage = disruptionEntity.attributes.message ||
+                                    disruptionEntity.attributes.reason ||
+                                    disruptionEntity.attributes.disruption_message ||
+                                    disruptionEntity.attributes.disruption_reason || '';
+        }
+        this._disruptionSeverity = disruptionEntity.attributes.severity ||
+                                   disruptionEntity.attributes.disruption_severity ||
+                                   disruptionEntity.attributes.level ||
+                                   disruptionEntity.attributes.disruption_level ||
+                                   this._disruptionSeverity || 'severe';
       }
     }
 
@@ -373,12 +402,41 @@ class MyRailCommuteCard extends LitElement {
   _renderDisruptionBanner() {
     if (!this._hasDisruption) return '';
 
+    const severity = (this._disruptionSeverity || 'severe').toLowerCase();
+    const isMinor = severity.includes('minor') || severity.includes('light') || severity.includes('low');
+    const severityClass = isMinor ? 'disruption-minor' : 'disruption-severe';
+    const severityLabel = isMinor ? 'Minor disruption' : 'Severe disruption';
+    const icon = isMinor ? 'mdi:alert' : 'mdi:alert-circle';
+    const hasClickTarget = !!this.config.disruption_entity;
+
     return html`
-      <div class="disruption-banner">
-        <ha-icon icon="mdi:alert-circle" class="disruption-icon"></ha-icon>
-        <span class="disruption-text">Disruption on this route</span>
+      <div
+        class="disruption-banner ${severityClass} ${hasClickTarget ? 'disruption-clickable' : ''}"
+        @click="${hasClickTarget ? () => this._showDisruptionMoreInfo() : null}"
+        role="${hasClickTarget ? 'button' : 'alert'}"
+      >
+        <ha-icon icon="${icon}" class="disruption-icon"></ha-icon>
+        <div class="disruption-content">
+          <span class="disruption-label">${severityLabel} on this route</span>
+          ${this._disruptionMessage ? html`
+            <span class="disruption-message">${this._disruptionMessage}</span>
+          ` : ''}
+        </div>
+        ${hasClickTarget ? html`
+          <ha-icon icon="mdi:chevron-right" class="disruption-chevron"></ha-icon>
+        ` : ''}
       </div>
     `;
+  }
+
+  _showDisruptionMoreInfo() {
+    if (!this.config.disruption_entity) return;
+    const event = new Event('hass-more-info', {
+      bubbles: true,
+      composed: true,
+    });
+    event.detail = { entityId: this.config.disruption_entity };
+    this.dispatchEvent(event);
   }
 
   _renderFooter() {
