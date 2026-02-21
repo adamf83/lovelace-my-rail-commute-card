@@ -168,10 +168,19 @@ class MyRailCommuteCard extends LitElement {
       this._trains = sortTrains(this._trains);
     }
 
-    // Detect disruption from the integration's has_disruption attribute
-    // The value can be 'Yes' or 'on' depending on the integration/HA version
+    // Detect disruption from the integration's has_disruption attribute.
+    // The value can be 'Yes', 'on', or boolean true depending on the integration/HA version.
     const disruption = summaryEntity.attributes.has_disruption;
-    this._hasDisruption = disruption === 'Yes' || disruption === 'on';
+    this._hasDisruption = disruption === 'Yes' || disruption === 'yes' ||
+                          disruption === 'on' || disruption === true;
+
+    // Also check disruption_entity (binary_sensor) if configured - its state will be 'on' when active
+    if (this.config.disruption_entity) {
+      const disruptionEntity = hass.states[this.config.disruption_entity];
+      if (disruptionEntity && disruptionEntity.state === 'on') {
+        this._hasDisruption = true;
+      }
+    }
 
     // Filter trains
     if (this._trains && this._trains.length > 0) {
