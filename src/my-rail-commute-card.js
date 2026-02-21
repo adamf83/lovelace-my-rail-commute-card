@@ -49,18 +49,10 @@ class MyRailCommuteCard extends LitElement {
     this._destination = '';
     this._lastUpdated = '';
     this._hasDisruption = false;
-    this._disruptionSeverity = 'severe';
+    this._disruptionSeverity = '';
     this._disruptionMessage = '';
     this._loading = true;
     this._pressTimer = null;
-  }
-
-  // Returns true for any truthy sensor state: 'on', 'On', 'ON', 'yes', 'Yes', 'true', 'True', '1', boolean true
-  _isActiveState(value) {
-    if (value === null || value === undefined) return false;
-    if (typeof value === 'boolean') return value;
-    const s = String(value).toLowerCase().trim();
-    return s === 'on' || s === 'yes' || s === 'true' || s === '1';
   }
 
   setConfig(config) {
@@ -180,90 +172,46 @@ class MyRailCommuteCard extends LitElement {
       this._trains = sortTrains(this._trains);
     }
 
-    // Detect disruption from the integration's has_disruption attribute.
-    // Uses _isActiveState() to handle 'Yes', 'on', 'true', '1', boolean true, etc.
-    this._hasDisruption = this._isActiveState(summaryEntity.attributes.has_disruption);
-    this._disruptionSeverity = summaryEntity.attributes.disruption_severity ||
-                               summaryEntity.attributes.disruption_level ||
-                               summaryEntity.attributes.severity || 'severe';
-    this._disruptionMessage = summaryEntity.attributes.disruption_message ||
-                              summaryEntity.attributes.disruption_reason ||
-                              summaryEntity.attributes.reason || '';
+    // Detect disruption from the status sensor (single source of truth).
+    // The sensor state is one of: Normal, Minor Delays, Major Delays, Severe Disruption, Critical
+    this._hasDisruption = false;
+    this._disruptionSeverity = '';
+    this._disruptionMessage = '';
 
-    console.debug('[MyRailCommuteCard] Disruption detection start:', {
-      entity: this.config.entity,
-      has_disruption_attr: summaryEntity.attributes.has_disruption,
-      hasDisruptionFromSummary: this._hasDisruption,
-      configured_disruption_entity: this.config.disruption_entity || '(none)',
-    });
-
-    // Check explicitly configured disruption_entity (binary_sensor).
-    // Handles any truthy state value: 'on', 'On', 'Yes', 'yes', 'True', '1', etc.
-    if (this.config.disruption_entity) {
-      const disruptionEntity = hass.states[this.config.disruption_entity];
-      console.debug('[MyRailCommuteCard] Configured disruption_entity:', {
-        entity_id: this.config.disruption_entity,
-        found: !!disruptionEntity,
-        state: disruptionEntity?.state,
-        isActive: disruptionEntity ? this._isActiveState(disruptionEntity.state) : false,
-      });
-      if (disruptionEntity && this._isActiveState(disruptionEntity.state)) {
-        this._hasDisruption = true;
-        // Pull severity/message from the binary sensor's attributes if not already set
-        if (!this._disruptionMessage) {
-          this._disruptionMessage = disruptionEntity.attributes.message ||
-                                    disruptionEntity.attributes.reason ||
-                                    disruptionEntity.attributes.disruption_message ||
-                                    disruptionEntity.attributes.disruption_reason || '';
-        }
-        this._disruptionSeverity = disruptionEntity.attributes.severity ||
-                                   disruptionEntity.attributes.disruption_severity ||
-                                   disruptionEntity.attributes.level ||
-                                   disruptionEntity.attributes.disruption_level ||
-                                   this._disruptionSeverity || 'severe';
-      }
-    }
-
-    // Auto-discover disruption binary sensor when disruption_entity is not explicitly configured.
-    // Tries common naming patterns used by the My Rail Commute integration.
-    if (!this._hasDisruption && !this.config.disruption_entity) {
+    // Use explicitly configured status_entity, or auto-discover by naming convention.
+    let statusEntityId = this.config.status_entity;
+    if (!statusEntityId) {
       const baseName = this.config.entity
         .replace('sensor.', '')
         .replace('_commute_summary', '')
         .replace('_summary', '');
-      const autoPatterns = [
-        `binary_sensor.${baseName}_severe_disruption`,
-        `binary_sensor.${baseName}_disruption`,
-        `binary_sensor.${baseName}_has_disruption`,
-      ];
-      console.debug('[MyRailCommuteCard] No disruption_entity configured, trying auto-discovery:', autoPatterns);
-      for (const pattern of autoPatterns) {
-        const candidate = hass.states[pattern];
-        if (candidate) {
-          console.debug(`[MyRailCommuteCard] Auto-discovered disruption entity: ${pattern}, state: ${candidate.state}`);
-          if (this._isActiveState(candidate.state)) {
-            this._hasDisruption = true;
-            this._disruptionMessage = candidate.attributes.message ||
-                                      candidate.attributes.reason ||
-                                      candidate.attributes.disruption_message ||
-                                      candidate.attributes.disruption_reason ||
-                                      this._disruptionMessage || '';
-            this._disruptionSeverity = candidate.attributes.severity ||
-                                       candidate.attributes.disruption_severity ||
-                                       candidate.attributes.level ||
-                                       candidate.attributes.disruption_level ||
-                                       this._disruptionSeverity || 'severe';
-          }
-          break; // Stop at first matching pattern (whether active or not)
-        }
+      const autoId = `sensor.${baseName}_status`;
+      if (hass.states[autoId]) {
+        statusEntityId = autoId;
       }
     }
 
-    console.debug('[MyRailCommuteCard] Disruption detection result:', {
-      _hasDisruption: this._hasDisruption,
-      _disruptionSeverity: this._disruptionSeverity,
-      _disruptionMessage: this._disruptionMessage,
-    });
+    if (statusEntityId) {
+      const statusEntity = hass.states[statusEntityId];
+      if (statusEntity) {
+        const state = (statusEntity.state || '').toLowerCase().trim();
+        if (state !== 'normal' && state !== 'unknown' && state !== 'unavailable' && state !== '') {
+          this._hasDisruption = true;
+          if (state.includes('critical')) {
+            this._disruptionSeverity = 'critical';
+          } else if (state.includes('severe')) {
+            this._disruptionSeverity = 'severe';
+          } else if (state.includes('major')) {
+            this._disruptionSeverity = 'major';
+          } else {
+            this._disruptionSeverity = 'minor';
+          }
+          this._disruptionMessage = statusEntity.attributes.message ||
+                                    statusEntity.attributes.reason ||
+                                    statusEntity.attributes.disruption_message || '';
+        }
+      }
+    }
 
     // Filter trains
     if (this._trains && this._trains.length > 0) {
@@ -456,22 +404,24 @@ class MyRailCommuteCard extends LitElement {
   _renderDisruptionBanner() {
     if (!this._hasDisruption) return '';
 
-    const severity = (this._disruptionSeverity || 'severe').toLowerCase();
-    const isMinor = severity.includes('minor') || severity.includes('light') || severity.includes('low');
-    const severityClass = isMinor ? 'disruption-minor' : 'disruption-severe';
-    const severityLabel = isMinor ? 'Minor disruption' : 'Severe disruption';
-    const icon = isMinor ? 'mdi:alert' : 'mdi:alert-circle';
-    const hasClickTarget = !!this.config.disruption_entity;
+    const severityMap = {
+      minor:    { cls: 'disruption-minor',    label: 'Minor Delays',        icon: 'mdi:alert' },
+      major:    { cls: 'disruption-major',    label: 'Major Delays',        icon: 'mdi:alert' },
+      severe:   { cls: 'disruption-severe',   label: 'Severe Disruption',   icon: 'mdi:alert-circle' },
+      critical: { cls: 'disruption-critical', label: 'Critical Disruption', icon: 'mdi:alert-octagon' },
+    };
+    const { cls, label, icon } = severityMap[this._disruptionSeverity] || severityMap.severe;
+    const hasClickTarget = !!this.config.status_entity;
 
     return html`
       <div
-        class="disruption-banner ${severityClass} ${hasClickTarget ? 'disruption-clickable' : ''}"
+        class="disruption-banner ${cls} ${hasClickTarget ? 'disruption-clickable' : ''}"
         @click="${hasClickTarget ? () => this._showDisruptionMoreInfo() : null}"
         role="${hasClickTarget ? 'button' : 'alert'}"
       >
         <ha-icon icon="${icon}" class="disruption-icon"></ha-icon>
         <div class="disruption-content">
-          <span class="disruption-label">${severityLabel} on this route</span>
+          <span class="disruption-label">${label} on this route</span>
           ${this._disruptionMessage ? html`
             <span class="disruption-message">${this._disruptionMessage}</span>
           ` : ''}
@@ -484,12 +434,12 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _showDisruptionMoreInfo() {
-    if (!this.config.disruption_entity) return;
+    if (!this.config.status_entity) return;
     const event = new Event('hass-more-info', {
       bubbles: true,
       composed: true,
     });
-    event.detail = { entityId: this.config.disruption_entity };
+    event.detail = { entityId: this.config.status_entity };
     this.dispatchEvent(event);
   }
 

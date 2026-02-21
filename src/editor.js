@@ -286,14 +286,14 @@ class MyRailCommuteCardEditor extends LitElement {
 
         <div class="option">
           <ha-entity-picker
-            label="Disruption Sensor (Optional)"
+            label="Status Sensor (Optional)"
             .hass=${this._hass}
-            .value=${this._config.disruption_entity || ''}
-            .includeDomains=${['binary_sensor']}
-            @value-changed=${this._disruptionEntityChanged}
+            .value=${this._config.status_entity || ''}
+            .includeDomains=${['sensor']}
+            @value-changed=${this._statusEntityChanged}
             allow-custom-entity
           ></ha-entity-picker>
-          <div class="info">Binary sensor for severe disruption detection</div>
+          <div class="info">Sensor whose state drives the disruption banner. Expected states: Normal, Minor Delays, Major Delays, Severe Disruption, Critical. Auto-discovered from the summary entity name if not set.</div>
         </div>
 
         <div class="switches">
@@ -437,11 +437,11 @@ class MyRailCommuteCardEditor extends LitElement {
     this._fireConfigChanged();
   }
 
-  _disruptionEntityChanged(ev) {
+  _statusEntityChanged(ev) {
     if (!this._config || !this._hass) {
       return;
     }
-    this._config = { ...this._config, disruption_entity: ev.detail.value };
+    this._config = { ...this._config, status_entity: ev.detail.value };
     this._fireConfigChanged();
   }
 
