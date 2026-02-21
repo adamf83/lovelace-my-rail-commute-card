@@ -71,6 +71,21 @@ export const styles = css`
     border-left-color: rgba(0, 0, 0, 0.2);
   }
 
+  .disruption-banner.disruption-major {
+    background: #e65100;
+    border-left-color: rgba(0, 0, 0, 0.25);
+  }
+
+  .disruption-banner.disruption-severe {
+    background: var(--status-major-delay);
+    border-left-color: rgba(0, 0, 0, 0.25);
+  }
+
+  .disruption-banner.disruption-critical {
+    background: #7f0000;
+    border-left-color: rgba(0, 0, 0, 0.35);
+  }
+
   .disruption-banner.disruption-clickable {
     cursor: pointer;
   }
@@ -121,6 +136,21 @@ export const styles = css`
 
   ha-card.departure-board .disruption-banner.disruption-minor {
     background: #e65100;
+    color: #ffcc00;
+  }
+
+  ha-card.departure-board .disruption-banner.disruption-major {
+    background: #bf360c;
+    color: #ffcc00;
+  }
+
+  ha-card.departure-board .disruption-banner.disruption-severe {
+    background: #b71c1c;
+    color: #ffcc00;
+  }
+
+  ha-card.departure-board .disruption-banner.disruption-critical {
+    background: #4a0000;
     color: #ffcc00;
   }
 
