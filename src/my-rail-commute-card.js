@@ -168,15 +168,8 @@ class MyRailCommuteCard extends LitElement {
       this._trains = sortTrains(this._trains);
     }
 
-    // Detect disruption: from disruption_entity if configured, otherwise auto-detect from train data
-    if (this.config.disruption_entity) {
-      const disruptionEntity = hass.states[this.config.disruption_entity];
-      this._hasDisruption = disruptionEntity?.state === 'on';
-    } else {
-      this._hasDisruption = this._trains.some(
-        train => train.is_cancelled || train.delay_minutes >= 10
-      );
-    }
+    // Detect disruption from the integration's has_disruption attribute
+    this._hasDisruption = summaryEntity.attributes.has_disruption === 'Yes';
 
     // Filter trains
     if (this._trains && this._trains.length > 0) {
