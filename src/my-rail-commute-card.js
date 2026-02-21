@@ -190,10 +190,23 @@ class MyRailCommuteCard extends LitElement {
                               summaryEntity.attributes.disruption_reason ||
                               summaryEntity.attributes.reason || '';
 
-    // Also check disruption_entity (binary_sensor) if configured.
+    console.debug('[MyRailCommuteCard] Disruption detection start:', {
+      entity: this.config.entity,
+      has_disruption_attr: summaryEntity.attributes.has_disruption,
+      hasDisruptionFromSummary: this._hasDisruption,
+      configured_disruption_entity: this.config.disruption_entity || '(none)',
+    });
+
+    // Check explicitly configured disruption_entity (binary_sensor).
     // Handles any truthy state value: 'on', 'On', 'Yes', 'yes', 'True', '1', etc.
     if (this.config.disruption_entity) {
       const disruptionEntity = hass.states[this.config.disruption_entity];
+      console.debug('[MyRailCommuteCard] Configured disruption_entity:', {
+        entity_id: this.config.disruption_entity,
+        found: !!disruptionEntity,
+        state: disruptionEntity?.state,
+        isActive: disruptionEntity ? this._isActiveState(disruptionEntity.state) : false,
+      });
       if (disruptionEntity && this._isActiveState(disruptionEntity.state)) {
         this._hasDisruption = true;
         // Pull severity/message from the binary sensor's attributes if not already set
@@ -210,6 +223,47 @@ class MyRailCommuteCard extends LitElement {
                                    this._disruptionSeverity || 'severe';
       }
     }
+
+    // Auto-discover disruption binary sensor when disruption_entity is not explicitly configured.
+    // Tries common naming patterns used by the My Rail Commute integration.
+    if (!this._hasDisruption && !this.config.disruption_entity) {
+      const baseName = this.config.entity
+        .replace('sensor.', '')
+        .replace('_commute_summary', '')
+        .replace('_summary', '');
+      const autoPatterns = [
+        `binary_sensor.${baseName}_severe_disruption`,
+        `binary_sensor.${baseName}_disruption`,
+        `binary_sensor.${baseName}_has_disruption`,
+      ];
+      console.debug('[MyRailCommuteCard] No disruption_entity configured, trying auto-discovery:', autoPatterns);
+      for (const pattern of autoPatterns) {
+        const candidate = hass.states[pattern];
+        if (candidate) {
+          console.debug(`[MyRailCommuteCard] Auto-discovered disruption entity: ${pattern}, state: ${candidate.state}`);
+          if (this._isActiveState(candidate.state)) {
+            this._hasDisruption = true;
+            this._disruptionMessage = candidate.attributes.message ||
+                                      candidate.attributes.reason ||
+                                      candidate.attributes.disruption_message ||
+                                      candidate.attributes.disruption_reason ||
+                                      this._disruptionMessage || '';
+            this._disruptionSeverity = candidate.attributes.severity ||
+                                       candidate.attributes.disruption_severity ||
+                                       candidate.attributes.level ||
+                                       candidate.attributes.disruption_level ||
+                                       this._disruptionSeverity || 'severe';
+          }
+          break; // Stop at first matching pattern (whether active or not)
+        }
+      }
+    }
+
+    console.debug('[MyRailCommuteCard] Disruption detection result:', {
+      _hasDisruption: this._hasDisruption,
+      _disruptionSeverity: this._disruptionSeverity,
+      _disruptionMessage: this._disruptionMessage,
+    });
 
     // Filter trains
     if (this._trains && this._trains.length > 0) {
