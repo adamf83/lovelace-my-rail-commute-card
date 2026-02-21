@@ -169,7 +169,9 @@ class MyRailCommuteCard extends LitElement {
     }
 
     // Detect disruption from the integration's has_disruption attribute
-    this._hasDisruption = summaryEntity.attributes.has_disruption === 'Yes';
+    // The value can be 'Yes' or 'on' depending on the integration/HA version
+    const disruption = summaryEntity.attributes.has_disruption;
+    this._hasDisruption = disruption === 'Yes' || disruption === 'on';
 
     // Filter trains
     if (this._trains && this._trains.length > 0) {
