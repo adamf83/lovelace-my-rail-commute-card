@@ -34,6 +34,7 @@ class MyRailCommuteCard extends LitElement {
       _hasDisruption: { type: Boolean },
       _disruptionSeverity: { type: String },
       _disruptionMessage: { type: String },
+      _resolvedStatusEntityId: { type: String },
       _loading: { type: Boolean }
     };
   }
@@ -51,6 +52,7 @@ class MyRailCommuteCard extends LitElement {
     this._hasDisruption = false;
     this._disruptionSeverity = '';
     this._disruptionMessage = '';
+    this._resolvedStatusEntityId = '';
     this._loading = true;
     this._pressTimer = null;
   }
@@ -177,14 +179,18 @@ class MyRailCommuteCard extends LitElement {
     this._hasDisruption = false;
     this._disruptionSeverity = '';
     this._disruptionMessage = '';
+    this._resolvedStatusEntityId = '';
 
     // Use explicitly configured status_entity, or auto-discover by naming convention.
     let statusEntityId = this.config.status_entity;
     if (!statusEntityId) {
+      // Strip suffixes in the same order as train discovery: remove _summary first
+      // (only the suffix), then _commute_summary won't match. This preserves the
+      // _commute_ prefix so sensor.morning_commute_summary → sensor.morning_commute_status.
       const baseName = this.config.entity
         .replace('sensor.', '')
-        .replace('_commute_summary', '')
-        .replace('_summary', '');
+        .replace('_summary', '')
+        .replace('_commute_summary', '');
       const autoId = `sensor.${baseName}_status`;
       if (hass.states[autoId]) {
         statusEntityId = autoId;
@@ -192,6 +198,7 @@ class MyRailCommuteCard extends LitElement {
     }
 
     if (statusEntityId) {
+      this._resolvedStatusEntityId = statusEntityId;
       const statusEntity = hass.states[statusEntityId];
       if (statusEntity) {
         const state = (statusEntity.state || '').toLowerCase().trim();
@@ -410,8 +417,8 @@ class MyRailCommuteCard extends LitElement {
       severe:   { cls: 'disruption-severe',   label: 'Severe Disruption',   icon: 'mdi:alert-circle' },
       critical: { cls: 'disruption-critical', label: 'Critical Disruption', icon: 'mdi:alert-octagon' },
     };
-    const { cls, label, icon } = severityMap[this._disruptionSeverity] || severityMap.severe;
-    const hasClickTarget = !!this.config.status_entity;
+    const { cls, label, icon } = severityMap[this._disruptionSeverity] || severityMap.minor;
+    const hasClickTarget = !!this._resolvedStatusEntityId;
 
     return html`
       <div
@@ -434,12 +441,12 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _showDisruptionMoreInfo() {
-    if (!this.config.status_entity) return;
+    if (!this._resolvedStatusEntityId) return;
     const event = new Event('hass-more-info', {
       bubbles: true,
       composed: true,
     });
-    event.detail = { entityId: this.config.status_entity };
+    event.detail = { entityId: this._resolvedStatusEntityId };
     this.dispatchEvent(event);
   }
 
