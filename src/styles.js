@@ -51,6 +51,33 @@ export const styles = css`
     color: var(--secondary-text-color, #757575);
   }
 
+  .return-toggle {
+    background: none;
+    border: 1px solid var(--divider-color, #e0e0e0);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color, #757575);
+    padding: 0;
+    margin-left: auto;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+
+  .return-toggle:hover {
+    background: var(--secondary-background-color, #f5f5f5);
+  }
+
+  .return-toggle.active {
+    background: var(--primary-color, #03a9f4);
+    color: #fff;
+    border-color: var(--primary-color, #03a9f4);
+  }
+
   /* ==================== DISRUPTION BANNER ==================== */
 
   .disruption-banner {

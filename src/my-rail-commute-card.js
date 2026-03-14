@@ -35,7 +35,9 @@ class MyRailCommuteCard extends LitElement {
       _disruptionSeverity: { type: String },
       _disruptionMessage: { type: String },
       _resolvedStatusEntityId: { type: String },
-      _loading: { type: Boolean }
+      _loading: { type: Boolean },
+      _returnEntityId: { type: String },
+      _showReturn: { type: Boolean }
     };
   }
 
@@ -55,6 +57,8 @@ class MyRailCommuteCard extends LitElement {
     this._resolvedStatusEntityId = '';
     this._loading = true;
     this._pressTimer = null;
+    this._returnEntityId = null;
+    this._showReturn = false;
   }
 
   setConfig(config) {
@@ -144,30 +148,54 @@ class MyRailCommuteCard extends LitElement {
       return;
     }
 
+    // Extract outbound origin/destination for return entity detection
+    const outboundOrigin = summaryEntity.attributes.origin_name ||
+                           summaryEntity.attributes.origin ||
+                           summaryEntity.attributes.from_station || '';
+    const outboundDest = summaryEntity.attributes.destination_name ||
+                         summaryEntity.attributes.destination ||
+                         summaryEntity.attributes.to_station || '';
+
+    // Detect return entity by looking for a sensor with reversed stations
+    this._returnEntityId = this._findReturnEntity(hass, outboundOrigin, outboundDest);
+
+    // If _showReturn is toggled but the return entity no longer exists, reset
+    if (this._showReturn && !this._returnEntityId) {
+      this._showReturn = false;
+    }
+
+    // Determine which entity to load train data from
+    const activeEntityId = this._showReturn && this._returnEntityId
+      ? this._returnEntityId
+      : this.config.entity;
+    const activeEntity = hass.states[activeEntityId];
+
+    if (!activeEntity) {
+      this._loading = false;
+      this._trains = [];
+      return;
+    }
+
     // Extract train data - try multiple sources
-    if (summaryEntity.attributes.all_trains && summaryEntity.attributes.all_trains.length > 0) {
+    if (activeEntity.attributes.all_trains && activeEntity.attributes.all_trains.length > 0) {
       // Method 1: Direct all_trains attribute from integration
       // Add train_id based on entity naming pattern
-      const baseName = this.config.entity.replace('sensor.', '').replace('_summary', '').replace('_commute_summary', '');
-      this._trains = summaryEntity.attributes.all_trains.map((train, index) => ({
+      const baseName = activeEntityId.replace('sensor.', '').replace('_summary', '').replace('_commute_summary', '');
+      this._trains = activeEntity.attributes.all_trains.map((train, index) => ({
         ...train,
         train_id: `sensor.${baseName}_train_${train.train_number || (index + 1)}` // Add train_id for click handler
       }));
     } else {
       // Method 2: Auto-discover individual train sensors
-      this._trains = this._getTrainsFromIndividualSensors(hass);
+      this._trains = this._getTrainsFromIndividualSensors(hass, activeEntityId);
     }
 
-    // Get route information
-    this._origin = summaryEntity.attributes.origin_name ||
-                   summaryEntity.attributes.origin ||
-                   summaryEntity.attributes.from_station || '';
-    this._destination = summaryEntity.attributes.destination_name ||
-                        summaryEntity.attributes.destination ||
-                        summaryEntity.attributes.to_station || '';
-    this._lastUpdated = summaryEntity.attributes.last_updated ||
-                        summaryEntity.last_updated ||
-                        summaryEntity.last_changed || '';
+    // Set route display — swap origin/destination when showing return journey
+    this._origin = this._showReturn ? outboundDest : outboundOrigin;
+    this._destination = this._showReturn ? outboundOrigin : outboundDest;
+    this._lastUpdated = activeEntity.attributes.last_updated ||
+                        activeEntity.last_updated ||
+                        activeEntity.last_changed || '';
 
     // Sort trains
     if (this._trains && this._trains.length > 0) {
@@ -229,9 +257,34 @@ class MyRailCommuteCard extends LitElement {
     this.requestUpdate();
   }
 
-  _getTrainsFromIndividualSensors(hass) {
+  _findReturnEntity(hass, origin, destination) {
+    if (!origin || !destination) return null;
+    const originLower = origin.toLowerCase().trim();
+    const destLower = destination.toLowerCase().trim();
+
+    for (const [entityId, state] of Object.entries(hass.states)) {
+      if (entityId === this.config.entity) continue;
+      if (!state.attributes) continue;
+      const attrs = state.attributes;
+      // Only consider entities that look like rail summary sensors
+      if (!attrs.all_trains && !attrs.origin_name && !attrs.origin && !attrs.from_station) continue;
+      const eOrigin = (attrs.origin_name || attrs.origin || attrs.from_station || '').toLowerCase().trim();
+      const eDest = (attrs.destination_name || attrs.destination || attrs.to_station || '').toLowerCase().trim();
+      if (!eOrigin || !eDest) continue;
+      if (eOrigin === destLower && eDest === originLower) return entityId;
+    }
+    return null;
+  }
+
+  _toggleReturn() {
+    this._showReturn = !this._showReturn;
+    if (this._hass) this.hass = this._hass;
+  }
+
+  _getTrainsFromIndividualSensors(hass, entityId) {
     // Auto-discover train sensors based on entity naming pattern
-    const baseName = this.config.entity
+    const sourceEntityId = entityId || this.config.entity;
+    const baseName = sourceEntityId
       .replace('sensor.', '')
       .replace('_summary', '')
       .replace('_commute_summary', ''); // Also handle _commute_summary
@@ -398,6 +451,15 @@ class MyRailCommuteCard extends LitElement {
         <div class="header-content">
           <ha-icon icon="mdi:train"></ha-icon>
           <span class="header-title">${title}</span>
+          ${this._returnEntityId ? html`
+            <button
+              class="return-toggle ${this._showReturn ? 'active' : ''}"
+              @click="${this._toggleReturn}"
+              title="${this._showReturn ? 'Show outbound journey' : 'Show return journey'}"
+            >
+              <ha-icon icon="mdi:swap-horizontal"></ha-icon>
+            </button>
+          ` : ''}
         </div>
         ${showRoute && this._origin && this._destination ? html`
           <div class="route">
