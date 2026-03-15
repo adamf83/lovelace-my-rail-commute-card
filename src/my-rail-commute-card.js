@@ -57,8 +57,10 @@ class MyRailCommuteCard extends LitElement {
     this._resolvedStatusEntityId = '';
     this._loading = true;
     this._pressTimer = null;
+    this._toastTimer = null;
     this._returnEntityId = null;
     this._showReturn = false;
+    this._returnEntityCacheKey = null;
   }
 
   setConfig(config) {
@@ -156,8 +158,16 @@ class MyRailCommuteCard extends LitElement {
                          summaryEntity.attributes.destination ||
                          summaryEntity.attributes.to_station || '';
 
-    // Detect return entity by looking for a sensor with reversed stations
-    this._returnEntityId = this._findReturnEntity(hass, outboundOrigin, outboundDest);
+    // Detect return entity — cache result so we don't scan all states on every update
+    const cacheKey = `${outboundOrigin}|${outboundDest}`;
+    if (cacheKey !== this._returnEntityCacheKey) {
+      this._returnEntityCacheKey = cacheKey;
+      this._returnEntityId = this._findReturnEntity(hass, outboundOrigin, outboundDest);
+    } else if (this._returnEntityId && !hass.states[this._returnEntityId]) {
+      // Cached entity no longer exists — clear cache and re-scan
+      this._returnEntityCacheKey = null;
+      this._returnEntityId = this._findReturnEntity(hass, outboundOrigin, outboundDest);
+    }
 
     // If _showReturn is toggled but the return entity no longer exists, reset
     if (this._showReturn && !this._returnEntityId) {
@@ -310,8 +320,8 @@ class MyRailCommuteCard extends LitElement {
 
     // Sort by train number
     trainSensors.sort((a, b) => {
-      const numA = parseInt(a.match(/train[_-]?(\d+)$/i)?.[1] || '0');
-      const numB = parseInt(b.match(/train[_-]?(\d+)$/i)?.[1] || '0');
+      const numA = parseInt(a.match(/train[_-]?(\d+)$/i)?.[1] || '0', 10);
+      const numB = parseInt(b.match(/train[_-]?(\d+)$/i)?.[1] || '0', 10);
       return numA - numB;
     });
 
@@ -372,7 +382,7 @@ class MyRailCommuteCard extends LitElement {
                                entity.attributes.delay ||
                                entity.attributes.minutes_late ||
                                entity.attributes['Delay minutes'] ||
-                               '0'),
+                               '0', 10),
         delay_reason: entity.attributes.delay_reason ||
                      entity.attributes.reason ||
                      entity.attributes['Delay reason'] || '',
@@ -867,9 +877,22 @@ class MyRailCommuteCard extends LitElement {
     toast.textContent = 'Refreshing...';
     this.shadowRoot.appendChild(toast);
 
-    setTimeout(() => {
-      toast.remove();
+    this._toastTimer = setTimeout(() => {
+      this._toastTimer = null;
+      if (toast.isConnected) toast.remove();
     }, 2000);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    if (this._toastTimer) {
+      clearTimeout(this._toastTimer);
+      this._toastTimer = null;
+    }
+    if (this._pressTimer) {
+      clearTimeout(this._pressTimer);
+      this._pressTimer = null;
+    }
   }
 
   // ==================== CUSTOM CARD HELPERS ====================
