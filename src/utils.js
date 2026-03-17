@@ -31,6 +31,7 @@ export function formatTime(timeStr) {
       hour12: false
     });
   } catch (e) {
+    console.warn('formatTime: could not parse time value:', str, e);
     return str; // Return original on error
   }
 }

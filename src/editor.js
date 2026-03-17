@@ -423,7 +423,7 @@ class MyRailCommuteCardEditor extends LitElement {
     if (!this._config || !this._hass) {
       return;
     }
-    const value = parseInt(ev.target.value) || 0;
+    const value = parseInt(ev.target.value, 10) || 0;
     this._config = { ...this._config, min_delay_to_show: value };
     this._fireConfigChanged();
   }
@@ -432,7 +432,7 @@ class MyRailCommuteCardEditor extends LitElement {
     if (!this._config || !this._hass) {
       return;
     }
-    const value = parseInt(ev.target.value) || 3;
+    const value = parseInt(ev.target.value, 10) || 3;
     this._config = { ...this._config, max_calling_points: value };
     this._fireConfigChanged();
   }
@@ -449,7 +449,7 @@ class MyRailCommuteCardEditor extends LitElement {
     if (!this._config || !this._hass) {
       return;
     }
-    const value = parseInt(ev.target.value) || 60;
+    const value = parseInt(ev.target.value, 10) || 60;
     this._config = { ...this._config, refresh_interval: value };
     this._fireConfigChanged();
   }

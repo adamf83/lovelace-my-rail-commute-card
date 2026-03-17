@@ -331,7 +331,10 @@ class MyRailCommuteCard extends LitElement {
 
     const trains = trainSensors.map(entityId => {
       const entity = hass.states[entityId];
-      if (!entity) return null;
+      if (!entity) {
+        console.warn(`my-rail-commute-card: train sensor not found: ${entityId}`);
+        return null;
+      }
 
       // Handle calling_points - might be array or comma-separated string
       let callingPoints = entity.attributes.calling_points ||
