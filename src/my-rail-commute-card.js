@@ -224,18 +224,35 @@ class MyRailCommuteCard extends LitElement {
     this._resolvedStatusEntityId = '';
 
     // Use explicitly configured status_entity, or auto-discover by naming convention.
-    let statusEntityId = this.config.status_entity;
-    if (!statusEntityId) {
-      // Strip suffixes in the same order as train discovery: remove _summary first
-      // (only the suffix), then _commute_summary won't match. This preserves the
-      // _commute_ prefix so sensor.morning_commute_summary → sensor.morning_commute_status.
-      const baseName = this.config.entity
+    // When showing the return journey, resolve the status entity from the return route's
+    // entity so that the outbound disruption banner doesn't bleed through.
+    let statusEntityId;
+    if (this._showReturn && this._returnEntityId) {
+      // Return journey: auto-discover return route's status entity
+      const baseName = this._returnEntityId
         .replace('sensor.', '')
         .replace('_summary', '')
         .replace('_commute_summary', '');
       const autoId = `sensor.${baseName}_status`;
       if (hass.states[autoId]) {
         statusEntityId = autoId;
+      }
+      // If no return status entity found, statusEntityId remains undefined → no banner
+    } else {
+      // Outbound journey: use explicit config or auto-discover.
+      // Strip suffixes in the same order as train discovery: remove _summary first
+      // (only the suffix), then _commute_summary won't match. This preserves the
+      // _commute_ prefix so sensor.morning_commute_summary → sensor.morning_commute_status.
+      statusEntityId = this.config.status_entity;
+      if (!statusEntityId) {
+        const baseName = this.config.entity
+          .replace('sensor.', '')
+          .replace('_summary', '')
+          .replace('_commute_summary', '');
+        const autoId = `sensor.${baseName}_status`;
+        if (hass.states[autoId]) {
+          statusEntityId = autoId;
+        }
       }
     }
 
