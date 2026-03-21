@@ -819,4 +819,173 @@ export const styles = css`
     animation: none !important;
     transition: none !important;
   }
+
+  /* ==================== FAVOURITES & FLAGS ==================== */
+
+  .train-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-right: 6px;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 4px;
+    color: var(--secondary-text-color, #757575);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.35;
+    transition: opacity 0.15s, color 0.15s;
+    line-height: 1;
+    --mdc-icon-size: 18px;
+  }
+
+  .action-btn:hover {
+    opacity: 0.75;
+  }
+
+  .action-btn.active {
+    opacity: 1;
+  }
+
+  .fav-btn.active {
+    color: #f9a825;
+  }
+
+  .flag-btn.active {
+    color: #e53935;
+  }
+
+  /* Favourite & flagged row indicators */
+  .train-row.favourite,
+  .train-row-compact.favourite {
+    border-left: 3px solid #f9a825;
+  }
+
+  .train-row.flagged,
+  .train-row-compact.flagged {
+    border-left: 3px solid #e53935;
+  }
+
+  /* Flagged takes priority over favourite when both set */
+  .train-row.favourite.flagged,
+  .train-row-compact.favourite.flagged {
+    border-left: 3px solid #e53935;
+  }
+
+  /* Compact view: buttons side-by-side and smaller icons */
+  .train-row-compact .train-actions {
+    flex-direction: row;
+    gap: 0;
+    margin-right: 4px;
+  }
+
+  .train-row-compact .action-btn {
+    --mdc-icon-size: 14px;
+    padding: 1px;
+  }
+
+  /* Compact view: update grid to include action buttons column */
+  .train-row-compact {
+    grid-template-columns: auto 60px 1fr 70px;
+  }
+
+  /* Header favourites filter button */
+  .fav-filter-btn {
+    background: none;
+    border: 1px solid var(--divider-color, #e0e0e0);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color, #757575);
+    padding: 0;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    --mdc-icon-size: 18px;
+  }
+
+  .fav-filter-btn:hover {
+    background: var(--secondary-background-color, #f5f5f5);
+  }
+
+  .fav-filter-btn.active {
+    background: #f9a825;
+    color: #000;
+    border-color: #f9a825;
+  }
+
+  /* Next-only view: centred action buttons row */
+  .next-train-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+  .next-train-actions .train-actions {
+    flex-direction: row;
+    gap: 8px;
+    margin-right: 0;
+  }
+
+  .next-train-actions .action-btn {
+    --mdc-icon-size: 24px;
+    padding: 6px;
+    border-radius: 50%;
+    border: 1px solid var(--divider-color, #e0e0e0);
+    opacity: 0.45;
+  }
+
+  .next-train-actions .action-btn:hover {
+    opacity: 0.85;
+  }
+
+  /* Board view: actions column */
+  .col-actions {
+    width: 52px;
+  }
+
+  .col-actions .action-btn,
+  ha-card.departure-board .action-btn {
+    color: #ffcc00;
+    opacity: 0.3;
+    --mdc-icon-size: 16px;
+    padding: 1px;
+  }
+
+  ha-card.departure-board .action-btn:hover {
+    opacity: 0.7;
+  }
+
+  ha-card.departure-board .fav-btn.active {
+    color: #f9a825;
+    opacity: 1;
+  }
+
+  ha-card.departure-board .flag-btn.active {
+    color: #ff6b6b;
+    opacity: 1;
+  }
+
+  ha-card.departure-board .board-row.favourite {
+    border-left: 3px solid #f9a825;
+  }
+
+  ha-card.departure-board .board-row.flagged {
+    border-left: 3px solid #e53935;
+  }
+
+  ha-card.departure-board .board-row.favourite.flagged {
+    border-left: 3px solid #e53935;
+  }
 `;
