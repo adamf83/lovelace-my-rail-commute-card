@@ -411,7 +411,7 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _saveFavorites() {
-    if (!this._favEntityId || !this._hass) return;
+    if (!this._favEntityId || !this._hass || !this._hass.states[this._favEntityId]) return;
     const arr = [...this._favorites];
     let value = JSON.stringify(arr);
     // Trim oldest entries if over 1000 chars to stay within input_text limit
@@ -430,7 +430,7 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _saveFlags() {
-    if (!this._flagEntityId || !this._hass) return;
+    if (!this._flagEntityId || !this._hass || !this._hass.states[this._flagEntityId]) return;
     const arr = [...this._flagged.values()];
     let value = JSON.stringify(arr);
     // Trim oldest entries if over 1000 chars
