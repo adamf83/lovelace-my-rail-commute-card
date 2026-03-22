@@ -988,4 +988,123 @@ export const styles = css`
   ha-card.departure-board .board-row.favourite.flagged {
     border-left: 3px solid #e53935;
   }
+
+  /* Saved tab button (header) */
+  .saved-tab-btn {
+    background: none;
+    border: 1px solid var(--divider-color, #e0e0e0);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color, #757575);
+    padding: 0;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    --mdc-icon-size: 18px;
+  }
+
+  .saved-tab-btn:hover {
+    background: var(--secondary-background-color, #f5f5f5);
+  }
+
+  .saved-tab-btn.active {
+    background: var(--primary-color, #03a9f4);
+    color: #fff;
+    border-color: var(--primary-color, #03a9f4);
+  }
+
+  /* Saved panel */
+  .saved-panel {
+    padding: 8px 16px 16px;
+  }
+
+  .saved-section {
+    margin-bottom: 16px;
+  }
+
+  .saved-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .saved-section-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--divider-color, #e0e0e0);
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--primary-text-color, #212121);
+    --mdc-icon-size: 16px;
+  }
+
+  .saved-section-header span {
+    flex: 1;
+  }
+
+  .clear-btn {
+    background: none;
+    border: 1px solid var(--error-color, #e53935);
+    border-radius: 4px;
+    color: var(--error-color, #e53935);
+    font-size: 11px;
+    padding: 2px 8px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .clear-btn:hover {
+    background: var(--error-color, #e53935);
+    color: #fff;
+  }
+
+  .saved-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--divider-color, #e0e0e0);
+    font-size: 13px;
+    color: var(--primary-text-color, #212121);
+    --mdc-icon-size: 14px;
+  }
+
+  .saved-row:last-child {
+    border-bottom: none;
+  }
+
+  .saved-icon.fav-icon {
+    color: #f9a825;
+  }
+
+  .saved-icon.flag-icon {
+    color: #e53935;
+  }
+
+  .saved-time {
+    font-weight: 600;
+    min-width: 38px;
+  }
+
+  .saved-operator {
+    color: var(--secondary-text-color, #757575);
+    flex: 1;
+  }
+
+  .saved-reason {
+    color: var(--secondary-text-color, #757575);
+    font-style: italic;
+    font-size: 12px;
+  }
+
+  .saved-empty {
+    padding: 8px 0;
+    color: var(--secondary-text-color, #757575);
+    font-size: 13px;
+    font-style: italic;
+  }
 `;
