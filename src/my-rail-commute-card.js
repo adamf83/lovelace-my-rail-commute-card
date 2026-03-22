@@ -40,7 +40,6 @@ class MyRailCommuteCard extends LitElement {
       _showReturn: { type: Boolean },
       _favorites: { type: Object },
       _flagged: { type: Object },
-      _showFavoritesOnly: { type: Boolean },
       _showSaved: { type: Boolean }
     };
   }
@@ -64,9 +63,8 @@ class MyRailCommuteCard extends LitElement {
     this._returnEntityId = null;
     this._showReturn = false;
     this._returnEntityCacheKey = null;
-    this._favorites = new Set();
+    this._favorites = new Map();
     this._flagged = new Map();
-    this._showFavoritesOnly = false;
     this._showSaved = false;
     // Storage internals (non-reactive)
     this._favEntityId = null;
@@ -336,7 +334,6 @@ class MyRailCommuteCard extends LitElement {
 
   _toggleReturn() {
     this._showReturn = !this._showReturn;
-    this._showFavoritesOnly = false;
     if (this._hass) this.hass = this._hass;
   }
 
@@ -368,10 +365,10 @@ class MyRailCommuteCard extends LitElement {
   _loadInitialData() {
     const favEntity = this._hass?.states[this._favEntityId];
     if (favEntity?.attributes?.favourites) {
-      const times = favEntity.attributes.favourites.map(f =>
-        (f.scheduled_departure ?? '').slice(0, 5) || f.scheduled_departure
-      );
-      this._favorites = new Set(times);
+      this._favorites = new Map(favEntity.attributes.favourites.map(f => {
+        const key = (f.scheduled_departure ?? '').slice(0, 5) || f.scheduled_departure;
+        return [key, f];
+      }));
       this._lastSavedFavState = JSON.stringify(favEntity.attributes.favourites);
     }
 
@@ -394,10 +391,10 @@ class MyRailCommuteCard extends LitElement {
     if (favEntity?.attributes?.favourites) {
       const newState = JSON.stringify(favEntity.attributes.favourites);
       if (newState !== this._lastSavedFavState) {
-        const times = favEntity.attributes.favourites.map(f =>
-          (f.scheduled_departure ?? '').slice(0, 5) || f.scheduled_departure
-        );
-        this._favorites = new Set(times);
+        this._favorites = new Map(favEntity.attributes.favourites.map(f => {
+          const key = (f.scheduled_departure ?? '').slice(0, 5) || f.scheduled_departure;
+          return [key, f];
+        }));
         this._lastSavedFavState = newState;
       }
     }
@@ -421,7 +418,7 @@ class MyRailCommuteCard extends LitElement {
     if (!favKey || favKey === '—') return;
     const entryId = this._getConfigEntryId();
 
-    const newFavs = new Set(this._favorites);
+    const newFavs = new Map(this._favorites);
     if (newFavs.has(favKey)) {
       newFavs.delete(favKey);
       if (entryId) this._hass.callService('my_rail_commute', 'remove_favourite', {
@@ -429,11 +426,8 @@ class MyRailCommuteCard extends LitElement {
         scheduled_departure: favKey,
         operator: train.operator || ''
       });
-      if (this._showFavoritesOnly && newFavs.size === 0) {
-        this._showFavoritesOnly = false;
-      }
     } else {
-      newFavs.add(favKey);
+      newFavs.set(favKey, { scheduled_departure: favKey, operator: train.operator || '' });
       if (entryId) this._hass.callService('my_rail_commute', 'add_favourite', {
         entry_id: entryId,
         scheduled_departure: favKey,
@@ -460,7 +454,7 @@ class MyRailCommuteCard extends LitElement {
         service_id: train.service_id || train.train_number || ''
       });
     } else {
-      newFlags.set(flagKey, { key: flagKey, scheduled: favKey });
+      newFlags.set(flagKey, { key: flagKey, scheduled_departure: favKey, operator: train.operator || '', reason: train.delay_reason || '', date: today });
       if (entryId) this._hass.callService('my_rail_commute', 'flag_train', {
         entry_id: entryId,
         service_id: train.service_id || train.train_number || '',
@@ -474,8 +468,7 @@ class MyRailCommuteCard extends LitElement {
   _clearFavourites() {
     const entryId = this._getConfigEntryId();
     if (!entryId) return;
-    this._favorites = new Set();
-    this._showFavoritesOnly = false;
+    this._favorites = new Map();
     this._hass.callService('my_rail_commute', 'clear_favourites', { entry_id: entryId });
   }
 
@@ -691,15 +684,6 @@ class MyRailCommuteCard extends LitElement {
               <ha-icon icon="mdi:swap-horizontal"></ha-icon>
             </button>
           ` : ''}
-          ${this._favorites.size > 0 && this.config.show_action_buttons !== false ? html`
-            <button
-              class="fav-filter-btn ${this._showFavoritesOnly ? 'active' : ''}"
-              @click="${() => { this._showFavoritesOnly = !this._showFavoritesOnly; }}"
-              title="${this._showFavoritesOnly ? 'Show all trains' : 'Show favourites only'}"
-            >
-              <ha-icon icon="mdi:star"></ha-icon>
-            </button>
-          ` : ''}
           ${this.config.view !== 'next-only' ? html`
             <button
               class="saved-tab-btn ${this._showSaved ? 'active' : ''}"
@@ -779,9 +763,6 @@ class MyRailCommuteCard extends LitElement {
     }
 
     const compactClass = this.config.compact_height ? 'compact-height' : '';
-    const displayTrains = this._showFavoritesOnly
-      ? this._trains.filter(t => this._favorites.has(formatTime(t.scheduled_departure)))
-      : this._trains;
 
     return html`
       <ha-card class="${compactClass}">
@@ -789,7 +770,7 @@ class MyRailCommuteCard extends LitElement {
         ${this._renderDisruptionBanner()}
 
         <div class="card-content">
-          ${displayTrains.map(train => this._renderTrainRow(train))}
+          ${this._trains.map(train => this._renderTrainRow(train))}
         </div>
 
         ${this._renderFooter()}
@@ -798,10 +779,8 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _renderSaved() {
-    const favEntity = this._hass?.states[this._favEntityId];
-    const flagEntity = this._hass?.states[this._flagEntityId];
-    const favs = favEntity?.attributes?.favourites ?? [];
-    const flags = flagEntity?.attributes?.flagged ?? [];
+    const favs = [...this._favorites.values()];
+    const flags = [...this._flagged.values()];
 
     return html`
       <ha-card>
@@ -927,9 +906,6 @@ class MyRailCommuteCard extends LitElement {
       return this._renderSaved();
     }
 
-    const displayTrains = this._showFavoritesOnly
-      ? this._trains.filter(t => this._favorites.has(formatTime(t.scheduled_departure)))
-      : this._trains;
     const today = new Date().toISOString().split('T')[0];
 
     return html`
@@ -938,7 +914,7 @@ class MyRailCommuteCard extends LitElement {
         ${this._renderDisruptionBanner()}
 
         <div class="card-content compact">
-          ${displayTrains.map(train => {
+          ${this._trains.map(train => {
             const isFav = this._favorites.has(formatTime(train.scheduled_departure));
             const isFlagged = this._flagged.has(`${today}|${formatTime(train.scheduled_departure)}`);
             return html`
@@ -1024,9 +1000,6 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _renderBoard() {
-    const displayTrains = this._showFavoritesOnly
-      ? this._trains.filter(t => this._favorites.has(formatTime(t.scheduled_departure)))
-      : this._trains;
     const today = new Date().toISOString().split('T')[0];
     const showActions = this.config.show_action_buttons !== false;
 
@@ -1047,7 +1020,7 @@ class MyRailCommuteCard extends LitElement {
               <span class="col-status">Status</span>
             </div>
 
-            ${displayTrains.map(train => {
+            ${this._trains.map(train => {
               const isFav = this._favorites.has(formatTime(train.scheduled_departure));
               const isFlagged = this._flagged.has(`${today}|${formatTime(train.scheduled_departure)}`);
               return html`
