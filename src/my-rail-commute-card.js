@@ -354,24 +354,6 @@ class MyRailCommuteCard extends LitElement {
     this._favEntityId = `input_text.rail_commute_favourites_${base}`;
     this._flagEntityId = `input_text.rail_commute_flagged_${base}`;
 
-    for (const [entityId, name] of [
-      [this._favEntityId, `Rail Commute Favourites - ${this._origin} to ${this._destination}`],
-      [this._flagEntityId, `Rail Commute Flagged - ${this._origin} to ${this._destination}`]
-    ]) {
-      if (!this._hass.states[entityId]) {
-        try {
-          await this._hass.connection.sendMessagePromise({
-            type: 'input_text/create',
-            name,
-            max: 1024,
-            mode: 'text'
-          });
-        } catch (e) {
-          console.warn(`My Rail Commute Card: could not auto-create ${entityId}`, e);
-        }
-      }
-    }
-
     this._storageReady = true;
     this._loadInitialData();
   }
