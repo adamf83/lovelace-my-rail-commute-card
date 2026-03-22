@@ -245,6 +245,13 @@ class MyRailCommuteCardEditor extends LitElement {
               @change=${this._toggleChanged('show_animations')}
             ></ha-switch>
           </ha-formfield>
+
+          <ha-formfield label="Show Favourite / Flag Buttons">
+            <ha-switch
+              .checked=${this._config.show_action_buttons !== false}
+              @change=${this._toggleChanged('show_action_buttons')}
+            ></ha-switch>
+          </ha-formfield>
         </div>
 
         <!-- Filtering Options -->

@@ -37,7 +37,10 @@ class MyRailCommuteCard extends LitElement {
       _resolvedStatusEntityId: { type: String },
       _loading: { type: Boolean },
       _returnEntityId: { type: String },
-      _showReturn: { type: Boolean }
+      _showReturn: { type: Boolean },
+      _favorites: { type: Object },
+      _flagged: { type: Object },
+      _showSaved: { type: Boolean }
     };
   }
 
@@ -60,6 +63,16 @@ class MyRailCommuteCard extends LitElement {
     this._returnEntityId = null;
     this._showReturn = false;
     this._returnEntityCacheKey = null;
+    this._favorites = new Map();
+    this._flagged = new Map();
+    this._showSaved = false;
+    // Storage internals (non-reactive)
+    this._favEntityId = null;
+    this._flagEntityId = null;
+    this._storageReady = false;
+    this._initStoragePending = false;
+    this._lastSavedFavState = undefined;
+    this._lastSavedFlagState = undefined;
   }
 
   setConfig(config) {
@@ -94,6 +107,7 @@ class MyRailCommuteCard extends LitElement {
       compact_height: false,
       show_animations: true,
       status_icons: true,
+      show_action_buttons: true,
       ...config
     };
 
@@ -284,6 +298,17 @@ class MyRailCommuteCard extends LitElement {
       this._trains = filterTrains(this._trains, this.config);
     }
 
+    // Initialise HA storage entities once origin/destination are known
+    if (this._origin && this._destination && !this._storageReady && !this._initStoragePending) {
+      this._initStoragePending = true;
+      this._initStorage().finally(() => { this._initStoragePending = false; });
+    }
+
+    // Sync favourites/flags from HA entity state on each update
+    if (this._storageReady) {
+      this._syncFromHA();
+    }
+
     this._loading = false;
     this.requestUpdate();
   }
@@ -310,6 +335,171 @@ class MyRailCommuteCard extends LitElement {
   _toggleReturn() {
     this._showReturn = !this._showReturn;
     if (this._hass) this.hass = this._hass;
+  }
+
+  // ==================== STORAGE (FAVOURITES & FLAGS) ====================
+
+  _getEntityBase() {
+    const entityId = this.config.entity || '';
+    return entityId
+      .replace(/^sensor\./, '')
+      .replace(/_commute_summary$/, '')
+      .replace(/_summary$/, '')
+      .toLowerCase();
+  }
+
+  _getConfigEntryId() {
+    const entityEntry = this._hass?.entities?.[this.config.entity];
+    return entityEntry?.config_entry_id ?? null;
+  }
+
+  async _initStorage() {
+    const base = this._getEntityBase();
+    this._favEntityId = `sensor.${base}_favourites`;
+    this._flagEntityId = `sensor.${base}_flagged`;
+
+    this._storageReady = true;
+    this._loadInitialData();
+  }
+
+  _loadInitialData() {
+    const favEntity = this._hass?.states[this._favEntityId];
+    if (favEntity?.attributes?.favourites) {
+      this._favorites = new Map(favEntity.attributes.favourites.map(f => {
+        const key = (f.scheduled_departure ?? '').slice(0, 5) || f.scheduled_departure;
+        return [key, f];
+      }));
+      this._lastSavedFavState = JSON.stringify(favEntity.attributes.favourites);
+    }
+
+    const flagEntity = this._hass?.states[this._flagEntityId];
+    if (flagEntity?.attributes?.flagged) {
+      this._flagged = new Map(flagEntity.attributes.flagged.map(f => {
+        const key = f.key ?? `${f.date ?? ''}|${(f.scheduled_departure ?? '').slice(0, 5)}`;
+        return [key, f];
+      }));
+      this._lastSavedFlagState = JSON.stringify(flagEntity.attributes.flagged);
+    }
+
+    this.requestUpdate();
+  }
+
+  _syncFromHA() {
+    if (!this._favEntityId) return;
+
+    const favEntity = this._hass.states[this._favEntityId];
+    if (favEntity?.attributes?.favourites) {
+      const newState = JSON.stringify(favEntity.attributes.favourites);
+      if (newState !== this._lastSavedFavState) {
+        this._favorites = new Map(favEntity.attributes.favourites.map(f => {
+          const key = (f.scheduled_departure ?? '').slice(0, 5) || f.scheduled_departure;
+          return [key, f];
+        }));
+        this._lastSavedFavState = newState;
+      }
+    }
+
+    const flagEntity = this._hass.states[this._flagEntityId];
+    if (flagEntity?.attributes?.flagged) {
+      const newState = JSON.stringify(flagEntity.attributes.flagged);
+      if (newState !== this._lastSavedFlagState) {
+        this._flagged = new Map(flagEntity.attributes.flagged.map(f => {
+          const key = f.key ?? `${f.date ?? ''}|${(f.scheduled_departure ?? '').slice(0, 5)}`;
+          return [key, f];
+        }));
+        this._lastSavedFlagState = newState;
+      }
+    }
+  }
+
+  _toggleFavorite(train, event) {
+    event.stopPropagation();
+    const favKey = formatTime(train.scheduled_departure);
+    if (!favKey || favKey === '—') return;
+    const entryId = this._getConfigEntryId();
+
+    const newFavs = new Map(this._favorites);
+    if (newFavs.has(favKey)) {
+      newFavs.delete(favKey);
+      if (entryId) this._hass.callService('my_rail_commute', 'remove_favourite', {
+        entry_id: entryId,
+        scheduled_departure: favKey,
+        operator: train.operator || ''
+      });
+    } else {
+      newFavs.set(favKey, { scheduled_departure: favKey, operator: train.operator || '' });
+      if (entryId) this._hass.callService('my_rail_commute', 'add_favourite', {
+        entry_id: entryId,
+        scheduled_departure: favKey,
+        operator: train.operator || ''
+      });
+    }
+    this._favorites = newFavs;
+  }
+
+  _toggleFlag(train, event) {
+    event.stopPropagation();
+    const favKey = formatTime(train.scheduled_departure);
+    if (!favKey || favKey === '—') return;
+    const entryId = this._getConfigEntryId();
+
+    const today = new Date().toISOString().split('T')[0];
+    const flagKey = `${today}|${favKey}`;
+    const newFlags = new Map(this._flagged);
+    if (newFlags.has(flagKey)) {
+      newFlags.delete(flagKey);
+      if (entryId) this._hass.callService('my_rail_commute', 'unflag_train', {
+        entry_id: entryId,
+        scheduled_departure: favKey,
+        service_id: train.service_id || train.train_number || ''
+      });
+    } else {
+      newFlags.set(flagKey, { key: flagKey, scheduled_departure: favKey, operator: train.operator || '', reason: train.delay_reason || '', date: today });
+      if (entryId) this._hass.callService('my_rail_commute', 'flag_train', {
+        entry_id: entryId,
+        service_id: train.service_id || train.train_number || '',
+        scheduled_departure: favKey,
+        reason: train.delay_reason || ''
+      });
+    }
+    this._flagged = newFlags;
+  }
+
+  _clearFavourites() {
+    const entryId = this._getConfigEntryId();
+    if (!entryId) return;
+    this._favorites = new Map();
+    this._hass.callService('my_rail_commute', 'clear_favourites', { entry_id: entryId });
+  }
+
+  _clearFlagged() {
+    const entryId = this._getConfigEntryId();
+    if (!entryId) return;
+    this._flagged = new Map();
+    this._hass.callService('my_rail_commute', 'clear_flagged', { entry_id: entryId });
+  }
+
+  _renderTrainActions(train) {
+    if (this.config.show_action_buttons === false) return '';
+    const favKey = formatTime(train.scheduled_departure);
+    const today = new Date().toISOString().split('T')[0];
+    const flagKey = `${today}|${favKey}`;
+    const isFav = this._favorites.has(favKey) || train.is_favourite === true;
+    const isFlagged = this._flagged.has(flagKey) || train.is_flagged === true;
+    return html`
+      <div class="train-actions">
+        <button
+          class="action-btn fav-btn ${isFav ? 'active' : ''}"
+          @click="${(e) => this._toggleFavorite(train, e)}"
+          title="${isFav ? 'Remove favourite' : 'Mark as favourite'}"
+        ><ha-icon icon="${isFav ? 'mdi:star' : 'mdi:star-outline'}"></ha-icon></button>
+        <button
+          class="action-btn flag-btn ${isFlagged ? 'active' : ''}"
+          @click="${(e) => this._toggleFlag(train, e)}"
+          title="${isFlagged ? 'Remove delay flag' : 'Flag for delay review'}"
+        ><ha-icon icon="${isFlagged ? 'mdi:flag' : 'mdi:flag-outline'}"></ha-icon></button>
+      </div>
+    `;
   }
 
   _getTrainsFromIndividualSensors(hass, entityId) {
@@ -494,6 +684,15 @@ class MyRailCommuteCard extends LitElement {
               <ha-icon icon="mdi:swap-horizontal"></ha-icon>
             </button>
           ` : ''}
+          ${this.config.view !== 'next-only' ? html`
+            <button
+              class="saved-tab-btn ${this._showSaved ? 'active' : ''}"
+              @click="${() => { this._showSaved = !this._showSaved; }}"
+              title="${this._showSaved ? 'Show live trains' : 'Show saved trains'}"
+            >
+              <ha-icon icon="mdi:bookmark"></ha-icon>
+            </button>
+          ` : ''}
         </div>
         ${showRoute && this._origin && this._destination ? html`
           <div class="route">
@@ -559,6 +758,10 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _renderFull() {
+    if (this._showSaved) {
+      return this._renderSaved();
+    }
+
     const compactClass = this.config.compact_height ? 'compact-height' : '';
 
     return html`
@@ -575,6 +778,61 @@ class MyRailCommuteCard extends LitElement {
     `;
   }
 
+  _renderSaved() {
+    const favs = [...this._favorites.values()];
+    const flags = [...this._flagged.values()];
+
+    return html`
+      <ha-card>
+        ${this._renderHeader()}
+        <div class="card-content saved-panel">
+          <div class="saved-section">
+            <div class="saved-section-header">
+              <ha-icon icon="mdi:star"></ha-icon>
+              <span>Favourites</span>
+              ${favs.length > 0 ? html`
+                <button class="clear-btn" @click="${() => this._clearFavourites()}"
+                  title="Clear all favourites">Clear all</button>
+              ` : ''}
+            </div>
+            ${favs.length === 0
+              ? html`<div class="saved-empty">No favourites saved</div>`
+              : favs.map(f => html`
+                  <div class="saved-row">
+                    <ha-icon icon="mdi:star" class="saved-icon fav-icon"></ha-icon>
+                    <span class="saved-time">${(f.scheduled_departure ?? '').slice(0, 5)}</span>
+                    <span class="saved-operator">${f.operator ?? ''}</span>
+                  </div>
+                `)
+            }
+          </div>
+
+          <div class="saved-section">
+            <div class="saved-section-header">
+              <ha-icon icon="mdi:flag"></ha-icon>
+              <span>Flagged Trains</span>
+              ${flags.length > 0 ? html`
+                <button class="clear-btn" @click="${() => this._clearFlagged()}"
+                  title="Clear all flagged trains">Clear all</button>
+              ` : ''}
+            </div>
+            ${flags.length === 0
+              ? html`<div class="saved-empty">No flagged trains</div>`
+              : flags.map(f => html`
+                  <div class="saved-row">
+                    <ha-icon icon="mdi:flag" class="saved-icon flag-icon"></ha-icon>
+                    <span class="saved-time">${(f.scheduled_departure ?? '').slice(0, 5)}</span>
+                    <span class="saved-operator">${f.operator ?? ''}</span>
+                    ${f.reason ? html`<span class="saved-reason">${f.reason}</span>` : ''}
+                  </div>
+                `)
+            }
+          </div>
+        </div>
+      </ha-card>
+    `;
+  }
+
   _renderTrainRow(train) {
     const statusClass = getStatusClass(train);
     const statusIcon = this.config.status_icons !== false ? getStatusIcon(train) : '';
@@ -583,16 +841,21 @@ class MyRailCommuteCard extends LitElement {
     const showDelayReason = this.config.show_delay_reason !== false;
     const showCallingPoints = this.config.show_calling_points === true;
     const showJourneyTime = this.config.show_journey_time === true;
+    const favKey = formatTime(train.scheduled_departure);
+    const today = new Date().toISOString().split('T')[0];
+    const isFav = this._favorites.has(favKey) || train.is_favourite === true;
+    const isFlagged = this._flagged.has(`${today}|${favKey}`) || train.is_flagged === true;
 
     return html`
       <div
-        class="train-row ${statusClass}"
+        class="train-row ${statusClass} ${isFav ? 'favourite' : ''} ${isFlagged ? 'flagged' : ''}"
         @click="${() => this._handleTap(train)}"
         @touchstart="${this._handleTouchStart}"
         @touchend="${this._handleTouchEnd}"
         @touchmove="${this._handleTouchMove}"
       >
         <div class="train-main">
+          ${this._renderTrainActions(train)}
           <div class="train-time">
             <ha-icon icon="${getTrainIcon(train)}"></ha-icon>
             <span class="time">${formatTime(train.scheduled_departure)}</span>
@@ -639,28 +902,39 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _renderCompact() {
+    if (this._showSaved) {
+      return this._renderSaved();
+    }
+
+    const today = new Date().toISOString().split('T')[0];
+
     return html`
       <ha-card class="${this.config.compact_height ? 'compact-height' : ''}">
         ${this._renderHeader()}
         ${this._renderDisruptionBanner()}
 
         <div class="card-content compact">
-          ${this._trains.map(train => html`
-            <div
-              class="train-row-compact ${getStatusClass(train)}"
-              @click="${() => this._handleTap(train)}"
-              @touchstart="${this._handleTouchStart}"
-              @touchend="${this._handleTouchEnd}"
-              @touchmove="${this._handleTouchMove}"
-            >
-              <span class="time">${formatTime(train.scheduled_departure)}</span>
-              <span class="platform">Plat ${train.platform || '—'}</span>
-              <span class="status">
-                ${this.config.status_icons !== false ? html`<span class="status-icon">${getStatusIcon(train)}</span>` : ''}
-                ${train.delay_minutes > 0 ? html`<span class="delay-text">+${train.delay_minutes}m</span>` : ''}
-              </span>
-            </div>
-          `)}
+          ${this._trains.map(train => {
+            const isFav = this._favorites.has(formatTime(train.scheduled_departure));
+            const isFlagged = this._flagged.has(`${today}|${formatTime(train.scheduled_departure)}`);
+            return html`
+              <div
+                class="train-row-compact ${getStatusClass(train)} ${isFav ? 'favourite' : ''} ${isFlagged ? 'flagged' : ''}"
+                @click="${() => this._handleTap(train)}"
+                @touchstart="${this._handleTouchStart}"
+                @touchend="${this._handleTouchEnd}"
+                @touchmove="${this._handleTouchMove}"
+              >
+                ${this._renderTrainActions(train)}
+                <span class="time">${formatTime(train.scheduled_departure)}</span>
+                <span class="platform">Plat ${train.platform || '—'}</span>
+                <span class="status">
+                  ${this.config.status_icons !== false ? html`<span class="status-icon">${getStatusIcon(train)}</span>` : ''}
+                  ${train.delay_minutes > 0 ? html`<span class="delay-text">+${train.delay_minutes}m</span>` : ''}
+                </span>
+              </div>
+            `;
+          })}
         </div>
 
         ${this._renderFooter()}
@@ -714,6 +988,10 @@ class MyRailCommuteCard extends LitElement {
               ${nextTrain.calling_points.join(', ')}
             </div>
           ` : ''}
+
+          <div class="next-train-actions">
+            ${this._renderTrainActions(nextTrain)}
+          </div>
         </div>
 
         ${this._renderFooter()}
@@ -722,6 +1000,9 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _renderBoard() {
+    const today = new Date().toISOString().split('T')[0];
+    const showActions = this.config.show_action_buttons !== false;
+
     return html`
       <ha-card class="departure-board">
         <div class="board-header">
@@ -732,34 +1013,53 @@ class MyRailCommuteCard extends LitElement {
         <div class="board-content">
           <div class="board-table">
             <div class="board-row board-header-row">
+              ${showActions ? html`<span class="col-actions"></span>` : ''}
               <span class="col-time">Time</span>
               <span class="col-dest">Dest</span>
               <span class="col-plat">Plat</span>
               <span class="col-status">Status</span>
             </div>
 
-            ${this._trains.map(train => html`
-              <div
-                class="board-row ${getStatusClass(train)}"
-                @click="${() => this._handleTap(train)}"
-                @touchstart="${this._handleTouchStart}"
-                @touchend="${this._handleTouchEnd}"
-                @touchmove="${this._handleTouchMove}"
-              >
-                <span class="col-time">
-                  ${formatTime(train.scheduled_departure)}
-                </span>
-                <span class="col-dest">
-                  ${abbreviateStation(this._destination || '')}
-                </span>
-                <span class="col-plat">
-                  ${train.platform || '—'}
-                </span>
-                <span class="col-status">
-                  ${getBoardStatus(train)}
-                </span>
-              </div>
-            `)}
+            ${this._trains.map(train => {
+              const isFav = this._favorites.has(formatTime(train.scheduled_departure));
+              const isFlagged = this._flagged.has(`${today}|${formatTime(train.scheduled_departure)}`);
+              return html`
+                <div
+                  class="board-row ${getStatusClass(train)} ${isFav ? 'favourite' : ''} ${isFlagged ? 'flagged' : ''}"
+                  @click="${() => this._handleTap(train)}"
+                  @touchstart="${this._handleTouchStart}"
+                  @touchend="${this._handleTouchEnd}"
+                  @touchmove="${this._handleTouchMove}"
+                >
+                  ${showActions ? html`
+                    <span class="col-actions">
+                      <button
+                        class="action-btn fav-btn ${isFav ? 'active' : ''}"
+                        @click="${(e) => this._toggleFavorite(train, e)}"
+                        title="${isFav ? 'Remove favourite' : 'Mark as favourite'}"
+                      ><ha-icon icon="${isFav ? 'mdi:star' : 'mdi:star-outline'}"></ha-icon></button>
+                      <button
+                        class="action-btn flag-btn ${isFlagged ? 'active' : ''}"
+                        @click="${(e) => this._toggleFlag(train, e)}"
+                        title="${isFlagged ? 'Remove delay flag' : 'Flag for delay review'}"
+                      ><ha-icon icon="${isFlagged ? 'mdi:flag' : 'mdi:flag-outline'}"></ha-icon></button>
+                    </span>
+                  ` : ''}
+                  <span class="col-time">
+                    ${formatTime(train.scheduled_departure)}
+                  </span>
+                  <span class="col-dest">
+                    ${abbreviateStation(this._destination || '')}
+                  </span>
+                  <span class="col-plat">
+                    ${train.platform || '—'}
+                  </span>
+                  <span class="col-status">
+                    ${getBoardStatus(train)}
+                  </span>
+                </div>
+              `;
+            })}
           </div>
         </div>
       </ha-card>
