@@ -37,6 +37,7 @@ class MyRailCommuteCard extends LitElement {
       _disruptionMessage: { type: String },
       _resolvedStatusEntityId: { type: String },
       _loading: { type: Boolean },
+      _entityNotFound: { type: Boolean },
       _returnEntityId: { type: String },
       _showReturn: { type: Boolean },
       _favorites: { type: Object },
@@ -60,6 +61,7 @@ class MyRailCommuteCard extends LitElement {
     this._disruptionMessage = '';
     this._resolvedStatusEntityId = '';
     this._loading = true;
+    this._entityNotFound = false;
     this._toastTimer = null;
     this._returnEntityId = null;
     this._showReturn = false;
@@ -158,11 +160,13 @@ class MyRailCommuteCard extends LitElement {
     const summaryEntity = hass.states[this.config.entity];
 
     if (!summaryEntity) {
-      console.error('Entity not found:', this.config.entity);
+      console.error('my-rail-commute-card: entity not found:', this.config.entity);
+      this._entityNotFound = true;
       this._loading = false;
       this._trains = [];
       return;
     }
+    this._entityNotFound = false;
 
     // Extract outbound origin/destination for return entity detection
     const outboundOrigin = summaryEntity.attributes.origin_name ||
@@ -668,6 +672,10 @@ class MyRailCommuteCard extends LitElement {
     // Check if we should show trains based on disruption setting
     if (!shouldShowTrains(this._hasDisruption, this.config.only_show_disrupted)) {
       return this._renderEmpty('No disruption detected', 'Trains will appear when there is disruption');
+    }
+
+    if (this._entityNotFound) {
+      return this._renderEmpty('Entity not found', `Cannot find entity: ${this.config.entity}`);
     }
 
     if (!this._trains || this._trains.length === 0) {
