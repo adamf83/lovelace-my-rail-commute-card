@@ -37,6 +37,39 @@ export function formatTime(timeStr) {
 }
 
 /**
+ * Calculate journey duration in minutes between two time strings.
+ * Accepts ISO datetime strings or HH:MM / HH:MM:SS strings.
+ * Returns the duration as an integer, or null if either time cannot be parsed.
+ * @param {string} depTime - Departure time
+ * @param {string} arrTime - Arrival time
+ * @returns {number|null} Duration in minutes
+ */
+export function calculateJourneyDuration(depTime, arrTime) {
+  if (!depTime || !arrTime) return null;
+
+  // Try ISO datetime parsing first
+  const depDate = new Date(depTime);
+  const arrDate = new Date(arrTime);
+  if (!isNaN(depDate.getTime()) && !isNaN(arrDate.getTime())) {
+    const diff = Math.round((arrDate - depDate) / 60000);
+    return diff > 0 ? diff : null;
+  }
+
+  // Fall back to HH:MM string parsing
+  const depMatch = String(depTime).match(/(\d{1,2}):(\d{2})/);
+  const arrMatch = String(arrTime).match(/(\d{1,2}):(\d{2})/);
+  if (depMatch && arrMatch) {
+    let depMins = parseInt(depMatch[1], 10) * 60 + parseInt(depMatch[2], 10);
+    let arrMins = parseInt(arrMatch[1], 10) * 60 + parseInt(arrMatch[2], 10);
+    if (arrMins < depMins) arrMins += 1440; // handle midnight crossing
+    const diff = arrMins - depMins;
+    return diff > 0 ? diff : null;
+  }
+
+  return null;
+}
+
+/**
  * Get relative time string (e.g., "2 minutes ago")
  * @param {string} timestamp - ISO timestamp
  * @returns {string} Relative time string
