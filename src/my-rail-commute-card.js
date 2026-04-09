@@ -12,7 +12,8 @@ import {
   filterTrains,
   sortTrains,
   getTrainIcon,
-  shouldShowTrains
+  shouldShowTrains,
+  calculateJourneyDuration
 } from './utils.js';
 import './editor.js'; // Import editor to bundle it
 
@@ -574,6 +575,29 @@ class MyRailCommuteCard extends LitElement {
                          entity.attributes['Expected Departure'] ||
                          scheduledDep; // Fall back to scheduled if no expected
 
+      const scheduledArr = entity.attributes.scheduled_arrival ||
+                          entity.attributes.sta ||
+                          entity.attributes['Scheduled Arrival'] || null;
+
+      const estimatedArr = entity.attributes.estimated_arrival ||
+                          entity.attributes.eta ||
+                          entity.attributes['Estimated Arrival'] ||
+                          scheduledArr;
+
+      // Determine which departure time to use for journey duration calculation.
+      // Use expected_departure only if it contains a real time (HH:MM), not a status
+      // word like "Delayed" or "On Time".
+      const depIsValidTime = /\d{1,2}:\d{2}/.test(String(expectedDep));
+      const depForDuration = depIsValidTime ? expectedDep : scheduledDep;
+
+      // Flag as approximate when expected_departure was a non-time delay status word
+      // (e.g. "Delayed"). "On Time" and identical-to-scheduled values are not approximate.
+      const ON_TIME_RE = /^(on[\s-]?time|right\s*time)$/i;
+      const journeyTimeApprox = !depIsValidTime &&
+        !!expectedDep &&
+        expectedDep !== scheduledDep &&
+        !ON_TIME_RE.test(String(expectedDep).trim());
+
       const train = {
         train_id: entityId,
         scheduled_departure: scheduledDep,
@@ -602,7 +626,9 @@ class MyRailCommuteCard extends LitElement {
                      entity.attributes['Delay reason'] || '',
         calling_points: callingPoints,
         journey_duration: entity.attributes.journey_duration ||
-                         entity.attributes.duration || '',
+                         entity.attributes.duration ||
+                         calculateJourneyDuration(depForDuration, estimatedArr || scheduledArr),
+        journey_time_approx: journeyTimeApprox,
         service_type: entity.attributes.service_type ||
                      entity.attributes.type || ''
       };
@@ -893,7 +919,7 @@ class MyRailCommuteCard extends LitElement {
 
           ${showJourneyTime && train.journey_duration ? html`
             <div class="journey-time">
-              Journey time: ${train.journey_duration} mins
+              Journey time: ${train.journey_duration} mins${train.journey_time_approx ? '*' : ''}
             </div>
           ` : ''}
         </div>
