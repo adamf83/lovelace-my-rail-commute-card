@@ -199,8 +199,32 @@ class MyRailCommuteCard extends LitElement {
         const rawNum = train.train_number != null && train.train_number !== ''
           ? String(train.train_number).toLowerCase().replace(/[^a-z0-9]/g, '_')
           : String(index + 1);
+
+        // The integration does not provide journey_duration; compute it from
+        // arrival/departure times using the same validated approach as the
+        // individual-sensor path.
+        const scheduledDep = train.scheduled_departure;
+        const expectedDep  = train.expected_departure;
+        const scheduledArr = train.scheduled_arrival;
+        const estimatedArr = train.estimated_arrival;
+
+        const depIsValidTime = /\d{1,2}:\d{2}/.test(String(expectedDep || ''));
+        const depForDuration = depIsValidTime ? expectedDep : scheduledDep;
+
+        const ON_TIME_RE = /^(on[\s-]?time|right\s*time)$/i;
+        const journeyTimeApprox = !depIsValidTime &&
+          !!expectedDep &&
+          expectedDep !== scheduledDep &&
+          !ON_TIME_RE.test(String(expectedDep || '').trim());
+
+        const arrIsValidTime = /\d{1,2}:\d{2}/.test(String(estimatedArr || ''));
+        const arrForDuration = arrIsValidTime ? estimatedArr : scheduledArr;
+
         return {
           ...train,
+          journey_duration: train.journey_duration ||
+                           calculateJourneyDuration(depForDuration, arrForDuration),
+          journey_time_approx: train.journey_time_approx || journeyTimeApprox,
           train_id: `sensor.${baseName}_train_${rawNum}`
         };
       });
