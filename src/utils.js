@@ -23,7 +23,10 @@ export function formatTime(timeStr) {
   // Try to parse as ISO datetime
   try {
     const date = new Date(str);
-    if (isNaN(date.getTime())) return str; // Return original if can't parse
+    if (isNaN(date.getTime())) {
+      console.warn('formatTime: unparseable value:', str);
+      return '—';
+    }
 
     return date.toLocaleTimeString('en-GB', {
       hour: '2-digit',
@@ -32,7 +35,7 @@ export function formatTime(timeStr) {
     });
   } catch (e) {
     console.warn('formatTime: could not parse time value:', str, e);
-    return str; // Return original on error
+    return '—';
   }
 }
 
@@ -80,6 +83,10 @@ export function getRelativeTime(timestamp) {
   try {
     const now = new Date();
     const then = new Date(timestamp);
+    if (isNaN(then.getTime())) {
+      console.warn('getRelativeTime: invalid timestamp:', timestamp);
+      return 'Unknown';
+    }
     const diff = Math.floor((now - then) / 1000); // seconds
 
     if (diff < 0) return 'Just now';
@@ -95,7 +102,7 @@ export function getRelativeTime(timestamp) {
     const days = Math.floor(diff / 86400);
     return `${days} day${days !== 1 ? 's' : ''} ago`;
   } catch (e) {
-    console.error('Error calculating relative time:', e);
+    console.warn('getRelativeTime: error calculating relative time:', e);
     return 'Unknown';
   }
 }
