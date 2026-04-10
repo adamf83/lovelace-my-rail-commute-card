@@ -412,6 +412,12 @@ class MyRailCommuteCard extends LitElement {
         expectedDep !== scheduledDep &&
         !ON_TIME_RE.test(String(expectedDep).trim());
 
+      // Use estimated_arrival only when it contains a real HH:MM time. The National
+      // Rail API can return "On time" (or similar status text) in the et field, which
+      // is truthy but unparseable. Fall back to scheduledArr in that case.
+      const arrIsValidTime = /\d{1,2}:\d{2}/.test(String(estimatedArr));
+      const arrForDuration = arrIsValidTime ? estimatedArr : scheduledArr;
+
       const train = {
         train_id: entityId,
         scheduled_departure: scheduledDep,
@@ -441,7 +447,7 @@ class MyRailCommuteCard extends LitElement {
         calling_points: callingPoints,
         journey_duration: entity.attributes.journey_duration ||
                          entity.attributes.duration ||
-                         calculateJourneyDuration(depForDuration, estimatedArr || scheduledArr),
+                         calculateJourneyDuration(depForDuration, arrForDuration),
         journey_time_approx: journeyTimeApprox,
         service_type: entity.attributes.service_type ||
                      entity.attributes.type || ''
