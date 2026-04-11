@@ -128,13 +128,13 @@ class MyRailCommuteCardEditor extends LitElement {
           <ha-select
             label="View Mode"
             .value=${this._config.view || 'full'}
-            @selected=${this._viewChanged}
+            @value-changed=${this._viewChanged}
             @closed=${(e) => e.stopPropagation()}
           >
-            <mwc-list-item value="full">Full View</mwc-list-item>
-            <mwc-list-item value="compact">Compact View</mwc-list-item>
-            <mwc-list-item value="next-only">Next Train Only</mwc-list-item>
-            <mwc-list-item value="board">Departure Board</mwc-list-item>
+            <ha-list-item value="full">Full View</ha-list-item>
+            <ha-list-item value="compact">Compact View</ha-list-item>
+            <ha-list-item value="next-only">Next Train Only</ha-list-item>
+            <ha-list-item value="board">Departure Board</ha-list-item>
           </ha-select>
           <div class="info">Choose how to display train information</div>
         </div>
@@ -143,12 +143,12 @@ class MyRailCommuteCardEditor extends LitElement {
           <ha-select
             label="Theme"
             .value=${this._config.theme || 'auto'}
-            @selected=${this._themeChanged}
+            @value-changed=${this._themeChanged}
             @closed=${(e) => e.stopPropagation()}
           >
-            <mwc-list-item value="auto">Auto (Follow HA Theme)</mwc-list-item>
-            <mwc-list-item value="light">Light</mwc-list-item>
-            <mwc-list-item value="dark">Dark</mwc-list-item>
+            <ha-list-item value="auto">Auto (Follow HA Theme)</ha-list-item>
+            <ha-list-item value="light">Light</ha-list-item>
+            <ha-list-item value="dark">Dark</ha-list-item>
           </ha-select>
         </div>
 
@@ -156,12 +156,12 @@ class MyRailCommuteCardEditor extends LitElement {
           <ha-select
             label="Font Size"
             .value=${this._config.font_size || 'medium'}
-            @selected=${this._fontSizeChanged}
+            @value-changed=${this._fontSizeChanged}
             @closed=${(e) => e.stopPropagation()}
           >
-            <mwc-list-item value="small">Small</mwc-list-item>
-            <mwc-list-item value="medium">Medium</mwc-list-item>
-            <mwc-list-item value="large">Large</mwc-list-item>
+            <ha-list-item value="small">Small</ha-list-item>
+            <ha-list-item value="medium">Medium</ha-list-item>
+            <ha-list-item value="large">Large</ha-list-item>
           </ha-select>
         </div>
 
@@ -324,13 +324,13 @@ class MyRailCommuteCardEditor extends LitElement {
           <ha-select
             label="Tap Action"
             .value=${this._config.tap_action?.action || 'more-info'}
-            @selected=${this._tapActionChanged}
+            @value-changed=${this._tapActionChanged}
             @closed=${(e) => e.stopPropagation()}
           >
-            <mwc-list-item value="more-info">Show More Info</mwc-list-item>
-            <mwc-list-item value="url">Open URL</mwc-list-item>
-            <mwc-list-item value="navigate">Navigate</mwc-list-item>
-            <mwc-list-item value="none">None</mwc-list-item>
+            <ha-list-item value="more-info">Show More Info</ha-list-item>
+            <ha-list-item value="url">Open URL</ha-list-item>
+            <ha-list-item value="navigate">Navigate</ha-list-item>
+            <ha-list-item value="none">None</ha-list-item>
           </ha-select>
         </div>
 
@@ -358,12 +358,12 @@ class MyRailCommuteCardEditor extends LitElement {
           <ha-select
             label="Hold Action"
             .value=${this._config.hold_action?.action || 'refresh'}
-            @selected=${this._holdActionChanged}
+            @value-changed=${this._holdActionChanged}
             @closed=${(e) => e.stopPropagation()}
           >
-            <mwc-list-item value="refresh">Refresh Data</mwc-list-item>
-            <mwc-list-item value="more-info">Show More Info</mwc-list-item>
-            <mwc-list-item value="none">None</mwc-list-item>
+            <ha-list-item value="refresh">Refresh Data</ha-list-item>
+            <ha-list-item value="more-info">Show More Info</ha-list-item>
+            <ha-list-item value="none">None</ha-list-item>
           </ha-select>
         </div>
       </div>
@@ -390,7 +390,7 @@ class MyRailCommuteCardEditor extends LitElement {
     if (!this._config || !this._hass) {
       return;
     }
-    this._config = { ...this._config, view: ev.target.value };
+    this._config = { ...this._config, view: ev.detail.value };
     this._fireConfigChanged();
   }
 
@@ -398,7 +398,7 @@ class MyRailCommuteCardEditor extends LitElement {
     if (!this._config || !this._hass) {
       return;
     }
-    this._config = { ...this._config, theme: ev.target.value };
+    this._config = { ...this._config, theme: ev.detail.value };
     this._fireConfigChanged();
   }
 
@@ -406,7 +406,7 @@ class MyRailCommuteCardEditor extends LitElement {
     if (!this._config || !this._hass) {
       return;
     }
-    this._config = { ...this._config, font_size: ev.target.value };
+    this._config = { ...this._config, font_size: ev.detail.value };
     this._fireConfigChanged();
   }
 
@@ -461,7 +461,7 @@ class MyRailCommuteCardEditor extends LitElement {
     }
     this._config = {
       ...this._config,
-      tap_action: { action: ev.target.value }
+      tap_action: { action: ev.detail.value }
     };
     this._fireConfigChanged();
   }
@@ -494,7 +494,7 @@ class MyRailCommuteCardEditor extends LitElement {
     }
     this._config = {
       ...this._config,
-      hold_action: { action: ev.target.value }
+      hold_action: { action: ev.detail.value }
     };
     this._fireConfigChanged();
   }
