@@ -485,6 +485,12 @@ export const styles = css`
     margin-bottom: 8px;
   }
 
+  .next-train-journey-time {
+    font-size: 1rem;
+    color: var(--secondary-text-color, #757575);
+    margin: 8px 0;
+  }
+
   /* ==================== DEPARTURE BOARD VIEW ==================== */
 
   ha-card.departure-board {

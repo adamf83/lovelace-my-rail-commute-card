@@ -703,6 +703,8 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _renderCompact() {
+    const showJourneyTime = this.config.show_journey_time === true;
+
     return html`
       <ha-card class="${this.config.compact_height ? 'compact-height' : ''}">
         ${this._renderHeader()}
@@ -719,7 +721,7 @@ class MyRailCommuteCard extends LitElement {
                 @touchmove="${this._handleTouchMove}"
               >
                 <span class="time">${formatTime(train.scheduled_departure)}</span>
-                <span class="platform">Plat ${train.platform || '—'}</span>
+                <span class="platform">Plat ${train.platform || '—'}${showJourneyTime && train.journey_duration ? html` · ${train.journey_duration}m${train.journey_time_approx ? '*' : ''}` : ''}</span>
                 <span class="status">
                   ${this.config.status_icons !== false ? html`<span class="status-icon">${getStatusIcon(train)}</span>` : ''}
                   ${train.delay_minutes > 0 ? html`<span class="delay-text">+${train.delay_minutes}m</span>` : ''}
@@ -743,6 +745,7 @@ class MyRailCommuteCard extends LitElement {
 
     const statusClass = getStatusClass(nextTrain);
     const statusIcon = this.config.status_icons !== false ? getStatusIcon(nextTrain) : '';
+    const showJourneyTime = this.config.show_journey_time === true;
 
     return html`
       <ha-card class="${this.config.compact_height ? 'compact-height' : ''}">
@@ -781,6 +784,12 @@ class MyRailCommuteCard extends LitElement {
             </div>
           ` : ''}
 
+          ${showJourneyTime && nextTrain.journey_duration ? html`
+            <div class="next-train-journey-time">
+              Journey time: ${nextTrain.journey_duration} mins${nextTrain.journey_time_approx ? '*' : ''}
+            </div>
+          ` : ''}
+
         </div>
 
         ${this._renderFooter()}
@@ -789,6 +798,8 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _renderBoard() {
+    const showJourneyTime = this.config.show_journey_time === true;
+
     return html`
       <ha-card class="departure-board">
         <div class="board-header">
@@ -824,7 +835,7 @@ class MyRailCommuteCard extends LitElement {
                     ${train.platform || '—'}
                   </span>
                   <span class="col-status">
-                    ${getBoardStatus(train)}
+                    ${getBoardStatus(train)}${showJourneyTime && train.journey_duration ? ` · ${train.journey_duration}m` : ''}
                   </span>
                 </div>
               `;
