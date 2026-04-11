@@ -36,7 +36,7 @@ class MyRailCommuteCardEditor extends LitElement {
       }
 
       ha-textfield,
-      ha-select {
+      ha-combo-box {
         width: 100%;
       }
 
@@ -125,44 +125,50 @@ class MyRailCommuteCardEditor extends LitElement {
         <div class="section-header">View & Display</div>
 
         <div class="option">
-          <ha-select
+          <ha-combo-box
             label="View Mode"
             .value=${this._config.view || 'full'}
+            .items=${[
+              { value: 'full', label: 'Full View' },
+              { value: 'compact', label: 'Compact View' },
+              { value: 'next-only', label: 'Next Train Only' },
+              { value: 'board', label: 'Departure Board' }
+            ]}
+            item-value-path="value"
+            item-label-path="label"
             @value-changed=${this._viewChanged}
-            @closed=${(e) => e.stopPropagation()}
-          >
-            <ha-list-item value="full">Full View</ha-list-item>
-            <ha-list-item value="compact">Compact View</ha-list-item>
-            <ha-list-item value="next-only">Next Train Only</ha-list-item>
-            <ha-list-item value="board">Departure Board</ha-list-item>
-          </ha-select>
+          ></ha-combo-box>
           <div class="info">Choose how to display train information</div>
         </div>
 
         <div class="option">
-          <ha-select
+          <ha-combo-box
             label="Theme"
             .value=${this._config.theme || 'auto'}
+            .items=${[
+              { value: 'auto', label: 'Auto (Follow HA Theme)' },
+              { value: 'light', label: 'Light' },
+              { value: 'dark', label: 'Dark' }
+            ]}
+            item-value-path="value"
+            item-label-path="label"
             @value-changed=${this._themeChanged}
-            @closed=${(e) => e.stopPropagation()}
-          >
-            <ha-list-item value="auto">Auto (Follow HA Theme)</ha-list-item>
-            <ha-list-item value="light">Light</ha-list-item>
-            <ha-list-item value="dark">Dark</ha-list-item>
-          </ha-select>
+          ></ha-combo-box>
         </div>
 
         <div class="option">
-          <ha-select
+          <ha-combo-box
             label="Font Size"
             .value=${this._config.font_size || 'medium'}
+            .items=${[
+              { value: 'small', label: 'Small' },
+              { value: 'medium', label: 'Medium' },
+              { value: 'large', label: 'Large' }
+            ]}
+            item-value-path="value"
+            item-label-path="label"
             @value-changed=${this._fontSizeChanged}
-            @closed=${(e) => e.stopPropagation()}
-          >
-            <ha-list-item value="small">Small</ha-list-item>
-            <ha-list-item value="medium">Medium</ha-list-item>
-            <ha-list-item value="large">Large</ha-list-item>
-          </ha-select>
+          ></ha-combo-box>
         </div>
 
         <!-- Display Options -->
@@ -321,17 +327,19 @@ class MyRailCommuteCardEditor extends LitElement {
         <div class="section-header">Interaction</div>
 
         <div class="option">
-          <ha-select
+          <ha-combo-box
             label="Tap Action"
             .value=${this._config.tap_action?.action || 'more-info'}
+            .items=${[
+              { value: 'more-info', label: 'Show More Info' },
+              { value: 'url', label: 'Open URL' },
+              { value: 'navigate', label: 'Navigate' },
+              { value: 'none', label: 'None' }
+            ]}
+            item-value-path="value"
+            item-label-path="label"
             @value-changed=${this._tapActionChanged}
-            @closed=${(e) => e.stopPropagation()}
-          >
-            <ha-list-item value="more-info">Show More Info</ha-list-item>
-            <ha-list-item value="url">Open URL</ha-list-item>
-            <ha-list-item value="navigate">Navigate</ha-list-item>
-            <ha-list-item value="none">None</ha-list-item>
-          </ha-select>
+          ></ha-combo-box>
         </div>
 
         ${this._config.tap_action?.action === 'url' ? html`
@@ -355,16 +363,18 @@ class MyRailCommuteCardEditor extends LitElement {
         ` : ''}
 
         <div class="option">
-          <ha-select
+          <ha-combo-box
             label="Hold Action"
             .value=${this._config.hold_action?.action || 'refresh'}
+            .items=${[
+              { value: 'refresh', label: 'Refresh Data' },
+              { value: 'more-info', label: 'Show More Info' },
+              { value: 'none', label: 'None' }
+            ]}
+            item-value-path="value"
+            item-label-path="label"
             @value-changed=${this._holdActionChanged}
-            @closed=${(e) => e.stopPropagation()}
-          >
-            <ha-list-item value="refresh">Refresh Data</ha-list-item>
-            <ha-list-item value="more-info">Show More Info</ha-list-item>
-            <ha-list-item value="none">None</ha-list-item>
-          </ha-select>
+          ></ha-combo-box>
         </div>
       </div>
     `;
