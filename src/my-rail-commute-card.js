@@ -835,7 +835,7 @@ class MyRailCommuteCard extends LitElement {
                     ${train.platform || '—'}
                   </span>
                   <span class="col-status">
-                    ${getBoardStatus(train)}${showJourneyTime && train.journey_duration ? ` · ${train.journey_duration}m` : ''}
+                    ${getBoardStatus(train)}${showJourneyTime && train.journey_duration ? ` · ${train.journey_duration}m${train.journey_time_approx ? '*' : ''}` : ''}
                   </span>
                 </div>
               `;

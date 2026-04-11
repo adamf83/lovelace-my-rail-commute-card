@@ -1417,7 +1417,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
                     ${e.platform||"—"}
                   </span>
                   <span class="col-status">
-                    ${function(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.expected_departure&&t.expected_departure!==t.scheduled_departure?`Exp ${lt(t.expected_departure)}`:"On time":"Unknown"}(e)}${t&&e.journey_duration?` · ${e.journey_duration}m`:""}
+                    ${function(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.expected_departure&&t.expected_departure!==t.scheduled_departure?`Exp ${lt(t.expected_departure)}`:"On time":"Unknown"}(e)}${t&&e.journey_duration?` · ${e.journey_duration}m${e.journey_time_approx?"*":""}`:""}
                   </span>
                 </div>
               `)}
