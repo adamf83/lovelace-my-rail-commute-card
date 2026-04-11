@@ -35,9 +35,61 @@ class MyRailCommuteCardEditor extends LitElement {
         margin-top: 0;
       }
 
-      ha-textfield,
-      ha-combo-box {
+      ha-textfield {
         width: 100%;
+      }
+
+      .native-select-label {
+        display: block;
+        font-size: 0.75rem;
+        color: var(--secondary-text-color);
+        margin-bottom: 4px;
+      }
+
+      .native-select-container {
+        position: relative;
+        width: 100%;
+      }
+
+      .native-select-container select {
+        width: 100%;
+        height: 56px;
+        padding: 0 36px 0 16px;
+        border: 1px solid var(--divider-color, rgba(0,0,0,0.38));
+        border-radius: 4px;
+        background: transparent;
+        color: var(--primary-text-color);
+        font-size: 1rem;
+        font-family: inherit;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+        box-sizing: border-box;
+      }
+
+      .native-select-container select:hover {
+        border-color: var(--primary-text-color);
+      }
+
+      .native-select-container select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        border-width: 2px;
+        padding: 0 35px 0 15px;
+      }
+
+      .native-select-container::after {
+        content: '';
+        position: absolute;
+        right: 13px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 6px solid var(--secondary-text-color, rgba(0,0,0,0.54));
+        pointer-events: none;
       }
 
       .switches {
@@ -125,50 +177,38 @@ class MyRailCommuteCardEditor extends LitElement {
         <div class="section-header">View & Display</div>
 
         <div class="option">
-          <ha-combo-box
-            label="View Mode"
-            .value=${this._config.view || 'full'}
-            .items=${[
-              { value: 'full', label: 'Full View' },
-              { value: 'compact', label: 'Compact View' },
-              { value: 'next-only', label: 'Next Train Only' },
-              { value: 'board', label: 'Departure Board' }
-            ]}
-            item-value-path="value"
-            item-label-path="label"
-            @value-changed=${this._viewChanged}
-          ></ha-combo-box>
+          <span class="native-select-label">View Mode</span>
+          <div class="native-select-container">
+            <select @change=${this._viewChanged}>
+              <option value="full" ?selected=${(this._config.view || 'full') === 'full'}>Full View</option>
+              <option value="compact" ?selected=${(this._config.view || 'full') === 'compact'}>Compact View</option>
+              <option value="next-only" ?selected=${(this._config.view || 'full') === 'next-only'}>Next Train Only</option>
+              <option value="board" ?selected=${(this._config.view || 'full') === 'board'}>Departure Board</option>
+            </select>
+          </div>
           <div class="info">Choose how to display train information</div>
         </div>
 
         <div class="option">
-          <ha-combo-box
-            label="Theme"
-            .value=${this._config.theme || 'auto'}
-            .items=${[
-              { value: 'auto', label: 'Auto (Follow HA Theme)' },
-              { value: 'light', label: 'Light' },
-              { value: 'dark', label: 'Dark' }
-            ]}
-            item-value-path="value"
-            item-label-path="label"
-            @value-changed=${this._themeChanged}
-          ></ha-combo-box>
+          <span class="native-select-label">Theme</span>
+          <div class="native-select-container">
+            <select @change=${this._themeChanged}>
+              <option value="auto" ?selected=${(this._config.theme || 'auto') === 'auto'}>Auto (Follow HA Theme)</option>
+              <option value="light" ?selected=${(this._config.theme || 'auto') === 'light'}>Light</option>
+              <option value="dark" ?selected=${(this._config.theme || 'auto') === 'dark'}>Dark</option>
+            </select>
+          </div>
         </div>
 
         <div class="option">
-          <ha-combo-box
-            label="Font Size"
-            .value=${this._config.font_size || 'medium'}
-            .items=${[
-              { value: 'small', label: 'Small' },
-              { value: 'medium', label: 'Medium' },
-              { value: 'large', label: 'Large' }
-            ]}
-            item-value-path="value"
-            item-label-path="label"
-            @value-changed=${this._fontSizeChanged}
-          ></ha-combo-box>
+          <span class="native-select-label">Font Size</span>
+          <div class="native-select-container">
+            <select @change=${this._fontSizeChanged}>
+              <option value="small" ?selected=${(this._config.font_size || 'medium') === 'small'}>Small</option>
+              <option value="medium" ?selected=${(this._config.font_size || 'medium') === 'medium'}>Medium</option>
+              <option value="large" ?selected=${(this._config.font_size || 'medium') === 'large'}>Large</option>
+            </select>
+          </div>
         </div>
 
         <!-- Display Options -->
@@ -327,19 +367,15 @@ class MyRailCommuteCardEditor extends LitElement {
         <div class="section-header">Interaction</div>
 
         <div class="option">
-          <ha-combo-box
-            label="Tap Action"
-            .value=${this._config.tap_action?.action || 'more-info'}
-            .items=${[
-              { value: 'more-info', label: 'Show More Info' },
-              { value: 'url', label: 'Open URL' },
-              { value: 'navigate', label: 'Navigate' },
-              { value: 'none', label: 'None' }
-            ]}
-            item-value-path="value"
-            item-label-path="label"
-            @value-changed=${this._tapActionChanged}
-          ></ha-combo-box>
+          <span class="native-select-label">Tap Action</span>
+          <div class="native-select-container">
+            <select @change=${this._tapActionChanged}>
+              <option value="more-info" ?selected=${(this._config.tap_action?.action || 'more-info') === 'more-info'}>Show More Info</option>
+              <option value="url" ?selected=${(this._config.tap_action?.action || 'more-info') === 'url'}>Open URL</option>
+              <option value="navigate" ?selected=${(this._config.tap_action?.action || 'more-info') === 'navigate'}>Navigate</option>
+              <option value="none" ?selected=${(this._config.tap_action?.action || 'more-info') === 'none'}>None</option>
+            </select>
+          </div>
         </div>
 
         ${this._config.tap_action?.action === 'url' ? html`
@@ -363,18 +399,14 @@ class MyRailCommuteCardEditor extends LitElement {
         ` : ''}
 
         <div class="option">
-          <ha-combo-box
-            label="Hold Action"
-            .value=${this._config.hold_action?.action || 'refresh'}
-            .items=${[
-              { value: 'refresh', label: 'Refresh Data' },
-              { value: 'more-info', label: 'Show More Info' },
-              { value: 'none', label: 'None' }
-            ]}
-            item-value-path="value"
-            item-label-path="label"
-            @value-changed=${this._holdActionChanged}
-          ></ha-combo-box>
+          <span class="native-select-label">Hold Action</span>
+          <div class="native-select-container">
+            <select @change=${this._holdActionChanged}>
+              <option value="refresh" ?selected=${(this._config.hold_action?.action || 'refresh') === 'refresh'}>Refresh Data</option>
+              <option value="more-info" ?selected=${(this._config.hold_action?.action || 'refresh') === 'more-info'}>Show More Info</option>
+              <option value="none" ?selected=${(this._config.hold_action?.action || 'refresh') === 'none'}>None</option>
+            </select>
+          </div>
         </div>
       </div>
     `;
@@ -400,7 +432,7 @@ class MyRailCommuteCardEditor extends LitElement {
     if (!this._config || !this._hass) {
       return;
     }
-    this._config = { ...this._config, view: ev.detail.value };
+    this._config = { ...this._config, view: ev.target.value };
     this._fireConfigChanged();
   }
 
@@ -408,7 +440,7 @@ class MyRailCommuteCardEditor extends LitElement {
     if (!this._config || !this._hass) {
       return;
     }
-    this._config = { ...this._config, theme: ev.detail.value };
+    this._config = { ...this._config, theme: ev.target.value };
     this._fireConfigChanged();
   }
 
@@ -416,7 +448,7 @@ class MyRailCommuteCardEditor extends LitElement {
     if (!this._config || !this._hass) {
       return;
     }
-    this._config = { ...this._config, font_size: ev.detail.value };
+    this._config = { ...this._config, font_size: ev.target.value };
     this._fireConfigChanged();
   }
 
@@ -471,7 +503,7 @@ class MyRailCommuteCardEditor extends LitElement {
     }
     this._config = {
       ...this._config,
-      tap_action: { action: ev.detail.value }
+      tap_action: { action: ev.target.value }
     };
     this._fireConfigChanged();
   }
@@ -504,7 +536,7 @@ class MyRailCommuteCardEditor extends LitElement {
     }
     this._config = {
       ...this._config,
-      hold_action: { action: ev.detail.value }
+      hold_action: { action: ev.target.value }
     };
     this._fireConfigChanged();
   }
