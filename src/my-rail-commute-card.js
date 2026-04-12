@@ -18,7 +18,7 @@ import {
 import './editor.js'; // Import editor to bundle it
 
 console.info(
-  '%c MY-RAIL-COMMUTE-CARD \n%c Version 1.0.0 ',
+  '%c MY-RAIL-COMMUTE-CARD \n%c Version 1.0.5 ',
   'color: cyan; font-weight: bold; background: black',
   'color: white; font-weight: bold; background: dimgray',
 );

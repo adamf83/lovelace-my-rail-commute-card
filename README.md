@@ -156,7 +156,7 @@ colors:
 | `show_operator` | boolean | true | Show train operator |
 | `show_calling_points` | boolean | false | Show calling points list |
 | `show_delay_reason` | boolean | true | Show delay reasons |
-| `show_journey_time` | boolean | false | Show journey duration |
+| `show_journey_time` | boolean | false | Show journey duration (* shown if delayed) |
 | `max_calling_points` | number | 3 | Max calling points to display |
 | `hide_on_time_trains` | boolean | false | Only show delayed/cancelled trains |
 | `only_show_disrupted` | boolean | false | Only show when disruption sensor is on |
