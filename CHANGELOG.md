@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.5] - 2026-04-11
+
+### Added
+- Release workflow to attach built JS as a release asset
+- Show "Entity not found" in card UI when entity is missing
+
+### Fixed
+- Fixed show_journey_time toggle by calculating duration from arrival/departure times
+- Guard estimated_arrival status text before calculating journey duration
+- Compute journey_duration in all_trains data path
+- Consistent error handling in formatTime and getRelativeTime utils
+- Only trigger release workflow on stable releases, not pre-releases
+- Fixed visual editor dropdowns for HA 2026.4 compatibility
+
+## [1.0.4] - 2026-03-17
+
+### Fixed
+- Resolved high, medium, and low-severity bugs in card component
+- Delay banner no longer bleeds through when reversing a route
+
 ## [1.0.3] - 2026-03-14
 
 ### Added
