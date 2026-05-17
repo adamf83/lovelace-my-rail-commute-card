@@ -328,6 +328,34 @@ class MyRailCommuteCardEditor extends LitElement {
           ></ha-textfield>
         </div>
 
+        <!-- Historical Reliability -->
+        <div class="section-header">Historical Reliability</div>
+
+        <div class="switches">
+          <ha-formfield label="Show History Panel">
+            <ha-switch
+              .checked=${this._config.show_history_panel === true}
+              @change=${this._toggleChanged('show_history_panel')}
+            ></ha-switch>
+          </ha-formfield>
+        </div>
+
+        <div class="info">When enabled, a chart-line button appears in the footer. Tap it to expand a panel showing on-time % KPIs and a colour-coded day-by-day timeline.</div>
+
+        ${this._config.show_history_panel ? html`
+          <div class="option" style="margin-top: 12px;">
+            <span class="native-select-label">History Window</span>
+            <div class="native-select-container">
+              <select @change=${this._historyDaysChanged}>
+                <option value="7" ?selected=${(this._config.history_days || 7) === 7}>Last 7 days</option>
+                <option value="14" ?selected=${(this._config.history_days || 7) === 14}>Last 14 days</option>
+                <option value="30" ?selected=${(this._config.history_days || 7) === 30}>Last 30 days</option>
+              </select>
+            </div>
+            <div class="info">Number of days shown in the day-by-day timeline.</div>
+          </div>
+        ` : ''}
+
         <!-- Advanced Options -->
         <div class="section-header">Advanced Options</div>
 
@@ -538,6 +566,12 @@ class MyRailCommuteCardEditor extends LitElement {
       ...this._config,
       hold_action: { action: ev.target.value }
     };
+    this._fireConfigChanged();
+  }
+
+  _historyDaysChanged(ev) {
+    if (!this._config || !this._hass) return;
+    this._config = { ...this._config, history_days: parseInt(ev.target.value, 10) };
     this._fireConfigChanged();
   }
 

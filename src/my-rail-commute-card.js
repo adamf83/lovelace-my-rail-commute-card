@@ -13,7 +13,8 @@ import {
   sortTrains,
   getTrainIcon,
   shouldShowTrains,
-  calculateJourneyDuration
+  calculateJourneyDuration,
+  getReliabilityClass
 } from './utils.js';
 import './editor.js'; // Import editor to bundle it
 
@@ -40,6 +41,9 @@ class MyRailCommuteCard extends LitElement {
       _entityNotFound: { type: Boolean },
       _returnEntityId: { type: String },
       _showReturn: { type: Boolean },
+      _historyPanelOpen: { type: Boolean },
+      _histRelAttrs: { type: Object },
+      _histDelAttrs: { type: Object },
     };
   }
 
@@ -63,6 +67,9 @@ class MyRailCommuteCard extends LitElement {
     this._returnEntityId = null;
     this._showReturn = false;
     this._returnEntityCacheKey = null;
+    this._historyPanelOpen = false;
+    this._histRelAttrs = null;
+    this._histDelAttrs = null;
   }
 
   setConfig(config) {
@@ -97,6 +104,8 @@ class MyRailCommuteCard extends LitElement {
       compact_height: false,
       show_animations: true,
       status_icons: true,
+      show_history_panel: false,
+      history_days: 7,
       ...config
     };
 
@@ -308,6 +317,18 @@ class MyRailCommuteCard extends LitElement {
       }
     }
 
+    // Auto-discover historical sensors when history panel is enabled
+    if (this.config.show_history_panel) {
+      const histBase = this.config.entity
+        .replace('sensor.', '')
+        .replace('_summary', '')
+        .replace('_commute_summary', '');
+      const histRelEntity = hass.states[`sensor.${histBase}_historical_reliability`];
+      const histDelEntity = hass.states[`sensor.${histBase}_historical_delays`];
+      this._histRelAttrs = histRelEntity ? histRelEntity.attributes : null;
+      this._histDelAttrs = histDelEntity ? histDelEntity.attributes : null;
+    }
+
     // Filter trains
     if (this._trains && this._trains.length > 0) {
       this._trains = filterTrains(this._trains, this.config);
@@ -339,6 +360,10 @@ class MyRailCommuteCard extends LitElement {
   _toggleReturn() {
     this._showReturn = !this._showReturn;
     if (this._hass) this.hass = this._hass;
+  }
+
+  _toggleHistoryPanel() {
+    this._historyPanelOpen = !this._historyPanelOpen;
   }
 
   _getTrainsFromIndividualSensors(hass, entityId) {
@@ -611,15 +636,133 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _renderFooter() {
-    if (this.config.show_last_updated === false) return '';
+    const showLastUpdated = this.config.show_last_updated === true;
+    const showHistoryPanel = this.config.show_history_panel === true;
+
+    if (!showLastUpdated && !showHistoryPanel) return '';
 
     return html`
       <div class="card-footer">
-        <span class="last-updated">
-          Last updated: ${getRelativeTime(this._lastUpdated)}
-        </span>
+        ${showLastUpdated ? html`
+          <span class="last-updated">
+            Last updated: ${getRelativeTime(this._lastUpdated)}
+          </span>
+        ` : html`<span></span>`}
+        ${showHistoryPanel ? html`
+          <button
+            class="history-toggle ${this._historyPanelOpen ? 'active' : ''}"
+            @click="${this._toggleHistoryPanel}"
+            title="${this._historyPanelOpen ? 'Hide reliability history' : 'Show reliability history'}"
+          >
+            <ha-icon icon="mdi:chart-line"></ha-icon>
+          </button>
+        ` : ''}
       </div>
     `;
+  }
+
+  _renderHistoryPanel() {
+    if (!this.config.show_history_panel || !this._historyPanelOpen) return '';
+
+    const rel = this._histRelAttrs;
+    const del = this._histDelAttrs;
+
+    if (!rel && !del) {
+      return html`
+        <div class="history-panel">
+          <div class="history-empty">No reliability data available yet — check back after a few updates.</div>
+        </div>
+      `;
+    }
+
+    const histDays = Math.min(this.config.history_days || 7, 30);
+    const breakdown = rel?.daily_breakdown || [];
+    const recentDays = breakdown.slice(-histDays);
+
+    const todayPct = rel?.on_time_pct_today ?? null;
+    const sevenDayPct = rel?.on_time_pct_7day ?? null;
+    const thirtyDayPct = rel?.on_time_pct_30day ?? null;
+    const avgDelay7d = del?.avg_delay_7day ?? null;
+    const bestDay = del?.best_day ?? null;
+    const worstDay = del?.worst_day ?? null;
+
+    return html`
+      <div class="history-panel">
+        <div class="history-kpis">
+          ${this._renderKpiPill('Today', todayPct, '%', false)}
+          ${this._renderKpiPill('7-day', sevenDayPct, '%', false)}
+          ${this._renderKpiPill('30-day', thirtyDayPct, '%', false)}
+          ${this._renderKpiPill('Avg delay', avgDelay7d, ' min', true)}
+        </div>
+
+        ${recentDays.length > 0 ? html`
+          <div class="history-days">
+            ${recentDays.map(day => this._renderDaySquare(day))}
+          </div>
+        ` : ''}
+
+        ${bestDay || worstDay ? html`
+          <div class="history-bestworst">
+            ${bestDay ? html`
+              <span class="history-best">
+                <ha-icon icon="mdi:thumb-up-outline"></ha-icon>
+                Best: ${this._formatHistoryDate(bestDay.date)} (${bestDay.on_time_pct}%)
+              </span>
+            ` : html`<span></span>`}
+            ${worstDay ? html`
+              <span class="history-worst">
+                <ha-icon icon="mdi:thumb-down-outline"></ha-icon>
+                Worst: ${this._formatHistoryDate(worstDay.date)} (${worstDay.on_time_pct}%)
+              </span>
+            ` : ''}
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  _renderKpiPill(label, value, unit, isDelay) {
+    const cls = isDelay ? 'kpi-neutral' : getReliabilityClass(value);
+    const display = value !== null && value !== undefined ? `${value}${unit}` : '—';
+    return html`
+      <div class="kpi-pill ${cls}">
+        <span class="kpi-value">${display}</span>
+        <span class="kpi-label">${label}</span>
+      </div>
+    `;
+  }
+
+  _renderDaySquare(day) {
+    const pct = day.on_time_pct;
+    let cls = 'day-sq-nodata';
+    if (pct !== null && pct !== undefined) {
+      if (pct >= 90) cls = 'day-sq-good';
+      else if (pct >= 70) cls = 'day-sq-moderate';
+      else cls = 'day-sq-poor';
+    }
+
+    const [year, month, dayNum] = day.date.split('-').map(Number);
+    const date = new Date(year, month - 1, dayNum);
+    const dayName = date.toLocaleDateString('en-GB', { weekday: 'short' });
+    const pctLabel = pct !== null && pct !== undefined ? `${Math.round(pct)}%` : '—';
+    const tooltip = pct !== null && pct !== undefined
+      ? `${dayName} ${dayNum}: ${pct}% on-time${day.avg_delay_minutes ? `, avg ${day.avg_delay_minutes} min late` : ''}`
+      : `${dayName} ${dayNum}: No data`;
+
+    return html`
+      <div class="day-sq ${cls}" title="${tooltip}">
+        <span class="day-sq-label">${dayName}</span>
+        <span class="day-sq-pct">${pctLabel}</span>
+      </div>
+    `;
+  }
+
+  _formatHistoryDate(dateStr) {
+    if (!dateStr) return '';
+    const [year, month, day] = dateStr.split('-').map(Number);
+    return new Date(year, month - 1, day).toLocaleDateString('en-GB', {
+      weekday: 'short', day: 'numeric', month: 'short'
+    });
   }
 
   _renderFull() {
@@ -634,6 +777,7 @@ class MyRailCommuteCard extends LitElement {
           ${this._trains.map(train => this._renderTrainRow(train))}
         </div>
 
+        ${this._renderHistoryPanel()}
         ${this._renderFooter()}
       </ha-card>
     `;
@@ -731,6 +875,7 @@ class MyRailCommuteCard extends LitElement {
           })}
         </div>
 
+        ${this._renderHistoryPanel()}
         ${this._renderFooter()}
       </ha-card>
     `;

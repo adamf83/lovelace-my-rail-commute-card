@@ -589,8 +589,177 @@ export const styles = css`
     border-top: 1px solid var(--divider-color, #e0e0e0);
     font-size: 0.8rem;
     color: var(--secondary-text-color, #757575);
-    text-align: center;
     background: var(--card-background-color, #fff);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .last-updated {
+    flex: 1;
+    text-align: center;
+  }
+
+  .history-toggle {
+    background: none;
+    border: 1px solid var(--divider-color, #e0e0e0);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color, #757575);
+    padding: 0;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    --mdc-icon-size: 16px;
+  }
+
+  .history-toggle:hover {
+    background: var(--secondary-background-color, #f5f5f5);
+  }
+
+  .history-toggle.active {
+    background: var(--primary-color, #03a9f4);
+    color: #fff;
+    border-color: var(--primary-color, #03a9f4);
+  }
+
+  /* ==================== HISTORY PANEL ==================== */
+
+  .history-panel {
+    border-top: 1px solid var(--divider-color, #e0e0e0);
+    padding: 12px var(--card-padding);
+    background: var(--secondary-background-color, #f5f5f5);
+  }
+
+  .history-kpis {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .kpi-pill {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 4px;
+    border-radius: 8px;
+    background: var(--card-background-color, #fff);
+    border: 1px solid var(--divider-color, #e0e0e0);
+    min-width: 0;
+  }
+
+  .kpi-value {
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .kpi-label {
+    font-size: 0.68rem;
+    color: var(--secondary-text-color, #757575);
+    margin-top: 2px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .kpi-pill.kpi-good .kpi-value { color: var(--status-on-time); }
+  .kpi-pill.kpi-moderate .kpi-value { color: var(--status-minor-delay); }
+  .kpi-pill.kpi-poor .kpi-value { color: var(--status-major-delay); }
+  .kpi-pill.kpi-neutral .kpi-value { color: var(--secondary-text-color, #757575); }
+
+  .history-days {
+    display: flex;
+    gap: 3px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+    scrollbar-width: none;
+  }
+
+  .history-days::-webkit-scrollbar {
+    display: none;
+  }
+
+  .day-sq {
+    flex: 1 1 0;
+    min-width: 26px;
+    border-radius: 4px;
+    padding: 5px 2px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: default;
+  }
+
+  .day-sq-label {
+    font-size: 0.58rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  .day-sq-pct {
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.95);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .day-sq.day-sq-good { background: var(--status-on-time, #4caf50); }
+  .day-sq.day-sq-moderate { background: var(--status-minor-delay, #ff9800); }
+  .day-sq.day-sq-poor { background: var(--status-major-delay, #f44336); }
+
+  .day-sq.day-sq-nodata {
+    background: var(--divider-color, #e0e0e0);
+  }
+
+  .day-sq.day-sq-nodata .day-sq-label {
+    color: var(--secondary-text-color, #9e9e9e);
+  }
+
+  .day-sq.day-sq-nodata .day-sq-pct {
+    color: var(--secondary-text-color, #9e9e9e);
+  }
+
+  .history-bestworst {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .history-best {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: var(--status-on-time, #4caf50);
+  }
+
+  .history-worst {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: var(--status-major-delay, #f44336);
+  }
+
+  .history-best ha-icon,
+  .history-worst ha-icon {
+    --mdc-icon-size: 14px;
+  }
+
+  .history-empty {
+    font-size: 0.85rem;
+    color: var(--secondary-text-color, #757575);
+    text-align: center;
+    padding: 8px 0;
   }
 
   /* ==================== EMPTY STATE ==================== */
