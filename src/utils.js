@@ -378,3 +378,15 @@ export function truncateText(text, maxLength) {
   if (!text || text.length <= maxLength) return text;
   return text.substring(0, maxLength - 1) + '…';
 }
+
+/**
+ * Get CSS class for a reliability percentage value
+ * @param {number|null} pct - On-time percentage (0-100) or null
+ * @returns {string} CSS class name
+ */
+export function getReliabilityClass(pct) {
+  if (pct === null || pct === undefined) return 'kpi-neutral';
+  if (pct >= 90) return 'kpi-good';
+  if (pct >= 70) return 'kpi-moderate';
+  return 'kpi-poor';
+}
