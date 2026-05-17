@@ -64,6 +64,7 @@ class MyRailCommuteCard extends LitElement {
     this._loading = true;
     this._entityNotFound = false;
     this._toastTimer = null;
+    this._toastElement = null;
     this._returnEntityId = null;
     this._showReturn = false;
     this._returnEntityCacheKey = null;
@@ -325,6 +326,12 @@ class MyRailCommuteCard extends LitElement {
         .replace('_commute_summary', '');
       const histRelEntity = hass.states[`sensor.${histBase}_historical_reliability`];
       const histDelEntity = hass.states[`sensor.${histBase}_historical_delays`];
+      if (!histRelEntity && !histDelEntity) {
+        console.warn(
+          'my-rail-commute-card: show_history_panel is enabled but no history sensors were found.',
+          `Expected: sensor.${histBase}_historical_reliability / sensor.${histBase}_historical_delays`
+        );
+      }
       this._histRelAttrs = histRelEntity ? histRelEntity.attributes : null;
       this._histDelAttrs = histDelEntity ? histDelEntity.attributes : null;
     }
@@ -567,7 +574,7 @@ class MyRailCommuteCard extends LitElement {
 
     if (!showHeader) return '';
 
-    const title = this.config.title || 'Rail Commute';
+    const title = String(this.config.title || 'Rail Commute').replace(/<[^>]*>/g, '');
 
     return html`
       <div class="card-header">
@@ -1129,13 +1136,24 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _showRefreshFeedback() {
+    if (this._toastTimer) {
+      clearTimeout(this._toastTimer);
+      this._toastTimer = null;
+    }
+    if (this._toastElement) {
+      this._toastElement.remove();
+      this._toastElement = null;
+    }
+
     const toast = document.createElement('div');
     toast.className = 'refresh-toast';
     toast.textContent = 'Refreshing...';
     this.shadowRoot.appendChild(toast);
+    this._toastElement = toast;
 
     this._toastTimer = setTimeout(() => {
       this._toastTimer = null;
+      this._toastElement = null;
       if (toast.isConnected) toast.remove();
     }, 2000);
   }
@@ -1145,6 +1163,10 @@ class MyRailCommuteCard extends LitElement {
     if (this._toastTimer) {
       clearTimeout(this._toastTimer);
       this._toastTimer = null;
+    }
+    if (this._toastElement) {
+      this._toastElement.remove();
+      this._toastElement = null;
     }
   }
 
