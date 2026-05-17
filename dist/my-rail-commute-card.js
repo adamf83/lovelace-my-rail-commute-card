@@ -3,23 +3,23 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t=globalThis,e=t.ShadowRoot&&(void 0===t.ShadyCSS||t.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,i=Symbol(),s=new WeakMap;let n=class{constructor(t,e,s){if(this._$cssResult$=!0,s!==i)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e}get styleSheet(){let t=this.o;const i=this.t;if(e&&void 0===t){const e=void 0!==i&&1===i.length;e&&(t=s.get(i)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),e&&s.set(i,t))}return t}toString(){return this.cssText}};const r=(t,...e)=>{const s=1===t.length?t[0]:e.reduce((e,i,s)=>e+(t=>{if(!0===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(i)+t[s+1],t[0]);return new n(s,t,i)},o=e?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const i of t.cssRules)e+=i.cssText;return(t=>new n("string"==typeof t?t:t+"",void 0,i))(e)})(t):t,{is:a,defineProperty:c,getOwnPropertyDescriptor:l,getOwnPropertyNames:d,getOwnPropertySymbols:h,getPrototypeOf:u}=Object,p=globalThis,_=p.trustedTypes,m=_?_.emptyScript:"",f=p.reactiveElementPolyfillSupport,g=(t,e)=>t,v={toAttribute(t,e){switch(e){case Boolean:t=t?m:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let i=t;switch(e){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t)}catch(t){i=null}}return i}},y=(t,e)=>!a(t,e),b={attribute:!0,type:String,converter:v,reflect:!1,useDefault:!1,hasChanged:y};
+const t=globalThis,e=t.ShadowRoot&&(void 0===t.ShadyCSS||t.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,i=Symbol(),s=new WeakMap;let o=class{constructor(t,e,s){if(this._$cssResult$=!0,s!==i)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e}get styleSheet(){let t=this.o;const i=this.t;if(e&&void 0===t){const e=void 0!==i&&1===i.length;e&&(t=s.get(i)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),e&&s.set(i,t))}return t}toString(){return this.cssText}};const r=(t,...e)=>{const s=1===t.length?t[0]:e.reduce((e,i,s)=>e+(t=>{if(!0===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(i)+t[s+1],t[0]);return new o(s,t,i)},n=e?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const i of t.cssRules)e+=i.cssText;return(t=>new o("string"==typeof t?t:t+"",void 0,i))(e)})(t):t,{is:a,defineProperty:c,getOwnPropertyDescriptor:l,getOwnPropertyNames:d,getOwnPropertySymbols:h,getPrototypeOf:p}=Object,u=globalThis,_=u.trustedTypes,m=_?_.emptyScript:"",g=u.reactiveElementPolyfillSupport,f=(t,e)=>t,y={toAttribute(t,e){switch(e){case Boolean:t=t?m:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let i=t;switch(e){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t)}catch(t){i=null}}return i}},v=(t,e)=>!a(t,e),b={attribute:!0,type:String,converter:y,reflect:!1,useDefault:!1,hasChanged:v};
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */Symbol.metadata??=Symbol("metadata"),p.litPropertyMetadata??=new WeakMap;let $=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=b){if(e.state&&(e.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((e=Object.create(e)).wrapped=!0),this.elementProperties.set(t,e),!e.noAccessor){const i=Symbol(),s=this.getPropertyDescriptor(t,i,e);void 0!==s&&c(this.prototype,t,s)}}static getPropertyDescriptor(t,e,i){const{get:s,set:n}=l(this.prototype,t)??{get(){return this[e]},set(t){this[e]=t}};return{get:s,set(e){const r=s?.call(this);n?.call(this,e),this.requestUpdate(t,r,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??b}static _$Ei(){if(this.hasOwnProperty(g("elementProperties")))return;const t=u(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty(g("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(g("properties"))){const t=this.properties,e=[...d(t),...h(t)];for(const i of e)this.createProperty(i,t[i])}const t=this[Symbol.metadata];if(null!==t){const e=litPropertyMetadata.get(t);if(void 0!==e)for(const[t,i]of e)this.elementProperties.set(t,i)}this._$Eh=new Map;for(const[t,e]of this.elementProperties){const i=this._$Eu(t,e);void 0!==i&&this._$Eh.set(i,t)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const i=new Set(t.flat(1/0).reverse());for(const t of i)e.unshift(o(t))}else void 0!==t&&e.push(o(t));return e}static _$Eu(t,e){const i=e.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(t=>this.enableUpdating=t),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(t=>t(this))}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){const t=new Map,e=this.constructor.elementProperties;for(const i of e.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t)}createRenderRoot(){const i=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((i,s)=>{if(e)i.adoptedStyleSheets=s.map(t=>t instanceof CSSStyleSheet?t:t.styleSheet);else for(const e of s){const s=document.createElement("style"),n=t.litNonce;void 0!==n&&s.setAttribute("nonce",n),s.textContent=e.cssText,i.appendChild(s)}})(i,this.constructor.elementStyles),i}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach(t=>t.hostConnected?.())}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach(t=>t.hostDisconnected?.())}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$ET(t,e){const i=this.constructor.elementProperties.get(t),s=this.constructor._$Eu(t,i);if(void 0!==s&&!0===i.reflect){const n=(void 0!==i.converter?.toAttribute?i.converter:v).toAttribute(e,i.type);this._$Em=t,null==n?this.removeAttribute(s):this.setAttribute(s,n),this._$Em=null}}_$AK(t,e){const i=this.constructor,s=i._$Eh.get(t);if(void 0!==s&&this._$Em!==s){const t=i.getPropertyOptions(s),n="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:v;this._$Em=s;const r=n.fromAttribute(e,t.type);this[s]=r??this._$Ej?.get(s)??r,this._$Em=null}}requestUpdate(t,e,i,s=!1,n){if(void 0!==t){const r=this.constructor;if(!1===s&&(n=this[t]),i??=r.getPropertyOptions(t),!((i.hasChanged??y)(n,e)||i.useDefault&&i.reflect&&n===this._$Ej?.get(t)&&!this.hasAttribute(r._$Eu(t,i))))return;this.C(t,e,i)}!1===this.isUpdatePending&&(this._$ES=this._$EP())}C(t,e,{useDefault:i,reflect:s,wrapped:n},r){i&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,r??e??this[t]),!0!==n||void 0!==r)||(this._$AL.has(t)||(this.hasUpdated||i||(e=void 0),this._$AL.set(t,e)),!0===s&&this._$Em!==t&&(this._$Eq??=new Set).add(t))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,e]of this._$Ep)this[t]=e;this._$Ep=void 0}const t=this.constructor.elementProperties;if(t.size>0)for(const[e,i]of t){const{wrapped:t}=i,s=this[e];!0!==t||this._$AL.has(e)||void 0===s||this.C(e,void 0,i,s)}}let t=!1;const e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach(t=>t.hostUpdate?.()),this.update(e)):this._$EM()}catch(e){throw t=!1,this._$EM(),e}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach(t=>t.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Eq&&=this._$Eq.forEach(t=>this._$ET(t,this[t])),this._$EM()}updated(t){}firstUpdated(t){}};$.elementStyles=[],$.shadowRootOptions={mode:"open"},$[g("elementProperties")]=new Map,$[g("finalized")]=new Map,f?.({ReactiveElement:$}),(p.reactiveElementVersions??=[]).push("2.1.2");
+ */Symbol.metadata??=Symbol("metadata"),u.litPropertyMetadata??=new WeakMap;let $=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=b){if(e.state&&(e.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((e=Object.create(e)).wrapped=!0),this.elementProperties.set(t,e),!e.noAccessor){const i=Symbol(),s=this.getPropertyDescriptor(t,i,e);void 0!==s&&c(this.prototype,t,s)}}static getPropertyDescriptor(t,e,i){const{get:s,set:o}=l(this.prototype,t)??{get(){return this[e]},set(t){this[e]=t}};return{get:s,set(e){const r=s?.call(this);o?.call(this,e),this.requestUpdate(t,r,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??b}static _$Ei(){if(this.hasOwnProperty(f("elementProperties")))return;const t=p(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty(f("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(f("properties"))){const t=this.properties,e=[...d(t),...h(t)];for(const i of e)this.createProperty(i,t[i])}const t=this[Symbol.metadata];if(null!==t){const e=litPropertyMetadata.get(t);if(void 0!==e)for(const[t,i]of e)this.elementProperties.set(t,i)}this._$Eh=new Map;for(const[t,e]of this.elementProperties){const i=this._$Eu(t,e);void 0!==i&&this._$Eh.set(i,t)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const i=new Set(t.flat(1/0).reverse());for(const t of i)e.unshift(n(t))}else void 0!==t&&e.push(n(t));return e}static _$Eu(t,e){const i=e.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(t=>this.enableUpdating=t),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(t=>t(this))}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){const t=new Map,e=this.constructor.elementProperties;for(const i of e.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t)}createRenderRoot(){const i=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((i,s)=>{if(e)i.adoptedStyleSheets=s.map(t=>t instanceof CSSStyleSheet?t:t.styleSheet);else for(const e of s){const s=document.createElement("style"),o=t.litNonce;void 0!==o&&s.setAttribute("nonce",o),s.textContent=e.cssText,i.appendChild(s)}})(i,this.constructor.elementStyles),i}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach(t=>t.hostConnected?.())}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach(t=>t.hostDisconnected?.())}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$ET(t,e){const i=this.constructor.elementProperties.get(t),s=this.constructor._$Eu(t,i);if(void 0!==s&&!0===i.reflect){const o=(void 0!==i.converter?.toAttribute?i.converter:y).toAttribute(e,i.type);this._$Em=t,null==o?this.removeAttribute(s):this.setAttribute(s,o),this._$Em=null}}_$AK(t,e){const i=this.constructor,s=i._$Eh.get(t);if(void 0!==s&&this._$Em!==s){const t=i.getPropertyOptions(s),o="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:y;this._$Em=s;const r=o.fromAttribute(e,t.type);this[s]=r??this._$Ej?.get(s)??r,this._$Em=null}}requestUpdate(t,e,i,s=!1,o){if(void 0!==t){const r=this.constructor;if(!1===s&&(o=this[t]),i??=r.getPropertyOptions(t),!((i.hasChanged??v)(o,e)||i.useDefault&&i.reflect&&o===this._$Ej?.get(t)&&!this.hasAttribute(r._$Eu(t,i))))return;this.C(t,e,i)}!1===this.isUpdatePending&&(this._$ES=this._$EP())}C(t,e,{useDefault:i,reflect:s,wrapped:o},r){i&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,r??e??this[t]),!0!==o||void 0!==r)||(this._$AL.has(t)||(this.hasUpdated||i||(e=void 0),this._$AL.set(t,e)),!0===s&&this._$Em!==t&&(this._$Eq??=new Set).add(t))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,e]of this._$Ep)this[t]=e;this._$Ep=void 0}const t=this.constructor.elementProperties;if(t.size>0)for(const[e,i]of t){const{wrapped:t}=i,s=this[e];!0!==t||this._$AL.has(e)||void 0===s||this.C(e,void 0,i,s)}}let t=!1;const e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach(t=>t.hostUpdate?.()),this.update(e)):this._$EM()}catch(e){throw t=!1,this._$EM(),e}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach(t=>t.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Eq&&=this._$Eq.forEach(t=>this._$ET(t,this[t])),this._$EM()}updated(t){}firstUpdated(t){}};$.elementStyles=[],$.shadowRootOptions={mode:"open"},$[f("elementProperties")]=new Map,$[f("finalized")]=new Map,g?.({ReactiveElement:$}),(u.reactiveElementVersions??=[]).push("2.1.2");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{createHTML:t=>t}):void 0,S="$lit$",A=`lit$${Math.random().toFixed(9).slice(2)}$`,k="?"+A,T=`<${k}>`,R=document,O=()=>R.createComment(""),N=t=>null===t||"object"!=typeof t&&"function"!=typeof t,j=Array.isArray,I="[ \t\n\f\r]",z=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,P=/-->/g,D=/>/g,M=RegExp(`>|${I}(?:([^\\s"'>=/]+)(${I}*=${I}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),U=/'/g,H=/"/g,L=/^(?:script|style|textarea|title)$/i,B=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),F=Symbol.for("lit-noChange"),V=Symbol.for("lit-nothing"),W=new WeakMap,q=R.createTreeWalker(R,129);function J(t,e){if(!j(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==E?E.createHTML(e):e}const K=(t,e)=>{const i=t.length-1,s=[];let n,r=2===e?"<svg>":3===e?"<math>":"",o=z;for(let e=0;e<i;e++){const i=t[e];let a,c,l=-1,d=0;for(;d<i.length&&(o.lastIndex=d,c=o.exec(i),null!==c);)d=o.lastIndex,o===z?"!--"===c[1]?o=P:void 0!==c[1]?o=D:void 0!==c[2]?(L.test(c[2])&&(n=RegExp("</"+c[2],"g")),o=M):void 0!==c[3]&&(o=M):o===M?">"===c[0]?(o=n??z,l=-1):void 0===c[1]?l=-2:(l=o.lastIndex-c[2].length,a=c[1],o=void 0===c[3]?M:'"'===c[3]?H:U):o===H||o===U?o=M:o===P||o===D?o=z:(o=M,n=void 0);const h=o===M&&t[e+1].startsWith("/>")?" ":"";r+=o===z?i+T:l>=0?(s.push(a),i.slice(0,l)+S+i.slice(l)+A+h):i+A+(-2===l?e:h)}return[J(t,r+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),s]};class X{constructor({strings:t,_$litType$:e},i){let s;this.parts=[];let n=0,r=0;const o=t.length-1,a=this.parts,[c,l]=K(t,e);if(this.el=X.createElement(c,i),q.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(s=q.nextNode())&&a.length<o;){if(1===s.nodeType){if(s.hasAttributes())for(const t of s.getAttributeNames())if(t.endsWith(S)){const e=l[r++],i=s.getAttribute(t).split(A),o=/([.?@])?(.*)/.exec(e);a.push({type:1,index:n,name:o[2],strings:i,ctor:"."===o[1]?tt:"?"===o[1]?et:"@"===o[1]?it:Q}),s.removeAttribute(t)}else t.startsWith(A)&&(a.push({type:6,index:n}),s.removeAttribute(t));if(L.test(s.tagName)){const t=s.textContent.split(A),e=t.length-1;if(e>0){s.textContent=C?C.emptyScript:"";for(let i=0;i<e;i++)s.append(t[i],O()),q.nextNode(),a.push({type:2,index:++n});s.append(t[e],O())}}}else if(8===s.nodeType)if(s.data===k)a.push({type:2,index:n});else{let t=-1;for(;-1!==(t=s.data.indexOf(A,t+1));)a.push({type:7,index:n}),t+=A.length-1}n++}}static createElement(t,e){const i=R.createElement("template");return i.innerHTML=t,i}}function Y(t,e,i=t,s){if(e===F)return e;let n=void 0!==s?i._$Co?.[s]:i._$Cl;const r=N(e)?void 0:e._$litDirective$;return n?.constructor!==r&&(n?._$AO?.(!1),void 0===r?n=void 0:(n=new r(t),n._$AT(t,i,s)),void 0!==s?(i._$Co??=[])[s]=n:i._$Cl=n),void 0!==n&&(e=Y(t,n._$AS(t,e.values),n,s)),e}class G{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,s=(t?.creationScope??R).importNode(e,!0);q.currentNode=s;let n=q.nextNode(),r=0,o=0,a=i[0];for(;void 0!==a;){if(r===a.index){let e;2===a.type?e=new Z(n,n.nextSibling,this,t):1===a.type?e=new a.ctor(n,a.name,a.strings,this,t):6===a.type&&(e=new st(n,this,t)),this._$AV.push(e),a=i[++o]}r!==a?.index&&(n=q.nextNode(),r++)}return q.currentNode=R,s}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class Z{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,s){this.type=2,this._$AH=V,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Y(this,t,e),N(t)?t===V||null==t||""===t?(this._$AH!==V&&this._$AR(),this._$AH=V):t!==this._$AH&&t!==F&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>j(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==V&&N(this._$AH)?this._$AA.nextSibling.data=t:this.T(R.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=X.createElement(J(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(e);else{const t=new G(s,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=W.get(t.strings);return void 0===e&&W.set(t.strings,e=new X(t)),e}k(t){j(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,s=0;for(const n of t)s===e.length?e.push(i=new Z(this.O(O()),this.O(O()),this,this.options)):i=e[s],i._$AI(n),s++;s<e.length&&(this._$AR(i&&i._$AB.nextSibling,s),e.length=s)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=x(t).nextSibling;x(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class Q{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,s,n){this.type=1,this._$AH=V,this._$AN=void 0,this.element=t,this.name=e,this._$AM=s,this.options=n,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=V}_$AI(t,e=this,i,s){const n=this.strings;let r=!1;if(void 0===n)t=Y(this,t,e,0),r=!N(t)||t!==this._$AH&&t!==F,r&&(this._$AH=t);else{const s=t;let o,a;for(t=n[0],o=0;o<n.length-1;o++)a=Y(this,s[i+o],e,o),a===F&&(a=this._$AH[o]),r||=!N(a)||a!==this._$AH[o],a===V?t=V:t!==V&&(t+=(a??"")+n[o+1]),this._$AH[o]=a}r&&!s&&this.j(t)}j(t){t===V?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class tt extends Q{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===V?void 0:t}}class et extends Q{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==V)}}class it extends Q{constructor(t,e,i,s,n){super(t,e,i,s,n),this.type=5}_$AI(t,e=this){if((t=Y(this,t,e,0)??V)===F)return;const i=this._$AH,s=t===V&&i!==V||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,n=t!==V&&(i===V||s);s&&this.element.removeEventListener(this.name,this,i),n&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class st{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Y(this,t)}}const nt=w.litHtmlPolyfillSupport;nt?.(X,Z),(w.litHtmlVersions??=[]).push("3.3.2");const rt=globalThis;
+const w=globalThis,x=t=>t,C=w.trustedTypes,A=C?C.createPolicy("lit-html",{createHTML:t=>t}):void 0,S="$lit$",k=`lit$${Math.random().toFixed(9).slice(2)}$`,E="?"+k,T=`<${E}>`,P=document,O=()=>P.createComment(""),R=t=>null===t||"object"!=typeof t&&"function"!=typeof t,D=Array.isArray,j="[ \t\n\f\r]",N=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,z=/-->/g,I=/>/g,M=RegExp(`>|${j}(?:([^\\s"'>=/]+)(${j}*=${j}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),U=/'/g,H=/"/g,L=/^(?:script|style|textarea|title)$/i,q=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),B=Symbol.for("lit-noChange"),F=Symbol.for("lit-nothing"),V=new WeakMap,W=P.createTreeWalker(P,129);function K(t,e){if(!D(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==A?A.createHTML(e):e}const J=(t,e)=>{const i=t.length-1,s=[];let o,r=2===e?"<svg>":3===e?"<math>":"",n=N;for(let e=0;e<i;e++){const i=t[e];let a,c,l=-1,d=0;for(;d<i.length&&(n.lastIndex=d,c=n.exec(i),null!==c);)d=n.lastIndex,n===N?"!--"===c[1]?n=z:void 0!==c[1]?n=I:void 0!==c[2]?(L.test(c[2])&&(o=RegExp("</"+c[2],"g")),n=M):void 0!==c[3]&&(n=M):n===M?">"===c[0]?(n=o??N,l=-1):void 0===c[1]?l=-2:(l=n.lastIndex-c[2].length,a=c[1],n=void 0===c[3]?M:'"'===c[3]?H:U):n===H||n===U?n=M:n===z||n===I?n=N:(n=M,o=void 0);const h=n===M&&t[e+1].startsWith("/>")?" ":"";r+=n===N?i+T:l>=0?(s.push(a),i.slice(0,l)+S+i.slice(l)+k+h):i+k+(-2===l?e:h)}return[K(t,r+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),s]};class G{constructor({strings:t,_$litType$:e},i){let s;this.parts=[];let o=0,r=0;const n=t.length-1,a=this.parts,[c,l]=J(t,e);if(this.el=G.createElement(c,i),W.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(s=W.nextNode())&&a.length<n;){if(1===s.nodeType){if(s.hasAttributes())for(const t of s.getAttributeNames())if(t.endsWith(S)){const e=l[r++],i=s.getAttribute(t).split(k),n=/([.?@])?(.*)/.exec(e);a.push({type:1,index:o,name:n[2],strings:i,ctor:"."===n[1]?tt:"?"===n[1]?et:"@"===n[1]?it:Q}),s.removeAttribute(t)}else t.startsWith(k)&&(a.push({type:6,index:o}),s.removeAttribute(t));if(L.test(s.tagName)){const t=s.textContent.split(k),e=t.length-1;if(e>0){s.textContent=C?C.emptyScript:"";for(let i=0;i<e;i++)s.append(t[i],O()),W.nextNode(),a.push({type:2,index:++o});s.append(t[e],O())}}}else if(8===s.nodeType)if(s.data===E)a.push({type:2,index:o});else{let t=-1;for(;-1!==(t=s.data.indexOf(k,t+1));)a.push({type:7,index:o}),t+=k.length-1}o++}}static createElement(t,e){const i=P.createElement("template");return i.innerHTML=t,i}}function Y(t,e,i=t,s){if(e===B)return e;let o=void 0!==s?i._$Co?.[s]:i._$Cl;const r=R(e)?void 0:e._$litDirective$;return o?.constructor!==r&&(o?._$AO?.(!1),void 0===r?o=void 0:(o=new r(t),o._$AT(t,i,s)),void 0!==s?(i._$Co??=[])[s]=o:i._$Cl=o),void 0!==o&&(e=Y(t,o._$AS(t,e.values),o,s)),e}class X{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,s=(t?.creationScope??P).importNode(e,!0);W.currentNode=s;let o=W.nextNode(),r=0,n=0,a=i[0];for(;void 0!==a;){if(r===a.index){let e;2===a.type?e=new Z(o,o.nextSibling,this,t):1===a.type?e=new a.ctor(o,a.name,a.strings,this,t):6===a.type&&(e=new st(o,this,t)),this._$AV.push(e),a=i[++n]}r!==a?.index&&(o=W.nextNode(),r++)}return W.currentNode=P,s}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class Z{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,s){this.type=2,this._$AH=F,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Y(this,t,e),R(t)?t===F||null==t||""===t?(this._$AH!==F&&this._$AR(),this._$AH=F):t!==this._$AH&&t!==B&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>D(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==F&&R(this._$AH)?this._$AA.nextSibling.data=t:this.T(P.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=G.createElement(K(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(e);else{const t=new X(s,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=V.get(t.strings);return void 0===e&&V.set(t.strings,e=new G(t)),e}k(t){D(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,s=0;for(const o of t)s===e.length?e.push(i=new Z(this.O(O()),this.O(O()),this,this.options)):i=e[s],i._$AI(o),s++;s<e.length&&(this._$AR(i&&i._$AB.nextSibling,s),e.length=s)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=x(t).nextSibling;x(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class Q{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,s,o){this.type=1,this._$AH=F,this._$AN=void 0,this.element=t,this.name=e,this._$AM=s,this.options=o,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=F}_$AI(t,e=this,i,s){const o=this.strings;let r=!1;if(void 0===o)t=Y(this,t,e,0),r=!R(t)||t!==this._$AH&&t!==B,r&&(this._$AH=t);else{const s=t;let n,a;for(t=o[0],n=0;n<o.length-1;n++)a=Y(this,s[i+n],e,n),a===B&&(a=this._$AH[n]),r||=!R(a)||a!==this._$AH[n],a===F?t=F:t!==F&&(t+=(a??"")+o[n+1]),this._$AH[n]=a}r&&!s&&this.j(t)}j(t){t===F?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class tt extends Q{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===F?void 0:t}}class et extends Q{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==F)}}class it extends Q{constructor(t,e,i,s,o){super(t,e,i,s,o),this.type=5}_$AI(t,e=this){if((t=Y(this,t,e,0)??F)===B)return;const i=this._$AH,s=t===F&&i!==F||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,o=t!==F&&(i===F||s);s&&this.element.removeEventListener(this.name,this,i),o&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class st{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Y(this,t)}}const ot=w.litHtmlPolyfillSupport;ot?.(G,Z),(w.litHtmlVersions??=[]).push("3.3.2");const rt=globalThis;
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */class ot extends ${constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,i)=>{const s=i?.renderBefore??e;let n=s._$litPart$;if(void 0===n){const t=i?.renderBefore??null;s._$litPart$=n=new Z(e.insertBefore(O(),t),t,void 0,i??{})}return n._$AI(t),n})(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return F}}ot._$litElement$=!0,ot.finalized=!0,rt.litElementHydrateSupport?.({LitElement:ot});const at=rt.litElementPolyfillSupport;at?.({LitElement:ot}),(rt.litElementVersions??=[]).push("4.2.2");const ct=r`
+ */class nt extends ${constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,i)=>{const s=i?.renderBefore??e;let o=s._$litPart$;if(void 0===o){const t=i?.renderBefore??null;s._$litPart$=o=new Z(e.insertBefore(O(),t),t,void 0,i??{})}return o._$AI(t),o})(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return B}}nt._$litElement$=!0,nt.finalized=!0,rt.litElementHydrateSupport?.({LitElement:nt});const at=rt.litElementPolyfillSupport;at?.({LitElement:nt}),(rt.litElementVersions??=[]).push("4.2.2");const ct=r`
   :host {
     --status-on-time: var(--custom-on-time-color, #4caf50);
     --status-minor-delay: var(--custom-minor-delay-color, #ff9800);
@@ -605,8 +605,177 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
     border-top: 1px solid var(--divider-color, #e0e0e0);
     font-size: 0.8rem;
     color: var(--secondary-text-color, #757575);
-    text-align: center;
     background: var(--card-background-color, #fff);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .last-updated {
+    flex: 1;
+    text-align: center;
+  }
+
+  .history-toggle {
+    background: none;
+    border: 1px solid var(--divider-color, #e0e0e0);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color, #757575);
+    padding: 0;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    --mdc-icon-size: 16px;
+  }
+
+  .history-toggle:hover {
+    background: var(--secondary-background-color, #f5f5f5);
+  }
+
+  .history-toggle.active {
+    background: var(--primary-color, #03a9f4);
+    color: #fff;
+    border-color: var(--primary-color, #03a9f4);
+  }
+
+  /* ==================== HISTORY PANEL ==================== */
+
+  .history-panel {
+    border-top: 1px solid var(--divider-color, #e0e0e0);
+    padding: 12px var(--card-padding);
+    background: var(--secondary-background-color, #f5f5f5);
+  }
+
+  .history-kpis {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .kpi-pill {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 4px;
+    border-radius: 8px;
+    background: var(--card-background-color, #fff);
+    border: 1px solid var(--divider-color, #e0e0e0);
+    min-width: 0;
+  }
+
+  .kpi-value {
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .kpi-label {
+    font-size: 0.68rem;
+    color: var(--secondary-text-color, #757575);
+    margin-top: 2px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .kpi-pill.kpi-good .kpi-value { color: var(--status-on-time); }
+  .kpi-pill.kpi-moderate .kpi-value { color: var(--status-minor-delay); }
+  .kpi-pill.kpi-poor .kpi-value { color: var(--status-major-delay); }
+  .kpi-pill.kpi-neutral .kpi-value { color: var(--secondary-text-color, #757575); }
+
+  .history-days {
+    display: flex;
+    gap: 3px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+    scrollbar-width: none;
+  }
+
+  .history-days::-webkit-scrollbar {
+    display: none;
+  }
+
+  .day-sq {
+    flex: 1 1 0;
+    min-width: 26px;
+    border-radius: 4px;
+    padding: 5px 2px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: default;
+  }
+
+  .day-sq-label {
+    font-size: 0.58rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  .day-sq-pct {
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.95);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .day-sq.day-sq-good { background: var(--status-on-time, #4caf50); }
+  .day-sq.day-sq-moderate { background: var(--status-minor-delay, #ff9800); }
+  .day-sq.day-sq-poor { background: var(--status-major-delay, #f44336); }
+
+  .day-sq.day-sq-nodata {
+    background: var(--divider-color, #e0e0e0);
+  }
+
+  .day-sq.day-sq-nodata .day-sq-label {
+    color: var(--secondary-text-color, #9e9e9e);
+  }
+
+  .day-sq.day-sq-nodata .day-sq-pct {
+    color: var(--secondary-text-color, #9e9e9e);
+  }
+
+  .history-bestworst {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .history-best {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: var(--status-on-time, #4caf50);
+  }
+
+  .history-worst {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: var(--status-major-delay, #f44336);
+  }
+
+  .history-best ha-icon,
+  .history-worst ha-icon {
+    --mdc-icon-size: 14px;
+  }
+
+  .history-empty {
+    font-size: 0.85rem;
+    color: var(--secondary-text-color, #757575);
+    text-align: center;
+    padding: 8px 0;
   }
 
   /* ==================== EMPTY STATE ==================== */
@@ -843,7 +1012,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
   }
 
 
-`;function lt(t){if(!t||"unknown"===t||"Unknown"===t)return"—";const e=String(t).trim();if(!e)return"—";const i=e.match(/(\d{1,2}):(\d{2})(?::\d{2})?/);if(i)return`${i[1].padStart(2,"0")}:${i[2]}`;try{const t=new Date(e);return isNaN(t.getTime())?(console.warn("formatTime: unparseable value:",e),"—"):t.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:!1})}catch(t){return console.warn("formatTime: could not parse time value:",e,t),"—"}}function dt(t,e){if(!t||!e)return null;const i=new Date(t),s=new Date(e);if(!isNaN(i.getTime())&&!isNaN(s.getTime())){const t=Math.round((s-i)/6e4);return t>0?t:null}const n=String(t).match(/(\d{1,2}):(\d{2})/),r=String(e).match(/(\d{1,2}):(\d{2})/);if(n&&r){let t=60*parseInt(n[1],10)+parseInt(n[2],10),e=60*parseInt(r[1],10)+parseInt(r[2],10);e<t&&(e+=1440);const i=e-t;return i>0?i:null}return null}function ht(t){return!(!t||!t.expected_departure)&&(t.expected_departure!==t.scheduled_departure&&!/\d{1,2}:\d{2}/.test(t.expected_departure))}function ut(t){return t?t.is_cancelled?"cancelled":t.is_no_service?"no-service":t.delay_minutes>=10?"major-delay":t.delay_minutes>0||ht(t)?"minor-delay":"on-time":"unknown"}function pt(t,e=!0){return e&&t?t.is_cancelled?"❌":t.is_no_service?"⊗":t.delay_minutes>=10?"🔴":t.delay_minutes>0||ht(t)?"⚠️":"✓":""}function _t(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.delay_minutes>0?`Delayed ${t.delay_minutes} min${1!==t.delay_minutes?"s":""}`:ht(t)?"Delayed":"On time":"Unknown"}customElements.define("my-rail-commute-card-editor",class extends ot{static get properties(){return{hass:{type:Object},_config:{type:Object}}}static get styles(){return r`
+`;function lt(t){if(!t||"unknown"===t||"Unknown"===t)return"—";const e=String(t).trim();if(!e)return"—";const i=e.match(/(\d{1,2}):(\d{2})(?::\d{2})?/);if(i)return`${i[1].padStart(2,"0")}:${i[2]}`;try{const t=new Date(e);return isNaN(t.getTime())?(console.warn("formatTime: unparseable value:",e),"—"):t.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:!1})}catch(t){return console.warn("formatTime: could not parse time value:",e,t),"—"}}function dt(t,e){if(!t||!e)return null;const i=new Date(t),s=new Date(e);if(!isNaN(i.getTime())&&!isNaN(s.getTime())){const t=Math.round((s-i)/6e4);return t>0?t:null}const o=String(t).match(/(\d{1,2}):(\d{2})/),r=String(e).match(/(\d{1,2}):(\d{2})/);if(o&&r){let t=60*parseInt(o[1],10)+parseInt(o[2],10),e=60*parseInt(r[1],10)+parseInt(r[2],10);e<t&&(e+=1440);const i=e-t;return i>0?i:null}return null}function ht(t){return!(!t||!t.expected_departure)&&(t.expected_departure!==t.scheduled_departure&&!/\d{1,2}:\d{2}/.test(t.expected_departure))}function pt(t){return t?t.is_cancelled?"cancelled":t.is_no_service?"no-service":t.delay_minutes>=10?"major-delay":t.delay_minutes>0||ht(t)?"minor-delay":"on-time":"unknown"}function ut(t,e=!0){return e&&t?t.is_cancelled?"❌":t.is_no_service?"⊗":t.delay_minutes>=10?"🔴":t.delay_minutes>0||ht(t)?"⚠️":"✓":""}function _t(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.delay_minutes>0?`Delayed ${t.delay_minutes} min${1!==t.delay_minutes?"s":""}`:ht(t)?"Delayed":"On time":"Unknown"}customElements.define("my-rail-commute-card-editor",class extends nt{static get properties(){return{hass:{type:Object},_config:{type:Object}}}static get styles(){return r`
       .card-config {
         padding: 16px;
       }
@@ -942,7 +1111,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
         color: var(--secondary-text-color);
         margin-top: 4px;
       }
-    `}setConfig(t){this._config={...t},this.requestUpdate()}set hass(t){this._hass=t,this.requestUpdate()}get hass(){return this._hass}_filterSummaryEntities(t){const e=this._hass.states[t.entity_id];if("my_rail_commute"===e?.attributes?.integration)return!0;const i=t.entity_id.toLowerCase();return i.endsWith("_summary")||i.includes("commute")||i.includes("rail")||i.includes("train")}render(){return this._hass&&this._config?B`
+    `}setConfig(t){this._config={...t},this.requestUpdate()}set hass(t){this._hass=t,this.requestUpdate()}get hass(){return this._hass}_filterSummaryEntities(t){const e=this._hass.states[t.entity_id];if("my_rail_commute"===e?.attributes?.integration)return!0;const i=t.entity_id.toLowerCase();return i.endsWith("_summary")||i.includes("commute")||i.includes("rail")||i.includes("train")}render(){return this._hass&&this._config?q`
       <div class="card-config">
         <!-- Basic Configuration -->
         <div class="section-header">Basic Configuration</div>
@@ -1123,6 +1292,34 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
           ></ha-textfield>
         </div>
 
+        <!-- Historical Reliability -->
+        <div class="section-header">Historical Reliability</div>
+
+        <div class="switches">
+          <ha-formfield label="Show History Panel">
+            <ha-switch
+              .checked=${!0===this._config.show_history_panel}
+              @change=${this._toggleChanged("show_history_panel")}
+            ></ha-switch>
+          </ha-formfield>
+        </div>
+
+        <div class="info">When enabled, a chart-line button appears in the footer. Tap it to expand a panel showing on-time % KPIs and a colour-coded day-by-day timeline.</div>
+
+        ${this._config.show_history_panel?q`
+          <div class="option" style="margin-top: 12px;">
+            <span class="native-select-label">History Window</span>
+            <div class="native-select-container">
+              <select @change=${this._historyDaysChanged}>
+                <option value="7" ?selected=${7===(this._config.history_days||7)}>Last 7 days</option>
+                <option value="14" ?selected=${14===(this._config.history_days||7)}>Last 14 days</option>
+                <option value="30" ?selected=${30===(this._config.history_days||7)}>Last 30 days</option>
+              </select>
+            </div>
+            <div class="info">Number of days shown in the day-by-day timeline.</div>
+          </div>
+        `:""}
+
         <!-- Advanced Options -->
         <div class="section-header">Advanced Options</div>
 
@@ -1173,7 +1370,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
           </div>
         </div>
 
-        ${"url"===this._config.tap_action?.action?B`
+        ${"url"===this._config.tap_action?.action?q`
           <div class="option">
             <ha-textfield
               label="URL Path"
@@ -1183,7 +1380,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
           </div>
         `:""}
 
-        ${"navigate"===this._config.tap_action?.action?B`
+        ${"navigate"===this._config.tap_action?.action?q`
           <div class="option">
             <ha-textfield
               label="Navigation Path"
@@ -1204,12 +1401,12 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
           </div>
         </div>
       </div>
-    `:B``}_entityChanged(t){this._config&&this._hass&&(this._config={...this._config,entity:t.detail.value},this._fireConfigChanged())}_titleChanged(t){this._config&&this._hass&&(this._config={...this._config,title:t.target.value},this._fireConfigChanged())}_viewChanged(t){this._config&&this._hass&&(this._config={...this._config,view:t.target.value},this._fireConfigChanged())}_themeChanged(t){this._config&&this._hass&&(this._config={...this._config,theme:t.target.value},this._fireConfigChanged())}_fontSizeChanged(t){this._config&&this._hass&&(this._config={...this._config,font_size:t.target.value},this._fireConfigChanged())}_toggleChanged(t){return e=>{this._config&&this._hass&&(this._config={...this._config,[t]:e.target.checked},this._fireConfigChanged())}}_minDelayChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||0;this._config={...this._config,min_delay_to_show:e},this._fireConfigChanged()}_maxCallingPointsChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||3;this._config={...this._config,max_calling_points:e},this._fireConfigChanged()}_statusEntityChanged(t){this._config&&this._hass&&(this._config={...this._config,status_entity:t.detail.value},this._fireConfigChanged())}_refreshIntervalChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||60;this._config={...this._config,refresh_interval:e},this._fireConfigChanged()}_tapActionChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{action:t.target.value}},this._fireConfigChanged())}_urlPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,url_path:t.target.value}},this._fireConfigChanged())}_navigationPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,navigation_path:t.target.value}},this._fireConfigChanged())}_holdActionChanged(t){this._config&&this._hass&&(this._config={...this._config,hold_action:{action:t.target.value}},this._fireConfigChanged())}_fireConfigChanged(){const t=new CustomEvent("config-changed",{detail:{config:this._config},bubbles:!0,composed:!0});this.dispatchEvent(t)}}),console.info("%c MY-RAIL-COMMUTE-CARD \n%c Version 1.0.0 ","color: cyan; font-weight: bold; background: black","color: white; font-weight: bold; background: dimgray");class mt extends ot{static get properties(){return{hass:{type:Object},config:{type:Object},_trains:{type:Array},_origin:{type:String},_destination:{type:String},_lastUpdated:{type:String},_hasDisruption:{type:Boolean},_disruptionSeverity:{type:String},_disruptionMessage:{type:String},_resolvedStatusEntityId:{type:String},_loading:{type:Boolean},_entityNotFound:{type:Boolean},_returnEntityId:{type:String},_showReturn:{type:Boolean}}}static get styles(){return ct}constructor(){super(),this._trains=[],this._origin="",this._destination="",this._lastUpdated="",this._hasDisruption=!1,this._disruptionSeverity="",this._disruptionMessage="",this._resolvedStatusEntityId="",this._loading=!0,this._entityNotFound=!1,this._toastTimer=null,this._returnEntityId=null,this._showReturn=!1,this._returnEntityCacheKey=null}setConfig(t){if(!t)throw new Error("Invalid configuration");if(!t.entity&&""!==t.entity)throw new Error("Please select a rail commute summary sensor");this.config={view:"full",theme:"auto",show_header:!0,show_route:!0,show_last_updated:!1,show_platform:!0,show_operator:!0,show_calling_points:!1,show_delay_reason:!0,show_journey_time:!1,show_service_type:!1,max_calling_points:3,hide_on_time_trains:!1,only_show_disrupted:!1,min_delay_to_show:0,auto_refresh:!0,refresh_interval:60,card_style:"departure-board",font_size:"medium",compact_height:!1,show_animations:!0,status_icons:!0,...t},t.colors&&(t.colors.on_time&&this.style.setProperty("--custom-on-time-color",t.colors.on_time),t.colors.minor_delay&&this.style.setProperty("--custom-minor-delay-color",t.colors.minor_delay),t.colors.major_delay&&this.style.setProperty("--custom-major-delay-color",t.colors.major_delay),t.colors.cancelled&&this.style.setProperty("--custom-cancelled-color",t.colors.cancelled)),t.theme&&"auto"!==t.theme&&this.setAttribute("theme",t.theme),t.font_size&&this.setAttribute("font-size",t.font_size),!1===t.show_animations&&this.setAttribute("no-animations","")}set hass(t){if(this._hass=t,!this.config.entity)return this._loading=!1,void(this._trains=[]);const e=t.states[this.config.entity];if(!e)return console.error("my-rail-commute-card: entity not found:",this.config.entity),this._entityNotFound=!0,this._loading=!1,void(this._trains=[]);this._entityNotFound=!1;const i=e.attributes.origin_name||e.attributes.origin||e.attributes.from_station||"",s=e.attributes.destination_name||e.attributes.destination||e.attributes.to_station||"",n=`${i}|${s}`;n!==this._returnEntityCacheKey?(this._returnEntityCacheKey=n,this._returnEntityId=this._findReturnEntity(t,i,s)):this._returnEntityId&&!t.states[this._returnEntityId]&&(this._returnEntityCacheKey=null,this._returnEntityId=this._findReturnEntity(t,i,s)),this._showReturn&&!this._returnEntityId&&(this._showReturn=!1);const r=this._showReturn&&this._returnEntityId?this._returnEntityId:this.config.entity,o=t.states[r];if(!o)return this._loading=!1,void(this._trains=[]);if(o.attributes.all_trains&&o.attributes.all_trains.length>0){const t=r.replace("sensor.","").replace("_summary","").replace("_commute_summary","");this._trains=o.attributes.all_trains.map((e,i)=>{const s=null!=e.train_number&&""!==e.train_number?String(e.train_number).toLowerCase().replace(/[^a-z0-9]/g,"_"):String(i+1),n=e.scheduled_departure,r=e.expected_departure,o=e.scheduled_arrival,a=e.estimated_arrival,c=/\d{1,2}:\d{2}/.test(String(r||"")),l=c?r:n,d=!c&&!!r&&r!==n&&!/^(on[\s-]?time|right\s*time)$/i.test(String(r||"").trim()),h=/\d{1,2}:\d{2}/.test(String(a||""))?a:o;return{...e,journey_duration:e.journey_duration||dt(l,h),journey_time_approx:e.journey_time_approx||d,train_id:`sensor.${t}_train_${s}`}})}else this._trains=this._getTrainsFromIndividualSensors(t,r);var a;let c;if(this._origin=this._showReturn?s:i,this._destination=this._showReturn?i:s,this._lastUpdated=o.attributes.last_updated||o.last_updated||o.last_changed||"",this._trains&&this._trains.length>0&&(this._trains=(a=this._trains)&&0!==a.length?[...a].sort((t,e)=>{const i=new Date(t.scheduled_departure).getTime(),s=new Date(e.scheduled_departure).getTime(),n=!isNaN(i),r=!isNaN(s);return n||r?n?r?i-s:-1:1:0}):[]),this._hasDisruption=!1,this._disruptionSeverity="",this._disruptionMessage="",this._resolvedStatusEntityId="",this._showReturn&&this._returnEntityId){const e=`sensor.${this._returnEntityId.replace("sensor.","").replace("_summary","").replace("_commute_summary","")}_status`;t.states[e]&&(c=e)}else if(c=this.config.status_entity,!c){const e=`sensor.${this.config.entity.replace("sensor.","").replace("_summary","").replace("_commute_summary","")}_status`;t.states[e]&&(c=e)}if(c){this._resolvedStatusEntityId=c;const e=t.states[c];if(e){const t=(e.state||"").toLowerCase().trim();"normal"!==t&&"unknown"!==t&&"unavailable"!==t&&""!==t&&(this._hasDisruption=!0,t.includes("critical")?this._disruptionSeverity="critical":t.includes("severe")?this._disruptionSeverity="severe":t.includes("major")?this._disruptionSeverity="major":this._disruptionSeverity="minor",this._disruptionMessage=e.attributes.message||e.attributes.reason||e.attributes.disruption_message||"")}}this._trains&&this._trains.length>0&&(this._trains=function(t,e){if(!t||0===t.length)return[];let i=[...t];return e.hide_on_time_trains&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||t.delay_minutes>0||ht(t))),e.min_delay_to_show>0&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||ht(t)||t.delay_minutes>=e.min_delay_to_show)),i}(this._trains,this.config)),this._loading=!1,this.requestUpdate()}_findReturnEntity(t,e,i){if(!e||!i)return null;const s=e.toLowerCase().trim(),n=i.toLowerCase().trim();for(const[e,i]of Object.entries(t.states)){if(e===this.config.entity)continue;if(!i.attributes)continue;const t=i.attributes;if(!(t.all_trains||t.origin_name||t.origin||t.from_station))continue;const r=(t.origin_name||t.origin||t.from_station||"").toLowerCase().trim(),o=(t.destination_name||t.destination||t.to_station||"").toLowerCase().trim();if(r&&o&&(r===n&&o===s))return e}return null}_toggleReturn(){this._showReturn=!this._showReturn,this._hass&&(this.hass=this._hass)}_getTrainsFromIndividualSensors(t,e){const i=(e||this.config.entity).replace("sensor.","").replace("_summary","").replace("_commute_summary",""),s=[`sensor.${i}_train_`,`sensor.${i}_train`,`sensor.${i.replace(/_/g,"-")}_train_`,`sensor.${i.replace(/_/g,"")}_train_`];let n=[];for(const e of s){const i=Object.keys(t.states).filter(t=>t.startsWith(e));if(i.length>0){n=i;break}}n.sort((t,e)=>parseInt(t.match(/train[_-]?(\d+)$/i)?.[1]||"0",10)-parseInt(e.match(/train[_-]?(\d+)$/i)?.[1]||"0",10));const r=n.map(e=>{const i=t.states[e];if(!i)return console.warn(`my-rail-commute-card: train sensor not found: ${e}`),null;let s=i.attributes.calling_points||i.attributes.stops||i.attributes.calling_at||i.attributes["Calling at"]||[];"string"==typeof s&&(s=s.split(",").map(t=>t.trim()).filter(t=>t));const n=i.attributes.scheduled_departure||i.attributes.scheduled||i.attributes.departure||i.attributes.departure_time||i.attributes.std||i.attributes.aimed_departure_time||i.attributes["Scheduled Departure"]||i.state,r=i.attributes.expected_departure||i.attributes.expected||i.attributes.estimated||i.attributes.estimated_departure||i.attributes.etd||i.attributes.expected_arrival||i.attributes["Expected Departure"]||n,o=i.attributes.scheduled_arrival||i.attributes.sta||i.attributes["Scheduled Arrival"]||null,a=i.attributes.estimated_arrival||i.attributes.eta||i.attributes["Estimated Arrival"]||o,c=/\d{1,2}:\d{2}/.test(String(r)),l=c?r:n,d=!c&&!!r&&r!==n&&!/^(on[\s-]?time|right\s*time)$/i.test(String(r).trim()),h=/\d{1,2}:\d{2}/.test(String(a))?a:o;return{train_id:e,scheduled_departure:n,expected_departure:r,platform:i.attributes.platform||i.attributes.Platform||"",operator:i.attributes.operator||i.attributes.service_operator||i.attributes.Operator||"",is_cancelled:i.attributes.is_cancelled||i.attributes.cancelled||"Cancelled"===i.state||"Canceled"===i.state||!1,is_no_service:i.attributes.is_no_service||i.attributes.no_service||"No service"===i.state||"No Service"===i.state||!1,delay_minutes:parseInt(i.attributes.delay_minutes||i.attributes.delay||i.attributes.minutes_late||i.attributes["Delay minutes"]||"0",10),delay_reason:i.attributes.delay_reason||i.attributes.reason||i.attributes["Delay reason"]||"",calling_points:s,journey_duration:i.attributes.journey_duration||i.attributes.duration||dt(l,h),journey_time_approx:d,service_type:i.attributes.service_type||i.attributes.type||""}}).filter(t=>null!==t);return r}getCardSize(){const t=this.config.view||"full",e=this._trains?.length||0;switch(t){case"compact":return 1+Math.ceil(.5*e);case"next-only":return 3;default:return 2+e}}render(){if(!this.config.entity)return this._renderEmpty("No entity selected","Please select a rail commute summary sensor in the card configuration");if(this._loading)return this._renderLoading();if(t=this._hasDisruption,this.config.only_show_disrupted&&!t)return this._renderEmpty("No disruption detected","Trains will appear when there is disruption");var t;if(this._entityNotFound)return this._renderEmpty("Entity not found",`Cannot find entity: ${this.config.entity}`);if(!this._trains||0===this._trains.length)return this._renderEmpty();switch(this.config.view||"full"){case"compact":return this._renderCompact();case"next-only":return this._renderNextOnly();case"board":return this._renderBoard();default:return this._renderFull()}}_renderHeader(){const t=!1!==this.config.show_header,e=!1!==this.config.show_route;if(!t)return"";const i=this.config.title||"Rail Commute";return B`
+    `:q``}_entityChanged(t){this._config&&this._hass&&(this._config={...this._config,entity:t.detail.value},this._fireConfigChanged())}_titleChanged(t){this._config&&this._hass&&(this._config={...this._config,title:t.target.value},this._fireConfigChanged())}_viewChanged(t){this._config&&this._hass&&(this._config={...this._config,view:t.target.value},this._fireConfigChanged())}_themeChanged(t){this._config&&this._hass&&(this._config={...this._config,theme:t.target.value},this._fireConfigChanged())}_fontSizeChanged(t){this._config&&this._hass&&(this._config={...this._config,font_size:t.target.value},this._fireConfigChanged())}_toggleChanged(t){return e=>{this._config&&this._hass&&(this._config={...this._config,[t]:e.target.checked},this._fireConfigChanged())}}_minDelayChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||0;this._config={...this._config,min_delay_to_show:e},this._fireConfigChanged()}_maxCallingPointsChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||3;this._config={...this._config,max_calling_points:e},this._fireConfigChanged()}_statusEntityChanged(t){this._config&&this._hass&&(this._config={...this._config,status_entity:t.detail.value},this._fireConfigChanged())}_refreshIntervalChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||60;this._config={...this._config,refresh_interval:e},this._fireConfigChanged()}_tapActionChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{action:t.target.value}},this._fireConfigChanged())}_urlPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,url_path:t.target.value}},this._fireConfigChanged())}_navigationPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,navigation_path:t.target.value}},this._fireConfigChanged())}_holdActionChanged(t){this._config&&this._hass&&(this._config={...this._config,hold_action:{action:t.target.value}},this._fireConfigChanged())}_historyDaysChanged(t){this._config&&this._hass&&(this._config={...this._config,history_days:parseInt(t.target.value,10)},this._fireConfigChanged())}_fireConfigChanged(){const t=new CustomEvent("config-changed",{detail:{config:this._config},bubbles:!0,composed:!0});this.dispatchEvent(t)}}),console.info("%c MY-RAIL-COMMUTE-CARD \n%c Version 1.0.5 ","color: cyan; font-weight: bold; background: black","color: white; font-weight: bold; background: dimgray");class mt extends nt{static get properties(){return{hass:{type:Object},config:{type:Object},_trains:{type:Array},_origin:{type:String},_destination:{type:String},_lastUpdated:{type:String},_hasDisruption:{type:Boolean},_disruptionSeverity:{type:String},_disruptionMessage:{type:String},_resolvedStatusEntityId:{type:String},_loading:{type:Boolean},_entityNotFound:{type:Boolean},_returnEntityId:{type:String},_showReturn:{type:Boolean},_historyPanelOpen:{type:Boolean},_histRelAttrs:{type:Object},_histDelAttrs:{type:Object}}}static get styles(){return ct}constructor(){super(),this._trains=[],this._origin="",this._destination="",this._lastUpdated="",this._hasDisruption=!1,this._disruptionSeverity="",this._disruptionMessage="",this._resolvedStatusEntityId="",this._loading=!0,this._entityNotFound=!1,this._toastTimer=null,this._returnEntityId=null,this._showReturn=!1,this._returnEntityCacheKey=null,this._historyPanelOpen=!1,this._histRelAttrs=null,this._histDelAttrs=null}setConfig(t){if(!t)throw new Error("Invalid configuration");if(!t.entity&&""!==t.entity)throw new Error("Please select a rail commute summary sensor");this.config={view:"full",theme:"auto",show_header:!0,show_route:!0,show_last_updated:!1,show_platform:!0,show_operator:!0,show_calling_points:!1,show_delay_reason:!0,show_journey_time:!1,show_service_type:!1,max_calling_points:3,hide_on_time_trains:!1,only_show_disrupted:!1,min_delay_to_show:0,auto_refresh:!0,refresh_interval:60,card_style:"departure-board",font_size:"medium",compact_height:!1,show_animations:!0,status_icons:!0,show_history_panel:!1,history_days:7,...t},t.colors&&(t.colors.on_time&&this.style.setProperty("--custom-on-time-color",t.colors.on_time),t.colors.minor_delay&&this.style.setProperty("--custom-minor-delay-color",t.colors.minor_delay),t.colors.major_delay&&this.style.setProperty("--custom-major-delay-color",t.colors.major_delay),t.colors.cancelled&&this.style.setProperty("--custom-cancelled-color",t.colors.cancelled)),t.theme&&"auto"!==t.theme&&this.setAttribute("theme",t.theme),t.font_size&&this.setAttribute("font-size",t.font_size),!1===t.show_animations&&this.setAttribute("no-animations","")}set hass(t){if(this._hass=t,!this.config.entity)return this._loading=!1,void(this._trains=[]);const e=t.states[this.config.entity];if(!e)return console.error("my-rail-commute-card: entity not found:",this.config.entity),this._entityNotFound=!0,this._loading=!1,void(this._trains=[]);this._entityNotFound=!1;const i=e.attributes.origin_name||e.attributes.origin||e.attributes.from_station||"",s=e.attributes.destination_name||e.attributes.destination||e.attributes.to_station||"",o=`${i}|${s}`;o!==this._returnEntityCacheKey?(this._returnEntityCacheKey=o,this._returnEntityId=this._findReturnEntity(t,i,s)):this._returnEntityId&&!t.states[this._returnEntityId]&&(this._returnEntityCacheKey=null,this._returnEntityId=this._findReturnEntity(t,i,s)),this._showReturn&&!this._returnEntityId&&(this._showReturn=!1);const r=this._showReturn&&this._returnEntityId?this._returnEntityId:this.config.entity,n=t.states[r];if(!n)return this._loading=!1,void(this._trains=[]);if(n.attributes.all_trains&&n.attributes.all_trains.length>0){const t=r.replace("sensor.","").replace("_summary","").replace("_commute_summary","");this._trains=n.attributes.all_trains.map((e,i)=>{const s=null!=e.train_number&&""!==e.train_number?String(e.train_number).toLowerCase().replace(/[^a-z0-9]/g,"_"):String(i+1),o=e.scheduled_departure,r=e.expected_departure,n=e.scheduled_arrival,a=e.estimated_arrival,c=/\d{1,2}:\d{2}/.test(String(r||"")),l=c?r:o,d=!c&&!!r&&r!==o&&!/^(on[\s-]?time|right\s*time)$/i.test(String(r||"").trim()),h=/\d{1,2}:\d{2}/.test(String(a||""))?a:n;return{...e,journey_duration:e.journey_duration||dt(l,h),journey_time_approx:e.journey_time_approx||d,train_id:`sensor.${t}_train_${s}`}})}else this._trains=this._getTrainsFromIndividualSensors(t,r);var a;let c;if(this._origin=this._showReturn?s:i,this._destination=this._showReturn?i:s,this._lastUpdated=n.attributes.last_updated||n.last_updated||n.last_changed||"",this._trains&&this._trains.length>0&&(this._trains=(a=this._trains)&&0!==a.length?[...a].sort((t,e)=>{const i=new Date(t.scheduled_departure).getTime(),s=new Date(e.scheduled_departure).getTime(),o=!isNaN(i),r=!isNaN(s);return o||r?o?r?i-s:-1:1:0}):[]),this._hasDisruption=!1,this._disruptionSeverity="",this._disruptionMessage="",this._resolvedStatusEntityId="",this._showReturn&&this._returnEntityId){const e=`sensor.${this._returnEntityId.replace("sensor.","").replace("_summary","").replace("_commute_summary","")}_status`;t.states[e]&&(c=e)}else if(c=this.config.status_entity,!c){const e=`sensor.${this.config.entity.replace("sensor.","").replace("_summary","").replace("_commute_summary","")}_status`;t.states[e]&&(c=e)}if(c){this._resolvedStatusEntityId=c;const e=t.states[c];if(e){const t=(e.state||"").toLowerCase().trim();"normal"!==t&&"unknown"!==t&&"unavailable"!==t&&""!==t&&(this._hasDisruption=!0,t.includes("critical")?this._disruptionSeverity="critical":t.includes("severe")?this._disruptionSeverity="severe":t.includes("major")?this._disruptionSeverity="major":this._disruptionSeverity="minor",this._disruptionMessage=e.attributes.message||e.attributes.reason||e.attributes.disruption_message||"")}}if(this.config.show_history_panel){const e=this.config.entity.replace("sensor.","").replace("_summary","").replace("_commute_summary",""),i=t.states[`sensor.${e}_historical_reliability`],s=t.states[`sensor.${e}_historical_delays`];this._histRelAttrs=i?i.attributes:null,this._histDelAttrs=s?s.attributes:null}this._trains&&this._trains.length>0&&(this._trains=function(t,e){if(!t||0===t.length)return[];let i=[...t];return e.hide_on_time_trains&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||t.delay_minutes>0||ht(t))),e.min_delay_to_show>0&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||ht(t)||t.delay_minutes>=e.min_delay_to_show)),i}(this._trains,this.config)),this._loading=!1,this.requestUpdate()}_findReturnEntity(t,e,i){if(!e||!i)return null;const s=e.toLowerCase().trim(),o=i.toLowerCase().trim();for(const[e,i]of Object.entries(t.states)){if(e===this.config.entity)continue;if(!i.attributes)continue;const t=i.attributes;if(!(t.all_trains||t.origin_name||t.origin||t.from_station))continue;const r=(t.origin_name||t.origin||t.from_station||"").toLowerCase().trim(),n=(t.destination_name||t.destination||t.to_station||"").toLowerCase().trim();if(r&&n&&(r===o&&n===s))return e}return null}_toggleReturn(){this._showReturn=!this._showReturn,this._hass&&(this.hass=this._hass)}_toggleHistoryPanel(){this._historyPanelOpen=!this._historyPanelOpen}_getTrainsFromIndividualSensors(t,e){const i=(e||this.config.entity).replace("sensor.","").replace("_summary","").replace("_commute_summary",""),s=[`sensor.${i}_train_`,`sensor.${i}_train`,`sensor.${i.replace(/_/g,"-")}_train_`,`sensor.${i.replace(/_/g,"")}_train_`];let o=[];for(const e of s){const i=Object.keys(t.states).filter(t=>t.startsWith(e));if(i.length>0){o=i;break}}o.sort((t,e)=>parseInt(t.match(/train[_-]?(\d+)$/i)?.[1]||"0",10)-parseInt(e.match(/train[_-]?(\d+)$/i)?.[1]||"0",10));const r=o.map(e=>{const i=t.states[e];if(!i)return console.warn(`my-rail-commute-card: train sensor not found: ${e}`),null;let s=i.attributes.calling_points||i.attributes.stops||i.attributes.calling_at||i.attributes["Calling at"]||[];"string"==typeof s&&(s=s.split(",").map(t=>t.trim()).filter(t=>t));const o=i.attributes.scheduled_departure||i.attributes.scheduled||i.attributes.departure||i.attributes.departure_time||i.attributes.std||i.attributes.aimed_departure_time||i.attributes["Scheduled Departure"]||i.state,r=i.attributes.expected_departure||i.attributes.expected||i.attributes.estimated||i.attributes.estimated_departure||i.attributes.etd||i.attributes.expected_arrival||i.attributes["Expected Departure"]||o,n=i.attributes.scheduled_arrival||i.attributes.sta||i.attributes["Scheduled Arrival"]||null,a=i.attributes.estimated_arrival||i.attributes.eta||i.attributes["Estimated Arrival"]||n,c=/\d{1,2}:\d{2}/.test(String(r)),l=c?r:o,d=!c&&!!r&&r!==o&&!/^(on[\s-]?time|right\s*time)$/i.test(String(r).trim()),h=/\d{1,2}:\d{2}/.test(String(a))?a:n;return{train_id:e,scheduled_departure:o,expected_departure:r,platform:i.attributes.platform||i.attributes.Platform||"",operator:i.attributes.operator||i.attributes.service_operator||i.attributes.Operator||"",is_cancelled:i.attributes.is_cancelled||i.attributes.cancelled||"Cancelled"===i.state||"Canceled"===i.state||!1,is_no_service:i.attributes.is_no_service||i.attributes.no_service||"No service"===i.state||"No Service"===i.state||!1,delay_minutes:parseInt(i.attributes.delay_minutes||i.attributes.delay||i.attributes.minutes_late||i.attributes["Delay minutes"]||"0",10),delay_reason:i.attributes.delay_reason||i.attributes.reason||i.attributes["Delay reason"]||"",calling_points:s,journey_duration:i.attributes.journey_duration||i.attributes.duration||dt(l,h),journey_time_approx:d,service_type:i.attributes.service_type||i.attributes.type||""}}).filter(t=>null!==t);return r}getCardSize(){const t=this.config.view||"full",e=this._trains?.length||0;switch(t){case"compact":return 1+Math.ceil(.5*e);case"next-only":return 3;default:return 2+e}}render(){if(!this.config.entity)return this._renderEmpty("No entity selected","Please select a rail commute summary sensor in the card configuration");if(this._loading)return this._renderLoading();if(t=this._hasDisruption,this.config.only_show_disrupted&&!t)return this._renderEmpty("No disruption detected","Trains will appear when there is disruption");var t;if(this._entityNotFound)return this._renderEmpty("Entity not found",`Cannot find entity: ${this.config.entity}`);if(!this._trains||0===this._trains.length)return this._renderEmpty();switch(this.config.view||"full"){case"compact":return this._renderCompact();case"next-only":return this._renderNextOnly();case"board":return this._renderBoard();default:return this._renderFull()}}_renderHeader(){const t=!1!==this.config.show_header,e=!1!==this.config.show_route;if(!t)return"";const i=this.config.title||"Rail Commute";return q`
       <div class="card-header">
         <div class="header-content">
           <ha-icon icon="mdi:train"></ha-icon>
           <span class="header-title">${i}</span>
-          ${this._returnEntityId?B`
+          ${this._returnEntityId?q`
             <button
               class="return-toggle ${this._showReturn?"active":""}"
               @click="${this._toggleReturn}"
@@ -1219,36 +1416,93 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
             </button>
           `:""}
         </div>
-        ${e&&this._origin&&this._destination?B`
+        ${e&&this._origin&&this._destination?q`
           <div class="route">
             ${this._origin} → ${this._destination}
           </div>
         `:""}
       </div>
-    `}_renderDisruptionBanner(){if(!this._hasDisruption)return"";const t={minor:{cls:"disruption-minor",label:"Minor Delays",icon:"mdi:alert"},major:{cls:"disruption-major",label:"Major Delays",icon:"mdi:alert"},severe:{cls:"disruption-severe",label:"Severe Disruption",icon:"mdi:alert-circle"},critical:{cls:"disruption-critical",label:"Critical Disruption",icon:"mdi:alert-octagon"}},{cls:e,label:i,icon:s}=t[this._disruptionSeverity]||t.minor,n=!!this._resolvedStatusEntityId;return B`
+    `}_renderDisruptionBanner(){if(!this._hasDisruption)return"";const t={minor:{cls:"disruption-minor",label:"Minor Delays",icon:"mdi:alert"},major:{cls:"disruption-major",label:"Major Delays",icon:"mdi:alert"},severe:{cls:"disruption-severe",label:"Severe Disruption",icon:"mdi:alert-circle"},critical:{cls:"disruption-critical",label:"Critical Disruption",icon:"mdi:alert-octagon"}},{cls:e,label:i,icon:s}=t[this._disruptionSeverity]||t.minor,o=!!this._resolvedStatusEntityId;return q`
       <div
-        class="disruption-banner ${e} ${n?"disruption-clickable":""}"
-        @click="${n?()=>this._showDisruptionMoreInfo():null}"
-        role="${n?"button":"alert"}"
+        class="disruption-banner ${e} ${o?"disruption-clickable":""}"
+        @click="${o?()=>this._showDisruptionMoreInfo():null}"
+        role="${o?"button":"alert"}"
       >
         <ha-icon icon="${s}" class="disruption-icon"></ha-icon>
         <div class="disruption-content">
           <span class="disruption-label">${i} on this route</span>
-          ${this._disruptionMessage?B`
+          ${this._disruptionMessage?q`
             <span class="disruption-message">${this._disruptionMessage}</span>
           `:""}
         </div>
-        ${n?B`
+        ${o?q`
           <ha-icon icon="mdi:chevron-right" class="disruption-chevron"></ha-icon>
         `:""}
       </div>
-    `}_showDisruptionMoreInfo(){if(!this._resolvedStatusEntityId)return;const t=new Event("hass-more-info",{bubbles:!0,composed:!0});t.detail={entityId:this._resolvedStatusEntityId},this.dispatchEvent(t)}_renderFooter(){return!1===this.config.show_last_updated?"":B`
+    `}_showDisruptionMoreInfo(){if(!this._resolvedStatusEntityId)return;const t=new Event("hass-more-info",{bubbles:!0,composed:!0});t.detail={entityId:this._resolvedStatusEntityId},this.dispatchEvent(t)}_renderFooter(){const t=!0===this.config.show_last_updated,e=!0===this.config.show_history_panel;return t||e?q`
       <div class="card-footer">
-        <span class="last-updated">
-          Last updated: ${function(t){if(!t)return"Unknown";try{const e=new Date,i=new Date(t);if(isNaN(i.getTime()))return console.warn("getRelativeTime: invalid timestamp:",t),"Unknown";const s=Math.floor((e-i)/1e3);if(s<0)return"Just now";if(s<60)return"Just now";if(s<3600){const t=Math.floor(s/60);return`${t} minute${1!==t?"s":""} ago`}if(s<86400){const t=Math.floor(s/3600);return`${t} hour${1!==t?"s":""} ago`}const n=Math.floor(s/86400);return`${n} day${1!==n?"s":""} ago`}catch(t){return console.warn("getRelativeTime: error calculating relative time:",t),"Unknown"}}(this._lastUpdated)}
-        </span>
+        ${t?q`
+          <span class="last-updated">
+            Last updated: ${function(t){if(!t)return"Unknown";try{const e=new Date,i=new Date(t);if(isNaN(i.getTime()))return console.warn("getRelativeTime: invalid timestamp:",t),"Unknown";const s=Math.floor((e-i)/1e3);if(s<0)return"Just now";if(s<60)return"Just now";if(s<3600){const t=Math.floor(s/60);return`${t} minute${1!==t?"s":""} ago`}if(s<86400){const t=Math.floor(s/3600);return`${t} hour${1!==t?"s":""} ago`}const o=Math.floor(s/86400);return`${o} day${1!==o?"s":""} ago`}catch(t){return console.warn("getRelativeTime: error calculating relative time:",t),"Unknown"}}(this._lastUpdated)}
+          </span>
+        `:q`<span></span>`}
+        ${e?q`
+          <button
+            class="history-toggle ${this._historyPanelOpen?"active":""}"
+            @click="${this._toggleHistoryPanel}"
+            title="${this._historyPanelOpen?"Hide reliability history":"Show reliability history"}"
+          >
+            <ha-icon icon="mdi:chart-line"></ha-icon>
+          </button>
+        `:""}
       </div>
-    `}_renderFull(){const t=this.config.compact_height?"compact-height":"";return B`
+    `:""}_renderHistoryPanel(){if(!this.config.show_history_panel||!this._historyPanelOpen)return"";const t=this._histRelAttrs,e=this._histDelAttrs;if(!t&&!e)return q`
+        <div class="history-panel">
+          <div class="history-empty">No reliability data available yet — check back after a few updates.</div>
+        </div>
+      `;const i=Math.min(this.config.history_days||7,30),s=(t?.daily_breakdown||[]).slice(-i),o=t?.on_time_pct_today??null,r=t?.on_time_pct_7day??null,n=t?.on_time_pct_30day??null,a=e?.avg_delay_7day??null,c=e?.best_day??null,l=e?.worst_day??null;return q`
+      <div class="history-panel">
+        <div class="history-kpis">
+          ${this._renderKpiPill("Today",o,"%",!1)}
+          ${this._renderKpiPill("7-day",r,"%",!1)}
+          ${this._renderKpiPill("30-day",n,"%",!1)}
+          ${this._renderKpiPill("Avg delay",a," min",!0)}
+        </div>
+
+        ${s.length>0?q`
+          <div class="history-days">
+            ${s.map(t=>this._renderDaySquare(t))}
+          </div>
+        `:""}
+
+        ${c||l?q`
+          <div class="history-bestworst">
+            ${c?q`
+              <span class="history-best">
+                <ha-icon icon="mdi:thumb-up-outline"></ha-icon>
+                Best: ${this._formatHistoryDate(c.date)} (${c.on_time_pct}%)
+              </span>
+            `:q`<span></span>`}
+            ${l?q`
+              <span class="history-worst">
+                <ha-icon icon="mdi:thumb-down-outline"></ha-icon>
+                Worst: ${this._formatHistoryDate(l.date)} (${l.on_time_pct}%)
+              </span>
+            `:""}
+          </div>
+        `:""}
+      </div>
+    `}_renderKpiPill(t,e,i,s){const o=s?"kpi-neutral":null==(r=e)?"kpi-neutral":r>=90?"kpi-good":r>=70?"kpi-moderate":"kpi-poor";var r;return q`
+      <div class="kpi-pill ${o}">
+        <span class="kpi-value">${null!=e?`${e}${i}`:"—"}</span>
+        <span class="kpi-label">${t}</span>
+      </div>
+    `}_renderDaySquare(t){const e=t.on_time_pct;let i="day-sq-nodata";null!=e&&(i=e>=90?"day-sq-good":e>=70?"day-sq-moderate":"day-sq-poor");const[s,o,r]=t.date.split("-").map(Number),n=new Date(s,o-1,r).toLocaleDateString("en-GB",{weekday:"short"}),a=null!=e?`${Math.round(e)}%`:"—",c=null!=e?`${n} ${r}: ${e}% on-time${t.avg_delay_minutes?`, avg ${t.avg_delay_minutes} min late`:""}`:`${n} ${r}: No data`;return q`
+      <div class="day-sq ${i}" title="${c}">
+        <span class="day-sq-label">${n}</span>
+        <span class="day-sq-pct">${a}</span>
+      </div>
+    `}_formatHistoryDate(t){if(!t)return"";const[e,i,s]=t.split("-").map(Number);return new Date(e,i-1,s).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"})}_renderFull(){const t=this.config.compact_height?"compact-height":"";return q`
       <ha-card class="${t}">
         ${this._renderHeader()}
         ${this._renderDisruptionBanner()}
@@ -1257,9 +1511,10 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
           ${this._trains.map(t=>this._renderTrainRow(t))}
         </div>
 
+        ${this._renderHistoryPanel()}
         ${this._renderFooter()}
       </ha-card>
-    `}_renderTrainRow(t){const e=ut(t),i=!1!==this.config.status_icons?pt(t):"",s=!1!==this.config.show_platform,n=!1!==this.config.show_operator,r=!1!==this.config.show_delay_reason,o=!0===this.config.show_calling_points,a=!0===this.config.show_journey_time;return B`
+    `}_renderTrainRow(t){const e=pt(t),i=!1!==this.config.status_icons?ut(t):"",s=!1!==this.config.show_platform,o=!1!==this.config.show_operator,r=!1!==this.config.show_delay_reason,n=!0===this.config.show_calling_points,a=!0===this.config.show_journey_time;return q`
       <div
         class="train-row ${e}"
         @click="${()=>this._handleTap(t)}"
@@ -1274,7 +1529,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
             <span class="expected-time">${t.expected_departure&&t.expected_departure!==t.scheduled_departure?lt(t.expected_departure):""}</span>
           </div>
 
-          ${s?B`
+          ${s?q`
             <div class="train-platform">
               Platform ${t.platform||"—"}
             </div>
@@ -1287,56 +1542,57 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
         </div>
 
         <div class="train-details">
-          ${n&&t.operator?B`
+          ${o&&t.operator?q`
             <span class="operator">${t.operator}</span>
           `:""}
 
-          ${r&&t.delay_reason?B`
+          ${r&&t.delay_reason?q`
             <div class="delay-reason">
               → ${t.delay_reason}
             </div>
           `:""}
 
-          ${o&&t.calling_points&&t.calling_points.length>0?B`
+          ${n&&t.calling_points&&t.calling_points.length>0?q`
             <div class="calling-points">
-              Calling at: ${function(t,e=3){if(!t||0===t.length)return"";const i=t.slice(0,e),s=t.length-e;let n=i.join(", ");return s>0&&(n+=` +${s} more`),n}(t.calling_points,this.config.max_calling_points)}
+              Calling at: ${function(t,e=3){if(!t||0===t.length)return"";const i=t.slice(0,e),s=t.length-e;let o=i.join(", ");return s>0&&(o+=` +${s} more`),o}(t.calling_points,this.config.max_calling_points)}
             </div>
           `:""}
 
-          ${a&&t.journey_duration?B`
+          ${a&&t.journey_duration?q`
             <div class="journey-time">
               Journey time: ${t.journey_duration} mins${t.journey_time_approx?"*":""}
             </div>
           `:""}
         </div>
       </div>
-    `}_renderCompact(){const t=!0===this.config.show_journey_time;return B`
+    `}_renderCompact(){const t=!0===this.config.show_journey_time;return q`
       <ha-card class="${this.config.compact_height?"compact-height":""}">
         ${this._renderHeader()}
         ${this._renderDisruptionBanner()}
 
         <div class="card-content compact">
-          ${this._trains.map(e=>B`
+          ${this._trains.map(e=>q`
               <div
-                class="train-row-compact ${ut(e)}"
+                class="train-row-compact ${pt(e)}"
                 @click="${()=>this._handleTap(e)}"
                 @touchstart="${this._handleTouchStart}"
                 @touchend="${this._handleTouchEnd}"
                 @touchmove="${this._handleTouchMove}"
               >
                 <span class="time">${lt(e.scheduled_departure)}</span>
-                <span class="platform">Plat ${e.platform||"—"}${t&&e.journey_duration?B` · ${e.journey_duration}m${e.journey_time_approx?"*":""}`:""}</span>
+                <span class="platform">Plat ${e.platform||"—"}${t&&e.journey_duration?q` · ${e.journey_duration}m${e.journey_time_approx?"*":""}`:""}</span>
                 <span class="status">
-                  ${!1!==this.config.status_icons?B`<span class="status-icon">${pt(e)}</span>`:""}
-                  ${e.delay_minutes>0?B`<span class="delay-text">+${e.delay_minutes}m</span>`:""}
+                  ${!1!==this.config.status_icons?q`<span class="status-icon">${ut(e)}</span>`:""}
+                  ${e.delay_minutes>0?q`<span class="delay-text">+${e.delay_minutes}m</span>`:""}
                 </span>
               </div>
             `)}
         </div>
 
+        ${this._renderHistoryPanel()}
         ${this._renderFooter()}
       </ha-card>
-    `}_renderNextOnly(){const t=this._trains[0];if(!t)return this._renderEmpty();const e=ut(t),i=!1!==this.config.status_icons?pt(t):"",s=!0===this.config.show_journey_time;return B`
+    `}_renderNextOnly(){const t=this._trains[0];if(!t)return this._renderEmpty();const e=pt(t),i=!1!==this.config.status_icons?ut(t):"",s=!0===this.config.show_journey_time;return q`
       <ha-card class="${this.config.compact_height?"compact-height":""}">
         ${this._renderHeader()}
         ${this._renderDisruptionBanner()}
@@ -1346,7 +1602,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
             ${lt(t.scheduled_departure)}
           </div>
 
-          ${t.expected_departure&&t.expected_departure!==t.scheduled_departure?B`
+          ${t.expected_departure&&t.expected_departure!==t.scheduled_departure?q`
             <div class="next-train-expected">
               Expected: ${lt(t.expected_departure)}
             </div>
@@ -1360,20 +1616,20 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
             ${i} ${_t(t)}
           </div>
 
-          ${t.operator?B`
+          ${t.operator?q`
             <div class="next-train-operator">
               ${t.operator}
             </div>
           `:""}
 
-          ${t.calling_points&&t.calling_points.length>0?B`
+          ${t.calling_points&&t.calling_points.length>0?q`
             <div class="next-train-calling">
               <strong>Calling at:</strong><br>
               ${t.calling_points.join(", ")}
             </div>
           `:""}
 
-          ${s&&t.journey_duration?B`
+          ${s&&t.journey_duration?q`
             <div class="next-train-journey-time">
               Journey time: ${t.journey_duration} mins${t.journey_time_approx?"*":""}
             </div>
@@ -1383,7 +1639,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
 
         ${this._renderFooter()}
       </ha-card>
-    `}_renderBoard(){const t=!0===this.config.show_journey_time;return B`
+    `}_renderBoard(){const t=!0===this.config.show_journey_time;return q`
       <ha-card class="departure-board">
         <div class="board-header">
           DEPARTURES  ${this._origin||""}
@@ -1399,9 +1655,9 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
               <span class="col-status">Status</span>
             </div>
 
-            ${this._trains.map(e=>B`
+            ${this._trains.map(e=>q`
                 <div
-                  class="board-row ${ut(e)}"
+                  class="board-row ${pt(e)}"
                   @click="${()=>this._handleTap(e)}"
                   @touchstart="${this._handleTouchStart}"
                   @touchend="${this._handleTouchEnd}"
@@ -1424,7 +1680,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
           </div>
         </div>
       </ha-card>
-    `}_renderEmpty(t="No trains found",e="Check your time window or station codes"){return B`
+    `}_renderEmpty(t="No trains found",e="Check your time window or station codes"){return q`
       <ha-card>
         ${this._renderHeader()}
 
@@ -1434,7 +1690,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,E=C?C.createPolicy("lit-html",{create
           <div class="empty-submessage">${e}</div>
         </div>
       </ha-card>
-    `}_renderLoading(){return B`
+    `}_renderLoading(){return q`
       <ha-card>
         ${this._renderHeader()}
 
