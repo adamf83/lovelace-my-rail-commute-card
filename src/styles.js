@@ -582,6 +582,28 @@ export const styles = css`
     25%, 75% { opacity: 0.5; }
   }
 
+  ha-card.departure-board .card-footer {
+    background: #1a1a1a;
+    border-color: #333;
+    color: #999;
+  }
+
+  ha-card.departure-board .history-toggle {
+    border-color: #555;
+    color: #ffcc00;
+  }
+
+  ha-card.departure-board .history-toggle:hover {
+    background: #252525;
+    color: #fff;
+  }
+
+  ha-card.departure-board .history-panel {
+    background: #111;
+    border-color: #333;
+    color: #ffcc00;
+  }
+
   /* ==================== FOOTER ==================== */
 
   .card-footer {
