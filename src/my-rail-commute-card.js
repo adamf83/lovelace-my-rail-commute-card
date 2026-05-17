@@ -937,6 +937,7 @@ class MyRailCommuteCard extends LitElement {
 
         </div>
 
+        ${this._renderHistoryPanel()}
         ${this._renderFooter()}
       </ha-card>
     `;
@@ -987,6 +988,9 @@ class MyRailCommuteCard extends LitElement {
             })}
           </div>
         </div>
+
+        ${this._renderHistoryPanel()}
+        ${this._renderFooter()}
       </ha-card>
     `;
   }
