@@ -14,7 +14,9 @@ import {
   getTrainIcon,
   shouldShowTrains,
   calculateJourneyDuration,
-  getReliabilityClass
+  getReliabilityClass,
+  groupTrainsByDestination,
+  getGroupStatus
 } from './utils.js';
 import './editor.js'; // Import editor to bundle it
 
@@ -44,6 +46,8 @@ class MyRailCommuteCard extends LitElement {
       _historyPanelOpen: { type: Boolean },
       _histRelAttrs: { type: Object },
       _histDelAttrs: { type: Object },
+      _isMultiDestination: { type: Boolean },
+      _servicesByDestination: { type: Object },
     };
   }
 
@@ -71,6 +75,8 @@ class MyRailCommuteCard extends LitElement {
     this._historyPanelOpen = false;
     this._histRelAttrs = null;
     this._histDelAttrs = null;
+    this._isMultiDestination = false;
+    this._servicesByDestination = null;
   }
 
   setConfig(config) {
@@ -107,6 +113,7 @@ class MyRailCommuteCard extends LitElement {
       status_icons: true,
       show_history_panel: false,
       history_days: 7,
+      group_by_destination: true,
       ...config
     };
 
@@ -243,9 +250,13 @@ class MyRailCommuteCard extends LitElement {
       this._trains = this._getTrainsFromIndividualSensors(hass, activeEntityId);
     }
 
+    // Detect multi-destination mode from sensor attributes
+    this._isMultiDestination = activeEntity.attributes.multi_destination === true;
+    this._servicesByDestination = activeEntity.attributes.services_by_destination || null;
+
     // Set route display — swap origin/destination when showing return journey
     this._origin = this._showReturn ? outboundDest : outboundOrigin;
-    this._destination = this._showReturn ? outboundOrigin : outboundDest;
+    this._destination = this._isMultiDestination ? null : (this._showReturn ? outboundOrigin : outboundDest);
     this._lastUpdated = activeEntity.attributes.last_updated ||
                         activeEntity.last_updated ||
                         activeEntity.last_changed || '';
@@ -346,7 +357,8 @@ class MyRailCommuteCard extends LitElement {
   }
 
   _findReturnEntity(hass, origin, destination) {
-    if (!origin || !destination) return null;
+    // No return journey concept for all-departures mode
+    if (!origin || !destination || this._isMultiDestination) return null;
     const originLower = origin.toLowerCase().trim();
     const destLower = destination.toLowerCase().trim();
 
@@ -591,9 +603,11 @@ class MyRailCommuteCard extends LitElement {
             </button>
           ` : ''}
         </div>
-        ${showRoute && this._origin && this._destination ? html`
+        ${showRoute && this._origin ? html`
           <div class="route">
-            ${this._origin} → ${this._destination}
+            ${this._isMultiDestination
+              ? html`from ${this._origin}`
+              : html`${this._origin} → ${this._destination}`}
           </div>
         ` : ''}
       </div>
@@ -774,6 +788,7 @@ class MyRailCommuteCard extends LitElement {
 
   _renderFull() {
     const compactClass = this.config.compact_height ? 'compact-height' : '';
+    const useGroups = this._isMultiDestination && this.config.group_by_destination !== false;
 
     return html`
       <ha-card class="${compactClass}">
@@ -781,7 +796,9 @@ class MyRailCommuteCard extends LitElement {
         ${this._renderDisruptionBanner()}
 
         <div class="card-content">
-          ${this._trains.map(train => this._renderTrainRow(train))}
+          ${useGroups
+            ? this._renderGroupedTrains()
+            : this._trains.map(train => this._renderTrainRow(train))}
         </div>
 
         ${this._renderHistoryPanel()}
@@ -853,8 +870,78 @@ class MyRailCommuteCard extends LitElement {
     `;
   }
 
+  _renderGroupedTrains() {
+    const groups = groupTrainsByDestination(this._trains);
+    return html`
+      ${[...groups.entries()].map(([dest, trains]) => {
+        const sensorGroup = this._servicesByDestination && this._servicesByDestination[dest];
+        const status = sensorGroup ? sensorGroup.status.toLowerCase().replace(/\s+/g, '-') : getGroupStatus(trains);
+        return html`
+          <div class="destination-group">
+            ${this._renderDestinationGroupHeader(dest, status)}
+            ${trains.map(train => this._renderTrainRow(train))}
+          </div>
+        `;
+      })}
+    `;
+  }
+
+  _renderDestinationGroupHeader(destination, status) {
+    const dotClass = status.includes('critical') || status.includes('severe')
+      ? 'status-critical'
+      : status.includes('major')
+        ? 'status-major'
+        : status.includes('minor')
+          ? 'status-minor'
+          : 'status-normal';
+
+    return html`
+      <div class="destination-group-header">
+        <span class="dest-arrow">→</span>
+        <span class="dest-name">${destination}</span>
+        <span class="dest-status-dot ${dotClass}" title="${status}"></span>
+      </div>
+    `;
+  }
+
   _renderCompact() {
     const showJourneyTime = this.config.show_journey_time === true;
+    const useGroups = this._isMultiDestination && this.config.group_by_destination !== false;
+
+    const renderCompactRow = (train) => html`
+      <div
+        class="train-row-compact ${getStatusClass(train)}"
+        @click="${() => this._handleTap(train)}"
+        @touchstart="${this._handleTouchStart}"
+        @touchend="${this._handleTouchEnd}"
+        @touchmove="${this._handleTouchMove}"
+      >
+        <span class="time">${formatTime(train.scheduled_departure)}</span>
+        <span class="platform">Plat ${train.platform || '—'}${showJourneyTime && train.journey_duration ? html` · ${train.journey_duration}m${train.journey_time_approx ? '*' : ''}` : ''}</span>
+        <span class="status">
+          ${this.config.status_icons !== false ? html`<span class="status-icon">${getStatusIcon(train)}</span>` : ''}
+          ${train.delay_minutes > 0 ? html`<span class="delay-text">+${train.delay_minutes}m</span>` : ''}
+        </span>
+      </div>
+    `;
+
+    const content = useGroups
+      ? (() => {
+          const groups = groupTrainsByDestination(this._trains);
+          return html`
+            ${[...groups.entries()].map(([dest, trains]) => {
+              const sensorGroup = this._servicesByDestination && this._servicesByDestination[dest];
+              const status = sensorGroup ? sensorGroup.status.toLowerCase().replace(/\s+/g, '-') : getGroupStatus(trains);
+              return html`
+                <div class="destination-group">
+                  ${this._renderDestinationGroupHeader(dest, status)}
+                  ${trains.map(renderCompactRow)}
+                </div>
+              `;
+            })}
+          `;
+        })()
+      : this._trains.map(renderCompactRow);
 
     return html`
       <ha-card class="${this.config.compact_height ? 'compact-height' : ''}">
@@ -862,24 +949,7 @@ class MyRailCommuteCard extends LitElement {
         ${this._renderDisruptionBanner()}
 
         <div class="card-content compact">
-          ${this._trains.map(train => {
-            return html`
-              <div
-                class="train-row-compact ${getStatusClass(train)}"
-                @click="${() => this._handleTap(train)}"
-                @touchstart="${this._handleTouchStart}"
-                @touchend="${this._handleTouchEnd}"
-                @touchmove="${this._handleTouchMove}"
-              >
-                <span class="time">${formatTime(train.scheduled_departure)}</span>
-                <span class="platform">Plat ${train.platform || '—'}${showJourneyTime && train.journey_duration ? html` · ${train.journey_duration}m${train.journey_time_approx ? '*' : ''}` : ''}</span>
-                <span class="status">
-                  ${this.config.status_icons !== false ? html`<span class="status-icon">${getStatusIcon(train)}</span>` : ''}
-                  ${train.delay_minutes > 0 ? html`<span class="delay-text">+${train.delay_minutes}m</span>` : ''}
-                </span>
-              </div>
-            `;
-          })}
+          ${content}
         </div>
 
         ${this._renderHistoryPanel()}
@@ -982,7 +1052,9 @@ class MyRailCommuteCard extends LitElement {
                     ${formatTime(train.scheduled_departure)}
                   </span>
                   <span class="col-dest">
-                    ${abbreviateStation(this._destination || '')}
+                    ${this._isMultiDestination
+                      ? abbreviateStation(train.destination || '')
+                      : abbreviateStation(this._destination || '')}
                   </span>
                   <span class="col-plat">
                     ${train.platform || '—'}
