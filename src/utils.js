@@ -51,11 +51,15 @@ export function calculateJourneyDuration(depTime, arrTime) {
   if (!depTime || !arrTime) return null;
 
   // Try ISO datetime parsing first
-  const depDate = new Date(depTime);
-  const arrDate = new Date(arrTime);
-  if (!isNaN(depDate.getTime()) && !isNaN(arrDate.getTime())) {
-    const diff = Math.round((arrDate - depDate) / 60000);
-    return diff > 0 ? diff : null;
+  try {
+    const depDate = new Date(depTime);
+    const arrDate = new Date(arrTime);
+    if (!isNaN(depDate.getTime()) && !isNaN(arrDate.getTime())) {
+      const diff = Math.round((arrDate - depDate) / 60000);
+      return diff > 0 ? diff : null;
+    }
+  } catch (e) {
+    console.warn('calculateJourneyDuration: could not parse as dates:', depTime, arrTime, e);
   }
 
   // Fall back to HH:MM string parsing
