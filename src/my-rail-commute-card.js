@@ -152,6 +152,9 @@ class MyRailCommuteCard extends LitElement {
   set hass(hass) {
     this._hass = hass;
 
+    // Guard: hass can be set before setConfig in some HA lifecycle paths
+    if (!this.config) return;
+
     // If no entity configured yet (during initial setup), show loading
     if (!this.config.entity) {
       this._loading = false;
@@ -544,6 +547,9 @@ class MyRailCommuteCard extends LitElement {
   }
 
   render() {
+    // Guard: render can fire before setConfig in some HA lifecycle paths
+    if (!this.config) return html``;
+
     // Check if entity is configured
     if (!this.config.entity) {
       return this._renderEmpty('No entity selected', 'Please select a rail commute summary sensor in the card configuration');
@@ -875,7 +881,9 @@ class MyRailCommuteCard extends LitElement {
     return html`
       ${[...groups.entries()].map(([dest, trains]) => {
         const sensorGroup = this._servicesByDestination && this._servicesByDestination[dest];
-        const status = sensorGroup ? sensorGroup.status.toLowerCase().replace(/\s+/g, '-') : getGroupStatus(trains);
+        const status = sensorGroup?.status
+          ? sensorGroup.status.toLowerCase().replace(/\s+/g, '-')
+          : getGroupStatus(trains);
         return html`
           <div class="destination-group">
             ${this._renderDestinationGroupHeader(dest, status)}
@@ -931,7 +939,9 @@ class MyRailCommuteCard extends LitElement {
           return html`
             ${[...groups.entries()].map(([dest, trains]) => {
               const sensorGroup = this._servicesByDestination && this._servicesByDestination[dest];
-              const status = sensorGroup ? sensorGroup.status.toLowerCase().replace(/\s+/g, '-') : getGroupStatus(trains);
+              const status = sensorGroup?.status
+                ? sensorGroup.status.toLowerCase().replace(/\s+/g, '-')
+                : getGroupStatus(trains);
               return html`
                 <div class="destination-group">
                   ${this._renderDestinationGroupHeader(dest, status)}
