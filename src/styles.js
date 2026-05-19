@@ -195,6 +195,67 @@ export const styles = css`
     padding: 0;
   }
 
+  /* ==================== DESTINATION GROUPS (multi-destination mode) ==================== */
+
+  .destination-group {
+    border-top: 1px solid var(--divider-color, rgba(0, 0, 0, 0.12));
+  }
+
+  .destination-group:first-child {
+    border-top: none;
+  }
+
+  .destination-group-header {
+    display: flex;
+    align-items: center;
+    padding: 8px var(--card-padding) 4px;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--secondary-text-color, #757575);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--secondary-background-color, rgba(0, 0, 0, 0.03));
+    border-bottom: 1px solid var(--divider-color, rgba(0, 0, 0, 0.08));
+  }
+
+  .destination-group-header .dest-arrow {
+    opacity: 0.5;
+    font-size: 0.9rem;
+  }
+
+  .destination-group-header .dest-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .destination-group-header .dest-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--status-on-time, #4caf50);
+  }
+
+  .destination-group-header .dest-status-dot.status-critical,
+  .destination-group-header .dest-status-dot.status-severe {
+    background: var(--status-cancelled, #d32f2f);
+  }
+
+  .destination-group-header .dest-status-dot.status-major {
+    background: var(--status-major-delay, #f44336);
+  }
+
+  .destination-group-header .dest-status-dot.status-minor {
+    background: var(--status-minor-delay, #ff9800);
+  }
+
+  .destination-group-header .dest-status-dot.status-normal {
+    background: var(--status-on-time, #4caf50);
+  }
+
   /* ==================== FULL VIEW ==================== */
 
   .train-row {

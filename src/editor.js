@@ -292,6 +292,15 @@ class MyRailCommuteCardEditor extends LitElement {
             ></ha-switch>
           </ha-formfield>
 
+          ${this._isMultiDestinationSensor() ? html`
+            <ha-formfield label="Group Trains by Destination">
+              <ha-switch
+                .checked=${this._config.group_by_destination !== false}
+                @change=${this._toggleChanged('group_by_destination')}
+              ></ha-switch>
+            </ha-formfield>
+          ` : ''}
+
         </div>
 
         <!-- Filtering Options -->
@@ -573,6 +582,12 @@ class MyRailCommuteCardEditor extends LitElement {
     if (!this._config || !this._hass) return;
     this._config = { ...this._config, history_days: parseInt(ev.target.value, 10) };
     this._fireConfigChanged();
+  }
+
+  _isMultiDestinationSensor() {
+    if (!this._hass || !this._config?.entity) return false;
+    const state = this._hass.states[this._config.entity];
+    return state?.attributes?.multi_destination === true;
   }
 
   _fireConfigChanged() {

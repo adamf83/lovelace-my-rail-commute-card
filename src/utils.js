@@ -384,6 +384,38 @@ export function truncateText(text, maxLength) {
 }
 
 /**
+ * Group trains by their destination field, preserving first-seen order (chronological).
+ * Returns a Map so iteration order equals the order the first train per destination appeared.
+ * @param {Array} trains - Array of train objects, each with a `destination` field
+ * @returns {Map<string, Array>} Map of destination name → trains for that destination
+ */
+export function groupTrainsByDestination(trains) {
+  const groups = new Map();
+  for (const train of trains) {
+    const dest = (train.destination && String(train.destination).trim()) || 'Unknown';
+    if (!groups.has(dest)) groups.set(dest, []);
+    groups.get(dest).push(train);
+  }
+  return groups;
+}
+
+/**
+ * Derive a simple status label for a group of trains (mirrors coordinator logic client-side).
+ * Used as a fallback when services_by_destination is not available from the sensor.
+ * @param {Array} trains - Trains for one destination
+ * @returns {string} 'critical' | 'severe' | 'major' | 'minor' | 'normal'
+ */
+export function getGroupStatus(trains) {
+  if (!trains || trains.length === 0) return 'normal';
+  if (trains.some(t => t.is_cancelled)) return 'critical';
+  const maxDelay = Math.max(...trains.map(t => t.delay_minutes || 0));
+  if (maxDelay >= 15) return 'severe';
+  if (maxDelay >= 10) return 'major';
+  if (maxDelay > 0) return 'minor';
+  return 'normal';
+}
+
+/**
  * Get CSS class for a reliability percentage value
  * @param {number|null} pct - On-time percentage (0-100) or null
  * @returns {string} CSS class name
