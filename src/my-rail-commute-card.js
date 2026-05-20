@@ -334,7 +334,7 @@ class MyRailCommuteCard extends LitElement {
 
     // Auto-discover historical sensors when history panel is enabled
     if (this.config.show_history_panel) {
-      const histBase = this.config.entity
+      const histBase = activeEntityId
         .replace('sensor.', '')
         .replace('_summary', '')
         .replace('_commute_summary', '');
