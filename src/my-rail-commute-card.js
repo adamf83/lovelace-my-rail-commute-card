@@ -84,10 +84,6 @@ class MyRailCommuteCard extends LitElement {
       throw new Error('Invalid configuration');
     }
 
-    // Allow empty entity during initial setup, but store config anyway
-    if (!config.entity && config.entity !== '') {
-      throw new Error('Please select a rail commute summary sensor');
-    }
     this.config = {
       view: 'full',
       theme: 'auto',
@@ -531,6 +527,7 @@ class MyRailCommuteCard extends LitElement {
   }
 
   getCardSize() {
+    if (!this.config) return 3;
     const view = this.config.view || 'full';
     const trainCount = this._trains?.length || 0;
 
