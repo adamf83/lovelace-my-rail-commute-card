@@ -34,6 +34,8 @@ A beautiful, feature-rich custom Lovelace card for Home Assistant that displays 
 - Tap to view more information
 - Hold to refresh data
 - Visual feedback on interactions
+- **Toggle between outbound and return journeys** with one tap (auto-detected)
+- **Reliability statistics panel** with on-time rates and delay trends (tap the chart icon)
 
 🖱️ **Easy Configuration**
 - Visual card editor in Lovelace UI
@@ -129,8 +131,13 @@ hold_action:
 double_tap_action:
   action: none
 
+# Statistics / History Panel
+show_history_panel: false     # Enable reliability stats toggle in footer
+history_days: 7               # Days to show in panel (max 30)
+
 # Advanced
 disruption_entity: binary_sensor.morning_commute_severe_disruption
+status_entity: sensor.morning_commute_status   # Auto-discovered if omitted
 refresh_interval: 60
 
 # Custom Colors (optional)
@@ -165,7 +172,10 @@ colors:
 | `compact_height` | boolean | false | Reduce vertical spacing |
 | `show_animations` | boolean | true | Enable animations |
 | `status_icons` | boolean | true | Show status icons (✓ ⚠️ ❌) |
+| `show_history_panel` | boolean | false | Show reliability statistics toggle in the card footer |
+| `history_days` | number | 7 | Days of history to display in the statistics panel (max 30) |
 | `disruption_entity` | string | - | Binary sensor for disruption detection |
+| `status_entity` | string | - | Status sensor entity (auto-discovered by naming convention) |
 | `refresh_interval` | number | 60 | Seconds between updates |
 | `tap_action` | object | `{action: 'more-info'}` | Action on tap |
 | `hold_action` | object | `{action: 'refresh'}` | Action on hold |
@@ -235,6 +245,44 @@ view: board
 - Authentic station board look
 - Retro aesthetic
 - Public displays
+
+## Route Toggling & Statistics
+
+### Switching Between Outbound and Return Journeys
+
+If your My Rail Commute integration has both an outbound and a return route configured, the card automatically detects the return sensor and displays a **swap button** (⇄) in the card header. Tapping it flips the display between your two directions — trains, route label, and disruption banner all update instantly.
+
+No configuration is needed; the card discovers the return entity by naming convention (e.g. `sensor.evening_commute_summary` is detected automatically when viewing `sensor.morning_commute_summary`). The toggle only appears when a matching return entity is found.
+
+### Reliability Statistics Panel
+
+Enable the statistics panel to see how punctual your route has been over time. A **chart button** appears in the card footer; tap it to expand or collapse the panel.
+
+```yaml
+type: custom:my-rail-commute-card
+entity: sensor.morning_commute_summary
+show_history_panel: true
+history_days: 14          # How many days to display (default 7, max 30)
+```
+
+The panel shows:
+
+| Metric | Description |
+|--------|-------------|
+| **Today** | On-time percentage for today so far |
+| **7-day** | Rolling 7-day on-time percentage |
+| **30-day** | Rolling 30-day on-time percentage |
+| **Avg delay** | Average delay in minutes over 7 days |
+
+Below the KPIs, a colour-coded grid shows each day at a glance:
+
+- 🟩 **Green** — 90 %+ on time
+- 🟨 **Amber** — 70–89 % on time
+- 🟥 **Red** — below 70 % on time
+
+The best and worst performing days in the window are highlighted at the bottom of the panel.
+
+> **Requires** the `*_historical_reliability` and `*_historical_delays` sensors from the My Rail Commute integration. If those sensors haven't populated yet, the panel shows a "No reliability data available yet" message.
 
 ## Examples
 
