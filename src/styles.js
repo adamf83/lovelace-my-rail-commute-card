@@ -256,6 +256,127 @@ export const styles = css`
     background: var(--status-on-time, #4caf50);
   }
 
+  /* ==================== MULTI-LEG JOURNEYS ==================== */
+
+  .leg-group-header .dest-arrow {
+    font-weight: 700;
+    opacity: 0.7;
+  }
+
+  .connection-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px var(--card-padding);
+    font-size: 0.85rem;
+    background: var(--secondary-background-color, rgba(0, 0, 0, 0.03));
+    border-top: 1px dashed var(--divider-color, rgba(0, 0, 0, 0.15));
+    border-bottom: 1px dashed var(--divider-color, rgba(0, 0, 0, 0.15));
+  }
+
+  .connection-icon {
+    flex-shrink: 0;
+    --mdc-icon-size: 20px;
+  }
+
+  .connection-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .connection-station {
+    font-weight: 600;
+    color: var(--primary-text-color, #212121);
+  }
+
+  .connection-detail,
+  .connection-summary {
+    font-size: 0.8rem;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  .connection-row.connection-normal .connection-icon,
+  .connection-row.connection-normal .connection-station {
+    color: var(--status-on-time, #4caf50);
+  }
+
+  .connection-row.connection-minor .connection-icon,
+  .connection-row.connection-minor .connection-station {
+    color: var(--status-minor-delay, #ff9800);
+  }
+
+  .connection-row.connection-major .connection-icon,
+  .connection-row.connection-major .connection-station {
+    color: var(--status-major-delay, #f44336);
+  }
+
+  .connection-row.connection-critical .connection-icon,
+  .connection-row.connection-critical .connection-station {
+    color: var(--status-cancelled, #d32f2f);
+  }
+
+  .not-catchable-badge {
+    margin-left: 4px;
+    opacity: 0.7;
+    font-size: 0.8em;
+  }
+
+  .journey-infeasible-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px var(--card-padding);
+    background: var(--status-cancelled, #d32f2f);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .journey-infeasible-banner ha-icon {
+    --mdc-icon-size: 22px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .board-leg-label {
+    padding: 6px var(--card-padding) 2px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+
+  .board-row.board-connection-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px var(--card-padding);
+    font-size: 0.8rem;
+    background: rgba(255, 255, 255, 0.04);
+    cursor: default;
+  }
+
+  .board-row.board-connection-row .connection-icon {
+    --mdc-icon-size: 16px;
+  }
+
+  .board-row.board-connection-row.connection-normal .connection-icon {
+    color: var(--status-on-time, #4caf50);
+  }
+
+  .board-row.board-connection-row.connection-minor .connection-icon {
+    color: var(--status-minor-delay, #ff9800);
+  }
+
+  .board-row.board-connection-row.connection-major .connection-icon {
+    color: var(--status-major-delay, #f44336);
+  }
+
+  .board-row.board-connection-row.connection-critical .connection-icon {
+    color: var(--status-cancelled, #d32f2f);
+  }
+
   /* ==================== FULL VIEW ==================== */
 
   .train-row {
