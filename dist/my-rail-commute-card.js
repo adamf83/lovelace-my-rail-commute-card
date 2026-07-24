@@ -3,23 +3,23 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t=globalThis,e=t.ShadowRoot&&(void 0===t.ShadyCSS||t.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,i=Symbol(),s=new WeakMap;let o=class{constructor(t,e,s){if(this._$cssResult$=!0,s!==i)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e}get styleSheet(){let t=this.o;const i=this.t;if(e&&void 0===t){const e=void 0!==i&&1===i.length;e&&(t=s.get(i)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),e&&s.set(i,t))}return t}toString(){return this.cssText}};const r=(t,...e)=>{const s=1===t.length?t[0]:e.reduce((e,i,s)=>e+(t=>{if(!0===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(i)+t[s+1],t[0]);return new o(s,t,i)},n=e?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const i of t.cssRules)e+=i.cssText;return(t=>new o("string"==typeof t?t:t+"",void 0,i))(e)})(t):t,{is:a,defineProperty:c,getOwnPropertyDescriptor:l,getOwnPropertyNames:d,getOwnPropertySymbols:h,getPrototypeOf:p}=Object,u=globalThis,_=u.trustedTypes,m=_?_.emptyScript:"",g=u.reactiveElementPolyfillSupport,f=(t,e)=>t,y={toAttribute(t,e){switch(e){case Boolean:t=t?m:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let i=t;switch(e){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t)}catch(t){i=null}}return i}},v=(t,e)=>!a(t,e),b={attribute:!0,type:String,converter:y,reflect:!1,useDefault:!1,hasChanged:v};
+const t=globalThis,e=t.ShadowRoot&&(void 0===t.ShadyCSS||t.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,i=Symbol(),n=new WeakMap;let o=class{constructor(t,e,n){if(this._$cssResult$=!0,n!==i)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e}get styleSheet(){let t=this.o;const i=this.t;if(e&&void 0===t){const e=void 0!==i&&1===i.length;e&&(t=n.get(i)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),e&&n.set(i,t))}return t}toString(){return this.cssText}};const s=(t,...e)=>{const n=1===t.length?t[0]:e.reduce((e,i,n)=>e+(t=>{if(!0===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(i)+t[n+1],t[0]);return new o(n,t,i)},a=e?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const i of t.cssRules)e+=i.cssText;return(t=>new o("string"==typeof t?t:t+"",void 0,i))(e)})(t):t,{is:r,defineProperty:c,getOwnPropertyDescriptor:l,getOwnPropertyNames:d,getOwnPropertySymbols:h,getPrototypeOf:p}=Object,u=globalThis,_=u.trustedTypes,m=_?_.emptyScript:"",g=u.reactiveElementPolyfillSupport,f=(t,e)=>t,y={toAttribute(t,e){switch(e){case Boolean:t=t?m:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let i=t;switch(e){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t)}catch(t){i=null}}return i}},v=(t,e)=>!r(t,e),b={attribute:!0,type:String,converter:y,reflect:!1,useDefault:!1,hasChanged:v};
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */Symbol.metadata??=Symbol("metadata"),u.litPropertyMetadata??=new WeakMap;let $=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=b){if(e.state&&(e.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((e=Object.create(e)).wrapped=!0),this.elementProperties.set(t,e),!e.noAccessor){const i=Symbol(),s=this.getPropertyDescriptor(t,i,e);void 0!==s&&c(this.prototype,t,s)}}static getPropertyDescriptor(t,e,i){const{get:s,set:o}=l(this.prototype,t)??{get(){return this[e]},set(t){this[e]=t}};return{get:s,set(e){const r=s?.call(this);o?.call(this,e),this.requestUpdate(t,r,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??b}static _$Ei(){if(this.hasOwnProperty(f("elementProperties")))return;const t=p(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty(f("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(f("properties"))){const t=this.properties,e=[...d(t),...h(t)];for(const i of e)this.createProperty(i,t[i])}const t=this[Symbol.metadata];if(null!==t){const e=litPropertyMetadata.get(t);if(void 0!==e)for(const[t,i]of e)this.elementProperties.set(t,i)}this._$Eh=new Map;for(const[t,e]of this.elementProperties){const i=this._$Eu(t,e);void 0!==i&&this._$Eh.set(i,t)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const i=new Set(t.flat(1/0).reverse());for(const t of i)e.unshift(n(t))}else void 0!==t&&e.push(n(t));return e}static _$Eu(t,e){const i=e.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(t=>this.enableUpdating=t),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(t=>t(this))}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){const t=new Map,e=this.constructor.elementProperties;for(const i of e.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t)}createRenderRoot(){const i=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((i,s)=>{if(e)i.adoptedStyleSheets=s.map(t=>t instanceof CSSStyleSheet?t:t.styleSheet);else for(const e of s){const s=document.createElement("style"),o=t.litNonce;void 0!==o&&s.setAttribute("nonce",o),s.textContent=e.cssText,i.appendChild(s)}})(i,this.constructor.elementStyles),i}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach(t=>t.hostConnected?.())}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach(t=>t.hostDisconnected?.())}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$ET(t,e){const i=this.constructor.elementProperties.get(t),s=this.constructor._$Eu(t,i);if(void 0!==s&&!0===i.reflect){const o=(void 0!==i.converter?.toAttribute?i.converter:y).toAttribute(e,i.type);this._$Em=t,null==o?this.removeAttribute(s):this.setAttribute(s,o),this._$Em=null}}_$AK(t,e){const i=this.constructor,s=i._$Eh.get(t);if(void 0!==s&&this._$Em!==s){const t=i.getPropertyOptions(s),o="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:y;this._$Em=s;const r=o.fromAttribute(e,t.type);this[s]=r??this._$Ej?.get(s)??r,this._$Em=null}}requestUpdate(t,e,i,s=!1,o){if(void 0!==t){const r=this.constructor;if(!1===s&&(o=this[t]),i??=r.getPropertyOptions(t),!((i.hasChanged??v)(o,e)||i.useDefault&&i.reflect&&o===this._$Ej?.get(t)&&!this.hasAttribute(r._$Eu(t,i))))return;this.C(t,e,i)}!1===this.isUpdatePending&&(this._$ES=this._$EP())}C(t,e,{useDefault:i,reflect:s,wrapped:o},r){i&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,r??e??this[t]),!0!==o||void 0!==r)||(this._$AL.has(t)||(this.hasUpdated||i||(e=void 0),this._$AL.set(t,e)),!0===s&&this._$Em!==t&&(this._$Eq??=new Set).add(t))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,e]of this._$Ep)this[t]=e;this._$Ep=void 0}const t=this.constructor.elementProperties;if(t.size>0)for(const[e,i]of t){const{wrapped:t}=i,s=this[e];!0!==t||this._$AL.has(e)||void 0===s||this.C(e,void 0,i,s)}}let t=!1;const e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach(t=>t.hostUpdate?.()),this.update(e)):this._$EM()}catch(e){throw t=!1,this._$EM(),e}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach(t=>t.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Eq&&=this._$Eq.forEach(t=>this._$ET(t,this[t])),this._$EM()}updated(t){}firstUpdated(t){}};$.elementStyles=[],$.shadowRootOptions={mode:"open"},$[f("elementProperties")]=new Map,$[f("finalized")]=new Map,g?.({ReactiveElement:$}),(u.reactiveElementVersions??=[]).push("2.1.2");
+ */Symbol.metadata??=Symbol("metadata"),u.litPropertyMetadata??=new WeakMap;let $=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=b){if(e.state&&(e.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((e=Object.create(e)).wrapped=!0),this.elementProperties.set(t,e),!e.noAccessor){const i=Symbol(),n=this.getPropertyDescriptor(t,i,e);void 0!==n&&c(this.prototype,t,n)}}static getPropertyDescriptor(t,e,i){const{get:n,set:o}=l(this.prototype,t)??{get(){return this[e]},set(t){this[e]=t}};return{get:n,set(e){const s=n?.call(this);o?.call(this,e),this.requestUpdate(t,s,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??b}static _$Ei(){if(this.hasOwnProperty(f("elementProperties")))return;const t=p(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty(f("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(f("properties"))){const t=this.properties,e=[...d(t),...h(t)];for(const i of e)this.createProperty(i,t[i])}const t=this[Symbol.metadata];if(null!==t){const e=litPropertyMetadata.get(t);if(void 0!==e)for(const[t,i]of e)this.elementProperties.set(t,i)}this._$Eh=new Map;for(const[t,e]of this.elementProperties){const i=this._$Eu(t,e);void 0!==i&&this._$Eh.set(i,t)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const i=new Set(t.flat(1/0).reverse());for(const t of i)e.unshift(a(t))}else void 0!==t&&e.push(a(t));return e}static _$Eu(t,e){const i=e.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(t=>this.enableUpdating=t),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(t=>t(this))}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){const t=new Map,e=this.constructor.elementProperties;for(const i of e.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t)}createRenderRoot(){const i=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((i,n)=>{if(e)i.adoptedStyleSheets=n.map(t=>t instanceof CSSStyleSheet?t:t.styleSheet);else for(const e of n){const n=document.createElement("style"),o=t.litNonce;void 0!==o&&n.setAttribute("nonce",o),n.textContent=e.cssText,i.appendChild(n)}})(i,this.constructor.elementStyles),i}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach(t=>t.hostConnected?.())}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach(t=>t.hostDisconnected?.())}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$ET(t,e){const i=this.constructor.elementProperties.get(t),n=this.constructor._$Eu(t,i);if(void 0!==n&&!0===i.reflect){const o=(void 0!==i.converter?.toAttribute?i.converter:y).toAttribute(e,i.type);this._$Em=t,null==o?this.removeAttribute(n):this.setAttribute(n,o),this._$Em=null}}_$AK(t,e){const i=this.constructor,n=i._$Eh.get(t);if(void 0!==n&&this._$Em!==n){const t=i.getPropertyOptions(n),o="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:y;this._$Em=n;const s=o.fromAttribute(e,t.type);this[n]=s??this._$Ej?.get(n)??s,this._$Em=null}}requestUpdate(t,e,i,n=!1,o){if(void 0!==t){const s=this.constructor;if(!1===n&&(o=this[t]),i??=s.getPropertyOptions(t),!((i.hasChanged??v)(o,e)||i.useDefault&&i.reflect&&o===this._$Ej?.get(t)&&!this.hasAttribute(s._$Eu(t,i))))return;this.C(t,e,i)}!1===this.isUpdatePending&&(this._$ES=this._$EP())}C(t,e,{useDefault:i,reflect:n,wrapped:o},s){i&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,s??e??this[t]),!0!==o||void 0!==s)||(this._$AL.has(t)||(this.hasUpdated||i||(e=void 0),this._$AL.set(t,e)),!0===n&&this._$Em!==t&&(this._$Eq??=new Set).add(t))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,e]of this._$Ep)this[t]=e;this._$Ep=void 0}const t=this.constructor.elementProperties;if(t.size>0)for(const[e,i]of t){const{wrapped:t}=i,n=this[e];!0!==t||this._$AL.has(e)||void 0===n||this.C(e,void 0,i,n)}}let t=!1;const e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach(t=>t.hostUpdate?.()),this.update(e)):this._$EM()}catch(e){throw t=!1,this._$EM(),e}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach(t=>t.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Eq&&=this._$Eq.forEach(t=>this._$ET(t,this[t])),this._$EM()}updated(t){}firstUpdated(t){}};$.elementStyles=[],$.shadowRootOptions={mode:"open"},$[f("elementProperties")]=new Map,$[f("finalized")]=new Map,g?.({ReactiveElement:$}),(u.reactiveElementVersions??=[]).push("2.1.2");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{createHTML:t=>t}):void 0,E="$lit$",S=`lit$${Math.random().toFixed(9).slice(2)}$`,A="?"+S,T=`<${A}>`,D=document,P=()=>D.createComment(""),O=t=>null===t||"object"!=typeof t&&"function"!=typeof t,j=Array.isArray,R="[ \t\n\f\r]",M=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,N=/-->/g,z=/>/g,I=RegExp(`>|${R}(?:([^\\s"'>=/]+)(${R}*=${R}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),H=/'/g,U=/"/g,L=/^(?:script|style|textarea|title)$/i,B=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),q=Symbol.for("lit-noChange"),F=Symbol.for("lit-nothing"),V=new WeakMap,W=D.createTreeWalker(D,129);function G(t,e){if(!j(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==k?k.createHTML(e):e}const K=(t,e)=>{const i=t.length-1,s=[];let o,r=2===e?"<svg>":3===e?"<math>":"",n=M;for(let e=0;e<i;e++){const i=t[e];let a,c,l=-1,d=0;for(;d<i.length&&(n.lastIndex=d,c=n.exec(i),null!==c);)d=n.lastIndex,n===M?"!--"===c[1]?n=N:void 0!==c[1]?n=z:void 0!==c[2]?(L.test(c[2])&&(o=RegExp("</"+c[2],"g")),n=I):void 0!==c[3]&&(n=I):n===I?">"===c[0]?(n=o??M,l=-1):void 0===c[1]?l=-2:(l=n.lastIndex-c[2].length,a=c[1],n=void 0===c[3]?I:'"'===c[3]?U:H):n===U||n===H?n=I:n===N||n===z?n=M:(n=I,o=void 0);const h=n===I&&t[e+1].startsWith("/>")?" ":"";r+=n===M?i+T:l>=0?(s.push(a),i.slice(0,l)+E+i.slice(l)+S+h):i+S+(-2===l?e:h)}return[G(t,r+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),s]};class J{constructor({strings:t,_$litType$:e},i){let s;this.parts=[];let o=0,r=0;const n=t.length-1,a=this.parts,[c,l]=K(t,e);if(this.el=J.createElement(c,i),W.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(s=W.nextNode())&&a.length<n;){if(1===s.nodeType){if(s.hasAttributes())for(const t of s.getAttributeNames())if(t.endsWith(E)){const e=l[r++],i=s.getAttribute(t).split(S),n=/([.?@])?(.*)/.exec(e);a.push({type:1,index:o,name:n[2],strings:i,ctor:"."===n[1]?tt:"?"===n[1]?et:"@"===n[1]?it:Q}),s.removeAttribute(t)}else t.startsWith(S)&&(a.push({type:6,index:o}),s.removeAttribute(t));if(L.test(s.tagName)){const t=s.textContent.split(S),e=t.length-1;if(e>0){s.textContent=C?C.emptyScript:"";for(let i=0;i<e;i++)s.append(t[i],P()),W.nextNode(),a.push({type:2,index:++o});s.append(t[e],P())}}}else if(8===s.nodeType)if(s.data===A)a.push({type:2,index:o});else{let t=-1;for(;-1!==(t=s.data.indexOf(S,t+1));)a.push({type:7,index:o}),t+=S.length-1}o++}}static createElement(t,e){const i=D.createElement("template");return i.innerHTML=t,i}}function Y(t,e,i=t,s){if(e===q)return e;let o=void 0!==s?i._$Co?.[s]:i._$Cl;const r=O(e)?void 0:e._$litDirective$;return o?.constructor!==r&&(o?._$AO?.(!1),void 0===r?o=void 0:(o=new r(t),o._$AT(t,i,s)),void 0!==s?(i._$Co??=[])[s]=o:i._$Cl=o),void 0!==o&&(e=Y(t,o._$AS(t,e.values),o,s)),e}class X{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,s=(t?.creationScope??D).importNode(e,!0);W.currentNode=s;let o=W.nextNode(),r=0,n=0,a=i[0];for(;void 0!==a;){if(r===a.index){let e;2===a.type?e=new Z(o,o.nextSibling,this,t):1===a.type?e=new a.ctor(o,a.name,a.strings,this,t):6===a.type&&(e=new st(o,this,t)),this._$AV.push(e),a=i[++n]}r!==a?.index&&(o=W.nextNode(),r++)}return W.currentNode=D,s}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class Z{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,s){this.type=2,this._$AH=F,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Y(this,t,e),O(t)?t===F||null==t||""===t?(this._$AH!==F&&this._$AR(),this._$AH=F):t!==this._$AH&&t!==q&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>j(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==F&&O(this._$AH)?this._$AA.nextSibling.data=t:this.T(D.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=J.createElement(G(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(e);else{const t=new X(s,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=V.get(t.strings);return void 0===e&&V.set(t.strings,e=new J(t)),e}k(t){j(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,s=0;for(const o of t)s===e.length?e.push(i=new Z(this.O(P()),this.O(P()),this,this.options)):i=e[s],i._$AI(o),s++;s<e.length&&(this._$AR(i&&i._$AB.nextSibling,s),e.length=s)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=x(t).nextSibling;x(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class Q{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,s,o){this.type=1,this._$AH=F,this._$AN=void 0,this.element=t,this.name=e,this._$AM=s,this.options=o,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=F}_$AI(t,e=this,i,s){const o=this.strings;let r=!1;if(void 0===o)t=Y(this,t,e,0),r=!O(t)||t!==this._$AH&&t!==q,r&&(this._$AH=t);else{const s=t;let n,a;for(t=o[0],n=0;n<o.length-1;n++)a=Y(this,s[i+n],e,n),a===q&&(a=this._$AH[n]),r||=!O(a)||a!==this._$AH[n],a===F?t=F:t!==F&&(t+=(a??"")+o[n+1]),this._$AH[n]=a}r&&!s&&this.j(t)}j(t){t===F?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class tt extends Q{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===F?void 0:t}}class et extends Q{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==F)}}class it extends Q{constructor(t,e,i,s,o){super(t,e,i,s,o),this.type=5}_$AI(t,e=this){if((t=Y(this,t,e,0)??F)===q)return;const i=this._$AH,s=t===F&&i!==F||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,o=t!==F&&(i===F||s);s&&this.element.removeEventListener(this.name,this,i),o&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class st{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Y(this,t)}}const ot=w.litHtmlPolyfillSupport;ot?.(J,Z),(w.litHtmlVersions??=[]).push("3.3.2");const rt=globalThis;
+const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{createHTML:t=>t}):void 0,S="$lit$",E=`lit$${Math.random().toFixed(9).slice(2)}$`,A="?"+E,T=`<${A}>`,D=document,j=()=>D.createComment(""),M=t=>null===t||"object"!=typeof t&&"function"!=typeof t,R=Array.isArray,P="[ \t\n\f\r]",O=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,z=/-->/g,N=/>/g,I=RegExp(`>|${P}(?:([^\\s"'>=/]+)(${P}*=${P}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),U=/'/g,H=/"/g,L=/^(?:script|style|textarea|title)$/i,B=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),q=Symbol.for("lit-noChange"),F=Symbol.for("lit-nothing"),V=new WeakMap,W=D.createTreeWalker(D,129);function G(t,e){if(!R(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==k?k.createHTML(e):e}const J=(t,e)=>{const i=t.length-1,n=[];let o,s=2===e?"<svg>":3===e?"<math>":"",a=O;for(let e=0;e<i;e++){const i=t[e];let r,c,l=-1,d=0;for(;d<i.length&&(a.lastIndex=d,c=a.exec(i),null!==c);)d=a.lastIndex,a===O?"!--"===c[1]?a=z:void 0!==c[1]?a=N:void 0!==c[2]?(L.test(c[2])&&(o=RegExp("</"+c[2],"g")),a=I):void 0!==c[3]&&(a=I):a===I?">"===c[0]?(a=o??O,l=-1):void 0===c[1]?l=-2:(l=a.lastIndex-c[2].length,r=c[1],a=void 0===c[3]?I:'"'===c[3]?H:U):a===H||a===U?a=I:a===z||a===N?a=O:(a=I,o=void 0);const h=a===I&&t[e+1].startsWith("/>")?" ":"";s+=a===O?i+T:l>=0?(n.push(r),i.slice(0,l)+S+i.slice(l)+E+h):i+E+(-2===l?e:h)}return[G(t,s+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),n]};class K{constructor({strings:t,_$litType$:e},i){let n;this.parts=[];let o=0,s=0;const a=t.length-1,r=this.parts,[c,l]=J(t,e);if(this.el=K.createElement(c,i),W.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(n=W.nextNode())&&r.length<a;){if(1===n.nodeType){if(n.hasAttributes())for(const t of n.getAttributeNames())if(t.endsWith(S)){const e=l[s++],i=n.getAttribute(t).split(E),a=/([.?@])?(.*)/.exec(e);r.push({type:1,index:o,name:a[2],strings:i,ctor:"."===a[1]?tt:"?"===a[1]?et:"@"===a[1]?it:Q}),n.removeAttribute(t)}else t.startsWith(E)&&(r.push({type:6,index:o}),n.removeAttribute(t));if(L.test(n.tagName)){const t=n.textContent.split(E),e=t.length-1;if(e>0){n.textContent=C?C.emptyScript:"";for(let i=0;i<e;i++)n.append(t[i],j()),W.nextNode(),r.push({type:2,index:++o});n.append(t[e],j())}}}else if(8===n.nodeType)if(n.data===A)r.push({type:2,index:o});else{let t=-1;for(;-1!==(t=n.data.indexOf(E,t+1));)r.push({type:7,index:o}),t+=E.length-1}o++}}static createElement(t,e){const i=D.createElement("template");return i.innerHTML=t,i}}function Y(t,e,i=t,n){if(e===q)return e;let o=void 0!==n?i._$Co?.[n]:i._$Cl;const s=M(e)?void 0:e._$litDirective$;return o?.constructor!==s&&(o?._$AO?.(!1),void 0===s?o=void 0:(o=new s(t),o._$AT(t,i,n)),void 0!==n?(i._$Co??=[])[n]=o:i._$Cl=o),void 0!==o&&(e=Y(t,o._$AS(t,e.values),o,n)),e}class X{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,n=(t?.creationScope??D).importNode(e,!0);W.currentNode=n;let o=W.nextNode(),s=0,a=0,r=i[0];for(;void 0!==r;){if(s===r.index){let e;2===r.type?e=new Z(o,o.nextSibling,this,t):1===r.type?e=new r.ctor(o,r.name,r.strings,this,t):6===r.type&&(e=new nt(o,this,t)),this._$AV.push(e),r=i[++a]}s!==r?.index&&(o=W.nextNode(),s++)}return W.currentNode=D,n}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class Z{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,n){this.type=2,this._$AH=F,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=n,this._$Cv=n?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Y(this,t,e),M(t)?t===F||null==t||""===t?(this._$AH!==F&&this._$AR(),this._$AH=F):t!==this._$AH&&t!==q&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>R(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==F&&M(this._$AH)?this._$AA.nextSibling.data=t:this.T(D.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,n="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=K.createElement(G(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===n)this._$AH.p(e);else{const t=new X(n,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=V.get(t.strings);return void 0===e&&V.set(t.strings,e=new K(t)),e}k(t){R(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,n=0;for(const o of t)n===e.length?e.push(i=new Z(this.O(j()),this.O(j()),this,this.options)):i=e[n],i._$AI(o),n++;n<e.length&&(this._$AR(i&&i._$AB.nextSibling,n),e.length=n)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=x(t).nextSibling;x(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class Q{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,n,o){this.type=1,this._$AH=F,this._$AN=void 0,this.element=t,this.name=e,this._$AM=n,this.options=o,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=F}_$AI(t,e=this,i,n){const o=this.strings;let s=!1;if(void 0===o)t=Y(this,t,e,0),s=!M(t)||t!==this._$AH&&t!==q,s&&(this._$AH=t);else{const n=t;let a,r;for(t=o[0],a=0;a<o.length-1;a++)r=Y(this,n[i+a],e,a),r===q&&(r=this._$AH[a]),s||=!M(r)||r!==this._$AH[a],r===F?t=F:t!==F&&(t+=(r??"")+o[a+1]),this._$AH[a]=r}s&&!n&&this.j(t)}j(t){t===F?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class tt extends Q{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===F?void 0:t}}class et extends Q{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==F)}}class it extends Q{constructor(t,e,i,n,o){super(t,e,i,n,o),this.type=5}_$AI(t,e=this){if((t=Y(this,t,e,0)??F)===q)return;const i=this._$AH,n=t===F&&i!==F||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,o=t!==F&&(i===F||n);n&&this.element.removeEventListener(this.name,this,i),o&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class nt{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Y(this,t)}}const ot=w.litHtmlPolyfillSupport;ot?.(K,Z),(w.litHtmlVersions??=[]).push("3.3.2");const st=globalThis;
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */class nt extends ${constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,i)=>{const s=i?.renderBefore??e;let o=s._$litPart$;if(void 0===o){const t=i?.renderBefore??null;s._$litPart$=o=new Z(e.insertBefore(P(),t),t,void 0,i??{})}return o._$AI(t),o})(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return q}}nt._$litElement$=!0,nt.finalized=!0,rt.litElementHydrateSupport?.({LitElement:nt});const at=rt.litElementPolyfillSupport;at?.({LitElement:nt}),(rt.litElementVersions??=[]).push("4.2.2");const ct=r`
+ */class at extends ${constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,i)=>{const n=i?.renderBefore??e;let o=n._$litPart$;if(void 0===o){const t=i?.renderBefore??null;n._$litPart$=o=new Z(e.insertBefore(j(),t),t,void 0,i??{})}return o._$AI(t),o})(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return q}}at._$litElement$=!0,at.finalized=!0,st.litElementHydrateSupport?.({LitElement:at});const rt=st.litElementPolyfillSupport;rt?.({LitElement:at}),(st.litElementVersions??=[]).push("4.2.2");const ct=s`
   :host {
     --status-on-time: var(--custom-on-time-color, #4caf50);
     --status-minor-delay: var(--custom-minor-delay-color, #ff9800);
@@ -270,6 +270,127 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
 
   .destination-group-header .dest-status-dot.status-normal {
     background: var(--status-on-time, #4caf50);
+  }
+
+  /* ==================== MULTI-LEG JOURNEYS ==================== */
+
+  .leg-group-header .dest-arrow {
+    font-weight: 700;
+    opacity: 0.7;
+  }
+
+  .connection-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px var(--card-padding);
+    font-size: 0.85rem;
+    background: var(--secondary-background-color, rgba(0, 0, 0, 0.03));
+    border-top: 1px dashed var(--divider-color, rgba(0, 0, 0, 0.15));
+    border-bottom: 1px dashed var(--divider-color, rgba(0, 0, 0, 0.15));
+  }
+
+  .connection-icon {
+    flex-shrink: 0;
+    --mdc-icon-size: 20px;
+  }
+
+  .connection-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .connection-station {
+    font-weight: 600;
+    color: var(--primary-text-color, #212121);
+  }
+
+  .connection-detail,
+  .connection-summary {
+    font-size: 0.8rem;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  .connection-row.connection-normal .connection-icon,
+  .connection-row.connection-normal .connection-station {
+    color: var(--status-on-time, #4caf50);
+  }
+
+  .connection-row.connection-minor .connection-icon,
+  .connection-row.connection-minor .connection-station {
+    color: var(--status-minor-delay, #ff9800);
+  }
+
+  .connection-row.connection-major .connection-icon,
+  .connection-row.connection-major .connection-station {
+    color: var(--status-major-delay, #f44336);
+  }
+
+  .connection-row.connection-critical .connection-icon,
+  .connection-row.connection-critical .connection-station {
+    color: var(--status-cancelled, #d32f2f);
+  }
+
+  .not-catchable-badge {
+    margin-left: 4px;
+    opacity: 0.7;
+    font-size: 0.8em;
+  }
+
+  .journey-infeasible-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px var(--card-padding);
+    background: var(--status-cancelled, #d32f2f);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .journey-infeasible-banner ha-icon {
+    --mdc-icon-size: 22px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .board-leg-label {
+    padding: 6px var(--card-padding) 2px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+
+  .board-row.board-connection-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px var(--card-padding);
+    font-size: 0.8rem;
+    background: rgba(255, 255, 255, 0.04);
+    cursor: default;
+  }
+
+  .board-row.board-connection-row .connection-icon {
+    --mdc-icon-size: 16px;
+  }
+
+  .board-row.board-connection-row.connection-normal .connection-icon {
+    color: var(--status-on-time, #4caf50);
+  }
+
+  .board-row.board-connection-row.connection-minor .connection-icon {
+    color: var(--status-minor-delay, #ff9800);
+  }
+
+  .board-row.board-connection-row.connection-major .connection-icon {
+    color: var(--status-major-delay, #f44336);
+  }
+
+  .board-row.board-connection-row.connection-critical .connection-icon {
+    color: var(--status-cancelled, #d32f2f);
   }
 
   /* ==================== FULL VIEW ==================== */
@@ -1095,7 +1216,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
   }
 
 
-`;function lt(t){if(!t||"unknown"===t||"Unknown"===t)return"—";const e=String(t).trim();if(!e)return"—";const i=e.match(/(\d{1,2}):(\d{2})(?::\d{2})?/);if(i)return`${i[1].padStart(2,"0")}:${i[2]}`;try{const t=new Date(e);return isNaN(t.getTime())?(console.warn("formatTime: unparseable value:",e),"—"):t.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:!1})}catch(t){return console.warn("formatTime: could not parse time value:",e,t),"—"}}function dt(t,e){if(!t||!e)return null;try{const i=new Date(t),s=new Date(e);if(!isNaN(i.getTime())&&!isNaN(s.getTime())){const t=Math.round((s-i)/6e4);return t>0?t:null}}catch(i){console.warn("calculateJourneyDuration: could not parse as dates:",t,e,i)}const i=String(t).match(/(\d{1,2}):(\d{2})/),s=String(e).match(/(\d{1,2}):(\d{2})/);if(i&&s){let t=60*parseInt(i[1],10)+parseInt(i[2],10),e=60*parseInt(s[1],10)+parseInt(s[2],10);e<t&&(e+=1440);const o=e-t;return o>0?o:null}return null}function ht(t){return!(!t||!t.expected_departure)&&(t.expected_departure!==t.scheduled_departure&&!/\d{1,2}:\d{2}/.test(t.expected_departure))}function pt(t){return t?t.is_cancelled?"cancelled":t.is_no_service?"no-service":t.delay_minutes>=10?"major-delay":t.delay_minutes>0||ht(t)?"minor-delay":"on-time":"unknown"}function ut(t,e=!0){return e&&t?t.is_cancelled?"❌":t.is_no_service?"⊗":t.delay_minutes>=10?"🔴":t.delay_minutes>0||ht(t)?"⚠️":"✓":""}function _t(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.delay_minutes>0?`Delayed ${t.delay_minutes} min${1!==t.delay_minutes?"s":""}`:ht(t)?"Delayed":"On time":"Unknown"}function mt(t){if(!t)return"";if(t.length<=12)return t;const e={London:"Ldn",Street:"St",Bridge:"Bdg",Junction:"Jn",Central:"Cen",International:"Intl",Station:"Stn",Road:"Rd",Cross:"X",Park:"Pk"};let i=t;for(const[t,s]of Object.entries(e))i=i.replace(new RegExp(t,"g"),s);return i.length>12&&(i=i.substring(0,11)+"…"),i}function gt(t){const e=new Map;for(const i of t){const t=i.destination&&String(i.destination).trim()||"Unknown";e.has(t)||e.set(t,[]),e.get(t).push(i)}return e}function ft(t){if(!t||0===t.length)return"normal";if(t.some(t=>t.is_cancelled))return"critical";const e=Math.max(...t.map(t=>t.delay_minutes||0));return e>=15?"severe":e>=10?"major":e>0?"minor":"normal"}customElements.define("my-rail-commute-card-editor",class extends nt{static get properties(){return{hass:{type:Object},_config:{type:Object}}}static get styles(){return r`
+`;function lt(t){if(!t||"unknown"===t||"Unknown"===t)return"—";const e=String(t).trim();if(!e)return"—";const i=e.match(/(\d{1,2}):(\d{2})(?::\d{2})?/);if(i)return`${i[1].padStart(2,"0")}:${i[2]}`;try{const t=new Date(e);return isNaN(t.getTime())?(console.warn("formatTime: unparseable value:",e),"—"):t.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:!1})}catch(t){return console.warn("formatTime: could not parse time value:",e,t),"—"}}function dt(t,e){if(!t||!e)return null;try{const i=new Date(t),n=new Date(e);if(!isNaN(i.getTime())&&!isNaN(n.getTime())){const t=Math.round((n-i)/6e4);return t>0?t:null}}catch(i){console.warn("calculateJourneyDuration: could not parse as dates:",t,e,i)}const i=String(t).match(/(\d{1,2}):(\d{2})/),n=String(e).match(/(\d{1,2}):(\d{2})/);if(i&&n){let t=60*parseInt(i[1],10)+parseInt(i[2],10),e=60*parseInt(n[1],10)+parseInt(n[2],10);e<t&&(e+=1440);const o=e-t;return o>0?o:null}return null}function ht(t){return!(!t||!t.expected_departure)&&(t.expected_departure!==t.scheduled_departure&&!/\d{1,2}:\d{2}/.test(t.expected_departure))}function pt(t){return t?t.is_cancelled?"cancelled":t.is_no_service?"no-service":t.delay_minutes>=10?"major-delay":t.delay_minutes>0||ht(t)?"minor-delay":"on-time":"unknown"}function ut(t,e=!0){return e&&t?t.is_cancelled?"❌":t.is_no_service?"⊗":t.delay_minutes>=10?"🔴":t.delay_minutes>0||ht(t)?"⚠️":"✓":""}function _t(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.delay_minutes>0?`Delayed ${t.delay_minutes} min${1!==t.delay_minutes?"s":""}`:ht(t)?"Delayed":"On time":"Unknown"}function mt(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.expected_departure&&t.expected_departure!==t.scheduled_departure?`Exp ${lt(t.expected_departure)}`:"On time":"Unknown"}function gt(t){if(!t)return"";if(t.length<=12)return t;const e={London:"Ldn",Street:"St",Bridge:"Bdg",Junction:"Jn",Central:"Cen",International:"Intl",Station:"Stn",Road:"Rd",Cross:"X",Park:"Pk"};let i=t;for(const[t,n]of Object.entries(e))i=i.replace(new RegExp(t,"g"),n);return i.length>12&&(i=i.substring(0,11)+"…"),i}function ft(t,e){if(!t||0===t.length)return[];let i=[...t];return e.hide_on_time_trains&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||t.delay_minutes>0||ht(t))),e.min_delay_to_show>0&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||ht(t)||t.delay_minutes>=e.min_delay_to_show)),i}function yt(t){return t&&0!==t.length?[...t].sort((t,e)=>{const i=new Date(t.scheduled_departure).getTime(),n=new Date(e.scheduled_departure).getTime(),o=!isNaN(i),s=!isNaN(n);return o||s?o?s?i-n:-1:1:0}):[]}function vt(t){const e=new Map;for(const i of t){const t=i.destination&&String(i.destination).trim()||"Unknown";e.has(t)||e.set(t,[]),e.get(t).push(i)}return e}function bt(t){if(!t||0===t.length)return"normal";if(t.some(t=>t.is_cancelled))return"critical";const e=Math.max(...t.map(t=>t.delay_minutes||0));return e>=15?"severe":e>=10?"major":e>0?"minor":"normal"}function $t(t,e){return t?t.map((t,i)=>{const n=null!=t.train_number&&""!==t.train_number?String(t.train_number).toLowerCase().replace(/[^a-z0-9]/g,"_"):String(i+1),o=t.scheduled_departure,s=t.expected_departure,a=t.scheduled_arrival,r=t.estimated_arrival,c=/\d{1,2}:\d{2}/.test(String(s||"")),l=c?s:o,d=!c&&!!s&&s!==o&&!/^(on[\s-]?time|right\s*time)$/i.test(String(s||"").trim()),h=/\d{1,2}:\d{2}/.test(String(r||""))?r:a;return{...t,journey_duration:t.journey_duration||dt(l,h),journey_time_approx:t.journey_time_approx||d,train_id:`sensor.${e}_train_${n}`}}):[]}const wt={"Missed Connection":"mdi:alert-octagon","Delayed Connection":"mdi:clock-alert","Tight Connection":"mdi:clock-alert-outline","Connection OK":"mdi:transit-connection-variant",Unknown:"mdi:help-circle-outline"};function xt(t){return wt[t]||wt.Unknown}const Ct={"Missed Connection":"connection-critical","Delayed Connection":"connection-major","Tight Connection":"connection-minor","Connection OK":"connection-normal",Unknown:"connection-normal"};function kt(t){return Ct[t]||"connection-normal"}function St(t){const e=(t||"").toLowerCase();return e.includes("critical")||e.includes("severe")||e.includes("missed")?"status-critical":e.includes("major")||e.includes("delayed")?"status-major":e.includes("minor")||e.includes("tight")?"status-minor":"status-normal"}customElements.define("my-rail-commute-card-editor",class extends at{static get properties(){return{hass:{type:Object},_config:{type:Object}}}static get styles(){return s`
       .card-config {
         padding: 16px;
       }
@@ -1348,6 +1469,22 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
             </ha-formfield>
           `:""}
 
+          ${this._isMultiLegSensor()?B`
+            <ha-formfield label="Show Connection Details">
+              <ha-switch
+                .checked=${!1!==this._config.show_connection_details}
+                @change=${this._toggleChanged("show_connection_details")}
+              ></ha-switch>
+            </ha-formfield>
+
+            <ha-formfield label="Show Non-Catchable Train Indicator">
+              <ha-switch
+                .checked=${!1!==this._config.show_non_catchable_indicator}
+                @change=${this._toggleChanged("show_non_catchable_indicator")}
+              ></ha-switch>
+            </ha-formfield>
+          `:""}
+
         </div>
 
         <!-- Filtering Options -->
@@ -1493,7 +1630,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
           </div>
         </div>
       </div>
-    `:B``}_entityChanged(t){if(!this._config||!this._hass)return;const e=t.detail.value??"";e!==(this._config.entity??"")&&(this._config={...this._config,entity:e},this._fireConfigChanged())}_titleChanged(t){this._config&&this._hass&&(this._config={...this._config,title:t.target.value},this._fireConfigChanged())}_viewChanged(t){this._config&&this._hass&&(this._config={...this._config,view:t.target.value},this._fireConfigChanged())}_themeChanged(t){this._config&&this._hass&&(this._config={...this._config,theme:t.target.value},this._fireConfigChanged())}_fontSizeChanged(t){this._config&&this._hass&&(this._config={...this._config,font_size:t.target.value},this._fireConfigChanged())}_toggleChanged(t){return e=>{this._config&&this._hass&&(this._config={...this._config,[t]:e.target.checked},this._fireConfigChanged())}}_minDelayChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||0;this._config={...this._config,min_delay_to_show:e},this._fireConfigChanged()}_maxCallingPointsChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||3;this._config={...this._config,max_calling_points:e},this._fireConfigChanged()}_statusEntityChanged(t){this._config&&this._hass&&(this._config={...this._config,status_entity:t.detail.value},this._fireConfigChanged())}_refreshIntervalChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||60;this._config={...this._config,refresh_interval:e},this._fireConfigChanged()}_tapActionChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{action:t.target.value}},this._fireConfigChanged())}_urlPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,url_path:t.target.value}},this._fireConfigChanged())}_navigationPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,navigation_path:t.target.value}},this._fireConfigChanged())}_holdActionChanged(t){this._config&&this._hass&&(this._config={...this._config,hold_action:{action:t.target.value}},this._fireConfigChanged())}_historyDaysChanged(t){this._config&&this._hass&&(this._config={...this._config,history_days:parseInt(t.target.value,10)},this._fireConfigChanged())}_isMultiDestinationSensor(){if(!this._hass||!this._config?.entity)return!1;const t=this._hass.states[this._config.entity];return!0===t?.attributes?.multi_destination}_fireConfigChanged(){const t=new CustomEvent("config-changed",{detail:{config:this._config},bubbles:!0,composed:!0});this.dispatchEvent(t)}}),console.info("%c MY-RAIL-COMMUTE-CARD \n%c Version 1.0.6 ","color: cyan; font-weight: bold; background: black","color: white; font-weight: bold; background: dimgray");class yt extends nt{static get properties(){return{hass:{type:Object},config:{type:Object},_trains:{type:Array},_origin:{type:String},_destination:{type:String},_lastUpdated:{type:String},_hasDisruption:{type:Boolean},_disruptionSeverity:{type:String},_disruptionMessage:{type:String},_resolvedStatusEntityId:{type:String},_loading:{type:Boolean},_entityNotFound:{type:Boolean},_returnEntityId:{type:String},_showReturn:{type:Boolean},_historyPanelOpen:{type:Boolean},_histRelAttrs:{type:Object},_histDelAttrs:{type:Object},_isMultiDestination:{type:Boolean},_servicesByDestination:{type:Object}}}static get styles(){return ct}constructor(){super(),this._trains=[],this._origin="",this._destination="",this._lastUpdated="",this._hasDisruption=!1,this._disruptionSeverity="",this._disruptionMessage="",this._resolvedStatusEntityId="",this._loading=!0,this._entityNotFound=!1,this._toastTimer=null,this._toastElement=null,this._returnEntityId=null,this._showReturn=!1,this._returnEntityCacheKey=null,this._historyPanelOpen=!1,this._histRelAttrs=null,this._histDelAttrs=null,this._isMultiDestination=!1,this._servicesByDestination=null}setConfig(t){if(!t)throw new Error("Invalid configuration");this.config={view:"full",theme:"auto",show_header:!0,show_route:!0,show_last_updated:!1,show_platform:!0,show_operator:!0,show_calling_points:!1,show_delay_reason:!0,show_journey_time:!1,show_service_type:!1,max_calling_points:3,hide_on_time_trains:!1,only_show_disrupted:!1,min_delay_to_show:0,auto_refresh:!0,refresh_interval:60,card_style:"departure-board",font_size:"medium",compact_height:!1,show_animations:!0,status_icons:!0,show_history_panel:!1,history_days:7,group_by_destination:!0,...t},t.colors&&(t.colors.on_time&&this.style.setProperty("--custom-on-time-color",t.colors.on_time),t.colors.minor_delay&&this.style.setProperty("--custom-minor-delay-color",t.colors.minor_delay),t.colors.major_delay&&this.style.setProperty("--custom-major-delay-color",t.colors.major_delay),t.colors.cancelled&&this.style.setProperty("--custom-cancelled-color",t.colors.cancelled)),t.theme&&"auto"!==t.theme&&this.setAttribute("theme",t.theme),t.font_size&&this.setAttribute("font-size",t.font_size),!1===t.show_animations&&this.setAttribute("no-animations","")}set hass(t){if(this._hass=t,!this.config)return;if(!this.config.entity)return this._loading=!1,void(this._trains=[]);const e=t.states[this.config.entity];if(!e)return console.error("my-rail-commute-card: entity not found:",this.config.entity),this._entityNotFound=!0,this._loading=!1,void(this._trains=[]);this._entityNotFound=!1;const i=e.attributes.origin_name||e.attributes.origin||e.attributes.from_station||"",s=e.attributes.destination_name||e.attributes.destination||e.attributes.to_station||"",o=`${i}|${s}`;o!==this._returnEntityCacheKey?(this._returnEntityCacheKey=o,this._returnEntityId=this._findReturnEntity(t,i,s)):this._returnEntityId&&!t.states[this._returnEntityId]&&(this._returnEntityCacheKey=null,this._returnEntityId=this._findReturnEntity(t,i,s)),this._showReturn&&!this._returnEntityId&&(this._showReturn=!1);const r=this._showReturn&&this._returnEntityId?this._returnEntityId:this.config.entity,n=t.states[r];if(!n)return this._loading=!1,void(this._trains=[]);if(n.attributes.all_trains&&n.attributes.all_trains.length>0){const t=r.replace("sensor.","").replace("_summary","").replace("_commute_summary","");this._trains=n.attributes.all_trains.map((e,i)=>{const s=null!=e.train_number&&""!==e.train_number?String(e.train_number).toLowerCase().replace(/[^a-z0-9]/g,"_"):String(i+1),o=e.scheduled_departure,r=e.expected_departure,n=e.scheduled_arrival,a=e.estimated_arrival,c=/\d{1,2}:\d{2}/.test(String(r||"")),l=c?r:o,d=!c&&!!r&&r!==o&&!/^(on[\s-]?time|right\s*time)$/i.test(String(r||"").trim()),h=/\d{1,2}:\d{2}/.test(String(a||""))?a:n;return{...e,journey_duration:e.journey_duration||dt(l,h),journey_time_approx:e.journey_time_approx||d,train_id:`sensor.${t}_train_${s}`}})}else this._trains=this._getTrainsFromIndividualSensors(t,r);var a;let c;if(this._isMultiDestination=!0===n.attributes.multi_destination,this._servicesByDestination=n.attributes.services_by_destination||null,this._origin=this._showReturn?s:i,this._destination=this._isMultiDestination?null:this._showReturn?i:s,this._lastUpdated=n.attributes.last_updated||n.last_updated||n.last_changed||"",this._trains&&this._trains.length>0&&(this._trains=(a=this._trains)&&0!==a.length?[...a].sort((t,e)=>{const i=new Date(t.scheduled_departure).getTime(),s=new Date(e.scheduled_departure).getTime(),o=!isNaN(i),r=!isNaN(s);return o||r?o?r?i-s:-1:1:0}):[]),this._hasDisruption=!1,this._disruptionSeverity="",this._disruptionMessage="",this._resolvedStatusEntityId="",this._showReturn&&this._returnEntityId){const e=`sensor.${this._returnEntityId.replace("sensor.","").replace("_summary","").replace("_commute_summary","")}_status`;t.states[e]&&(c=e)}else if(c=this.config.status_entity,!c){const e=`sensor.${this.config.entity.replace("sensor.","").replace("_summary","").replace("_commute_summary","")}_status`;t.states[e]&&(c=e)}if(c){this._resolvedStatusEntityId=c;const e=t.states[c];if(e){const t=(e.state||"").toLowerCase().trim();"normal"!==t&&"unknown"!==t&&"unavailable"!==t&&""!==t&&(this._hasDisruption=!0,t.includes("critical")?this._disruptionSeverity="critical":t.includes("severe")?this._disruptionSeverity="severe":t.includes("major")?this._disruptionSeverity="major":this._disruptionSeverity="minor",this._disruptionMessage=e.attributes.message||e.attributes.reason||e.attributes.disruption_message||"")}}if(this.config.show_history_panel){const e=r.replace("sensor.","").replace("_summary","").replace("_commute_summary",""),i=t.states[`sensor.${e}_historical_reliability`],s=t.states[`sensor.${e}_historical_delays`];i||s||console.warn("my-rail-commute-card: show_history_panel is enabled but no history sensors were found.",`Expected: sensor.${e}_historical_reliability / sensor.${e}_historical_delays`),this._histRelAttrs=i?i.attributes:null,this._histDelAttrs=s?s.attributes:null}this._trains&&this._trains.length>0&&(this._trains=function(t,e){if(!t||0===t.length)return[];let i=[...t];return e.hide_on_time_trains&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||t.delay_minutes>0||ht(t))),e.min_delay_to_show>0&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||ht(t)||t.delay_minutes>=e.min_delay_to_show)),i}(this._trains,this.config)),this._loading=!1,this.requestUpdate()}_findReturnEntity(t,e,i){if(!e||!i||this._isMultiDestination)return null;const s=e.toLowerCase().trim(),o=i.toLowerCase().trim();for(const[e,i]of Object.entries(t.states)){if(e===this.config.entity)continue;if(!i.attributes)continue;const t=i.attributes;if(!(t.all_trains||t.origin_name||t.origin||t.from_station))continue;const r=(t.origin_name||t.origin||t.from_station||"").toLowerCase().trim(),n=(t.destination_name||t.destination||t.to_station||"").toLowerCase().trim();if(r&&n&&(r===o&&n===s))return e}return null}_toggleReturn(){this._showReturn=!this._showReturn,this._hass&&(this.hass=this._hass)}_toggleHistoryPanel(){this._historyPanelOpen=!this._historyPanelOpen}_getTrainsFromIndividualSensors(t,e){const i=(e||this.config.entity).replace("sensor.","").replace("_summary","").replace("_commute_summary",""),s=[`sensor.${i}_train_`,`sensor.${i}_train`,`sensor.${i.replace(/_/g,"-")}_train_`,`sensor.${i.replace(/_/g,"")}_train_`];let o=[];for(const e of s){const i=Object.keys(t.states).filter(t=>t.startsWith(e));if(i.length>0){o=i;break}}o.sort((t,e)=>parseInt(t.match(/train[_-]?(\d+)$/i)?.[1]||"0",10)-parseInt(e.match(/train[_-]?(\d+)$/i)?.[1]||"0",10));const r=o.map(e=>{const i=t.states[e];if(!i)return console.warn(`my-rail-commute-card: train sensor not found: ${e}`),null;let s=i.attributes.calling_points||i.attributes.stops||i.attributes.calling_at||i.attributes["Calling at"]||[];"string"==typeof s&&(s=s.split(",").map(t=>t.trim()).filter(t=>t));const o=i.attributes.scheduled_departure||i.attributes.scheduled||i.attributes.departure||i.attributes.departure_time||i.attributes.std||i.attributes.aimed_departure_time||i.attributes["Scheduled Departure"]||i.state,r=i.attributes.expected_departure||i.attributes.expected||i.attributes.estimated||i.attributes.estimated_departure||i.attributes.etd||i.attributes.expected_arrival||i.attributes["Expected Departure"]||o,n=i.attributes.scheduled_arrival||i.attributes.sta||i.attributes["Scheduled Arrival"]||null,a=i.attributes.estimated_arrival||i.attributes.eta||i.attributes["Estimated Arrival"]||n,c=/\d{1,2}:\d{2}/.test(String(r)),l=c?r:o,d=!c&&!!r&&r!==o&&!/^(on[\s-]?time|right\s*time)$/i.test(String(r).trim()),h=/\d{1,2}:\d{2}/.test(String(a))?a:n;return{train_id:e,scheduled_departure:o,expected_departure:r,platform:i.attributes.platform||i.attributes.Platform||"",operator:i.attributes.operator||i.attributes.service_operator||i.attributes.Operator||"",is_cancelled:i.attributes.is_cancelled||i.attributes.cancelled||"Cancelled"===i.state||"Canceled"===i.state||!1,is_no_service:i.attributes.is_no_service||i.attributes.no_service||"No service"===i.state||"No Service"===i.state||!1,delay_minutes:parseInt(i.attributes.delay_minutes||i.attributes.delay||i.attributes.minutes_late||i.attributes["Delay minutes"]||"0",10),delay_reason:i.attributes.delay_reason||i.attributes.reason||i.attributes["Delay reason"]||"",calling_points:s,journey_duration:i.attributes.journey_duration||i.attributes.duration||dt(l,h),journey_time_approx:d,service_type:i.attributes.service_type||i.attributes.type||""}}).filter(t=>null!==t);return r}getCardSize(){if(!this.config)return 3;const t=this.config.view||"full",e=this._trains?.length||0;switch(t){case"compact":return 1+Math.ceil(.5*e);case"next-only":return 3;default:return 2+e}}render(){if(!this.config)return B``;if(!this.config.entity)return this._renderEmpty("No entity selected","Please select a rail commute summary sensor in the card configuration");if(this._loading)return this._renderLoading();if(t=this._hasDisruption,this.config.only_show_disrupted&&!t)return this._renderEmpty("No disruption detected","Trains will appear when there is disruption");var t;if(this._entityNotFound)return this._renderEmpty("Entity not found",`Cannot find entity: ${this.config.entity}`);if(!this._trains||0===this._trains.length)return this._renderEmpty();switch(this.config.view||"full"){case"compact":return this._renderCompact();case"next-only":return this._renderNextOnly();case"board":return this._renderBoard();default:return this._renderFull()}}_renderHeader(){const t=!1!==this.config.show_header,e=!1!==this.config.show_route;if(!t)return"";const i=String(this.config.title||"Rail Commute").replace(/<[^>]*>/g,"");return B`
+    `:B``}_entityChanged(t){if(!this._config||!this._hass)return;const e=t.detail.value??"";e!==(this._config.entity??"")&&(this._config={...this._config,entity:e},this._fireConfigChanged())}_titleChanged(t){this._config&&this._hass&&(this._config={...this._config,title:t.target.value},this._fireConfigChanged())}_viewChanged(t){this._config&&this._hass&&(this._config={...this._config,view:t.target.value},this._fireConfigChanged())}_themeChanged(t){this._config&&this._hass&&(this._config={...this._config,theme:t.target.value},this._fireConfigChanged())}_fontSizeChanged(t){this._config&&this._hass&&(this._config={...this._config,font_size:t.target.value},this._fireConfigChanged())}_toggleChanged(t){return e=>{this._config&&this._hass&&(this._config={...this._config,[t]:e.target.checked},this._fireConfigChanged())}}_minDelayChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||0;this._config={...this._config,min_delay_to_show:e},this._fireConfigChanged()}_maxCallingPointsChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||3;this._config={...this._config,max_calling_points:e},this._fireConfigChanged()}_statusEntityChanged(t){this._config&&this._hass&&(this._config={...this._config,status_entity:t.detail.value},this._fireConfigChanged())}_refreshIntervalChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||60;this._config={...this._config,refresh_interval:e},this._fireConfigChanged()}_tapActionChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{action:t.target.value}},this._fireConfigChanged())}_urlPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,url_path:t.target.value}},this._fireConfigChanged())}_navigationPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,navigation_path:t.target.value}},this._fireConfigChanged())}_holdActionChanged(t){this._config&&this._hass&&(this._config={...this._config,hold_action:{action:t.target.value}},this._fireConfigChanged())}_historyDaysChanged(t){this._config&&this._hass&&(this._config={...this._config,history_days:parseInt(t.target.value,10)},this._fireConfigChanged())}_isMultiDestinationSensor(){if(!this._hass||!this._config?.entity)return!1;const t=this._hass.states[this._config.entity];return!0===t?.attributes?.multi_destination}_isMultiLegSensor(){if(!this._hass||!this._config?.entity)return!1;const t=this._hass.states[this._config.entity];return!0===t?.attributes?.is_multi_leg}_fireConfigChanged(){const t=new CustomEvent("config-changed",{detail:{config:this._config},bubbles:!0,composed:!0});this.dispatchEvent(t)}}),console.info("%c MY-RAIL-COMMUTE-CARD \n%c Version 1.0.6 ","color: cyan; font-weight: bold; background: black","color: white; font-weight: bold; background: dimgray");class Et extends at{static get properties(){return{hass:{type:Object},config:{type:Object},_trains:{type:Array},_origin:{type:String},_destination:{type:String},_lastUpdated:{type:String},_hasDisruption:{type:Boolean},_disruptionSeverity:{type:String},_disruptionMessage:{type:String},_resolvedStatusEntityId:{type:String},_loading:{type:Boolean},_entityNotFound:{type:Boolean},_returnEntityId:{type:String},_showReturn:{type:Boolean},_historyPanelOpen:{type:Boolean},_histRelAttrs:{type:Object},_histDelAttrs:{type:Object},_isMultiDestination:{type:Boolean},_servicesByDestination:{type:Object},_isMultiLeg:{type:Boolean},_legs:{type:Array},_connections:{type:Array},_journeyFeasible:{type:Boolean}}}static get styles(){return ct}constructor(){super(),this._trains=[],this._origin="",this._destination="",this._lastUpdated="",this._hasDisruption=!1,this._disruptionSeverity="",this._disruptionMessage="",this._resolvedStatusEntityId="",this._loading=!0,this._entityNotFound=!1,this._toastTimer=null,this._toastElement=null,this._returnEntityId=null,this._showReturn=!1,this._returnEntityCacheKey=null,this._historyPanelOpen=!1,this._histRelAttrs=null,this._histDelAttrs=null,this._isMultiDestination=!1,this._servicesByDestination=null,this._isMultiLeg=!1,this._legs=[],this._connections=[],this._journeyFeasible=!0}setConfig(t){if(!t)throw new Error("Invalid configuration");this.config={view:"full",theme:"auto",show_header:!0,show_route:!0,show_last_updated:!1,show_platform:!0,show_operator:!0,show_calling_points:!1,show_delay_reason:!0,show_journey_time:!1,show_service_type:!1,max_calling_points:3,hide_on_time_trains:!1,only_show_disrupted:!1,min_delay_to_show:0,auto_refresh:!0,refresh_interval:60,card_style:"departure-board",font_size:"medium",compact_height:!1,show_animations:!0,status_icons:!0,show_history_panel:!1,history_days:7,group_by_destination:!0,show_connection_details:!0,show_non_catchable_indicator:!0,...t},t.colors&&(t.colors.on_time&&this.style.setProperty("--custom-on-time-color",t.colors.on_time),t.colors.minor_delay&&this.style.setProperty("--custom-minor-delay-color",t.colors.minor_delay),t.colors.major_delay&&this.style.setProperty("--custom-major-delay-color",t.colors.major_delay),t.colors.cancelled&&this.style.setProperty("--custom-cancelled-color",t.colors.cancelled)),t.theme&&"auto"!==t.theme&&this.setAttribute("theme",t.theme),t.font_size&&this.setAttribute("font-size",t.font_size),!1===t.show_animations&&this.setAttribute("no-animations","")}set hass(t){if(this._hass=t,!this.config)return;if(!this.config.entity)return this._loading=!1,void(this._trains=[]);const e=t.states[this.config.entity];if(!e)return console.error("my-rail-commute-card: entity not found:",this.config.entity),this._entityNotFound=!0,this._loading=!1,void(this._trains=[]);this._entityNotFound=!1;const i=e.attributes.origin_name||e.attributes.origin||e.attributes.from_station||"",n=e.attributes.destination_name||e.attributes.destination||e.attributes.to_station||"",o=`${i}|${n}`;o!==this._returnEntityCacheKey?(this._returnEntityCacheKey=o,this._returnEntityId=this._findReturnEntity(t,i,n)):this._returnEntityId&&!t.states[this._returnEntityId]&&(this._returnEntityCacheKey=null,this._returnEntityId=this._findReturnEntity(t,i,n)),this._showReturn&&!this._returnEntityId&&(this._showReturn=!1);const s=this._showReturn&&this._returnEntityId?this._returnEntityId:this.config.entity,a=t.states[s];if(!a)return this._loading=!1,void(this._trains=[]);const r=s.replace("sensor.","").replace("_summary","").replace("_commute_summary","");let c;if(a.attributes.all_trains&&a.attributes.all_trains.length>0?this._trains=$t(a.attributes.all_trains,r):this._trains=this._getTrainsFromIndividualSensors(t,s),this._isMultiDestination=!0===a.attributes.multi_destination,this._servicesByDestination=a.attributes.services_by_destination||null,this._isMultiLeg=!0===a.attributes.is_multi_leg,this._legs=this._isMultiLeg?(a.attributes.legs||[]).map(t=>({...t,services:$t(t.services||[],r)})):[],this._connections=this._isMultiLeg&&a.attributes.connections||[],this._journeyFeasible=!1!==a.attributes.journey_feasible,this._origin=this._showReturn?n:i,this._destination=this._isMultiDestination?null:this._showReturn?i:n,this._lastUpdated=a.attributes.last_updated||a.last_updated||a.last_changed||"",this._trains&&this._trains.length>0&&(this._trains=yt(this._trains)),this._hasDisruption=!1,this._disruptionSeverity="",this._disruptionMessage="",this._resolvedStatusEntityId="",this._showReturn&&this._returnEntityId){const e=`sensor.${this._returnEntityId.replace("sensor.","").replace("_summary","").replace("_commute_summary","")}_status`;t.states[e]&&(c=e)}else if(c=this.config.status_entity,!c){const e=`sensor.${this.config.entity.replace("sensor.","").replace("_summary","").replace("_commute_summary","")}_status`;t.states[e]&&(c=e)}if(c){this._resolvedStatusEntityId=c;const e=t.states[c];if(e){const t=(e.state||"").toLowerCase().trim();"normal"!==t&&"unknown"!==t&&"unavailable"!==t&&""!==t&&(this._hasDisruption=!0,t.includes("critical")?this._disruptionSeverity="critical":t.includes("severe")?this._disruptionSeverity="severe":t.includes("major")?this._disruptionSeverity="major":this._disruptionSeverity="minor",this._disruptionMessage=e.attributes.message||e.attributes.reason||e.attributes.disruption_message||"")}}if(this.config.show_history_panel){const e=s.replace("sensor.","").replace("_summary","").replace("_commute_summary",""),i=t.states[`sensor.${e}_historical_reliability`],n=t.states[`sensor.${e}_historical_delays`];i||n||console.warn("my-rail-commute-card: show_history_panel is enabled but no history sensors were found.",`Expected: sensor.${e}_historical_reliability / sensor.${e}_historical_delays`),this._histRelAttrs=i?i.attributes:null,this._histDelAttrs=n?n.attributes:null}this._trains&&this._trains.length>0&&(this._trains=ft(this._trains,this.config)),this._isMultiLeg&&(this._legs=this._legs.map(t=>({...t,services:ft(yt(t.services),this.config)}))),this._loading=!1,this.requestUpdate()}_findReturnEntity(t,e,i){if(!e||!i||this._isMultiDestination)return null;const n=e.toLowerCase().trim(),o=i.toLowerCase().trim();for(const[e,i]of Object.entries(t.states)){if(e===this.config.entity)continue;if(!i.attributes)continue;const t=i.attributes;if(!(t.all_trains||t.origin_name||t.origin||t.from_station))continue;const s=(t.origin_name||t.origin||t.from_station||"").toLowerCase().trim(),a=(t.destination_name||t.destination||t.to_station||"").toLowerCase().trim();if(s&&a&&(s===o&&a===n))return e}return null}_toggleReturn(){this._showReturn=!this._showReturn,this._hass&&(this.hass=this._hass)}_toggleHistoryPanel(){this._historyPanelOpen=!this._historyPanelOpen}_getTrainsFromIndividualSensors(t,e){const i=(e||this.config.entity).replace("sensor.","").replace("_summary","").replace("_commute_summary",""),n=[`sensor.${i}_train_`,`sensor.${i}_train`,`sensor.${i.replace(/_/g,"-")}_train_`,`sensor.${i.replace(/_/g,"")}_train_`];let o=[];for(const e of n){const i=Object.keys(t.states).filter(t=>t.startsWith(e));if(i.length>0){o=i;break}}o.sort((t,e)=>parseInt(t.match(/train[_-]?(\d+)$/i)?.[1]||"0",10)-parseInt(e.match(/train[_-]?(\d+)$/i)?.[1]||"0",10));const s=o.map(e=>{const i=t.states[e];if(!i)return console.warn(`my-rail-commute-card: train sensor not found: ${e}`),null;let n=i.attributes.calling_points||i.attributes.stops||i.attributes.calling_at||i.attributes["Calling at"]||[];"string"==typeof n&&(n=n.split(",").map(t=>t.trim()).filter(t=>t));const o=i.attributes.scheduled_departure||i.attributes.scheduled||i.attributes.departure||i.attributes.departure_time||i.attributes.std||i.attributes.aimed_departure_time||i.attributes["Scheduled Departure"]||i.state,s=i.attributes.expected_departure||i.attributes.expected||i.attributes.estimated||i.attributes.estimated_departure||i.attributes.etd||i.attributes.expected_arrival||i.attributes["Expected Departure"]||o,a=i.attributes.scheduled_arrival||i.attributes.sta||i.attributes["Scheduled Arrival"]||null,r=i.attributes.estimated_arrival||i.attributes.eta||i.attributes["Estimated Arrival"]||a,c=/\d{1,2}:\d{2}/.test(String(s)),l=c?s:o,d=!c&&!!s&&s!==o&&!/^(on[\s-]?time|right\s*time)$/i.test(String(s).trim()),h=/\d{1,2}:\d{2}/.test(String(r))?r:a;return{train_id:e,scheduled_departure:o,expected_departure:s,platform:i.attributes.platform||i.attributes.Platform||"",operator:i.attributes.operator||i.attributes.service_operator||i.attributes.Operator||"",is_cancelled:i.attributes.is_cancelled||i.attributes.cancelled||"Cancelled"===i.state||"Canceled"===i.state||!1,is_no_service:i.attributes.is_no_service||i.attributes.no_service||"No service"===i.state||"No Service"===i.state||!1,delay_minutes:parseInt(i.attributes.delay_minutes||i.attributes.delay||i.attributes.minutes_late||i.attributes["Delay minutes"]||"0",10),delay_reason:i.attributes.delay_reason||i.attributes.reason||i.attributes["Delay reason"]||"",calling_points:n,journey_duration:i.attributes.journey_duration||i.attributes.duration||dt(l,h),journey_time_approx:d,service_type:i.attributes.service_type||i.attributes.type||""}}).filter(t=>null!==t);return s}getCardSize(){if(!this.config)return 3;const t=this.config.view||"full",e=this._trains?.length||0,i=this._isMultiLeg&&this._connections?.length||0;switch(t){case"compact":return 1+Math.ceil(.5*e)+i;case"next-only":return this._isMultiLeg?2+(this._legs?.length||0)+i:3;default:return 2+e+i}}render(){if(!this.config)return B``;if(!this.config.entity)return this._renderEmpty("No entity selected","Please select a rail commute summary sensor in the card configuration");if(this._loading)return this._renderLoading();if(t=this._hasDisruption,this.config.only_show_disrupted&&!t)return this._renderEmpty("No disruption detected","Trains will appear when there is disruption");var t;if(this._entityNotFound)return this._renderEmpty("Entity not found",`Cannot find entity: ${this.config.entity}`);if(!this._trains||0===this._trains.length)return this._renderEmpty();if(this._isMultiLeg)return this._renderMultiLeg();switch(this.config.view||"full"){case"compact":return this._renderCompact();case"next-only":return this._renderNextOnly();case"board":return this._renderBoard();default:return this._renderFull()}}_renderHeader(){const t=!1!==this.config.show_header,e=!1!==this.config.show_route;if(!t)return"";const i=String(this.config.title||"Rail Commute").replace(/<[^>]*>/g,"");return B`
       <div class="card-header">
         <div class="header-content">
           <ha-icon icon="mdi:train"></ha-icon>
@@ -1514,13 +1651,13 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
           </div>
         `:""}
       </div>
-    `}_renderDisruptionBanner(){if(!this._hasDisruption)return"";const t={minor:{cls:"disruption-minor",label:"Minor Delays",icon:"mdi:alert"},major:{cls:"disruption-major",label:"Major Delays",icon:"mdi:alert"},severe:{cls:"disruption-severe",label:"Severe Disruption",icon:"mdi:alert-circle"},critical:{cls:"disruption-critical",label:"Critical Disruption",icon:"mdi:alert-octagon"}},{cls:e,label:i,icon:s}=t[this._disruptionSeverity]||t.minor,o=!!this._resolvedStatusEntityId;return B`
+    `}_renderDisruptionBanner(){if(!this._hasDisruption)return"";const t={minor:{cls:"disruption-minor",label:"Minor Delays",icon:"mdi:alert"},major:{cls:"disruption-major",label:"Major Delays",icon:"mdi:alert"},severe:{cls:"disruption-severe",label:"Severe Disruption",icon:"mdi:alert-circle"},critical:{cls:"disruption-critical",label:"Critical Disruption",icon:"mdi:alert-octagon"}},{cls:e,label:i,icon:n}=t[this._disruptionSeverity]||t.minor,o=!!this._resolvedStatusEntityId;return B`
       <div
         class="disruption-banner ${e} ${o?"disruption-clickable":""}"
         @click="${o?()=>this._showDisruptionMoreInfo():null}"
         role="${o?"button":"alert"}"
       >
-        <ha-icon icon="${s}" class="disruption-icon"></ha-icon>
+        <ha-icon icon="${n}" class="disruption-icon"></ha-icon>
         <div class="disruption-content">
           <span class="disruption-label">${i} on this route</span>
           ${this._disruptionMessage?B`
@@ -1535,7 +1672,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
       <div class="card-footer">
         ${t?B`
           <span class="last-updated">
-            Last updated: ${function(t){if(!t)return"Unknown";try{const e=new Date,i=new Date(t);if(isNaN(i.getTime()))return console.warn("getRelativeTime: invalid timestamp:",t),"Unknown";const s=Math.floor((e-i)/1e3);if(s<0)return"Just now";if(s<60)return"Just now";if(s<3600){const t=Math.floor(s/60);return`${t} minute${1!==t?"s":""} ago`}if(s<86400){const t=Math.floor(s/3600);return`${t} hour${1!==t?"s":""} ago`}const o=Math.floor(s/86400);return`${o} day${1!==o?"s":""} ago`}catch(t){return console.warn("getRelativeTime: error calculating relative time:",t),"Unknown"}}(this._lastUpdated)}
+            Last updated: ${function(t){if(!t)return"Unknown";try{const e=new Date,i=new Date(t);if(isNaN(i.getTime()))return console.warn("getRelativeTime: invalid timestamp:",t),"Unknown";const n=Math.floor((e-i)/1e3);if(n<0)return"Just now";if(n<60)return"Just now";if(n<3600){const t=Math.floor(n/60);return`${t} minute${1!==t?"s":""} ago`}if(n<86400){const t=Math.floor(n/3600);return`${t} hour${1!==t?"s":""} ago`}const o=Math.floor(n/86400);return`${o} day${1!==o?"s":""} ago`}catch(t){return console.warn("getRelativeTime: error calculating relative time:",t),"Unknown"}}(this._lastUpdated)}
           </span>
         `:B`<span></span>`}
         ${e?B`
@@ -1552,18 +1689,18 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
         <div class="history-panel">
           <div class="history-empty">No reliability data available yet — check back after a few updates.</div>
         </div>
-      `;const i=Math.min(this.config.history_days||7,30),s=(t?.daily_breakdown||[]).slice(-i),o=t?.on_time_pct_today??null,r=t?.on_time_pct_7day??null,n=t?.on_time_pct_30day??null,a=e?.avg_delay_7day??null,c=e?.best_day??null,l=e?.worst_day??null;return B`
+      `;const i=Math.min(this.config.history_days||7,30),n=(t?.daily_breakdown||[]).slice(-i),o=t?.on_time_pct_today??null,s=t?.on_time_pct_7day??null,a=t?.on_time_pct_30day??null,r=e?.avg_delay_7day??null,c=e?.best_day??null,l=e?.worst_day??null;return B`
       <div class="history-panel">
         <div class="history-kpis">
           ${this._renderKpiPill("Today",o,"%",!1)}
-          ${this._renderKpiPill("7-day",r,"%",!1)}
-          ${this._renderKpiPill("30-day",n,"%",!1)}
-          ${this._renderKpiPill("Avg delay",a," min",!0)}
+          ${this._renderKpiPill("7-day",s,"%",!1)}
+          ${this._renderKpiPill("30-day",a,"%",!1)}
+          ${this._renderKpiPill("Avg delay",r," min",!0)}
         </div>
 
-        ${s.length>0?B`
+        ${n.length>0?B`
           <div class="history-days">
-            ${s.map(t=>this._renderDaySquare(t))}
+            ${n.map(t=>this._renderDaySquare(t))}
           </div>
         `:""}
 
@@ -1584,17 +1721,17 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
           </div>
         `:""}
       </div>
-    `}_renderKpiPill(t,e,i,s){const o=s?"kpi-neutral":null==(r=e)?"kpi-neutral":r>=90?"kpi-good":r>=70?"kpi-moderate":"kpi-poor";var r;return B`
+    `}_renderKpiPill(t,e,i,n){const o=n?"kpi-neutral":null==(s=e)?"kpi-neutral":s>=90?"kpi-good":s>=70?"kpi-moderate":"kpi-poor";var s;return B`
       <div class="kpi-pill ${o}">
         <span class="kpi-value">${null!=e?`${e}${i}`:"—"}</span>
         <span class="kpi-label">${t}</span>
       </div>
-    `}_renderDaySquare(t){const e=t.on_time_pct;let i="day-sq-nodata";null!=e&&(i=e>=90?"day-sq-good":e>=70?"day-sq-moderate":"day-sq-poor");const[s,o,r]=t.date.split("-").map(Number),n=new Date(s,o-1,r).toLocaleDateString("en-GB",{weekday:"short"}),a=null!=e?`${Math.round(e)}%`:"—",c=null!=e?`${n} ${r}: ${e}% on-time${t.avg_delay_minutes?`, avg ${t.avg_delay_minutes} min late`:""}`:`${n} ${r}: No data`;return B`
+    `}_renderDaySquare(t){const e=t.on_time_pct;let i="day-sq-nodata";null!=e&&(i=e>=90?"day-sq-good":e>=70?"day-sq-moderate":"day-sq-poor");const[n,o,s]=t.date.split("-").map(Number),a=new Date(n,o-1,s).toLocaleDateString("en-GB",{weekday:"short"}),r=null!=e?`${Math.round(e)}%`:"—",c=null!=e?`${a} ${s}: ${e}% on-time${t.avg_delay_minutes?`, avg ${t.avg_delay_minutes} min late`:""}`:`${a} ${s}: No data`;return B`
       <div class="day-sq ${i}" title="${c}">
-        <span class="day-sq-label">${n}</span>
-        <span class="day-sq-pct">${a}</span>
+        <span class="day-sq-label">${a}</span>
+        <span class="day-sq-pct">${r}</span>
       </div>
-    `}_formatHistoryDate(t){if(!t)return"";const[e,i,s]=t.split("-").map(Number);return new Date(e,i-1,s).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"})}_renderFull(){const t=this.config.compact_height?"compact-height":"",e=this._isMultiDestination&&!1!==this.config.group_by_destination;return B`
+    `}_formatHistoryDate(t){if(!t)return"";const[e,i,n]=t.split("-").map(Number);return new Date(e,i-1,n).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"})}_renderFull(){const t=this.config.compact_height?"compact-height":"",e=this._isMultiDestination&&!1!==this.config.group_by_destination;return B`
       <ha-card class="${t}">
         ${this._renderHeader()}
         ${this._renderDisruptionBanner()}
@@ -1606,7 +1743,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
         ${this._renderHistoryPanel()}
         ${this._renderFooter()}
       </ha-card>
-    `}_renderTrainRow(t){const e=pt(t),i=!1!==this.config.status_icons?ut(t):"",s=!1!==this.config.show_platform,o=!1!==this.config.show_operator,r=!1!==this.config.show_delay_reason,n=!0===this.config.show_calling_points,a=!0===this.config.show_journey_time;return B`
+    `}_renderTrainRow(t){const e=pt(t),i=!1!==this.config.status_icons?ut(t):"",n=!1!==this.config.show_platform,o=!1!==this.config.show_operator,s=!1!==this.config.show_delay_reason,a=!0===this.config.show_calling_points,r=!0===this.config.show_journey_time,c=!1!==this.config.show_non_catchable_indicator&&!1===t.catchable;return B`
       <div
         class="train-row ${e}"
         @click="${()=>this._handleTap(t)}"
@@ -1621,7 +1758,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
             <span class="expected-time">${t.expected_departure&&t.expected_departure!==t.scheduled_departure?lt(t.expected_departure):""}</span>
           </div>
 
-          ${s?B`
+          ${n?B`
             <div class="train-platform">
               Platform ${t.platform||"—"}
             </div>
@@ -1630,6 +1767,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
           <div class="train-status">
             ${i}
             ${_t(t)}
+            ${c?B`<span class="not-catchable-badge" title="Won't make the next connection">✂</span>`:""}
           </div>
         </div>
 
@@ -1638,73 +1776,74 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
             <span class="operator">${t.operator}</span>
           `:""}
 
-          ${r&&t.delay_reason?B`
+          ${s&&t.delay_reason?B`
             <div class="delay-reason">
               → ${t.delay_reason}
             </div>
           `:""}
 
-          ${n&&t.calling_points&&t.calling_points.length>0?B`
+          ${a&&t.calling_points&&t.calling_points.length>0?B`
             <div class="calling-points">
-              Calling at: ${function(t,e=3){if(!t||0===t.length)return"";const i=t.slice(0,e),s=t.length-e;let o=i.join(", ");return s>0&&(o+=` +${s} more`),o}(t.calling_points,this.config.max_calling_points)}
+              Calling at: ${function(t,e=3){if(!t||0===t.length)return"";const i=t.slice(0,e),n=t.length-e;let o=i.join(", ");return n>0&&(o+=` +${n} more`),o}(t.calling_points,this.config.max_calling_points)}
             </div>
           `:""}
 
-          ${a&&t.journey_duration?B`
+          ${r&&t.journey_duration?B`
             <div class="journey-time">
               Journey time: ${t.journey_duration} mins${t.journey_time_approx?"*":""}
             </div>
           `:""}
         </div>
       </div>
-    `}_renderGroupedTrains(){const t=gt(this._trains);return B`
-      ${[...t.entries()].map(([t,e])=>{const i=this._servicesByDestination&&this._servicesByDestination[t],s=i?.status?i.status.toLowerCase().replace(/\s+/g,"-"):ft(e);return B`
+    `}_renderGroupedTrains(){const t=vt(this._trains);return B`
+      ${[...t.entries()].map(([t,e])=>{const i=this._servicesByDestination&&this._servicesByDestination[t],n=i?.status?i.status.toLowerCase().replace(/\s+/g,"-"):bt(e);return B`
           <div class="destination-group">
-            ${this._renderDestinationGroupHeader(t,s)}
+            ${this._renderDestinationGroupHeader(t,n)}
             ${e.map(t=>this._renderTrainRow(t))}
           </div>
         `})}
-    `}_renderDestinationGroupHeader(t,e){const i=e.includes("critical")||e.includes("severe")?"status-critical":e.includes("major")?"status-major":e.includes("minor")?"status-minor":"status-normal";return B`
+    `}_renderDestinationGroupHeader(t,e){const i=St(e);return B`
       <div class="destination-group-header">
         <span class="dest-arrow">→</span>
         <span class="dest-name">${t}</span>
         <span class="dest-status-dot ${i}" title="${e}"></span>
       </div>
-    `}_renderCompact(){const t=!0===this.config.show_journey_time,e=this._isMultiDestination&&!1!==this.config.group_by_destination,i=e=>B`
+    `}_renderCompactRow(t){const e=!0===this.config.show_journey_time,i=!1!==this.config.show_non_catchable_indicator&&!1===t.catchable;return B`
       <div
-        class="train-row-compact ${pt(e)}"
-        @click="${()=>this._handleTap(e)}"
+        class="train-row-compact ${pt(t)}"
+        @click="${()=>this._handleTap(t)}"
         @touchstart="${this._handleTouchStart}"
         @touchend="${this._handleTouchEnd}"
         @touchmove="${this._handleTouchMove}"
       >
-        <span class="time">${lt(e.scheduled_departure)}</span>
-        <span class="platform">Plat ${e.platform||"—"}${t&&e.journey_duration?B` · ${e.journey_duration}m${e.journey_time_approx?"*":""}`:""}</span>
+        <span class="time">${lt(t.scheduled_departure)}</span>
+        <span class="platform">Plat ${t.platform||"—"}${e&&t.journey_duration?B` · ${t.journey_duration}m${t.journey_time_approx?"*":""}`:""}</span>
         <span class="status">
-          ${!1!==this.config.status_icons?B`<span class="status-icon">${ut(e)}</span>`:""}
-          ${e.delay_minutes>0?B`<span class="delay-text">+${e.delay_minutes}m</span>`:""}
+          ${!1!==this.config.status_icons?B`<span class="status-icon">${ut(t)}</span>`:""}
+          ${t.delay_minutes>0?B`<span class="delay-text">+${t.delay_minutes}m</span>`:""}
+          ${i?B`<span class="not-catchable-badge" title="Won't make the next connection">✂</span>`:""}
         </span>
       </div>
-    `,s=e?(()=>{const t=gt(this._trains);return B`
-            ${[...t.entries()].map(([t,e])=>{const s=this._servicesByDestination&&this._servicesByDestination[t],o=s?.status?s.status.toLowerCase().replace(/\s+/g,"-"):ft(e);return B`
+    `}_renderCompact(){const t=this._isMultiDestination&&!1!==this.config.group_by_destination,e=t=>this._renderCompactRow(t),i=t?(()=>{const t=vt(this._trains);return B`
+            ${[...t.entries()].map(([t,i])=>{const n=this._servicesByDestination&&this._servicesByDestination[t],o=n?.status?n.status.toLowerCase().replace(/\s+/g,"-"):bt(i);return B`
                 <div class="destination-group">
                   ${this._renderDestinationGroupHeader(t,o)}
-                  ${e.map(i)}
+                  ${i.map(e)}
                 </div>
               `})}
-          `})():this._trains.map(i);return B`
+          `})():this._trains.map(e);return B`
       <ha-card class="${this.config.compact_height?"compact-height":""}">
         ${this._renderHeader()}
         ${this._renderDisruptionBanner()}
 
         <div class="card-content compact">
-          ${s}
+          ${i}
         </div>
 
         ${this._renderHistoryPanel()}
         ${this._renderFooter()}
       </ha-card>
-    `}_renderNextOnly(){const t=this._trains[0];if(!t)return this._renderEmpty();const e=pt(t),i=!1!==this.config.status_icons?ut(t):"",s=!0===this.config.show_journey_time;return B`
+    `}_renderNextOnly(){const t=this._trains[0];if(!t)return this._renderEmpty();const e=pt(t),i=!1!==this.config.status_icons?ut(t):"",n=!0===this.config.show_journey_time;return B`
       <ha-card class="${this.config.compact_height?"compact-height":""}">
         ${this._renderHeader()}
         ${this._renderDisruptionBanner()}
@@ -1741,7 +1880,7 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
             </div>
           `:""}
 
-          ${s&&t.journey_duration?B`
+          ${n&&t.journey_duration?B`
             <div class="next-train-journey-time">
               Journey time: ${t.journey_duration} mins${t.journey_time_approx?"*":""}
             </div>
@@ -1780,17 +1919,118 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
                     ${lt(e.scheduled_departure)}
                   </span>
                   <span class="col-dest">
-                    ${this._isMultiDestination?mt(e.destination||""):mt(this._destination||"")}
+                    ${this._isMultiDestination?gt(e.destination||""):gt(this._destination||"")}
                   </span>
                   <span class="col-plat">
                     ${e.platform||"—"}
                   </span>
                   <span class="col-status">
-                    ${function(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.expected_departure&&t.expected_departure!==t.scheduled_departure?`Exp ${lt(t.expected_departure)}`:"On time":"Unknown"}(e)}${t&&e.journey_duration?` · ${e.journey_duration}m${e.journey_time_approx?"*":""}`:""}
+                    ${mt(e)}${t&&e.journey_duration?` · ${e.journey_duration}m${e.journey_time_approx?"*":""}`:""}
                   </span>
                 </div>
               `)}
           </div>
+        </div>
+
+        ${this._renderHistoryPanel()}
+        ${this._renderFooter()}
+      </ha-card>
+    `}_renderMultiLeg(){const t=this.config.view||"full";if("board"===t)return this._renderMultiLegBoard();const e=this.config.compact_height?"compact-height":"",i="compact"===t?t=>this._renderCompactRow(t):t=>this._renderTrainRow(t);return B`
+      <ha-card class="${e}">
+        ${this._renderHeader()}
+        ${this._renderDisruptionBanner()}
+        ${this._renderJourneyInfeasibleBanner()}
+
+        <div class="card-content ${"compact"===t?"compact":""}">
+          ${this._legs.map((e,n)=>B`
+            ${this._renderLegGroup(e,n,i,t)}
+            ${n<this._connections.length?this._renderConnectionRow(this._connections[n]):""}
+          `)}
+        </div>
+
+        ${this._renderHistoryPanel()}
+        ${this._renderFooter()}
+      </ha-card>
+    `}_renderLegGroup(t,e,i,n){const o=St(t.overall_status),s="next-only"===n?t.services[0]?[t.services[0]]:[]:t.services;return B`
+      <div class="destination-group leg-group">
+        <div class="destination-group-header leg-group-header">
+          <span class="dest-arrow">${e+1}.</span>
+          <span class="dest-name">${t.origin_name} → ${t.destination_name}</span>
+          <span class="dest-status-dot ${o}" title="${t.overall_status}"></span>
+        </div>
+        ${s.map(t=>i(t))}
+      </div>
+    `}_renderConnectionRow(t){const e=kt(t.status),i=xt(t.status),n=!1!==this.config.show_connection_details;return B`
+      <div class="connection-row ${e}">
+        <ha-icon icon="${i}" class="connection-icon"></ha-icon>
+        <div class="connection-content">
+          <span class="connection-station">Change at ${t.station_name||t.station}</span>
+          ${n?B`
+            <span class="connection-detail">
+              ${t.arrival_time?`Arr ${lt(t.arrival_time)}`:""}
+              ${t.connecting_departure?` → Dep ${lt(t.connecting_departure)}`:""}
+              ${null!=t.buffer_minutes?` (${t.buffer_minutes}m buffer)`:""}
+            </span>
+            ${t.connecting_summary?B`<span class="connection-summary">${t.connecting_summary}</span>`:""}
+          `:""}
+        </div>
+      </div>
+    `}_renderConnectionBoardRow(t){const e=kt(t.status),i=xt(t.status),n=!1!==this.config.show_connection_details;return B`
+      <div class="board-row board-connection-row ${e}">
+        <ha-icon icon="${i}" class="connection-icon"></ha-icon>
+        <span>
+          Change at ${t.station_name||t.station}${n&&t.connecting_summary?` — ${t.connecting_summary}`:""}
+        </span>
+      </div>
+    `}_renderJourneyInfeasibleBanner(){return!this._isMultiLeg||this._journeyFeasible?"":B`
+      <div class="journey-infeasible-banner">
+        <ha-icon icon="mdi:alert-octagon" class="disruption-icon"></ha-icon>
+        <span>This journey is not currently achievable — a connection will be missed.</span>
+      </div>
+    `}_renderMultiLegBoard(){const t=!0===this.config.show_journey_time;return B`
+      <ha-card class="departure-board">
+        <div class="board-header">
+          DEPARTURES  ${this._origin||""}
+        </div>
+        ${this._renderDisruptionBanner()}
+        ${this._renderJourneyInfeasibleBanner()}
+
+        <div class="board-content">
+          ${this._legs.map((e,i)=>B`
+            <div class="board-leg-label">Leg ${i+1}: ${e.origin_name} → ${e.destination_name}</div>
+            <div class="board-table">
+              <div class="board-row board-header-row">
+                <span class="col-time">Time</span>
+                <span class="col-dest">Dest</span>
+                <span class="col-plat">Plat</span>
+                <span class="col-status">Status</span>
+              </div>
+
+              ${e.services.map(i=>B`
+                <div
+                  class="board-row ${pt(i)}"
+                  @click="${()=>this._handleTap(i)}"
+                  @touchstart="${this._handleTouchStart}"
+                  @touchend="${this._handleTouchEnd}"
+                  @touchmove="${this._handleTouchMove}"
+                >
+                  <span class="col-time">
+                    ${lt(i.scheduled_departure)}
+                  </span>
+                  <span class="col-dest">
+                    ${gt(i.destination||e.destination_name||"")}
+                  </span>
+                  <span class="col-plat">
+                    ${i.platform||"—"}
+                  </span>
+                  <span class="col-status">
+                    ${mt(i)}${t&&i.journey_duration?` · ${i.journey_duration}m${i.journey_time_approx?"*":""}`:""}
+                  </span>
+                </div>
+              `)}
+            </div>
+            ${i<this._connections.length?this._renderConnectionBoardRow(this._connections[i]):""}
+          `)}
         </div>
 
         ${this._renderHistoryPanel()}
@@ -1815,4 +2055,4 @@ const w=globalThis,x=t=>t,C=w.trustedTypes,k=C?C.createPolicy("lit-html",{create
           <div class="loading-message">Loading train information...</div>
         </div>
       </ha-card>
-    `}_handleTap(t){switch(this.config.tap_action?.action||"more-info"){case"more-info":this._showMoreInfo(t);break;case"url":this._openUrl(t);break;case"navigate":this._navigate(t)}}_showMoreInfo(t){const e=new Event("hass-more-info",{bubbles:!0,composed:!0}),i=t?.train_id||this.config.entity;e.detail={entityId:i},this.dispatchEvent(e)}_openUrl(t){const e=this.config.tap_action?.url_path;if(e)window.open(e,"_blank");else{const t=`https://www.nationalrail.co.uk/journey-planner/?from=${this._origin||""}&to=${this._destination||""}`;window.open(t,"_blank")}}_navigate(t){const e=this.config.tap_action?.navigation_path;if(e){window.history.pushState(null,"",e);const t=new Event("location-changed",{bubbles:!0,composed:!0});this.dispatchEvent(t)}}_handleTouchStart(t){const e=t.currentTarget;e._pressTimer=setTimeout(()=>{e._pressTimer=null,this._handleHold()},500)}_handleTouchEnd(t){const e=t.currentTarget;e._pressTimer&&(clearTimeout(e._pressTimer),e._pressTimer=null)}_handleTouchMove(t){const e=t.currentTarget;e._pressTimer&&(clearTimeout(e._pressTimer),e._pressTimer=null)}_handleHold(){"refresh"===(this.config.hold_action?.action||"refresh")&&this._refreshData()}_refreshData(){this._hass&&(this._hass.callService("homeassistant","update_entity",{entity_id:this.config.entity}),this._showRefreshFeedback())}_showRefreshFeedback(){this._toastTimer&&(clearTimeout(this._toastTimer),this._toastTimer=null),this._toastElement&&(this._toastElement.remove(),this._toastElement=null);const t=document.createElement("div");t.className="refresh-toast",t.textContent="Refreshing...",this.shadowRoot.appendChild(t),this._toastElement=t,this._toastTimer=setTimeout(()=>{this._toastTimer=null,this._toastElement=null,t.isConnected&&t.remove()},2e3)}disconnectedCallback(){super.disconnectedCallback(),this._toastTimer&&(clearTimeout(this._toastTimer),this._toastTimer=null),this._toastElement&&(this._toastElement.remove(),this._toastElement=null)}static getConfigElement(){return document.createElement("my-rail-commute-card-editor")}static getStubConfig(){return{entity:"",view:"full",show_platform:!0,show_operator:!0,show_calling_points:!1}}}customElements.define("my-rail-commute-card",yt),window.customCards=window.customCards||[],window.customCards.push({type:"my-rail-commute-card",name:"My Rail Commute Card",description:"Display My Rail Commute departure information in a beautiful station-board interface",preview:!0,documentationURL:"https://github.com/adamf83/lovelace-my-rail-commute-card"});export{yt as default};
+    `}_handleTap(t){switch(this.config.tap_action?.action||"more-info"){case"more-info":this._showMoreInfo(t);break;case"url":this._openUrl(t);break;case"navigate":this._navigate(t)}}_showMoreInfo(t){const e=new Event("hass-more-info",{bubbles:!0,composed:!0}),i=t?.train_id||this.config.entity;e.detail={entityId:i},this.dispatchEvent(e)}_openUrl(t){const e=this.config.tap_action?.url_path;if(e)window.open(e,"_blank");else{const t=`https://www.nationalrail.co.uk/journey-planner/?from=${this._origin||""}&to=${this._destination||""}`;window.open(t,"_blank")}}_navigate(t){const e=this.config.tap_action?.navigation_path;if(e){window.history.pushState(null,"",e);const t=new Event("location-changed",{bubbles:!0,composed:!0});this.dispatchEvent(t)}}_handleTouchStart(t){const e=t.currentTarget;e._pressTimer=setTimeout(()=>{e._pressTimer=null,this._handleHold()},500)}_handleTouchEnd(t){const e=t.currentTarget;e._pressTimer&&(clearTimeout(e._pressTimer),e._pressTimer=null)}_handleTouchMove(t){const e=t.currentTarget;e._pressTimer&&(clearTimeout(e._pressTimer),e._pressTimer=null)}_handleHold(){"refresh"===(this.config.hold_action?.action||"refresh")&&this._refreshData()}_refreshData(){this._hass&&(this._hass.callService("homeassistant","update_entity",{entity_id:this.config.entity}),this._showRefreshFeedback())}_showRefreshFeedback(){this._toastTimer&&(clearTimeout(this._toastTimer),this._toastTimer=null),this._toastElement&&(this._toastElement.remove(),this._toastElement=null);const t=document.createElement("div");t.className="refresh-toast",t.textContent="Refreshing...",this.shadowRoot.appendChild(t),this._toastElement=t,this._toastTimer=setTimeout(()=>{this._toastTimer=null,this._toastElement=null,t.isConnected&&t.remove()},2e3)}disconnectedCallback(){super.disconnectedCallback(),this._toastTimer&&(clearTimeout(this._toastTimer),this._toastTimer=null),this._toastElement&&(this._toastElement.remove(),this._toastElement=null)}static getConfigElement(){return document.createElement("my-rail-commute-card-editor")}static getStubConfig(){return{entity:"",view:"full",show_platform:!0,show_operator:!0,show_calling_points:!1}}}customElements.define("my-rail-commute-card",Et),window.customCards=window.customCards||[],window.customCards.push({type:"my-rail-commute-card",name:"My Rail Commute Card",description:"Display My Rail Commute departure information in a beautiful station-board interface",preview:!0,documentationURL:"https://github.com/adamf83/lovelace-my-rail-commute-card"});export{Et as default};

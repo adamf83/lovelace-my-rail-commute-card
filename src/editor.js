@@ -301,6 +301,22 @@ class MyRailCommuteCardEditor extends LitElement {
             </ha-formfield>
           ` : ''}
 
+          ${this._isMultiLegSensor() ? html`
+            <ha-formfield label="Show Connection Details">
+              <ha-switch
+                .checked=${this._config.show_connection_details !== false}
+                @change=${this._toggleChanged('show_connection_details')}
+              ></ha-switch>
+            </ha-formfield>
+
+            <ha-formfield label="Show Non-Catchable Train Indicator">
+              <ha-switch
+                .checked=${this._config.show_non_catchable_indicator !== false}
+                @change=${this._toggleChanged('show_non_catchable_indicator')}
+              ></ha-switch>
+            </ha-formfield>
+          ` : ''}
+
         </div>
 
         <!-- Filtering Options -->
@@ -590,6 +606,12 @@ class MyRailCommuteCardEditor extends LitElement {
     if (!this._hass || !this._config?.entity) return false;
     const state = this._hass.states[this._config.entity];
     return state?.attributes?.multi_destination === true;
+  }
+
+  _isMultiLegSensor() {
+    if (!this._hass || !this._config?.entity) return false;
+    const state = this._hass.states[this._config.entity];
+    return state?.attributes?.is_multi_leg === true;
   }
 
   _fireConfigChanged() {

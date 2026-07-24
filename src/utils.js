@@ -426,3 +426,99 @@ export function getReliabilityClass(pct) {
   if (pct >= 70) return 'kpi-moderate';
   return 'kpi-poor';
 }
+
+/**
+ * Normalize a raw array of train/service objects from the integration into the
+ * shape the card renders: compute journey_duration/journey_time_approx when the
+ * integration didn't supply them, and synthesize a train_id for more-info taps.
+ * Used for both the flat all_trains attribute and each leg's services array in
+ * multi-leg journeys.
+ * @param {Array} rawTrains - Raw train/service objects
+ * @param {string} baseName - Entity base name (without "sensor." / "_summary" suffix)
+ * @returns {Array} Normalized train objects
+ */
+export function normalizeTrains(rawTrains, baseName) {
+  if (!rawTrains) return [];
+
+  return rawTrains.map((train, index) => {
+    const rawNum = train.train_number != null && train.train_number !== ''
+      ? String(train.train_number).toLowerCase().replace(/[^a-z0-9]/g, '_')
+      : String(index + 1);
+
+    const scheduledDep = train.scheduled_departure;
+    const expectedDep  = train.expected_departure;
+    const scheduledArr = train.scheduled_arrival;
+    const estimatedArr = train.estimated_arrival;
+
+    const depIsValidTime = /\d{1,2}:\d{2}/.test(String(expectedDep || ''));
+    const depForDuration = depIsValidTime ? expectedDep : scheduledDep;
+
+    const ON_TIME_RE = /^(on[\s-]?time|right\s*time)$/i;
+    const journeyTimeApprox = !depIsValidTime &&
+      !!expectedDep &&
+      expectedDep !== scheduledDep &&
+      !ON_TIME_RE.test(String(expectedDep || '').trim());
+
+    const arrIsValidTime = /\d{1,2}:\d{2}/.test(String(estimatedArr || ''));
+    const arrForDuration = arrIsValidTime ? estimatedArr : scheduledArr;
+
+    return {
+      ...train,
+      journey_duration: train.journey_duration ||
+                       calculateJourneyDuration(depForDuration, arrForDuration),
+      journey_time_approx: train.journey_time_approx || journeyTimeApprox,
+      train_id: `sensor.${baseName}_train_${rawNum}`
+    };
+  });
+}
+
+const CONNECTION_STATUS_ICONS = {
+  'Missed Connection': 'mdi:alert-octagon',
+  'Delayed Connection': 'mdi:clock-alert',
+  'Tight Connection': 'mdi:clock-alert-outline',
+  'Connection OK': 'mdi:transit-connection-variant',
+  'Unknown': 'mdi:help-circle-outline',
+};
+
+/**
+ * Get the icon for a connection (interchange) status, matching the icons used
+ * by the integration's own ConnectionStatusSensor for visual consistency.
+ * @param {string} status - Connection status label
+ * @returns {string} MDI icon name
+ */
+export function getConnectionStatusIcon(status) {
+  return CONNECTION_STATUS_ICONS[status] || CONNECTION_STATUS_ICONS.Unknown;
+}
+
+const CONNECTION_STATUS_CLASSES = {
+  'Missed Connection': 'connection-critical',
+  'Delayed Connection': 'connection-major',
+  'Tight Connection': 'connection-minor',
+  'Connection OK': 'connection-normal',
+  'Unknown': 'connection-normal',
+};
+
+/**
+ * Get the severity CSS class for a connection (interchange) status.
+ * @param {string} status - Connection status label
+ * @returns {string} 'connection-normal' | 'connection-minor' | 'connection-major' | 'connection-critical'
+ */
+export function getConnectionStatusClass(status) {
+  return CONNECTION_STATUS_CLASSES[status] || 'connection-normal';
+}
+
+/**
+ * Classify a free-text status label (e.g. a leg's overall_status, or a
+ * destination group's status) into one of the four severity dot classes.
+ * Shared by the multi-destination group header and the multi-leg group header
+ * so the critical/major/minor/normal mapping only lives in one place.
+ * @param {string} statusLabel
+ * @returns {string} 'status-critical' | 'status-major' | 'status-minor' | 'status-normal'
+ */
+export function getSeverityDotClass(statusLabel) {
+  const s = (statusLabel || '').toLowerCase();
+  if (s.includes('critical') || s.includes('severe') || s.includes('missed')) return 'status-critical';
+  if (s.includes('major') || s.includes('delayed')) return 'status-major';
+  if (s.includes('minor') || s.includes('tight')) return 'status-minor';
+  return 'status-normal';
+}

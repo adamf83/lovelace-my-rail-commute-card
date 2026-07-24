@@ -180,6 +180,8 @@ colors:
 | `tap_action` | object | `{action: 'more-info'}` | Action on tap |
 | `hold_action` | object | `{action: 'refresh'}` | Action on hold |
 | `colors` | object | - | Custom status colors |
+| `show_connection_details` | boolean | true | Multi-leg journeys only: show interchange times/buffer/summary text on the connection row |
+| `show_non_catchable_indicator` | boolean | true | Multi-leg journeys only: show a ✂ badge on trains that won't make the next connection |
 
 ## View Modes
 
@@ -283,6 +285,43 @@ Below the KPIs, a colour-coded grid shows each day at a glance:
 The best and worst performing days in the window are highlighted at the bottom of the panel.
 
 > **Requires** the `*_historical_reliability` and `*_historical_delays` sensors from the My Rail Commute integration. If those sensors haven't populated yet, the panel shows a "No reliability data available yet" message.
+
+## Multi-Leg Connection Journeys
+
+If your My Rail Commute integration is configured with a change of train partway through (e.g. Home → Interchange, then a different service Interchange → Work), the card automatically switches to a leg-by-leg layout — no card configuration is required to turn this on. It activates as soon as the configured summary entity's `is_multi_leg` attribute is `true`.
+
+Each leg is shown as its own grouped section (numbered "1.", "2." …, with the leg's origin → destination and a status dot), with a **connection row** between each pair of legs showing:
+
+- The interchange station ("Change at Reading")
+- The incoming arrival time and the matched outgoing departure time
+- The buffer in minutes between them
+- A human-readable summary of the connecting service
+
+The connection row is colour-coded and icon-coded by status, mirroring the integration's own connection sensor:
+
+| Status | Icon | Meaning |
+|--------|------|---------|
+| Connection OK | 🔄 | Comfortably achievable |
+| Tight Connection | ⏰ | Achievable, but with little spare time |
+| Delayed Connection | ⏰ (red) | You'll miss the planned train, but a later one still works |
+| Missed Connection | 🛑 | No tracked service leaves in time |
+| Unknown | ❔ | Not enough data to judge |
+
+If any connection is missed, a red banner appears reading "This journey is not currently achievable" (driven by the sensor's `journey_feasible` attribute), in addition to the normal disruption banner.
+
+Trains that won't make the next leg's connection (`catchable: false`) show a small ✂ badge next to their status — this can be hidden with `show_non_catchable_indicator: false`. The connection row's detail text (times/buffer/summary) can be hidden with `show_connection_details: false` if you just want the coloured status indicator.
+
+```yaml
+type: custom:my-rail-commute-card
+entity: sensor.morning_commute_summary
+view: full
+show_connection_details: true
+show_non_catchable_indicator: true
+```
+
+The **Departure Board** view renders each leg as its own mini station-board table, with a dashed connection divider row between them. The **Next Train Only** view shows just the next train for each leg. The top-level `Summary`/`Status` sensors (and the disruption banner) already reflect the worst case across all legs and connections, so no separate configuration is needed there.
+
+> **Note**: Historical Reliability/Delays statistics report on the combined whole journey, not broken down per leg.
 
 ## Examples
 

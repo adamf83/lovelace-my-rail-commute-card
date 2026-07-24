@@ -1,0 +1,21 @@
+# Multi-Leg Connection Journey Configuration
+# For commutes configured in the My Rail Commute integration with one or more
+# changes of train (e.g. Home -> Interchange -> Work). No special card config
+# is needed to enable this — it activates automatically when the entity's
+# `is_multi_leg` attribute is true. These options only affect how the
+# per-leg/connection detail is displayed.
+
+type: custom:my-rail-commute-card
+entity: sensor.morning_commute_summary
+title: Morning Commute
+view: full                    # Options: full | compact | next-only | board
+
+# Multi-leg specific display options
+show_connection_details: true       # Show times/buffer/summary on the connection row
+show_non_catchable_indicator: true  # Show a ✂ badge on trains that miss the next connection
+
+# Everything else works the same as a single-leg journey
+show_platform: true
+show_operator: true
+show_delay_reason: true
+status_icons: true
