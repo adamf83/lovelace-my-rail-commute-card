@@ -237,9 +237,9 @@ class MyRailCommuteCard extends LitElement {
     // Detect multi-leg (connecting) journeys — mutually exclusive with multi-destination
     this._isMultiLeg = activeEntity.attributes.is_multi_leg === true;
     this._legs = this._isMultiLeg
-      ? (activeEntity.attributes.legs || []).map(leg => ({
+      ? (activeEntity.attributes.legs || []).map((leg, i) => ({
           ...leg,
-          services: normalizeTrains(leg.services || [], baseName)
+          services: normalizeTrains(leg.services || [], baseName, i + 1)
         }))
       : [];
     this._connections = this._isMultiLeg ? (activeEntity.attributes.connections || []) : [];

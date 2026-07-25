@@ -435,9 +435,13 @@ export function getReliabilityClass(pct) {
  * multi-leg journeys.
  * @param {Array} rawTrains - Raw train/service objects
  * @param {string} baseName - Entity base name (without "sensor." / "_summary" suffix)
+ * @param {number} [legIndex] - 1-indexed leg number, when normalizing a leg's services.
+ *   The integration names per-leg train sensors "Leg {n} Train {m}" (entity_id
+ *   sensor.<base>_leg{n}_train_{m}), which differs from the flat
+ *   sensor.<base>_train_{m} naming used outside multi-leg journeys.
  * @returns {Array} Normalized train objects
  */
-export function normalizeTrains(rawTrains, baseName) {
+export function normalizeTrains(rawTrains, baseName, legIndex) {
   if (!rawTrains) return [];
 
   return rawTrains.map((train, index) => {
@@ -462,12 +466,14 @@ export function normalizeTrains(rawTrains, baseName) {
     const arrIsValidTime = /\d{1,2}:\d{2}/.test(String(estimatedArr || ''));
     const arrForDuration = arrIsValidTime ? estimatedArr : scheduledArr;
 
+    const trainIdSuffix = legIndex != null ? `leg${legIndex}_train_${rawNum}` : `train_${rawNum}`;
+
     return {
       ...train,
       journey_duration: train.journey_duration ||
                        calculateJourneyDuration(depForDuration, arrForDuration),
       journey_time_approx: train.journey_time_approx || journeyTimeApprox,
-      train_id: `sensor.${baseName}_train_${rawNum}`
+      train_id: `sensor.${baseName}_${trainIdSuffix}`
     };
   });
 }
