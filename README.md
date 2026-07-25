@@ -37,6 +37,12 @@ A beautiful, feature-rich custom Lovelace card for Home Assistant that displays 
 - **Toggle between outbound and return journeys** with one tap (auto-detected)
 - **Reliability statistics panel** with on-time rates and delay trends (tap the chart icon)
 
+🔁 **Multi-Leg Connection Journeys**
+- Automatically switches to a leg-by-leg layout for routes with a change of train
+- Colour- and icon-coded connection status between legs (OK, tight, delayed, missed)
+- Highlights trains that won't make the next connection
+- Journey-wide feasibility banner when a connection can't be made
+
 🖱️ **Easy Configuration**
 - Visual card editor in Lovelace UI
 - No manual YAML editing required (but supported!)
