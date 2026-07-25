@@ -436,9 +436,11 @@ export function getReliabilityClass(pct) {
  * @param {Array} rawTrains - Raw train/service objects
  * @param {string} baseName - Entity base name (without "sensor." / "_summary" suffix)
  * @param {number} [legIndex] - 1-indexed leg number, when normalizing a leg's services.
- *   The integration names per-leg train sensors "Leg {n} Train {m}" (entity_id
- *   sensor.<base>_leg{n}_train_{m}), which differs from the flat
- *   sensor.<base>_train_{m} naming used outside multi-leg journeys.
+ *   HA derives entity_id by slugifying the friendly name "Leg {n} Train {m}",
+ *   which inserts an underscore between every word/number token, producing
+ *   sensor.<base>_leg_{n}_train_{m} — not sensor.<base>_leg{n}_train_{m} (the
+ *   unique_id's format) and not the flat sensor.<base>_train_{m} naming used
+ *   outside multi-leg journeys.
  * @returns {Array} Normalized train objects
  */
 export function normalizeTrains(rawTrains, baseName, legIndex) {
@@ -466,7 +468,7 @@ export function normalizeTrains(rawTrains, baseName, legIndex) {
     const arrIsValidTime = /\d{1,2}:\d{2}/.test(String(estimatedArr || ''));
     const arrForDuration = arrIsValidTime ? estimatedArr : scheduledArr;
 
-    const trainIdSuffix = legIndex != null ? `leg${legIndex}_train_${rawNum}` : `train_${rawNum}`;
+    const trainIdSuffix = legIndex != null ? `leg_${legIndex}_train_${rawNum}` : `train_${rawNum}`;
 
     return {
       ...train,
