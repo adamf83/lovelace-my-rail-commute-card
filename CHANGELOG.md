@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.7] - 2026-07-25
+
+### Changed
+- Version bump to 1.0.7
+
 ## [1.0.5] - 2026-04-11
 
 ### Added
