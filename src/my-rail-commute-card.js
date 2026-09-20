@@ -8,6 +8,7 @@ import {
   getStatusText,
   getBoardStatus,
   formatCallingPoints,
+  formatPlatform,
   abbreviateStation,
   filterTrains,
   sortTrains,
@@ -842,7 +843,7 @@ class MyRailCommuteCard extends LitElement {
 
           ${showPlatform ? html`
             <div class="train-platform">
-              Platform ${train.platform || '—'}
+              ${formatPlatform(train.platform)}
             </div>
           ` : ''}
 
@@ -923,7 +924,7 @@ class MyRailCommuteCard extends LitElement {
         @touchmove="${this._handleTouchMove}"
       >
         <span class="time">${formatTime(train.scheduled_departure)}</span>
-        <span class="platform">Plat ${train.platform || '—'}${showJourneyTime && train.journey_duration ? html` · ${train.journey_duration}m${train.journey_time_approx ? '*' : ''}` : ''}</span>
+        <span class="platform">${formatPlatform(train.platform, 'Plat')}${showJourneyTime && train.journey_duration ? html` · ${train.journey_duration}m${train.journey_time_approx ? '*' : ''}` : ''}</span>
         <span class="status">
           ${this.config.status_icons !== false ? html`<span class="status-icon">${getStatusIcon(train)}</span>` : ''}
           ${train.delay_minutes > 0 ? html`<span class="delay-text">+${train.delay_minutes}m</span>` : ''}
@@ -1000,7 +1001,7 @@ class MyRailCommuteCard extends LitElement {
           ` : ''}
 
           <div class="next-train-platform">
-            Platform ${nextTrain.platform || '—'}
+            ${formatPlatform(nextTrain.platform)}
           </div>
 
           <div class="next-train-status ${statusClass}">
