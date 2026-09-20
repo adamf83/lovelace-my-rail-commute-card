@@ -211,6 +211,20 @@ export function formatCallingPoints(points, maxPoints = 3) {
 }
 
 /**
+ * Format platform text for display, avoiding a redundant "Platform"/"Plat"
+ * label when the value already describes itself (e.g. a rail replacement
+ * bus reporting its platform as "via Bus" or "Bus").
+ * @param {string} platform - Raw platform value
+ * @param {string} label - Label to prefix normal platform numbers with (e.g. "Platform", "Plat")
+ * @returns {string} Formatted platform text
+ */
+export function formatPlatform(platform, label = 'Platform') {
+  if (!platform) return `${label} —`;
+  if (/bus/i.test(platform)) return platform;
+  return `${label} ${platform}`;
+}
+
+/**
  * Abbreviate station name for departure board view
  * @param {string} name - Full station name
  * @returns {string} Abbreviated name
