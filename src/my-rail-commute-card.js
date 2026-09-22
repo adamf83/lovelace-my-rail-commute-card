@@ -1380,6 +1380,7 @@ class MyRailCommuteCard extends LitElement {
     const statusText = getStatusText(train);
     const statusClass = getStatusClass(train);
     const expectedIsTime = /\d{1,2}:\d{2}/.test(String(train.expected_departure || ''));
+    const originLabel = train.origin || train.origin_name || this._origin || '';
     const destLabel = this._isMultiDestination
       ? (train.destination || train.destination_name || '')
       : this._destination;
@@ -1396,7 +1397,7 @@ class MyRailCommuteCard extends LitElement {
           <div class="more-info-header">
             <div class="more-info-title">
               <ha-icon icon="mdi:train"></ha-icon>
-              <span>${formatTime(train.scheduled_departure)}${destLabel ? html` to ${destLabel}` : ''}</span>
+              <span>${formatTime(train.scheduled_departure)}${originLabel ? html` ${originLabel}` : ''}${destLabel ? html` → ${destLabel}` : ''}</span>
             </div>
             <button class="more-info-close" @click="${this._closeMoreInfo}" title="Close" aria-label="Close">
               <ha-icon icon="mdi:close"></ha-icon>

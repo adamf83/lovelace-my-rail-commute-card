@@ -2216,7 +2216,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
           <div class="loading-message">Loading train information...</div>
         </div>
       </ha-card>
-    `}_handleTap(t){switch(this.config.tap_action?.action||"more-info"){case"more-info":this._showMoreInfo(t);break;case"url":this._openUrl(t);break;case"navigate":this._navigate(t)}}_showMoreInfo(t){t&&(this._moreInfoTrain=t,this._moreInfoEscHandler||(this._moreInfoEscHandler=t=>{"Escape"===t.key&&this._closeMoreInfo()}),document.addEventListener("keydown",this._moreInfoEscHandler))}_closeMoreInfo(){this._moreInfoTrain=null,this._moreInfoEscHandler&&document.removeEventListener("keydown",this._moreInfoEscHandler)}_showNativeHistory(t){const e=new Event("hass-more-info",{bubbles:!0,composed:!0});e.detail={entityId:t},this.dispatchEvent(e)}_renderMoreInfoDialog(){const t=this._moreInfoTrain;if(!t)return"";const e=this._hass?.states?.[t.train_id],i=e?e.attributes:t,n=(o=i)?Object.entries(o).filter(([t])=>{const e=t.toLowerCase();return!Tt.has(e)&&!Dt.has(e)}).map(([t,e])=>({key:t,label:jt(t),value:Mt(e)})):[];var o;const s=_t(t),r=pt(t),a=/\d{1,2}:\d{2}/.test(String(t.expected_departure||"")),c=this._isMultiDestination?t.destination||t.destination_name||"":this._destination;return B`
+    `}_handleTap(t){switch(this.config.tap_action?.action||"more-info"){case"more-info":this._showMoreInfo(t);break;case"url":this._openUrl(t);break;case"navigate":this._navigate(t)}}_showMoreInfo(t){t&&(this._moreInfoTrain=t,this._moreInfoEscHandler||(this._moreInfoEscHandler=t=>{"Escape"===t.key&&this._closeMoreInfo()}),document.addEventListener("keydown",this._moreInfoEscHandler))}_closeMoreInfo(){this._moreInfoTrain=null,this._moreInfoEscHandler&&document.removeEventListener("keydown",this._moreInfoEscHandler)}_showNativeHistory(t){const e=new Event("hass-more-info",{bubbles:!0,composed:!0});e.detail={entityId:t},this.dispatchEvent(e)}_renderMoreInfoDialog(){const t=this._moreInfoTrain;if(!t)return"";const e=this._hass?.states?.[t.train_id],i=e?e.attributes:t,n=(o=i)?Object.entries(o).filter(([t])=>{const e=t.toLowerCase();return!Tt.has(e)&&!Dt.has(e)}).map(([t,e])=>({key:t,label:jt(t),value:Mt(e)})):[];var o;const s=_t(t),r=pt(t),a=/\d{1,2}:\d{2}/.test(String(t.expected_departure||"")),c=t.origin||t.origin_name||this._origin||"",l=this._isMultiDestination?t.destination||t.destination_name||"":this._destination;return B`
       <div class="more-info-overlay" @click="${this._closeMoreInfo}">
         <div
           class="more-info-dialog"
@@ -2228,7 +2228,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
           <div class="more-info-header">
             <div class="more-info-title">
               <ha-icon icon="mdi:train"></ha-icon>
-              <span>${lt(t.scheduled_departure)}${c?B` to ${c}`:""}</span>
+              <span>${lt(t.scheduled_departure)}${c?B` ${c}`:""}${l?B` → ${l}`:""}</span>
             </div>
             <button class="more-info-close" @click="${this._closeMoreInfo}" title="Close" aria-label="Close">
               <ha-icon icon="mdi:close"></ha-icon>
