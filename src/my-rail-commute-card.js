@@ -58,7 +58,7 @@ class MyRailCommuteCard extends LitElement {
       _legs: { type: Array },
       _connections: { type: Array },
       _journeyFeasible: { type: Boolean },
-      _moreInfoTrain: { type: Object },
+      _trainDetailsTrain: { type: Object },
     };
   }
 
@@ -92,8 +92,8 @@ class MyRailCommuteCard extends LitElement {
     this._legs = [];
     this._connections = [];
     this._journeyFeasible = true;
-    this._moreInfoTrain = null;
-    this._moreInfoEscHandler = null;
+    this._trainDetailsTrain = null;
+    this._trainDetailsEscHandler = null;
   }
 
   setConfig(config) {
@@ -356,12 +356,12 @@ class MyRailCommuteCard extends LitElement {
       }));
     }
 
-    // Keep an open more-info dialog showing live data as hass updates, rather
-    // than a stale snapshot from the moment it was opened. If the train no
-    // longer appears in this update (e.g. it's departed and dropped off the
-    // board), close the dialog instead of showing stale/empty data.
-    if (this._moreInfoTrain) {
-      this._moreInfoTrain = this._findTrainById(this._moreInfoTrain.train_id);
+    // Keep an open train details dialog showing live data as hass updates,
+    // rather than a stale snapshot from the moment it was opened. If the
+    // train no longer appears in this update (e.g. it's departed and dropped
+    // off the board), close the dialog instead of showing stale/empty data.
+    if (this._trainDetailsTrain) {
+      this._trainDetailsTrain = this._findTrainById(this._trainDetailsTrain.train_id);
     }
 
     this._loading = false;
@@ -573,7 +573,7 @@ class MyRailCommuteCard extends LitElement {
   render() {
     return html`
       ${this._renderCard()}
-      ${this._moreInfoTrain ? this._renderMoreInfoDialog() : ''}
+      ${this._trainDetailsTrain ? this._renderTrainDetailsDialog() : ''}
     `;
   }
 
@@ -1312,6 +1312,9 @@ class MyRailCommuteCard extends LitElement {
       case 'more-info':
         this._showMoreInfo(train);
         break;
+      case 'train-details':
+        this._showTrainDetails(train);
+        break;
       case 'url':
         this._openUrl(train);
         break;
@@ -1324,49 +1327,54 @@ class MyRailCommuteCard extends LitElement {
     }
   }
 
+  _showMoreInfo(train) {
+    const event = new Event('hass-more-info', {
+      bubbles: true,
+      composed: true,
+    });
+
+    // Show more info for the individual train if available, otherwise summary
+    const entityId = train?.train_id || this.config.entity;
+
+    event.detail = {
+      entityId: entityId
+    };
+
+    this.dispatchEvent(event);
+  }
+
   // Train sensors are positional slots (e.g. sensor.x_train_0 = "next train"),
   // repointed to a different physical service as trains come and go. HA's
   // native more-info dialog for a sensor entity shows that slot's raw state
   // history, which mixes together unrelated services and is meaningless here.
   // HA also resolves more-info dialogs purely by entity domain, so there's no
   // way to register a richer dialog for just these sensors without affecting
-  // the more-info dialog for every sensor entity in the install. So instead
-  // of dispatching hass-more-info, the card shows its own dialog built from
-  // the train's current data.
-  _showMoreInfo(train) {
+  // the more-info dialog for every sensor entity in the install. tap_action:
+  // train-details opens the card's own dialog instead, built from the
+  // train's current data.
+  _showTrainDetails(train) {
     if (!train) return;
-    this._moreInfoTrain = train;
+    this._trainDetailsTrain = train;
 
-    if (!this._moreInfoEscHandler) {
-      this._moreInfoEscHandler = (e) => {
-        if (e.key === 'Escape') this._closeMoreInfo();
+    if (!this._trainDetailsEscHandler) {
+      this._trainDetailsEscHandler = (e) => {
+        if (e.key === 'Escape') this._closeTrainDetails();
       };
     }
-    document.addEventListener('keydown', this._moreInfoEscHandler);
+    document.addEventListener('keydown', this._trainDetailsEscHandler);
   }
 
-  _closeMoreInfo() {
-    this._moreInfoTrain = null;
-    if (this._moreInfoEscHandler) {
-      document.removeEventListener('keydown', this._moreInfoEscHandler);
+  _closeTrainDetails() {
+    this._trainDetailsTrain = null;
+    if (this._trainDetailsEscHandler) {
+      document.removeEventListener('keydown', this._trainDetailsEscHandler);
     }
   }
 
-  // Escape hatch back to HA's native history dialog for users who want it,
-  // only offered when the train is backed by a real sensor entity.
-  _showNativeHistory(entityId) {
-    const event = new Event('hass-more-info', {
-      bubbles: true,
-      composed: true,
-    });
-    event.detail = { entityId };
-    this.dispatchEvent(event);
-  }
+  // ==================== TRAIN DETAILS DIALOG ====================
 
-  // ==================== MORE INFO DIALOG ====================
-
-  _renderMoreInfoDialog() {
-    const train = this._moreInfoTrain;
+  _renderTrainDetailsDialog() {
+    const train = this._trainDetailsTrain;
     if (!train) return '';
 
     // Merge in the entity's full raw attributes when the train is backed by a
@@ -1386,66 +1394,66 @@ class MyRailCommuteCard extends LitElement {
       : this._destination;
 
     return html`
-      <div class="more-info-overlay" @click="${this._closeMoreInfo}">
+      <div class="train-details-overlay" @click="${this._closeTrainDetails}">
         <div
-          class="more-info-dialog"
+          class="train-details-dialog"
           role="dialog"
           aria-modal="true"
           aria-label="Train details"
           @click="${(e) => e.stopPropagation()}"
         >
-          <div class="more-info-header">
-            <div class="more-info-title">
+          <div class="train-details-header">
+            <div class="train-details-title">
               <ha-icon icon="mdi:train"></ha-icon>
               <span>${formatTime(train.scheduled_departure)}${originLabel ? html` ${originLabel}` : ''}${destLabel ? html` → ${destLabel}` : ''}</span>
             </div>
-            <button class="more-info-close" @click="${this._closeMoreInfo}" title="Close" aria-label="Close">
+            <button class="train-details-close" @click="${this._closeTrainDetails}" title="Close" aria-label="Close">
               <ha-icon icon="mdi:close"></ha-icon>
             </button>
           </div>
 
-          <div class="more-info-content">
-            <div class="more-info-status ${statusClass}">
+          <div class="train-details-content">
+            <div class="train-details-status ${statusClass}">
               ${statusText}${train.delay_reason ? html` — ${train.delay_reason}` : ''}
             </div>
 
-            <div class="more-info-grid">
-              <div class="more-info-field">
+            <div class="train-details-grid">
+              <div class="train-details-field">
                 <span class="field-label">Scheduled departure</span>
                 <span class="field-value">${formatTime(train.scheduled_departure)}</span>
               </div>
-              <div class="more-info-field">
+              <div class="train-details-field">
                 <span class="field-label">Expected departure</span>
                 <span class="field-value">${expectedIsTime ? formatTime(train.expected_departure) : (train.expected_departure || '—')}</span>
               </div>
               ${train.scheduled_arrival ? html`
-                <div class="more-info-field">
+                <div class="train-details-field">
                   <span class="field-label">Scheduled arrival</span>
                   <span class="field-value">${formatTime(train.scheduled_arrival)}</span>
                 </div>
               ` : ''}
               ${train.estimated_arrival ? html`
-                <div class="more-info-field">
+                <div class="train-details-field">
                   <span class="field-label">Estimated arrival</span>
                   <span class="field-value">${formatTime(train.estimated_arrival)}</span>
                 </div>
               ` : ''}
-              <div class="more-info-field">
+              <div class="train-details-field">
                 <span class="field-label">Platform</span>
                 <span class="field-value">${train.platform || '—'}</span>
               </div>
-              <div class="more-info-field">
+              <div class="train-details-field">
                 <span class="field-label">Operator</span>
                 <span class="field-value">${train.operator || '—'}</span>
               </div>
               ${train.service_type ? html`
-                <div class="more-info-field">
+                <div class="train-details-field">
                   <span class="field-label">Service type</span>
                   <span class="field-value">${train.service_type}</span>
                 </div>
               ` : ''}
               ${train.journey_duration ? html`
-                <div class="more-info-field">
+                <div class="train-details-field">
                   <span class="field-label">Journey time</span>
                   <span class="field-value">${train.journey_duration} min${train.journey_time_approx ? ' (approx)' : ''}</span>
                 </div>
@@ -1453,18 +1461,18 @@ class MyRailCommuteCard extends LitElement {
             </div>
 
             ${train.calling_points && train.calling_points.length ? html`
-              <div class="more-info-section">
-                <div class="more-info-section-title">Calling at</div>
-                <div class="more-info-calling-points">${formatCallingPoints(train.calling_points, train.calling_points.length)}</div>
+              <div class="train-details-section">
+                <div class="train-details-section-title">Calling at</div>
+                <div class="train-details-calling-points">${formatCallingPoints(train.calling_points, train.calling_points.length)}</div>
               </div>
             ` : ''}
 
             ${additional.length ? html`
-              <div class="more-info-section">
-                <div class="more-info-section-title">Additional information</div>
-                <div class="more-info-grid">
+              <div class="train-details-section">
+                <div class="train-details-section-title">Additional information</div>
+                <div class="train-details-grid">
                   ${additional.map(attr => html`
-                    <div class="more-info-field">
+                    <div class="train-details-field">
                       <span class="field-label">${attr.label}</span>
                       <span class="field-value">${attr.value}</span>
                     </div>
@@ -1475,8 +1483,8 @@ class MyRailCommuteCard extends LitElement {
           </div>
 
           ${entity ? html`
-            <div class="more-info-footer">
-              <button class="more-info-history-link" @click="${() => this._showNativeHistory(train.train_id)}">
+            <div class="train-details-footer">
+              <button class="train-details-history-link" @click="${() => this._showMoreInfo(train)}">
                 <ha-icon icon="mdi:chart-line"></ha-icon>
                 View sensor history
               </button>
@@ -1589,8 +1597,8 @@ class MyRailCommuteCard extends LitElement {
       this._toastElement.remove();
       this._toastElement = null;
     }
-    if (this._moreInfoEscHandler) {
-      document.removeEventListener('keydown', this._moreInfoEscHandler);
+    if (this._trainDetailsEscHandler) {
+      document.removeEventListener('keydown', this._trainDetailsEscHandler);
     }
   }
 
