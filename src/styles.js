@@ -1137,7 +1137,7 @@ export const styles = css`
 
   /* ==================== MORE INFO DIALOG ==================== */
 
-  .more-info-overlay {
+  .train-details-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -1152,7 +1152,7 @@ export const styles = css`
     box-sizing: border-box;
   }
 
-  .more-info-dialog {
+  .train-details-dialog {
     background: var(--card-background-color, #fff);
     color: var(--primary-text-color, #212121);
     border-radius: var(--border-radius);
@@ -1165,7 +1165,7 @@ export const styles = css`
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   }
 
-  .more-info-header {
+  .train-details-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1175,7 +1175,7 @@ export const styles = css`
     flex-shrink: 0;
   }
 
-  .more-info-title {
+  .train-details-title {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1183,7 +1183,7 @@ export const styles = css`
     font-weight: 600;
   }
 
-  .more-info-close {
+  .train-details-close {
     background: none;
     border: none;
     cursor: pointer;
@@ -1194,32 +1194,32 @@ export const styles = css`
     border-radius: 50%;
   }
 
-  .more-info-close:hover {
+  .train-details-close:hover {
     background: var(--divider-color, #e0e0e0);
   }
 
-  .more-info-content {
+  .train-details-content {
     padding: var(--card-padding);
     overflow-y: auto;
   }
 
-  .more-info-status {
+  .train-details-status {
     font-weight: 600;
     font-size: 1rem;
     margin-bottom: 16px;
   }
 
-  .more-info-status.on-time { color: var(--status-on-time); }
-  .more-info-status.minor-delay { color: var(--status-minor-delay); }
-  .more-info-status.major-delay { color: var(--status-major-delay); }
-  .more-info-status.cancelled { color: var(--status-cancelled); }
-  .more-info-status.no-service { color: var(--status-no-service); }
+  .train-details-status.on-time { color: var(--status-on-time); }
+  .train-details-status.minor-delay { color: var(--status-minor-delay); }
+  .train-details-status.major-delay { color: var(--status-major-delay); }
+  .train-details-status.cancelled { color: var(--status-cancelled); }
+  .train-details-status.no-service { color: var(--status-no-service); }
 
-  .more-info-section {
+  .train-details-section {
     margin-top: 16px;
   }
 
-  .more-info-section-title {
+  .train-details-section-title {
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -1228,42 +1228,42 @@ export const styles = css`
     margin-bottom: 8px;
   }
 
-  .more-info-calling-points {
+  .train-details-calling-points {
     font-size: 0.9rem;
     line-height: 1.4;
   }
 
-  .more-info-grid {
+  .train-details-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
 
-  .more-info-field {
+  .train-details-field {
     display: flex;
     flex-direction: column;
     gap: 2px;
     min-width: 0;
   }
 
-  .more-info-field .field-label {
+  .train-details-field .field-label {
     font-size: 0.75rem;
     color: var(--secondary-text-color, #757575);
   }
 
-  .more-info-field .field-value {
+  .train-details-field .field-value {
     font-size: 0.9rem;
     font-weight: 500;
     word-break: break-word;
   }
 
-  .more-info-footer {
+  .train-details-footer {
     padding: 12px var(--card-padding);
     border-top: 1px solid var(--divider-color, #e0e0e0);
     flex-shrink: 0;
   }
 
-  .more-info-history-link {
+  .train-details-history-link {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -1275,7 +1275,7 @@ export const styles = css`
     padding: 4px 0;
   }
 
-  .more-info-history-link:hover {
+  .train-details-history-link:hover {
     text-decoration: underline;
   }
 
@@ -1311,17 +1311,17 @@ export const styles = css`
     background: #2c2c2c;
   }
 
-  :host([theme="dark"]) .more-info-dialog {
+  :host([theme="dark"]) .train-details-dialog {
     background: #1e1e1e;
     color: #ffffff;
   }
 
-  :host([theme="dark"]) .more-info-header,
-  :host([theme="dark"]) .more-info-footer {
+  :host([theme="dark"]) .train-details-header,
+  :host([theme="dark"]) .train-details-footer {
     border-color: #404040;
   }
 
-  :host([theme="dark"]) .more-info-close:hover {
+  :host([theme="dark"]) .train-details-close:hover {
     background: #2c2c2c;
   }
 

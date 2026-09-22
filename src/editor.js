@@ -424,6 +424,7 @@ class MyRailCommuteCardEditor extends LitElement {
           <div class="native-select-container">
             <select @change=${this._tapActionChanged}>
               <option value="more-info" ?selected=${(this._config.tap_action?.action || 'more-info') === 'more-info'}>Show More Info</option>
+              <option value="train-details" ?selected=${(this._config.tap_action?.action || 'more-info') === 'train-details'}>Train Details</option>
               <option value="url" ?selected=${(this._config.tap_action?.action || 'more-info') === 'url'}>Open URL</option>
               <option value="navigate" ?selected=${(this._config.tap_action?.action || 'more-info') === 'navigate'}>Navigate</option>
               <option value="none" ?selected=${(this._config.tap_action?.action || 'more-info') === 'none'}>None</option>

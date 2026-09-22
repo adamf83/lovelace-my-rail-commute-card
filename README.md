@@ -131,7 +131,7 @@ status_icons: true            # Show ✓ ⚠️ ❌ icons
 
 # Interaction
 tap_action:
-  action: more-info           # Options: more-info | url | navigate | none
+  action: more-info           # Options: more-info | train-details | url | navigate | none
 hold_action:
   action: refresh
 double_tap_action:
@@ -183,7 +183,7 @@ colors:
 | `disruption_entity` | string | - | Binary sensor for disruption detection |
 | `status_entity` | string | - | Status sensor entity (auto-discovered by naming convention) |
 | `refresh_interval` | number | 60 | Seconds between updates |
-| `tap_action` | object | `{action: 'more-info'}` | Action on tap |
+| `tap_action` | object | `{action: 'more-info'}` | Action on tap: `more-info` (Home Assistant's native history dialog), `train-details` (this card's own dialog — see [Train Details Dialog](#train-details-dialog)), `url`, `navigate`, or `none` |
 | `hold_action` | object | `{action: 'refresh'}` | Action on hold |
 | `colors` | object | - | Custom status colors |
 | `show_connection_details` | boolean | true | Multi-leg journeys only: show interchange times/buffer/summary text on the connection row |
@@ -294,9 +294,14 @@ The best and worst performing days in the window are highlighted at the bottom o
 
 ## Train Details Dialog
 
-With the default `tap_action: more-info`, tapping a train opens a dialog built from that train's own data — scheduled/expected departure, scheduled/estimated arrival, platform, operator, status, delay reason, journey time, and calling points, plus any other attributes your integration exposes that aren't already shown, listed under "Additional information".
+Set `tap_action: { action: train-details }` to have tapping a train open a dialog built from that train's own data — scheduled/expected departure, scheduled/estimated arrival, platform, operator, status, delay reason, journey time, and calling points, plus any other attributes your integration exposes that aren't already shown, listed under "Additional information".
 
-This is a card-drawn dialog, not Home Assistant's native more-info popup. The train rows in this card are backed by "slot" sensors (e.g. `sensor.morning_commute_train_0` for "next train"), which get repointed to a different physical service as trains depart — the native dialog's history graph for a slot sensor mixes together unrelated trains and isn't useful here. The card's dialog always reflects the train's current data instead, live-updating while it's open, and closes automatically if that train drops off the board (e.g. once it's departed and the list moves on).
+```yaml
+tap_action:
+  action: train-details
+```
+
+This is a card-drawn dialog, not Home Assistant's native more-info popup (that's still what the default `tap_action: more-info` opens). The train rows in this card are backed by "slot" sensors (e.g. `sensor.morning_commute_train_0` for "next train"), which get repointed to a different physical service as trains depart — the native dialog's history graph for a slot sensor mixes together unrelated trains and isn't useful here. The `train-details` dialog always reflects the train's current data instead, live-updating while it's open, and closes automatically if that train drops off the board (e.g. once it's departed and the list moves on).
 
 When the train is backed by a real sensor entity, a **View sensor history** link at the bottom of the dialog still opens Home Assistant's native history view for that entity, for anyone who wants it.
 
