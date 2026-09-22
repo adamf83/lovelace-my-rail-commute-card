@@ -21,7 +21,8 @@ import {
   normalizeTrains,
   getConnectionStatusIcon,
   getConnectionStatusClass,
-  getSeverityDotClass
+  getSeverityDotClass,
+  getAdditionalTrainAttributes
 } from './utils.js';
 import './editor.js'; // Import editor to bundle it
 
@@ -57,6 +58,7 @@ class MyRailCommuteCard extends LitElement {
       _legs: { type: Array },
       _connections: { type: Array },
       _journeyFeasible: { type: Boolean },
+      _moreInfoTrain: { type: Object },
     };
   }
 
@@ -90,6 +92,8 @@ class MyRailCommuteCard extends LitElement {
     this._legs = [];
     this._connections = [];
     this._journeyFeasible = true;
+    this._moreInfoTrain = null;
+    this._moreInfoEscHandler = null;
   }
 
   setConfig(config) {
@@ -352,8 +356,27 @@ class MyRailCommuteCard extends LitElement {
       }));
     }
 
+    // Keep an open more-info dialog showing live data as hass updates, rather
+    // than a stale snapshot from the moment it was opened. If the train no
+    // longer appears in this update (e.g. it's departed and dropped off the
+    // board), close the dialog instead of showing stale/empty data.
+    if (this._moreInfoTrain) {
+      this._moreInfoTrain = this._findTrainById(this._moreInfoTrain.train_id);
+    }
+
     this._loading = false;
     this.requestUpdate();
+  }
+
+  _findTrainById(trainId) {
+    if (!trainId) return null;
+    const inFlat = (this._trains || []).find(t => t.train_id === trainId);
+    if (inFlat) return inFlat;
+    for (const leg of this._legs || []) {
+      const inLeg = (leg.services || []).find(t => t.train_id === trainId);
+      if (inLeg) return inLeg;
+    }
+    return null;
   }
 
   _findReturnEntity(hass, origin, destination) {
@@ -490,6 +513,8 @@ class MyRailCommuteCard extends LitElement {
         train_id: entityId,
         scheduled_departure: scheduledDep,
         expected_departure: expectedDep,
+        scheduled_arrival: scheduledArr,
+        estimated_arrival: estimatedArr,
         platform: entity.attributes.platform || entity.attributes.Platform || '',
         operator: entity.attributes.operator ||
                  entity.attributes.service_operator ||
@@ -546,6 +571,13 @@ class MyRailCommuteCard extends LitElement {
   }
 
   render() {
+    return html`
+      ${this._renderCard()}
+      ${this._moreInfoTrain ? this._renderMoreInfoDialog() : ''}
+    `;
+  }
+
+  _renderCard() {
     // Guard: render can fire before setConfig in some HA lifecycle paths
     if (!this.config) return html``;
 
@@ -1292,20 +1324,166 @@ class MyRailCommuteCard extends LitElement {
     }
   }
 
+  // Train sensors are positional slots (e.g. sensor.x_train_0 = "next train"),
+  // repointed to a different physical service as trains come and go. HA's
+  // native more-info dialog for a sensor entity shows that slot's raw state
+  // history, which mixes together unrelated services and is meaningless here.
+  // HA also resolves more-info dialogs purely by entity domain, so there's no
+  // way to register a richer dialog for just these sensors without affecting
+  // the more-info dialog for every sensor entity in the install. So instead
+  // of dispatching hass-more-info, the card shows its own dialog built from
+  // the train's current data.
   _showMoreInfo(train) {
+    if (!train) return;
+    this._moreInfoTrain = train;
+
+    if (!this._moreInfoEscHandler) {
+      this._moreInfoEscHandler = (e) => {
+        if (e.key === 'Escape') this._closeMoreInfo();
+      };
+    }
+    document.addEventListener('keydown', this._moreInfoEscHandler);
+  }
+
+  _closeMoreInfo() {
+    this._moreInfoTrain = null;
+    if (this._moreInfoEscHandler) {
+      document.removeEventListener('keydown', this._moreInfoEscHandler);
+    }
+  }
+
+  // Escape hatch back to HA's native history dialog for users who want it,
+  // only offered when the train is backed by a real sensor entity.
+  _showNativeHistory(entityId) {
     const event = new Event('hass-more-info', {
       bubbles: true,
       composed: true,
     });
-
-    // Show more info for the individual train if available, otherwise summary
-    const entityId = train?.train_id || this.config.entity;
-
-    event.detail = {
-      entityId: entityId
-    };
-
+    event.detail = { entityId };
     this.dispatchEvent(event);
+  }
+
+  // ==================== MORE INFO DIALOG ====================
+
+  _renderMoreInfoDialog() {
+    const train = this._moreInfoTrain;
+    if (!train) return '';
+
+    // Merge in the entity's full raw attributes when the train is backed by a
+    // real sensor (individual-sensor discovery); fall back to the train
+    // object itself, which already carries the raw all_trains fields spread
+    // onto it (see normalizeTrains) when there's no per-train entity to read.
+    const entity = this._hass?.states?.[train.train_id];
+    const rawAttrs = entity ? entity.attributes : train;
+    const additional = getAdditionalTrainAttributes(rawAttrs);
+
+    const statusText = getStatusText(train);
+    const statusClass = getStatusClass(train);
+    const expectedIsTime = /\d{1,2}:\d{2}/.test(String(train.expected_departure || ''));
+    const destLabel = this._isMultiDestination
+      ? (train.destination || train.destination_name || '')
+      : this._destination;
+
+    return html`
+      <div class="more-info-overlay" @click="${this._closeMoreInfo}">
+        <div
+          class="more-info-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Train details"
+          @click="${(e) => e.stopPropagation()}"
+        >
+          <div class="more-info-header">
+            <div class="more-info-title">
+              <ha-icon icon="mdi:train"></ha-icon>
+              <span>${formatTime(train.scheduled_departure)}${destLabel ? html` to ${destLabel}` : ''}</span>
+            </div>
+            <button class="more-info-close" @click="${this._closeMoreInfo}" title="Close" aria-label="Close">
+              <ha-icon icon="mdi:close"></ha-icon>
+            </button>
+          </div>
+
+          <div class="more-info-content">
+            <div class="more-info-status ${statusClass}">
+              ${statusText}${train.delay_reason ? html` — ${train.delay_reason}` : ''}
+            </div>
+
+            <div class="more-info-grid">
+              <div class="more-info-field">
+                <span class="field-label">Scheduled departure</span>
+                <span class="field-value">${formatTime(train.scheduled_departure)}</span>
+              </div>
+              <div class="more-info-field">
+                <span class="field-label">Expected departure</span>
+                <span class="field-value">${expectedIsTime ? formatTime(train.expected_departure) : (train.expected_departure || '—')}</span>
+              </div>
+              ${train.scheduled_arrival ? html`
+                <div class="more-info-field">
+                  <span class="field-label">Scheduled arrival</span>
+                  <span class="field-value">${formatTime(train.scheduled_arrival)}</span>
+                </div>
+              ` : ''}
+              ${train.estimated_arrival ? html`
+                <div class="more-info-field">
+                  <span class="field-label">Estimated arrival</span>
+                  <span class="field-value">${formatTime(train.estimated_arrival)}</span>
+                </div>
+              ` : ''}
+              <div class="more-info-field">
+                <span class="field-label">Platform</span>
+                <span class="field-value">${train.platform || '—'}</span>
+              </div>
+              <div class="more-info-field">
+                <span class="field-label">Operator</span>
+                <span class="field-value">${train.operator || '—'}</span>
+              </div>
+              ${train.service_type ? html`
+                <div class="more-info-field">
+                  <span class="field-label">Service type</span>
+                  <span class="field-value">${train.service_type}</span>
+                </div>
+              ` : ''}
+              ${train.journey_duration ? html`
+                <div class="more-info-field">
+                  <span class="field-label">Journey time</span>
+                  <span class="field-value">${train.journey_duration} min${train.journey_time_approx ? ' (approx)' : ''}</span>
+                </div>
+              ` : ''}
+            </div>
+
+            ${train.calling_points && train.calling_points.length ? html`
+              <div class="more-info-section">
+                <div class="more-info-section-title">Calling at</div>
+                <div class="more-info-calling-points">${formatCallingPoints(train.calling_points, train.calling_points.length)}</div>
+              </div>
+            ` : ''}
+
+            ${additional.length ? html`
+              <div class="more-info-section">
+                <div class="more-info-section-title">Additional information</div>
+                <div class="more-info-grid">
+                  ${additional.map(attr => html`
+                    <div class="more-info-field">
+                      <span class="field-label">${attr.label}</span>
+                      <span class="field-value">${attr.value}</span>
+                    </div>
+                  `)}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+
+          ${entity ? html`
+            <div class="more-info-footer">
+              <button class="more-info-history-link" @click="${() => this._showNativeHistory(train.train_id)}">
+                <ha-icon icon="mdi:chart-line"></ha-icon>
+                View sensor history
+              </button>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
   }
 
   _openUrl(train) {
@@ -1409,6 +1587,9 @@ class MyRailCommuteCard extends LitElement {
     if (this._toastElement) {
       this._toastElement.remove();
       this._toastElement = null;
+    }
+    if (this._moreInfoEscHandler) {
+      document.removeEventListener('keydown', this._moreInfoEscHandler);
     }
   }
 

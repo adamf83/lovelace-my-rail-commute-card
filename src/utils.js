@@ -544,3 +544,82 @@ export function getSeverityDotClass(statusLabel) {
   if (s.includes('minor') || s.includes('tight')) return 'status-minor';
   return 'status-normal';
 }
+
+// Attribute keys already surfaced as one of the dedicated fields in the train
+// more-info dialog, across every naming variant this card understands (see
+// _getTrainsFromIndividualSensors and normalizeTrains). Anything else found on
+// a train's raw attributes is data the integration exposes that this card
+// doesn't otherwise know about, and gets listed instead of hidden.
+const KNOWN_TRAIN_ATTR_KEYS = new Set([
+  'scheduled_departure', 'scheduled', 'departure', 'departure_time', 'std',
+  'aimed_departure_time', 'scheduled departure',
+  'expected_departure', 'expected', 'estimated', 'estimated_departure', 'etd',
+  'expected_arrival', 'expected departure',
+  'scheduled_arrival', 'sta', 'scheduled arrival',
+  'estimated_arrival', 'eta', 'estimated arrival',
+  'platform',
+  'operator', 'service_operator',
+  'is_cancelled', 'cancelled',
+  'is_no_service', 'no_service',
+  'delay_minutes', 'delay', 'minutes_late', 'delay minutes',
+  'delay_reason', 'reason', 'delay reason',
+  'calling_points', 'stops', 'calling_at', 'calling at',
+  'journey_duration', 'duration',
+  'journey_time_approx',
+  'service_type', 'type',
+  'train_number', 'train_id',
+]);
+
+// Attributes that are Home Assistant/frontend plumbing rather than data about
+// the train itself, and are never useful to show in the more-info dialog.
+const META_ATTR_KEYS = new Set([
+  'attribution', 'icon', 'friendly_name', 'device_class',
+  'unit_of_measurement', 'supported_features', 'entity_picture',
+  'assumed_state', 'state_class', 'editable',
+]);
+
+function _formatAttributeLabel(key) {
+  return key
+    .replace(/[_-]+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function _formatAttributeValue(value) {
+  if (value === null || value === undefined || value === '') return '—';
+  if (Array.isArray(value)) return value.length ? value.join(', ') : '—';
+  if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+  if (typeof value === 'object') {
+    try {
+      return JSON.stringify(value);
+    } catch (e) {
+      return String(value);
+    }
+  }
+  return String(value);
+}
+
+/**
+ * Pick out whatever a train's raw attributes contain beyond the fields this
+ * card already renders as dedicated more-info fields, so the more-info dialog
+ * can show everything the API provides without needing to know each
+ * integration's exact attribute names ahead of time.
+ * @param {Object} rawAttributes - Raw attributes (either a hass entity's
+ *   .attributes, or a normalized train object which carries the same raw
+ *   fields spread onto it)
+ * @returns {Array<{key: string, label: string, value: string}>}
+ */
+export function getAdditionalTrainAttributes(rawAttributes) {
+  if (!rawAttributes) return [];
+
+  return Object.entries(rawAttributes)
+    .filter(([key]) => {
+      const k = key.toLowerCase();
+      return !KNOWN_TRAIN_ATTR_KEYS.has(k) && !META_ATTR_KEYS.has(k);
+    })
+    .map(([key, value]) => ({
+      key,
+      label: _formatAttributeLabel(key),
+      value: _formatAttributeValue(value),
+    }));
+}

@@ -292,6 +292,14 @@ The best and worst performing days in the window are highlighted at the bottom o
 
 > **Requires** the `*_historical_reliability` and `*_historical_delays` sensors from the My Rail Commute integration. If those sensors haven't populated yet, the panel shows a "No reliability data available yet" message.
 
+## Train Details Dialog
+
+With the default `tap_action: more-info`, tapping a train opens a dialog built from that train's own data — scheduled/expected departure, scheduled/estimated arrival, platform, operator, status, delay reason, journey time, and calling points, plus any other attributes your integration exposes that aren't already shown, listed under "Additional information".
+
+This is a card-drawn dialog, not Home Assistant's native more-info popup. The train rows in this card are backed by "slot" sensors (e.g. `sensor.morning_commute_train_0` for "next train"), which get repointed to a different physical service as trains depart — the native dialog's history graph for a slot sensor mixes together unrelated trains and isn't useful here. The card's dialog always reflects the train's current data instead, live-updating while it's open, and closes automatically if that train drops off the board (e.g. once it's departed and the list moves on).
+
+When the train is backed by a real sensor entity, a **View sensor history** link at the bottom of the dialog still opens Home Assistant's native history view for that entity, for anyone who wants it.
+
 ## Multi-Leg Connection Journeys
 
 If your My Rail Commute integration is configured with a change of train partway through (e.g. Home → Interchange, then a different service Interchange → Work), the card automatically switches to a leg-by-leg layout — no card configuration is required to turn this on. It activates as soon as the configured summary entity's `is_multi_leg` attribute is `true`.

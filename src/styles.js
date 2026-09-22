@@ -1135,6 +1135,150 @@ export const styles = css`
     margin: 8px 0;
   }
 
+  /* ==================== MORE INFO DIALOG ==================== */
+
+  .more-info-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 16px;
+    box-sizing: border-box;
+  }
+
+  .more-info-dialog {
+    background: var(--card-background-color, #fff);
+    color: var(--primary-text-color, #212121);
+    border-radius: var(--border-radius);
+    max-width: 420px;
+    width: 100%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .more-info-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: var(--card-padding);
+    border-bottom: 1px solid var(--divider-color, #e0e0e0);
+    flex-shrink: 0;
+  }
+
+  .more-info-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .more-info-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    color: var(--secondary-text-color, #757575);
+    border-radius: 50%;
+  }
+
+  .more-info-close:hover {
+    background: var(--divider-color, #e0e0e0);
+  }
+
+  .more-info-content {
+    padding: var(--card-padding);
+    overflow-y: auto;
+  }
+
+  .more-info-status {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+
+  .more-info-status.on-time { color: var(--status-on-time); }
+  .more-info-status.minor-delay { color: var(--status-minor-delay); }
+  .more-info-status.major-delay { color: var(--status-major-delay); }
+  .more-info-status.cancelled { color: var(--status-cancelled); }
+  .more-info-status.no-service { color: var(--status-no-service); }
+
+  .more-info-section {
+    margin-top: 16px;
+  }
+
+  .more-info-section-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--secondary-text-color, #757575);
+    margin-bottom: 8px;
+  }
+
+  .more-info-calling-points {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .more-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .more-info-field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .more-info-field .field-label {
+    font-size: 0.75rem;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  .more-info-field .field-value {
+    font-size: 0.9rem;
+    font-weight: 500;
+    word-break: break-word;
+  }
+
+  .more-info-footer {
+    padding: 12px var(--card-padding);
+    border-top: 1px solid var(--divider-color, #e0e0e0);
+    flex-shrink: 0;
+  }
+
+  .more-info-history-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color, #03a9f4);
+    font-size: 0.85rem;
+    padding: 4px 0;
+  }
+
+  .more-info-history-link:hover {
+    text-decoration: underline;
+  }
+
   /* ==================== CUSTOM THEME OVERRIDES ==================== */
 
   :host([theme="light"]) ha-card {
@@ -1164,6 +1308,20 @@ export const styles = css`
   }
 
   :host([theme="dark"]) .next-train-calling {
+    background: #2c2c2c;
+  }
+
+  :host([theme="dark"]) .more-info-dialog {
+    background: #1e1e1e;
+    color: #ffffff;
+  }
+
+  :host([theme="dark"]) .more-info-header,
+  :host([theme="dark"]) .more-info-footer {
+    border-color: #404040;
+  }
+
+  :host([theme="dark"]) .more-info-close:hover {
     background: #2c2c2c;
   }
 
