@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.8] - 2026-09-23
+
+### Added
+- Full train details dialog on tap, showing scheduled/expected departure, scheduled/estimated arrival, platform, operator, status, delay reason, journey time, and calling points
+- New `train-details` tap action, separate from `more-info`, to open the card's own dialog
+
+### Changed
+- `tap_action: more-info` now opens Home Assistant's native more-info popup again instead of the card's custom dialog
+
+### Fixed
+- Show origin station in the train details dialog title
+- Don't prefix "Platform"/"Plat" label for rail replacement bus services (platform text already mentions "via Bus")
+
 ## [1.0.7] - 2026-07-25
 
 ### Changed
