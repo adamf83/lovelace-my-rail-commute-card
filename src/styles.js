@@ -426,6 +426,13 @@ export const styles = css`
     min-width: 3.5rem;
   }
 
+  .train-destination {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--primary-text-color, #212121);
+    flex: 1 1 auto;
+  }
+
   .train-platform {
     font-size: 0.9rem;
     color: var(--secondary-text-color, #757575);
@@ -516,6 +523,10 @@ export const styles = css`
     transition: background-color 0.2s ease;
   }
 
+  .train-row-compact.with-destination {
+    grid-template-columns: 60px 1fr 90px 70px;
+  }
+
   .train-row-compact:hover {
     background-color: var(--secondary-background-color, #f5f5f5);
   }
@@ -527,6 +538,15 @@ export const styles = css`
   .train-row-compact .time {
     font-size: 1.1rem;
     font-weight: 500;
+  }
+
+  .train-row-compact .dest {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-text-color, #212121);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .train-row-compact .platform {
@@ -601,6 +621,13 @@ export const styles = css`
     font-weight: 700;
     margin: 16px 0;
     color: var(--primary-text-color, #212121);
+  }
+
+  .next-train-destination {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--primary-text-color, #212121);
+    margin-top: -4px;
   }
 
   .next-train-expected {
