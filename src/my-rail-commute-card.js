@@ -844,7 +844,7 @@ class MyRailCommuteCard extends LitElement {
         <div class="card-content">
           ${useGroups
             ? this._renderGroupedTrains()
-            : this._trains.map(train => this._renderTrainRow(train))}
+            : this._trains.map(train => this._renderTrainRow(train, this._isMultiDestination))}
         </div>
 
         ${this._renderHistoryPanel()}
@@ -853,7 +853,7 @@ class MyRailCommuteCard extends LitElement {
     `;
   }
 
-  _renderTrainRow(train) {
+  _renderTrainRow(train, showDestination = false) {
     const statusClass = getStatusClass(train);
     const statusIcon = this.config.status_icons !== false ? getStatusIcon(train) : '';
     const showPlatform = this.config.show_platform !== false;
@@ -877,6 +877,10 @@ class MyRailCommuteCard extends LitElement {
             <span class="time">${formatTime(train.scheduled_departure)}</span>
             <span class="expected-time">${train.expected_departure && train.expected_departure !== train.scheduled_departure ? formatTime(train.expected_departure) : ''}</span>
           </div>
+
+          ${showDestination && train.destination ? html`
+            <div class="train-destination">→ ${train.destination}</div>
+          ` : ''}
 
           ${showPlatform ? html`
             <div class="train-platform">
@@ -948,19 +952,22 @@ class MyRailCommuteCard extends LitElement {
     `;
   }
 
-  _renderCompactRow(train) {
+  _renderCompactRow(train, showDestination = false) {
     const showJourneyTime = this.config.show_journey_time === true;
     const showNotCatchable = this.config.show_non_catchable_indicator !== false && train.catchable === false;
 
     return html`
       <div
-        class="train-row-compact ${getStatusClass(train)}"
+        class="train-row-compact ${showDestination && train.destination ? 'with-destination' : ''} ${getStatusClass(train)}"
         @click="${() => this._handleTap(train)}"
         @touchstart="${this._handleTouchStart}"
         @touchend="${this._handleTouchEnd}"
         @touchmove="${this._handleTouchMove}"
       >
         <span class="time">${formatTime(train.scheduled_departure)}</span>
+        ${showDestination && train.destination ? html`
+          <span class="dest">→ ${abbreviateStation(train.destination)}</span>
+        ` : ''}
         <span class="platform">${formatPlatform(train.platform, 'Plat')}${showJourneyTime && train.journey_duration ? html` · ${train.journey_duration}m${train.journey_time_approx ? '*' : ''}` : ''}</span>
         <span class="status">
           ${this.config.status_icons !== false ? html`<span class="status-icon">${getStatusIcon(train)}</span>` : ''}
@@ -973,7 +980,7 @@ class MyRailCommuteCard extends LitElement {
 
   _renderCompact() {
     const useGroups = this._isMultiDestination && this.config.group_by_destination !== false;
-    const renderCompactRow = (train) => this._renderCompactRow(train);
+    const renderCompactRow = (train) => this._renderCompactRow(train, !useGroups && this._isMultiDestination);
 
     const content = useGroups
       ? (() => {
@@ -1030,6 +1037,12 @@ class MyRailCommuteCard extends LitElement {
           <div class="next-train-time">
             ${formatTime(nextTrain.scheduled_departure)}
           </div>
+
+          ${this._isMultiDestination && nextTrain.destination ? html`
+            <div class="next-train-destination">
+              → ${nextTrain.destination}
+            </div>
+          ` : ''}
 
           ${nextTrain.expected_departure && nextTrain.expected_departure !== nextTrain.scheduled_departure ? html`
             <div class="next-train-expected">
