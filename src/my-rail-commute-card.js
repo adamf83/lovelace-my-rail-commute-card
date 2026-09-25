@@ -22,7 +22,8 @@ import {
   getConnectionStatusIcon,
   getConnectionStatusClass,
   getSeverityDotClass,
-  getAdditionalTrainAttributes
+  getAdditionalTrainAttributes,
+  getDisruptionReason
 } from './utils.js';
 import './editor.js'; // Import editor to bundle it
 
@@ -537,6 +538,10 @@ class MyRailCommuteCard extends LitElement {
         delay_reason: entity.attributes.delay_reason ||
                      entity.attributes.reason ||
                      entity.attributes['Delay reason'] || '',
+        cancel_reason: entity.attributes.cancel_reason ||
+                     entity.attributes.cancellation_reason ||
+                     entity.attributes['Cancel reason'] ||
+                     entity.attributes['Cancellation reason'] || '',
         calling_points: callingPoints,
         journey_duration: entity.attributes.journey_duration ||
                          entity.attributes.duration ||
@@ -891,9 +896,9 @@ class MyRailCommuteCard extends LitElement {
             <span class="operator">${train.operator}</span>
           ` : ''}
 
-          ${showDelayReason && train.delay_reason ? html`
+          ${showDelayReason && getDisruptionReason(train) ? html`
             <div class="delay-reason">
-              → ${train.delay_reason}
+              → ${getDisruptionReason(train)}
             </div>
           ` : ''}
 
@@ -1414,7 +1419,7 @@ class MyRailCommuteCard extends LitElement {
 
           <div class="train-details-content">
             <div class="train-details-status ${statusClass}">
-              ${statusText}${train.delay_reason ? html` — ${train.delay_reason}` : ''}
+              ${statusText}${getDisruptionReason(train) ? html` — ${getDisruptionReason(train)}` : ''}
             </div>
 
             <div class="train-details-grid">
