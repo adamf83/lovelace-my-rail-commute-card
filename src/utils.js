@@ -159,6 +159,21 @@ export function getStatusIcon(train, useIcons = true) {
 }
 
 /**
+ * Get the reason to show for a disrupted train: the cancellation reason for a
+ * cancelled train, otherwise the delay reason. Integrations following the
+ * National Rail Darwin convention expose these as two separate attributes
+ * (a cancelled service's delay reason is typically empty), so cancelled
+ * trains fall back to delay_reason only if no dedicated cancel_reason was given.
+ * @param {Object} train - Train object
+ * @returns {string} Reason text, or '' if none available
+ */
+export function getDisruptionReason(train) {
+  if (!train) return '';
+  if (train.is_cancelled) return train.cancel_reason || train.delay_reason || '';
+  return train.delay_reason || '';
+}
+
+/**
  * Get status text for a train
  * @param {Object} train - Train object
  * @returns {string} Status text
@@ -563,6 +578,7 @@ const KNOWN_TRAIN_ATTR_KEYS = new Set([
   'is_no_service', 'no_service',
   'delay_minutes', 'delay', 'minutes_late', 'delay minutes',
   'delay_reason', 'reason', 'delay reason',
+  'cancel_reason', 'cancellation_reason', 'cancel reason', 'cancellation reason',
   'calling_points', 'stops', 'calling_at', 'calling at',
   'journey_duration', 'duration',
   'journey_time_approx',
