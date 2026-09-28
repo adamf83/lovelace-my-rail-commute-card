@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.9] - 2026-09-28
+
+### Added
+- Per-train destination shown in Full/Compact/Next-Only views for all-departures mode, matching the Departure Board view
+
+### Fixed
+- Show the cancellation reason on cancelled trains, including when sourced from the `all_trains` attribute under a different key name
+
 ## [1.0.8] - 2026-09-23
 
 ### Added
