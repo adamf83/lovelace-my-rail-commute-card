@@ -251,8 +251,8 @@ export function formatPlatform(platform, label = 'Platform') {
 }
 
 /**
- * Format a journey duration for display. Durations of an hour or less stay in
- * minutes; longer ones are shown as hours and minutes (e.g. 146 -> "2 hr 26 mins").
+ * Format a journey duration for display. Durations under an hour stay in
+ * minutes; an hour or more is shown as hours and minutes (60 -> "1 hr", 146 -> "2 hrs 26 mins").
  * @param {number|string} minutes - Duration in minutes
  * @param {boolean} compact - Use short units ("2h 26m" / "45m") for tight layouts
  * @returns {string} Formatted duration
@@ -260,11 +260,12 @@ export function formatPlatform(platform, label = 'Platform') {
 export function formatDuration(minutes, compact = false) {
   const total = Math.round(Number(minutes));
   if (!Number.isFinite(total)) return '';
-  if (total <= 60) return compact ? `${total}m` : `${total} mins`;
+  if (total < 60) return compact ? `${total}m` : `${total} mins`;
   const h = Math.floor(total / 60);
   const m = total % 60;
   if (compact) return m ? `${h}h ${m}m` : `${h}h`;
-  return m ? `${h} hr ${m} mins` : `${h} hr`;
+  const hrs = h === 1 ? 'hr' : 'hrs';
+  return m ? `${h} ${hrs} ${m} mins` : `${h} ${hrs}`;
 }
 
 /**
