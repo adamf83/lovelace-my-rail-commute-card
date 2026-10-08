@@ -180,6 +180,7 @@ colors:
 | `status_icons` | boolean | true | Show status icons (✓ ⚠️ ❌) |
 | `show_history_panel` | boolean | false | Show reliability statistics toggle in the card footer |
 | `history_days` | number | 7 | Days of history to display in the statistics panel (max 30) |
+| `show_delay_repay` | boolean | false | Show the Delay Repay claim assistant: footer button with badge, claims panel and a "Claim" chip on late/cancelled trains (requires the integration's Delay Repay tracking) |
 | `disruption_entity` | string | - | Binary sensor for disruption detection |
 | `status_entity` | string | - | Status sensor entity (auto-discovered by naming convention) |
 | `refresh_interval` | number | 60 | Seconds between updates |
@@ -291,6 +292,22 @@ Below the KPIs, a colour-coded grid shows each day at a glance:
 The best and worst performing days in the window are highlighted at the bottom of the panel.
 
 > **Requires** the `*_historical_reliability` and `*_historical_delays` sensors from the My Rail Commute integration. If those sensors haven't populated yet, the panel shows a "No reliability data available yet" message.
+
+### Delay Repay Claim Assistant
+
+Requires **Track Delay Repay claims** to be enabled in the My Rail Commute integration options. It is off in the card by default; with `show_delay_repay: false` nothing changes.
+
+```yaml
+type: custom:my-rail-commute-card
+entity: sensor.morning_commute_summary
+show_delay_repay: true
+```
+
+- **Footer button and badge**: a cash-refund button appears in the footer, with a badge showing the number of unclaimed journeys (`sensor.{commute_name}_delay_repay_claims`). Tap it to open or close the panel. It is available in every view; the compact and next-only views get only the footer button, not extra row content.
+- **Claim chip**: in the full view, a small "Claim" chip appears on a train that the integration has recorded as claimable today (matched by `service_id` against the claims sensor and `binary_sensor.{commute_name}_delay_repay_eligible`), or that is cancelled. Tap it to open the panel.
+- **Panel**: lists unclaimed journeys, newest first, with date and scheduled time, route, delay (coloured) or "Cancelled", and operator. The header shows the count and the "claim by" date of the oldest unclaimed journey, plus a hint when the list is truncated to the latest 30. If a journey has a claim link it is shown as "Claim online" (http/https only, opens in a new tab). When nothing is outstanding it shows "Nothing to claim - you're all caught up".
+- **Estimated entries**: rows marked `estimated` were recorded from live data and may differ from the official record, so verify them before claiming.
+- **Actions**: each row has **Mark claimed** and **Dismiss** buttons, which call the integration services `my_rail_commute.mark_delay_repay_claimed` and `my_rail_commute.dismiss_delay_repay` with `entry_id` (from the claims sensor) and the row's `journeys: [key]`. Buttons are disabled while the call is running, and an error is shown if it fails.
 
 ## Train Details Dialog
 

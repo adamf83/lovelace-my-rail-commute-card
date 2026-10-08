@@ -54,6 +54,11 @@ class MyRailCommuteCard extends LitElement {
       _historyPanelOpen: { type: Boolean },
       _histRelAttrs: { type: Object },
       _histDelAttrs: { type: Object },
+      _delayRepayPanelOpen: { type: Boolean },
+      _drAttrs: { type: Object },
+      _drCount: { type: Number },
+      _drBusy: { type: Object },
+      _drError: { type: String },
       _isMultiDestination: { type: Boolean },
       _servicesByDestination: { type: Object },
       _isMultiLeg: { type: Boolean },
@@ -88,6 +93,14 @@ class MyRailCommuteCard extends LitElement {
     this._historyPanelOpen = false;
     this._histRelAttrs = null;
     this._histDelAttrs = null;
+    this._delayRepayPanelOpen = false;
+    this._drAttrs = null;       // attributes of sensor.{base}_delay_repay_claims
+    this._drCount = 0;          // that sensor's state (unclaimed journeys)
+    this._drServiceIds = new Set(); // today's claimable service IDs (for the row chip)
+    this._drBusy = new Set();   // claim keys with a service call in flight
+    this._drError = '';
+    this._drWarned = false;
+    this._drAvailable = false;
     this._isMultiDestination = false;
     this._servicesByDestination = null;
     this._isMultiLeg = false;
@@ -128,6 +141,7 @@ class MyRailCommuteCard extends LitElement {
       status_icons: true,
       show_history_panel: false,
       history_days: 7,
+      show_delay_repay: false,
       group_by_destination: true,
       show_connection_details: true,
       show_non_catchable_indicator: true,
@@ -345,6 +359,9 @@ class MyRailCommuteCard extends LitElement {
       this._histDelAttrs = histDelEntity ? histDelEntity.attributes : null;
     }
 
+    // Auto-discover the Delay Repay sensors when the claim assistant is enabled
+    this._discoverDelayRepay(hass, activeEntityId);
+
     // Filter trains
     if (this._trains && this._trains.length > 0) {
       this._trains = filterTrains(this._trains, this.config);
@@ -408,6 +425,204 @@ class MyRailCommuteCard extends LitElement {
 
   _toggleHistoryPanel() {
     this._historyPanelOpen = !this._historyPanelOpen;
+  }
+
+  _toggleDelayRepayPanel() {
+    this._delayRepayPanelOpen = !this._delayRepayPanelOpen;
+    this._drError = '';
+  }
+
+  // ==================== DELAY REPAY ====================
+
+  _discoverDelayRepay(hass, activeEntityId) {
+    if (!this.config.show_delay_repay) return;
+
+    // Same base-name derivation as the history sensors above
+    const drBase = activeEntityId
+      .replace('sensor.', '')
+      .replace('_summary', '')
+      .replace('_commute_summary', '');
+    const claimsEntity = hass.states[`sensor.${drBase}_delay_repay_claims`];
+    const eligibleEntity = hass.states[`binary_sensor.${drBase}_delay_repay_eligible`];
+
+    if (!claimsEntity && !eligibleEntity && !this._drWarned) {
+      this._drWarned = true;
+      console.warn(
+        'my-rail-commute-card: show_delay_repay is enabled but no Delay Repay sensors were found.',
+        `Expected: sensor.${drBase}_delay_repay_claims / binary_sensor.${drBase}_delay_repay_eligible`,
+        '(enable "Track Delay Repay claims" in the integration options)'
+      );
+    }
+
+    this._drAttrs = claimsEntity ? (claimsEntity.attributes || {}) : null;
+    const count = claimsEntity ? parseInt(claimsEntity.state, 10) : NaN;
+    this._drCount = Number.isFinite(count) ? count : 0;
+
+    // Row chip rule (kept deliberately cheap): tiers are operator-specific and
+    // only known per recorded claim, so rather than guess a threshold we flag a
+    // train when the integration has recorded it as claimable today - i.e. its
+    // service_id appears in the claims sensor's `claims` or the eligible
+    // binary sensor's `latest`. Cancelled trains are flagged separately in
+    // _isClaimable. Claims from other days are ignored in case a service ID
+    // repeats.
+    const today = this._todayIso();
+    const ids = new Set();
+    const consider = (claim) => {
+      if (!claim || !claim.service_id) return;
+      if (claim.date && claim.date !== today) return;
+      ids.add(String(claim.service_id));
+    };
+    ((this._drAttrs && this._drAttrs.claims) || []).forEach(consider);
+    consider(eligibleEntity && eligibleEntity.attributes ? eligibleEntity.attributes.latest : null);
+    this._drServiceIds = ids;
+    this._drAvailable = !!(claimsEntity || eligibleEntity);
+  }
+
+  _todayIso() {
+    const d = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  }
+
+  _isClaimable(train) {
+    if (this.config.show_delay_repay !== true || !this._drAvailable) return false;
+    if (train.is_cancelled) return true;
+    return !!train.service_id && this._drServiceIds.has(String(train.service_id));
+  }
+
+  _renderClaimChip(train) {
+    if (!this._isClaimable(train)) return '';
+    const label = train.is_cancelled
+      ? 'Cancelled - may be eligible for Delay Repay. Tap to open the claims panel.'
+      : 'May be eligible for Delay Repay. Tap to open the claims panel.';
+    return html`
+      <button
+        class="claim-chip"
+        title="${label}"
+        aria-label="${label}"
+        @click="${(e) => { e.stopPropagation(); this._openDelayRepayPanel(); }}"
+        @touchstart="${(e) => e.stopPropagation()}"
+        @touchend="${(e) => e.stopPropagation()}"
+      >Claim</button>
+    `;
+  }
+
+  _openDelayRepayPanel() {
+    this._delayRepayPanelOpen = true;
+  }
+
+  async _delayRepayAction(service, claim) {
+    const entryId = this._drAttrs && this._drAttrs.entry_id;
+    if (!entryId || !this._hass || this._drBusy.has(claim.key)) return;
+
+    this._drError = '';
+    this._drBusy = new Set([...this._drBusy, claim.key]);
+    try {
+      await this._hass.callService('my_rail_commute', service, {
+        entry_id: entryId,
+        journeys: [claim.key],
+      });
+    } catch (err) {
+      const reason = (err && err.message) ? err.message : 'unknown error';
+      this._drError = `Could not ${service === 'dismiss_delay_repay' ? 'dismiss' : 'mark as claimed'}: ${reason}`;
+    } finally {
+      const next = new Set(this._drBusy);
+      next.delete(claim.key);
+      this._drBusy = next;
+    }
+  }
+
+  // Only plain web links are rendered, so a bad attribute can't inject a
+  // javascript: or data: URL.
+  _safeClaimUrl(url) {
+    if (!url || typeof url !== 'string') return null;
+    try {
+      const u = new URL(url);
+      return (u.protocol === 'https:' || u.protocol === 'http:') ? u.href : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  _renderDelayRepayPanel() {
+    if (!this.config.show_delay_repay || !this._delayRepayPanelOpen) return '';
+
+    const attrs = this._drAttrs;
+    if (!attrs) {
+      return html`
+        <div class="delay-repay-panel">
+          <div class="delay-repay-empty">Delay Repay sensors not found. Enable "Track Delay Repay claims" in the My Rail Commute integration options.</div>
+        </div>
+      `;
+    }
+
+    const claims = Array.isArray(attrs.claims) ? attrs.claims : [];
+    const hasEstimated = claims.some(c => c.confirmation === 'estimated');
+    const deadline = attrs.oldest_claim_deadline;
+
+    return html`
+      <div class="delay-repay-panel">
+        <div class="delay-repay-header">
+          <span class="delay-repay-count">${this._drCount} to claim</span>
+          ${deadline ? html`<span class="delay-repay-deadline">claim by ${this._formatHistoryDate(deadline)}</span>` : ''}
+        </div>
+
+        ${attrs.claims_truncated ? html`
+          <div class="delay-repay-note">Showing the latest ${claims.length} of ${this._drCount} journeys.</div>
+        ` : ''}
+
+        ${hasEstimated ? html`
+          <div class="delay-repay-note">Estimated times may differ from the official record - verify before claiming.</div>
+        ` : ''}
+
+        ${this._drError ? html`<div class="delay-repay-error" role="alert">${this._drError}</div>` : ''}
+
+        ${claims.length === 0 ? html`
+          <div class="delay-repay-empty">Nothing to claim - you're all caught up</div>
+        ` : claims.map(claim => this._renderClaimRow(claim))}
+      </div>
+    `;
+  }
+
+  _renderClaimRow(claim) {
+    const busy = this._drBusy.has(claim.key);
+    const url = this._safeClaimUrl(claim.claim_url);
+    const cancelled = claim.is_cancelled === true;
+    const delay = cancelled
+      ? 'Cancelled'
+      : (claim.delay_minutes != null ? `${claim.delay_minutes} min late` : 'Delayed');
+    const tierClass = cancelled
+      ? 'dr-cancelled'
+      : ((claim.tier || claim.delay_minutes || 0) >= 30 ? 'dr-major' : 'dr-minor');
+
+    return html`
+      <div class="delay-repay-row">
+        <div class="delay-repay-row-main">
+          <span class="dr-when">${this._formatHistoryDate(claim.date)} ${formatTime(claim.scheduled_departure)}</span>
+          <span class="dr-route">${claim.origin} → ${claim.destination}</span>
+          <span class="dr-delay ${tierClass}">${delay}</span>
+        </div>
+        <div class="delay-repay-row-meta">
+          ${claim.operator ? html`<span class="dr-operator">${claim.operator}</span>` : ''}
+          ${claim.confirmation === 'estimated' ? html`
+            <span class="dr-estimated" title="Estimated - verify before claiming">estimated</span>
+          ` : ''}
+          ${url ? html`<a class="dr-link" href="${url}" target="_blank" rel="noopener noreferrer">Claim online</a>` : ''}
+        </div>
+        <div class="delay-repay-actions">
+          <button
+            class="dr-btn dr-btn-primary"
+            ?disabled="${busy}"
+            @click="${() => this._delayRepayAction('mark_delay_repay_claimed', claim)}"
+          >Mark claimed</button>
+          <button
+            class="dr-btn"
+            ?disabled="${busy}"
+            @click="${() => this._delayRepayAction('dismiss_delay_repay', claim)}"
+          >Dismiss</button>
+        </div>
+      </div>
+    `;
   }
 
   _getTrainsFromIndividualSensors(hass, entityId) {
@@ -706,8 +921,9 @@ class MyRailCommuteCard extends LitElement {
   _renderFooter() {
     const showLastUpdated = this.config.show_last_updated === true;
     const showHistoryPanel = this.config.show_history_panel === true;
+    const showDelayRepay = this.config.show_delay_repay === true;
 
-    if (!showLastUpdated && !showHistoryPanel) return '';
+    if (!showLastUpdated && !showHistoryPanel && !showDelayRepay) return '';
 
     return html`
       <div class="card-footer">
@@ -716,15 +932,28 @@ class MyRailCommuteCard extends LitElement {
             Last updated: ${getRelativeTime(this._lastUpdated)}
           </span>
         ` : html`<span></span>`}
-        ${showHistoryPanel ? html`
-          <button
-            class="history-toggle ${this._historyPanelOpen ? 'active' : ''}"
-            @click="${this._toggleHistoryPanel}"
-            title="${this._historyPanelOpen ? 'Hide reliability history' : 'Show reliability history'}"
-          >
-            <ha-icon icon="mdi:chart-line"></ha-icon>
-          </button>
-        ` : ''}
+        <div class="footer-actions">
+          ${showDelayRepay ? html`
+            <button
+              class="delay-repay-toggle ${this._delayRepayPanelOpen ? 'active' : ''}"
+              @click="${this._toggleDelayRepayPanel}"
+              title="${this._delayRepayPanelOpen ? 'Hide Delay Repay claims' : 'Show Delay Repay claims'}"
+              aria-label="${this._delayRepayPanelOpen ? 'Hide Delay Repay claims' : 'Show Delay Repay claims'}"
+            >
+              <ha-icon icon="mdi:cash-refund"></ha-icon>
+              ${this._drCount > 0 ? html`<span class="delay-repay-badge">${this._drCount > 99 ? '99+' : this._drCount}</span>` : ''}
+            </button>
+          ` : ''}
+          ${showHistoryPanel ? html`
+            <button
+              class="history-toggle ${this._historyPanelOpen ? 'active' : ''}"
+              @click="${this._toggleHistoryPanel}"
+              title="${this._historyPanelOpen ? 'Hide reliability history' : 'Show reliability history'}"
+            >
+              <ha-icon icon="mdi:chart-line"></ha-icon>
+            </button>
+          ` : ''}
+        </div>
       </div>
     `;
   }
@@ -849,6 +1078,7 @@ class MyRailCommuteCard extends LitElement {
         </div>
 
         ${this._renderHistoryPanel()}
+        ${this._renderDelayRepayPanel()}
         ${this._renderFooter()}
       </ha-card>
     `;
@@ -893,6 +1123,7 @@ class MyRailCommuteCard extends LitElement {
             ${statusIcon}
             ${getStatusText(train)}
             ${showNotCatchable ? html`<span class="not-catchable-badge" title="Won't make the next connection">✂</span>` : ''}
+            ${this._renderClaimChip(train)}
           </div>
         </div>
 
@@ -1013,6 +1244,7 @@ class MyRailCommuteCard extends LitElement {
         </div>
 
         ${this._renderHistoryPanel()}
+        ${this._renderDelayRepayPanel()}
         ${this._renderFooter()}
       </ha-card>
     `;
@@ -1081,6 +1313,7 @@ class MyRailCommuteCard extends LitElement {
         </div>
 
         ${this._renderHistoryPanel()}
+        ${this._renderDelayRepayPanel()}
         ${this._renderFooter()}
       </ha-card>
     `;
@@ -1135,6 +1368,7 @@ class MyRailCommuteCard extends LitElement {
         </div>
 
         ${this._renderHistoryPanel()}
+        ${this._renderDelayRepayPanel()}
         ${this._renderFooter()}
       </ha-card>
     `;
@@ -1168,6 +1402,7 @@ class MyRailCommuteCard extends LitElement {
         </div>
 
         ${this._renderHistoryPanel()}
+        ${this._renderDelayRepayPanel()}
         ${this._renderFooter()}
       </ha-card>
     `;
@@ -1290,6 +1525,7 @@ class MyRailCommuteCard extends LitElement {
         </div>
 
         ${this._renderHistoryPanel()}
+        ${this._renderDelayRepayPanel()}
         ${this._renderFooter()}
       </ha-card>
     `;
