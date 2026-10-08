@@ -251,6 +251,23 @@ export function formatPlatform(platform, label = 'Platform') {
 }
 
 /**
+ * Format a journey duration for display. Durations of an hour or less stay in
+ * minutes; longer ones are shown as hours and minutes (e.g. 146 -> "2 hr 26 mins").
+ * @param {number|string} minutes - Duration in minutes
+ * @param {boolean} compact - Use short units ("2h 26m" / "45m") for tight layouts
+ * @returns {string} Formatted duration
+ */
+export function formatDuration(minutes, compact = false) {
+  const total = Math.round(Number(minutes));
+  if (!Number.isFinite(total)) return '';
+  if (total <= 60) return compact ? `${total}m` : `${total} mins`;
+  const h = Math.floor(total / 60);
+  const m = total % 60;
+  if (compact) return m ? `${h}h ${m}m` : `${h}h`;
+  return m ? `${h} hr ${m} mins` : `${h} hr`;
+}
+
+/**
  * Abbreviate station name for departure board view
  * @param {string} name - Full station name
  * @returns {string} Abbreviated name
