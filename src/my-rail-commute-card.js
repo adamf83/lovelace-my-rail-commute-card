@@ -9,6 +9,7 @@ import {
   getBoardStatus,
   formatCallingPoints,
   formatPlatform,
+  formatDuration,
   abbreviateStation,
   filterTrains,
   sortTrains,
@@ -914,7 +915,7 @@ class MyRailCommuteCard extends LitElement {
 
           ${showJourneyTime && train.journey_duration ? html`
             <div class="journey-time">
-              Journey time: ${train.journey_duration} mins${train.journey_time_approx ? '*' : ''}
+              Journey time: ${formatDuration(train.journey_duration)}${train.journey_time_approx ? '*' : ''}
             </div>
           ` : ''}
         </div>
@@ -968,7 +969,7 @@ class MyRailCommuteCard extends LitElement {
         ${showDestination && train.destination ? html`
           <span class="dest">→ ${abbreviateStation(train.destination)}</span>
         ` : ''}
-        <span class="platform">${formatPlatform(train.platform, 'Plat')}${showJourneyTime && train.journey_duration ? html` · ${train.journey_duration}m${train.journey_time_approx ? '*' : ''}` : ''}</span>
+        <span class="platform">${formatPlatform(train.platform, 'Plat')}${showJourneyTime && train.journey_duration ? html` · ${formatDuration(train.journey_duration, true)}${train.journey_time_approx ? '*' : ''}` : ''}</span>
         <span class="status">
           ${this.config.status_icons !== false ? html`<span class="status-icon">${getStatusIcon(train)}</span>` : ''}
           ${train.delay_minutes > 0 ? html`<span class="delay-text">+${train.delay_minutes}m</span>` : ''}
@@ -1073,7 +1074,7 @@ class MyRailCommuteCard extends LitElement {
 
           ${showJourneyTime && nextTrain.journey_duration ? html`
             <div class="next-train-journey-time">
-              Journey time: ${nextTrain.journey_duration} mins${nextTrain.journey_time_approx ? '*' : ''}
+              Journey time: ${formatDuration(nextTrain.journey_duration)}${nextTrain.journey_time_approx ? '*' : ''}
             </div>
           ` : ''}
 
@@ -1125,7 +1126,7 @@ class MyRailCommuteCard extends LitElement {
                     ${train.platform || '—'}
                   </span>
                   <span class="col-status">
-                    ${getBoardStatus(train)}${showJourneyTime && train.journey_duration ? ` · ${train.journey_duration}m${train.journey_time_approx ? '*' : ''}` : ''}
+                    ${getBoardStatus(train)}${showJourneyTime && train.journey_duration ? ` · ${formatDuration(train.journey_duration, true)}${train.journey_time_approx ? '*' : ''}` : ''}
                   </span>
                 </div>
               `;
@@ -1279,7 +1280,7 @@ class MyRailCommuteCard extends LitElement {
                     ${train.platform || '—'}
                   </span>
                   <span class="col-status">
-                    ${getBoardStatus(train)}${showJourneyTime && train.journey_duration ? ` · ${train.journey_duration}m${train.journey_time_approx ? '*' : ''}` : ''}
+                    ${getBoardStatus(train)}${showJourneyTime && train.journey_duration ? ` · ${formatDuration(train.journey_duration, true)}${train.journey_time_approx ? '*' : ''}` : ''}
                   </span>
                 </div>
               `)}
@@ -1473,7 +1474,7 @@ class MyRailCommuteCard extends LitElement {
               ${train.journey_duration ? html`
                 <div class="train-details-field">
                   <span class="field-label">Journey time</span>
-                  <span class="field-value">${train.journey_duration} min${train.journey_time_approx ? ' (approx)' : ''}</span>
+                  <span class="field-value">${formatDuration(train.journey_duration)}${train.journey_time_approx ? ' (approx)' : ''}</span>
                 </div>
               ` : ''}
             </div>
