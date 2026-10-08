@@ -381,6 +381,20 @@ class MyRailCommuteCardEditor extends LitElement {
           </div>
         ` : ''}
 
+        <!-- Delay Repay -->
+        <div class="section-header">Delay Repay</div>
+
+        <div class="switches">
+          <ha-formfield label="Show Delay Repay Claims">
+            <ha-switch
+              .checked=${this._config.show_delay_repay === true}
+              @change=${this._toggleChanged('show_delay_repay')}
+            ></ha-switch>
+          </ha-formfield>
+        </div>
+
+        <div class="info">When enabled, a cash-refund button with a badge appears in the footer, and late or cancelled trains get a "Claim" chip. Tap the button to review unclaimed journeys and mark them claimed or dismissed. Requires "Track Delay Repay claims" to be turned on in the integration options.</div>
+
         <!-- Advanced Options -->
         <div class="section-header">Advanced Options</div>
 

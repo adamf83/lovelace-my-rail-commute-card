@@ -797,17 +797,20 @@ export const styles = css`
     color: #999;
   }
 
-  ha-card.departure-board .history-toggle {
+  ha-card.departure-board .history-toggle,
+  ha-card.departure-board .delay-repay-toggle {
     border-color: #555;
     color: #ffcc00;
   }
 
-  ha-card.departure-board .history-toggle:hover {
+  ha-card.departure-board .history-toggle:hover,
+  ha-card.departure-board .delay-repay-toggle:hover {
     background: #252525;
     color: #fff;
   }
 
-  ha-card.departure-board .history-panel {
+  ha-card.departure-board .history-panel,
+  ha-card.departure-board .delay-repay-panel {
     background: #111;
     border-color: #333;
     color: #ffcc00;
@@ -991,6 +994,204 @@ export const styles = css`
     color: var(--secondary-text-color, #757575);
     text-align: center;
     padding: 8px 0;
+  }
+
+  /* ==================== DELAY REPAY ==================== */
+
+  .footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .delay-repay-toggle {
+    position: relative;
+    background: none;
+    border: 1px solid var(--divider-color, #e0e0e0);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color, #757575);
+    padding: 0;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    --mdc-icon-size: 16px;
+  }
+
+  .delay-repay-toggle:hover {
+    background: var(--secondary-background-color, #f5f5f5);
+  }
+
+  .delay-repay-toggle.active {
+    background: var(--primary-color, #03a9f4);
+    color: #fff;
+    border-color: var(--primary-color, #03a9f4);
+  }
+
+  .delay-repay-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: var(--status-major-delay, #f44336);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: center;
+  }
+
+  .claim-chip {
+    margin-left: 6px;
+    padding: 1px 8px;
+    border: 1px solid var(--primary-color, #03a9f4);
+    border-radius: 10px;
+    background: none;
+    color: var(--primary-color, #03a9f4);
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+
+  .claim-chip:hover {
+    background: var(--primary-color, #03a9f4);
+    color: #fff;
+  }
+
+  .delay-repay-panel {
+    border-top: 1px solid var(--divider-color, #e0e0e0);
+    padding: 12px var(--card-padding);
+    background: var(--secondary-background-color, #f5f5f5);
+    font-size: 0.85rem;
+  }
+
+  .delay-repay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin-bottom: 8px;
+  }
+
+  .delay-repay-count {
+    font-weight: 600;
+  }
+
+  .delay-repay-deadline,
+  .delay-repay-note {
+    font-size: 0.78rem;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  .delay-repay-note {
+    margin-bottom: 8px;
+  }
+
+  .delay-repay-error {
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #fff;
+    background: var(--status-cancelled, #d32f2f);
+  }
+
+  .delay-repay-empty {
+    color: var(--secondary-text-color, #757575);
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  .delay-repay-row {
+    padding: 8px 0;
+    border-top: 1px solid var(--divider-color, #e0e0e0);
+  }
+
+  .delay-repay-row-main,
+  .delay-repay-row-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 10px;
+  }
+
+  .dr-when {
+    font-weight: 500;
+  }
+
+  .dr-route {
+    flex: 1 1 120px;
+    min-width: 0;
+  }
+
+  .dr-delay {
+    font-weight: 600;
+  }
+
+  .dr-delay.dr-minor { color: var(--status-minor-delay, #ff9800); }
+  .dr-delay.dr-major { color: var(--status-major-delay, #f44336); }
+  .dr-delay.dr-cancelled { color: var(--status-cancelled, #d32f2f); }
+
+  .delay-repay-row-meta {
+    margin-top: 2px;
+    font-size: 0.78rem;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  .dr-estimated {
+    padding: 0 6px;
+    border: 1px dashed var(--status-minor-delay, #ff9800);
+    border-radius: 8px;
+    color: var(--status-minor-delay, #ff9800);
+  }
+
+  .dr-link {
+    color: var(--primary-color, #03a9f4);
+  }
+
+  .delay-repay-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .dr-btn {
+    padding: 4px 12px;
+    border: 1px solid var(--divider-color, #e0e0e0);
+    border-radius: 4px;
+    background: none;
+    color: var(--primary-text-color, #212121);
+    font: inherit;
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+
+  .dr-btn-primary {
+    border-color: var(--primary-color, #03a9f4);
+    color: var(--primary-color, #03a9f4);
+  }
+
+  .dr-btn:hover:not([disabled]) {
+    background: var(--card-background-color, #fff);
+  }
+
+  .dr-btn[disabled] {
+    opacity: 0.5;
+    cursor: default;
   }
 
   /* ==================== EMPTY STATE ==================== */

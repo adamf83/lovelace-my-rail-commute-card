@@ -3,23 +3,23 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t=globalThis,e=t.ShadowRoot&&(void 0===t.ShadyCSS||t.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,i=Symbol(),n=new WeakMap;let s=class{constructor(t,e,n){if(this._$cssResult$=!0,n!==i)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e}get styleSheet(){let t=this.o;const i=this.t;if(e&&void 0===t){const e=void 0!==i&&1===i.length;e&&(t=n.get(i)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),e&&n.set(i,t))}return t}toString(){return this.cssText}};const a=(t,...e)=>{const n=1===t.length?t[0]:e.reduce((e,i,n)=>e+(t=>{if(!0===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(i)+t[n+1],t[0]);return new s(n,t,i)},o=e?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const i of t.cssRules)e+=i.cssText;return(t=>new s("string"==typeof t?t:t+"",void 0,i))(e)})(t):t,{is:r,defineProperty:c,getOwnPropertyDescriptor:l,getOwnPropertyNames:d,getOwnPropertySymbols:h,getPrototypeOf:p}=Object,u=globalThis,_=u.trustedTypes,m=_?_.emptyScript:"",g=u.reactiveElementPolyfillSupport,f=(t,e)=>t,v={toAttribute(t,e){switch(e){case Boolean:t=t?m:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let i=t;switch(e){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t)}catch(t){i=null}}return i}},y=(t,e)=>!r(t,e),b={attribute:!0,type:String,converter:v,reflect:!1,useDefault:!1,hasChanged:y};
+const t=globalThis,e=t.ShadowRoot&&(void 0===t.ShadyCSS||t.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,i=Symbol(),a=new WeakMap;let n=class{constructor(t,e,a){if(this._$cssResult$=!0,a!==i)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e}get styleSheet(){let t=this.o;const i=this.t;if(e&&void 0===t){const e=void 0!==i&&1===i.length;e&&(t=a.get(i)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),e&&a.set(i,t))}return t}toString(){return this.cssText}};const r=(t,...e)=>{const a=1===t.length?t[0]:e.reduce((e,i,a)=>e+(t=>{if(!0===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(i)+t[a+1],t[0]);return new n(a,t,i)},s=e?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const i of t.cssRules)e+=i.cssText;return(t=>new n("string"==typeof t?t:t+"",void 0,i))(e)})(t):t,{is:o,defineProperty:l,getOwnPropertyDescriptor:c,getOwnPropertyNames:d,getOwnPropertySymbols:h,getPrototypeOf:p}=Object,u=globalThis,_=u.trustedTypes,m=_?_.emptyScript:"",g=u.reactiveElementPolyfillSupport,f=(t,e)=>t,y={toAttribute(t,e){switch(e){case Boolean:t=t?m:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let i=t;switch(e){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t)}catch(t){i=null}}return i}},v=(t,e)=>!o(t,e),b={attribute:!0,type:String,converter:y,reflect:!1,useDefault:!1,hasChanged:v};
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */Symbol.metadata??=Symbol("metadata"),u.litPropertyMetadata??=new WeakMap;let $=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=b){if(e.state&&(e.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((e=Object.create(e)).wrapped=!0),this.elementProperties.set(t,e),!e.noAccessor){const i=Symbol(),n=this.getPropertyDescriptor(t,i,e);void 0!==n&&c(this.prototype,t,n)}}static getPropertyDescriptor(t,e,i){const{get:n,set:s}=l(this.prototype,t)??{get(){return this[e]},set(t){this[e]=t}};return{get:n,set(e){const a=n?.call(this);s?.call(this,e),this.requestUpdate(t,a,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??b}static _$Ei(){if(this.hasOwnProperty(f("elementProperties")))return;const t=p(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty(f("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(f("properties"))){const t=this.properties,e=[...d(t),...h(t)];for(const i of e)this.createProperty(i,t[i])}const t=this[Symbol.metadata];if(null!==t){const e=litPropertyMetadata.get(t);if(void 0!==e)for(const[t,i]of e)this.elementProperties.set(t,i)}this._$Eh=new Map;for(const[t,e]of this.elementProperties){const i=this._$Eu(t,e);void 0!==i&&this._$Eh.set(i,t)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const i=new Set(t.flat(1/0).reverse());for(const t of i)e.unshift(o(t))}else void 0!==t&&e.push(o(t));return e}static _$Eu(t,e){const i=e.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(t=>this.enableUpdating=t),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(t=>t(this))}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){const t=new Map,e=this.constructor.elementProperties;for(const i of e.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t)}createRenderRoot(){const i=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((i,n)=>{if(e)i.adoptedStyleSheets=n.map(t=>t instanceof CSSStyleSheet?t:t.styleSheet);else for(const e of n){const n=document.createElement("style"),s=t.litNonce;void 0!==s&&n.setAttribute("nonce",s),n.textContent=e.cssText,i.appendChild(n)}})(i,this.constructor.elementStyles),i}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach(t=>t.hostConnected?.())}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach(t=>t.hostDisconnected?.())}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$ET(t,e){const i=this.constructor.elementProperties.get(t),n=this.constructor._$Eu(t,i);if(void 0!==n&&!0===i.reflect){const s=(void 0!==i.converter?.toAttribute?i.converter:v).toAttribute(e,i.type);this._$Em=t,null==s?this.removeAttribute(n):this.setAttribute(n,s),this._$Em=null}}_$AK(t,e){const i=this.constructor,n=i._$Eh.get(t);if(void 0!==n&&this._$Em!==n){const t=i.getPropertyOptions(n),s="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:v;this._$Em=n;const a=s.fromAttribute(e,t.type);this[n]=a??this._$Ej?.get(n)??a,this._$Em=null}}requestUpdate(t,e,i,n=!1,s){if(void 0!==t){const a=this.constructor;if(!1===n&&(s=this[t]),i??=a.getPropertyOptions(t),!((i.hasChanged??y)(s,e)||i.useDefault&&i.reflect&&s===this._$Ej?.get(t)&&!this.hasAttribute(a._$Eu(t,i))))return;this.C(t,e,i)}!1===this.isUpdatePending&&(this._$ES=this._$EP())}C(t,e,{useDefault:i,reflect:n,wrapped:s},a){i&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,a??e??this[t]),!0!==s||void 0!==a)||(this._$AL.has(t)||(this.hasUpdated||i||(e=void 0),this._$AL.set(t,e)),!0===n&&this._$Em!==t&&(this._$Eq??=new Set).add(t))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,e]of this._$Ep)this[t]=e;this._$Ep=void 0}const t=this.constructor.elementProperties;if(t.size>0)for(const[e,i]of t){const{wrapped:t}=i,n=this[e];!0!==t||this._$AL.has(e)||void 0===n||this.C(e,void 0,i,n)}}let t=!1;const e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach(t=>t.hostUpdate?.()),this.update(e)):this._$EM()}catch(e){throw t=!1,this._$EM(),e}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach(t=>t.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Eq&&=this._$Eq.forEach(t=>this._$ET(t,this[t])),this._$EM()}updated(t){}firstUpdated(t){}};$.elementStyles=[],$.shadowRootOptions={mode:"open"},$[f("elementProperties")]=new Map,$[f("finalized")]=new Map,g?.({ReactiveElement:$}),(u.reactiveElementVersions??=[]).push("2.1.2");
+ */Symbol.metadata??=Symbol("metadata"),u.litPropertyMetadata??=new WeakMap;let $=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=b){if(e.state&&(e.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((e=Object.create(e)).wrapped=!0),this.elementProperties.set(t,e),!e.noAccessor){const i=Symbol(),a=this.getPropertyDescriptor(t,i,e);void 0!==a&&l(this.prototype,t,a)}}static getPropertyDescriptor(t,e,i){const{get:a,set:n}=c(this.prototype,t)??{get(){return this[e]},set(t){this[e]=t}};return{get:a,set(e){const r=a?.call(this);n?.call(this,e),this.requestUpdate(t,r,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??b}static _$Ei(){if(this.hasOwnProperty(f("elementProperties")))return;const t=p(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty(f("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(f("properties"))){const t=this.properties,e=[...d(t),...h(t)];for(const i of e)this.createProperty(i,t[i])}const t=this[Symbol.metadata];if(null!==t){const e=litPropertyMetadata.get(t);if(void 0!==e)for(const[t,i]of e)this.elementProperties.set(t,i)}this._$Eh=new Map;for(const[t,e]of this.elementProperties){const i=this._$Eu(t,e);void 0!==i&&this._$Eh.set(i,t)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const i=new Set(t.flat(1/0).reverse());for(const t of i)e.unshift(s(t))}else void 0!==t&&e.push(s(t));return e}static _$Eu(t,e){const i=e.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(t=>this.enableUpdating=t),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(t=>t(this))}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){const t=new Map,e=this.constructor.elementProperties;for(const i of e.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t)}createRenderRoot(){const i=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((i,a)=>{if(e)i.adoptedStyleSheets=a.map(t=>t instanceof CSSStyleSheet?t:t.styleSheet);else for(const e of a){const a=document.createElement("style"),n=t.litNonce;void 0!==n&&a.setAttribute("nonce",n),a.textContent=e.cssText,i.appendChild(a)}})(i,this.constructor.elementStyles),i}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach(t=>t.hostConnected?.())}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach(t=>t.hostDisconnected?.())}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$ET(t,e){const i=this.constructor.elementProperties.get(t),a=this.constructor._$Eu(t,i);if(void 0!==a&&!0===i.reflect){const n=(void 0!==i.converter?.toAttribute?i.converter:y).toAttribute(e,i.type);this._$Em=t,null==n?this.removeAttribute(a):this.setAttribute(a,n),this._$Em=null}}_$AK(t,e){const i=this.constructor,a=i._$Eh.get(t);if(void 0!==a&&this._$Em!==a){const t=i.getPropertyOptions(a),n="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:y;this._$Em=a;const r=n.fromAttribute(e,t.type);this[a]=r??this._$Ej?.get(a)??r,this._$Em=null}}requestUpdate(t,e,i,a=!1,n){if(void 0!==t){const r=this.constructor;if(!1===a&&(n=this[t]),i??=r.getPropertyOptions(t),!((i.hasChanged??v)(n,e)||i.useDefault&&i.reflect&&n===this._$Ej?.get(t)&&!this.hasAttribute(r._$Eu(t,i))))return;this.C(t,e,i)}!1===this.isUpdatePending&&(this._$ES=this._$EP())}C(t,e,{useDefault:i,reflect:a,wrapped:n},r){i&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,r??e??this[t]),!0!==n||void 0!==r)||(this._$AL.has(t)||(this.hasUpdated||i||(e=void 0),this._$AL.set(t,e)),!0===a&&this._$Em!==t&&(this._$Eq??=new Set).add(t))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,e]of this._$Ep)this[t]=e;this._$Ep=void 0}const t=this.constructor.elementProperties;if(t.size>0)for(const[e,i]of t){const{wrapped:t}=i,a=this[e];!0!==t||this._$AL.has(e)||void 0===a||this.C(e,void 0,i,a)}}let t=!1;const e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach(t=>t.hostUpdate?.()),this.update(e)):this._$EM()}catch(e){throw t=!1,this._$EM(),e}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach(t=>t.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Eq&&=this._$Eq.forEach(t=>this._$ET(t,this[t])),this._$EM()}updated(t){}firstUpdated(t){}};$.elementStyles=[],$.shadowRootOptions={mode:"open"},$[f("elementProperties")]=new Map,$[f("finalized")]=new Map,g?.({ReactiveElement:$}),(u.reactiveElementVersions??=[]).push("2.1.2");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{createHTML:t=>t}):void 0,E="$lit$",S=`lit$${Math.random().toFixed(9).slice(2)}$`,A="?"+S,T=`<${A}>`,D=document,j=()=>D.createComment(""),M=t=>null===t||"object"!=typeof t&&"function"!=typeof t,z=Array.isArray,O="[ \t\n\f\r]",R=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,P=/-->/g,N=/>/g,I=RegExp(`>|${O}(?:([^\\s"'>=/]+)(${O}*=${O}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),H=/'/g,U=/"/g,L=/^(?:script|style|textarea|title)$/i,B=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),q=Symbol.for("lit-noChange"),F=Symbol.for("lit-nothing"),V=new WeakMap,W=D.createTreeWalker(D,129);function G(t,e){if(!z(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==C?C.createHTML(e):e}const J=(t,e)=>{const i=t.length-1,n=[];let s,a=2===e?"<svg>":3===e?"<math>":"",o=R;for(let e=0;e<i;e++){const i=t[e];let r,c,l=-1,d=0;for(;d<i.length&&(o.lastIndex=d,c=o.exec(i),null!==c);)d=o.lastIndex,o===R?"!--"===c[1]?o=P:void 0!==c[1]?o=N:void 0!==c[2]?(L.test(c[2])&&(s=RegExp("</"+c[2],"g")),o=I):void 0!==c[3]&&(o=I):o===I?">"===c[0]?(o=s??R,l=-1):void 0===c[1]?l=-2:(l=o.lastIndex-c[2].length,r=c[1],o=void 0===c[3]?I:'"'===c[3]?U:H):o===U||o===H?o=I:o===P||o===N?o=R:(o=I,s=void 0);const h=o===I&&t[e+1].startsWith("/>")?" ":"";a+=o===R?i+T:l>=0?(n.push(r),i.slice(0,l)+E+i.slice(l)+S+h):i+S+(-2===l?e:h)}return[G(t,a+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),n]};class K{constructor({strings:t,_$litType$:e},i){let n;this.parts=[];let s=0,a=0;const o=t.length-1,r=this.parts,[c,l]=J(t,e);if(this.el=K.createElement(c,i),W.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(n=W.nextNode())&&r.length<o;){if(1===n.nodeType){if(n.hasAttributes())for(const t of n.getAttributeNames())if(t.endsWith(E)){const e=l[a++],i=n.getAttribute(t).split(S),o=/([.?@])?(.*)/.exec(e);r.push({type:1,index:s,name:o[2],strings:i,ctor:"."===o[1]?tt:"?"===o[1]?et:"@"===o[1]?it:Q}),n.removeAttribute(t)}else t.startsWith(S)&&(r.push({type:6,index:s}),n.removeAttribute(t));if(L.test(n.tagName)){const t=n.textContent.split(S),e=t.length-1;if(e>0){n.textContent=k?k.emptyScript:"";for(let i=0;i<e;i++)n.append(t[i],j()),W.nextNode(),r.push({type:2,index:++s});n.append(t[e],j())}}}else if(8===n.nodeType)if(n.data===A)r.push({type:2,index:s});else{let t=-1;for(;-1!==(t=n.data.indexOf(S,t+1));)r.push({type:7,index:s}),t+=S.length-1}s++}}static createElement(t,e){const i=D.createElement("template");return i.innerHTML=t,i}}function Y(t,e,i=t,n){if(e===q)return e;let s=void 0!==n?i._$Co?.[n]:i._$Cl;const a=M(e)?void 0:e._$litDirective$;return s?.constructor!==a&&(s?._$AO?.(!1),void 0===a?s=void 0:(s=new a(t),s._$AT(t,i,n)),void 0!==n?(i._$Co??=[])[n]=s:i._$Cl=s),void 0!==s&&(e=Y(t,s._$AS(t,e.values),s,n)),e}class X{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,n=(t?.creationScope??D).importNode(e,!0);W.currentNode=n;let s=W.nextNode(),a=0,o=0,r=i[0];for(;void 0!==r;){if(a===r.index){let e;2===r.type?e=new Z(s,s.nextSibling,this,t):1===r.type?e=new r.ctor(s,r.name,r.strings,this,t):6===r.type&&(e=new nt(s,this,t)),this._$AV.push(e),r=i[++o]}a!==r?.index&&(s=W.nextNode(),a++)}return W.currentNode=D,n}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class Z{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,n){this.type=2,this._$AH=F,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=n,this._$Cv=n?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Y(this,t,e),M(t)?t===F||null==t||""===t?(this._$AH!==F&&this._$AR(),this._$AH=F):t!==this._$AH&&t!==q&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>z(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==F&&M(this._$AH)?this._$AA.nextSibling.data=t:this.T(D.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,n="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=K.createElement(G(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===n)this._$AH.p(e);else{const t=new X(n,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=V.get(t.strings);return void 0===e&&V.set(t.strings,e=new K(t)),e}k(t){z(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,n=0;for(const s of t)n===e.length?e.push(i=new Z(this.O(j()),this.O(j()),this,this.options)):i=e[n],i._$AI(s),n++;n<e.length&&(this._$AR(i&&i._$AB.nextSibling,n),e.length=n)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=x(t).nextSibling;x(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class Q{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,n,s){this.type=1,this._$AH=F,this._$AN=void 0,this.element=t,this.name=e,this._$AM=n,this.options=s,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=F}_$AI(t,e=this,i,n){const s=this.strings;let a=!1;if(void 0===s)t=Y(this,t,e,0),a=!M(t)||t!==this._$AH&&t!==q,a&&(this._$AH=t);else{const n=t;let o,r;for(t=s[0],o=0;o<s.length-1;o++)r=Y(this,n[i+o],e,o),r===q&&(r=this._$AH[o]),a||=!M(r)||r!==this._$AH[o],r===F?t=F:t!==F&&(t+=(r??"")+s[o+1]),this._$AH[o]=r}a&&!n&&this.j(t)}j(t){t===F?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class tt extends Q{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===F?void 0:t}}class et extends Q{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==F)}}class it extends Q{constructor(t,e,i,n,s){super(t,e,i,n,s),this.type=5}_$AI(t,e=this){if((t=Y(this,t,e,0)??F)===q)return;const i=this._$AH,n=t===F&&i!==F||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,s=t!==F&&(i===F||n);n&&this.element.removeEventListener(this.name,this,i),s&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class nt{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Y(this,t)}}const st=w.litHtmlPolyfillSupport;st?.(K,Z),(w.litHtmlVersions??=[]).push("3.3.2");const at=globalThis;
+const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{createHTML:t=>t}):void 0,S="$lit$",E=`lit$${Math.random().toFixed(9).slice(2)}$`,A="?"+E,D=`<${A}>`,T=document,R=()=>T.createComment(""),j=t=>null===t||"object"!=typeof t&&"function"!=typeof t,P=Array.isArray,M="[ \t\n\f\r]",O=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,z=/-->/g,N=/>/g,I=RegExp(`>|${M}(?:([^\\s"'>=/]+)(${M}*=${M}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),H=/'/g,U=/"/g,L=/^(?:script|style|textarea|title)$/i,B=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),q=Symbol.for("lit-noChange"),F=Symbol.for("lit-nothing"),W=new WeakMap,V=T.createTreeWalker(T,129);function G(t,e){if(!P(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==C?C.createHTML(e):e}const J=(t,e)=>{const i=t.length-1,a=[];let n,r=2===e?"<svg>":3===e?"<math>":"",s=O;for(let e=0;e<i;e++){const i=t[e];let o,l,c=-1,d=0;for(;d<i.length&&(s.lastIndex=d,l=s.exec(i),null!==l);)d=s.lastIndex,s===O?"!--"===l[1]?s=z:void 0!==l[1]?s=N:void 0!==l[2]?(L.test(l[2])&&(n=RegExp("</"+l[2],"g")),s=I):void 0!==l[3]&&(s=I):s===I?">"===l[0]?(s=n??O,c=-1):void 0===l[1]?c=-2:(c=s.lastIndex-l[2].length,o=l[1],s=void 0===l[3]?I:'"'===l[3]?U:H):s===U||s===H?s=I:s===z||s===N?s=O:(s=I,n=void 0);const h=s===I&&t[e+1].startsWith("/>")?" ":"";r+=s===O?i+D:c>=0?(a.push(o),i.slice(0,c)+S+i.slice(c)+E+h):i+E+(-2===c?e:h)}return[G(t,r+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),a]};class K{constructor({strings:t,_$litType$:e},i){let a;this.parts=[];let n=0,r=0;const s=t.length-1,o=this.parts,[l,c]=J(t,e);if(this.el=K.createElement(l,i),V.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(a=V.nextNode())&&o.length<s;){if(1===a.nodeType){if(a.hasAttributes())for(const t of a.getAttributeNames())if(t.endsWith(S)){const e=c[r++],i=a.getAttribute(t).split(E),s=/([.?@])?(.*)/.exec(e);o.push({type:1,index:n,name:s[2],strings:i,ctor:"."===s[1]?tt:"?"===s[1]?et:"@"===s[1]?it:Q}),a.removeAttribute(t)}else t.startsWith(E)&&(o.push({type:6,index:n}),a.removeAttribute(t));if(L.test(a.tagName)){const t=a.textContent.split(E),e=t.length-1;if(e>0){a.textContent=k?k.emptyScript:"";for(let i=0;i<e;i++)a.append(t[i],R()),V.nextNode(),o.push({type:2,index:++n});a.append(t[e],R())}}}else if(8===a.nodeType)if(a.data===A)o.push({type:2,index:n});else{let t=-1;for(;-1!==(t=a.data.indexOf(E,t+1));)o.push({type:7,index:n}),t+=E.length-1}n++}}static createElement(t,e){const i=T.createElement("template");return i.innerHTML=t,i}}function Y(t,e,i=t,a){if(e===q)return e;let n=void 0!==a?i._$Co?.[a]:i._$Cl;const r=j(e)?void 0:e._$litDirective$;return n?.constructor!==r&&(n?._$AO?.(!1),void 0===r?n=void 0:(n=new r(t),n._$AT(t,i,a)),void 0!==a?(i._$Co??=[])[a]=n:i._$Cl=n),void 0!==n&&(e=Y(t,n._$AS(t,e.values),n,a)),e}class X{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,a=(t?.creationScope??T).importNode(e,!0);V.currentNode=a;let n=V.nextNode(),r=0,s=0,o=i[0];for(;void 0!==o;){if(r===o.index){let e;2===o.type?e=new Z(n,n.nextSibling,this,t):1===o.type?e=new o.ctor(n,o.name,o.strings,this,t):6===o.type&&(e=new at(n,this,t)),this._$AV.push(e),o=i[++s]}r!==o?.index&&(n=V.nextNode(),r++)}return V.currentNode=T,a}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class Z{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,a){this.type=2,this._$AH=F,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=a,this._$Cv=a?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Y(this,t,e),j(t)?t===F||null==t||""===t?(this._$AH!==F&&this._$AR(),this._$AH=F):t!==this._$AH&&t!==q&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>P(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==F&&j(this._$AH)?this._$AA.nextSibling.data=t:this.T(T.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,a="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=K.createElement(G(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===a)this._$AH.p(e);else{const t=new X(a,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=W.get(t.strings);return void 0===e&&W.set(t.strings,e=new K(t)),e}k(t){P(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,a=0;for(const n of t)a===e.length?e.push(i=new Z(this.O(R()),this.O(R()),this,this.options)):i=e[a],i._$AI(n),a++;a<e.length&&(this._$AR(i&&i._$AB.nextSibling,a),e.length=a)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=x(t).nextSibling;x(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class Q{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,a,n){this.type=1,this._$AH=F,this._$AN=void 0,this.element=t,this.name=e,this._$AM=a,this.options=n,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=F}_$AI(t,e=this,i,a){const n=this.strings;let r=!1;if(void 0===n)t=Y(this,t,e,0),r=!j(t)||t!==this._$AH&&t!==q,r&&(this._$AH=t);else{const a=t;let s,o;for(t=n[0],s=0;s<n.length-1;s++)o=Y(this,a[i+s],e,s),o===q&&(o=this._$AH[s]),r||=!j(o)||o!==this._$AH[s],o===F?t=F:t!==F&&(t+=(o??"")+n[s+1]),this._$AH[s]=o}r&&!a&&this.j(t)}j(t){t===F?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class tt extends Q{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===F?void 0:t}}class et extends Q{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==F)}}class it extends Q{constructor(t,e,i,a,n){super(t,e,i,a,n),this.type=5}_$AI(t,e=this){if((t=Y(this,t,e,0)??F)===q)return;const i=this._$AH,a=t===F&&i!==F||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,n=t!==F&&(i===F||a);a&&this.element.removeEventListener(this.name,this,i),n&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class at{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Y(this,t)}}const nt=w.litHtmlPolyfillSupport;nt?.(K,Z),(w.litHtmlVersions??=[]).push("3.3.2");const rt=globalThis;
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */class ot extends ${constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,i)=>{const n=i?.renderBefore??e;let s=n._$litPart$;if(void 0===s){const t=i?.renderBefore??null;n._$litPart$=s=new Z(e.insertBefore(j(),t),t,void 0,i??{})}return s._$AI(t),s})(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return q}}ot._$litElement$=!0,ot.finalized=!0,at.litElementHydrateSupport?.({LitElement:ot});const rt=at.litElementPolyfillSupport;rt?.({LitElement:ot}),(at.litElementVersions??=[]).push("4.2.2");const ct=a`
+ */class st extends ${constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,i)=>{const a=i?.renderBefore??e;let n=a._$litPart$;if(void 0===n){const t=i?.renderBefore??null;a._$litPart$=n=new Z(e.insertBefore(R(),t),t,void 0,i??{})}return n._$AI(t),n})(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return q}}st._$litElement$=!0,st.finalized=!0,rt.litElementHydrateSupport?.({LitElement:st});const ot=rt.litElementPolyfillSupport;ot?.({LitElement:st}),(rt.litElementVersions??=[]).push("4.2.2");const lt=r`
   :host {
     --status-on-time: var(--custom-on-time-color, #4caf50);
     --status-minor-delay: var(--custom-minor-delay-color, #ff9800);
@@ -813,17 +813,20 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
     color: #999;
   }
 
-  ha-card.departure-board .history-toggle {
+  ha-card.departure-board .history-toggle,
+  ha-card.departure-board .delay-repay-toggle {
     border-color: #555;
     color: #ffcc00;
   }
 
-  ha-card.departure-board .history-toggle:hover {
+  ha-card.departure-board .history-toggle:hover,
+  ha-card.departure-board .delay-repay-toggle:hover {
     background: #252525;
     color: #fff;
   }
 
-  ha-card.departure-board .history-panel {
+  ha-card.departure-board .history-panel,
+  ha-card.departure-board .delay-repay-panel {
     background: #111;
     border-color: #333;
     color: #ffcc00;
@@ -1007,6 +1010,204 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
     color: var(--secondary-text-color, #757575);
     text-align: center;
     padding: 8px 0;
+  }
+
+  /* ==================== DELAY REPAY ==================== */
+
+  .footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .delay-repay-toggle {
+    position: relative;
+    background: none;
+    border: 1px solid var(--divider-color, #e0e0e0);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color, #757575);
+    padding: 0;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    --mdc-icon-size: 16px;
+  }
+
+  .delay-repay-toggle:hover {
+    background: var(--secondary-background-color, #f5f5f5);
+  }
+
+  .delay-repay-toggle.active {
+    background: var(--primary-color, #03a9f4);
+    color: #fff;
+    border-color: var(--primary-color, #03a9f4);
+  }
+
+  .delay-repay-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: var(--status-major-delay, #f44336);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: center;
+  }
+
+  .claim-chip {
+    margin-left: 6px;
+    padding: 1px 8px;
+    border: 1px solid var(--primary-color, #03a9f4);
+    border-radius: 10px;
+    background: none;
+    color: var(--primary-color, #03a9f4);
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+
+  .claim-chip:hover {
+    background: var(--primary-color, #03a9f4);
+    color: #fff;
+  }
+
+  .delay-repay-panel {
+    border-top: 1px solid var(--divider-color, #e0e0e0);
+    padding: 12px var(--card-padding);
+    background: var(--secondary-background-color, #f5f5f5);
+    font-size: 0.85rem;
+  }
+
+  .delay-repay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin-bottom: 8px;
+  }
+
+  .delay-repay-count {
+    font-weight: 600;
+  }
+
+  .delay-repay-deadline,
+  .delay-repay-note {
+    font-size: 0.78rem;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  .delay-repay-note {
+    margin-bottom: 8px;
+  }
+
+  .delay-repay-error {
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #fff;
+    background: var(--status-cancelled, #d32f2f);
+  }
+
+  .delay-repay-empty {
+    color: var(--secondary-text-color, #757575);
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  .delay-repay-row {
+    padding: 8px 0;
+    border-top: 1px solid var(--divider-color, #e0e0e0);
+  }
+
+  .delay-repay-row-main,
+  .delay-repay-row-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 10px;
+  }
+
+  .dr-when {
+    font-weight: 500;
+  }
+
+  .dr-route {
+    flex: 1 1 120px;
+    min-width: 0;
+  }
+
+  .dr-delay {
+    font-weight: 600;
+  }
+
+  .dr-delay.dr-minor { color: var(--status-minor-delay, #ff9800); }
+  .dr-delay.dr-major { color: var(--status-major-delay, #f44336); }
+  .dr-delay.dr-cancelled { color: var(--status-cancelled, #d32f2f); }
+
+  .delay-repay-row-meta {
+    margin-top: 2px;
+    font-size: 0.78rem;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  .dr-estimated {
+    padding: 0 6px;
+    border: 1px dashed var(--status-minor-delay, #ff9800);
+    border-radius: 8px;
+    color: var(--status-minor-delay, #ff9800);
+  }
+
+  .dr-link {
+    color: var(--primary-color, #03a9f4);
+  }
+
+  .delay-repay-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .dr-btn {
+    padding: 4px 12px;
+    border: 1px solid var(--divider-color, #e0e0e0);
+    border-radius: 4px;
+    background: none;
+    color: var(--primary-text-color, #212121);
+    font: inherit;
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+
+  .dr-btn-primary {
+    border-color: var(--primary-color, #03a9f4);
+    color: var(--primary-color, #03a9f4);
+  }
+
+  .dr-btn:hover:not([disabled]) {
+    background: var(--card-background-color, #fff);
+  }
+
+  .dr-btn[disabled] {
+    opacity: 0.5;
+    cursor: default;
   }
 
   /* ==================== EMPTY STATE ==================== */
@@ -1401,7 +1602,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
   }
 
 
-`;function lt(t){if(!t||"unknown"===t||"Unknown"===t)return"—";const e=String(t).trim();if(!e)return"—";const i=e.match(/(\d{1,2}):(\d{2})(?::\d{2})?/);if(i)return`${i[1].padStart(2,"0")}:${i[2]}`;try{const t=new Date(e);return isNaN(t.getTime())?(console.warn("formatTime: unparseable value:",e),"—"):t.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:!1})}catch(t){return console.warn("formatTime: could not parse time value:",e,t),"—"}}function dt(t,e){if(!t||!e)return null;try{const i=new Date(t),n=new Date(e);if(!isNaN(i.getTime())&&!isNaN(n.getTime())){const t=Math.round((n-i)/6e4);return t>0?t:null}}catch(i){console.warn("calculateJourneyDuration: could not parse as dates:",t,e,i)}const i=String(t).match(/(\d{1,2}):(\d{2})/),n=String(e).match(/(\d{1,2}):(\d{2})/);if(i&&n){let t=60*parseInt(i[1],10)+parseInt(i[2],10),e=60*parseInt(n[1],10)+parseInt(n[2],10);e<t&&(e+=1440);const s=e-t;return s>0?s:null}return null}function ht(t){return!(!t||!t.expected_departure)&&(t.expected_departure!==t.scheduled_departure&&!/\d{1,2}:\d{2}/.test(t.expected_departure))}function pt(t){return t?t.is_cancelled?"cancelled":t.is_no_service?"no-service":t.delay_minutes>=10?"major-delay":t.delay_minutes>0||ht(t)?"minor-delay":"on-time":"unknown"}function ut(t,e=!0){return e&&t?t.is_cancelled?"❌":t.is_no_service?"⊗":t.delay_minutes>=10?"🔴":t.delay_minutes>0||ht(t)?"⚠️":"✓":""}function _t(t){if(!t)return"";const e=t.cancel_reason||t.cancellation_reason||t["Cancel reason"]||t["Cancellation reason"]||"",i=t.delay_reason||t.reason||t["Delay reason"]||"";return t.is_cancelled&&e||i}function mt(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.delay_minutes>0?`Delayed ${t.delay_minutes} min${1!==t.delay_minutes?"s":""}`:ht(t)?"Delayed":"On time":"Unknown"}function gt(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.expected_departure&&t.expected_departure!==t.scheduled_departure?`Exp ${lt(t.expected_departure)}`:"On time":"Unknown"}function ft(t,e=3){if(!t||0===t.length)return"";const i=t.slice(0,e),n=t.length-e;let s=i.join(", ");return n>0&&(s+=` +${n} more`),s}function vt(t,e="Platform"){return t?/bus/i.test(t)?t:`${e} ${t}`:`${e} —`}function yt(t,e=!1){const i=Math.round(Number(t));if(!Number.isFinite(i))return"";if(i<60)return e?`${i}m`:`${i} mins`;const n=Math.floor(i/60),s=i%60;if(e)return s?`${n}h ${s}m`:`${n}h`;const a=1===n?"hr":"hrs";return s?`${n} ${a} ${s} mins`:`${n} ${a}`}function bt(t){if(!t)return"";if(t.length<=12)return t;const e={London:"Ldn",Street:"St",Bridge:"Bdg",Junction:"Jn",Central:"Cen",International:"Intl",Station:"Stn",Road:"Rd",Cross:"X",Park:"Pk"};let i=t;for(const[t,n]of Object.entries(e))i=i.replace(new RegExp(t,"g"),n);return i.length>12&&(i=i.substring(0,11)+"…"),i}function $t(t,e){if(!t||0===t.length)return[];let i=[...t];return e.hide_on_time_trains&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||t.delay_minutes>0||ht(t))),e.min_delay_to_show>0&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||ht(t)||t.delay_minutes>=e.min_delay_to_show)),i}function wt(t){return t&&0!==t.length?[...t].sort((t,e)=>{const i=new Date(t.scheduled_departure).getTime(),n=new Date(e.scheduled_departure).getTime(),s=!isNaN(i),a=!isNaN(n);return s||a?s?a?i-n:-1:1:0}):[]}function xt(t){const e=new Map;for(const i of t){const t=i.destination&&String(i.destination).trim()||"Unknown";e.has(t)||e.set(t,[]),e.get(t).push(i)}return e}function kt(t){if(!t||0===t.length)return"normal";if(t.some(t=>t.is_cancelled))return"critical";const e=Math.max(...t.map(t=>t.delay_minutes||0));return e>=15?"severe":e>=10?"major":e>0?"minor":"normal"}function Ct(t,e,i){return t?t.map((t,n)=>{const s=null!=t.train_number&&""!==t.train_number?String(t.train_number).toLowerCase().replace(/[^a-z0-9]/g,"_"):String(n+1),a=t.scheduled_departure,o=t.expected_departure,r=t.scheduled_arrival,c=t.estimated_arrival,l=/\d{1,2}:\d{2}/.test(String(o||"")),d=l?o:a,h=!l&&!!o&&o!==a&&!/^(on[\s-]?time|right\s*time)$/i.test(String(o||"").trim()),p=/\d{1,2}:\d{2}/.test(String(c||""))?c:r,u=null!=i?`leg_${i}_train_${s}`:`train_${s}`;return{...t,journey_duration:t.journey_duration||dt(d,p),journey_time_approx:t.journey_time_approx||h,train_id:`sensor.${e}_${u}`}}):[]}const Et={"Missed Connection":"mdi:alert-octagon","Delayed Connection":"mdi:clock-alert","Tight Connection":"mdi:clock-alert-outline","Connection OK":"mdi:transit-connection-variant",Unknown:"mdi:help-circle-outline"};function St(t){return Et[t]||Et.Unknown}const At={"Missed Connection":"connection-critical","Delayed Connection":"connection-major","Tight Connection":"connection-minor","Connection OK":"connection-normal",Unknown:"connection-normal"};function Tt(t){return At[t]||"connection-normal"}function Dt(t){const e=(t||"").toLowerCase();return e.includes("critical")||e.includes("severe")||e.includes("missed")?"status-critical":e.includes("major")||e.includes("delayed")?"status-major":e.includes("minor")||e.includes("tight")?"status-minor":"status-normal"}const jt=new Set(["scheduled_departure","scheduled","departure","departure_time","std","aimed_departure_time","scheduled departure","expected_departure","expected","estimated","estimated_departure","etd","expected_arrival","expected departure","scheduled_arrival","sta","scheduled arrival","estimated_arrival","eta","estimated arrival","platform","operator","service_operator","is_cancelled","cancelled","is_no_service","no_service","delay_minutes","delay","minutes_late","delay minutes","delay_reason","reason","delay reason","cancel_reason","cancellation_reason","cancel reason","cancellation reason","calling_points","stops","calling_at","calling at","journey_duration","duration","journey_time_approx","service_type","type","train_number","train_id"]),Mt=new Set(["attribution","icon","friendly_name","device_class","unit_of_measurement","supported_features","entity_picture","assumed_state","state_class","editable"]);function zt(t){return t.replace(/[_-]+/g," ").trim().replace(/\b\w/g,t=>t.toUpperCase())}function Ot(t){if(null==t||""===t)return"—";if(Array.isArray(t))return t.length?t.join(", "):"—";if("boolean"==typeof t)return t?"Yes":"No";if("object"==typeof t)try{return JSON.stringify(t)}catch(e){return String(t)}return String(t)}customElements.define("my-rail-commute-card-editor",class extends ot{static get properties(){return{hass:{type:Object},_config:{type:Object}}}static get styles(){return a`
+`;function ct(t){if(!t||"unknown"===t||"Unknown"===t)return"—";const e=String(t).trim();if(!e)return"—";const i=e.match(/(\d{1,2}):(\d{2})(?::\d{2})?/);if(i)return`${i[1].padStart(2,"0")}:${i[2]}`;try{const t=new Date(e);return isNaN(t.getTime())?(console.warn("formatTime: unparseable value:",e),"—"):t.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:!1})}catch(t){return console.warn("formatTime: could not parse time value:",e,t),"—"}}function dt(t,e){if(!t||!e)return null;try{const i=new Date(t),a=new Date(e);if(!isNaN(i.getTime())&&!isNaN(a.getTime())){const t=Math.round((a-i)/6e4);return t>0?t:null}}catch(i){console.warn("calculateJourneyDuration: could not parse as dates:",t,e,i)}const i=String(t).match(/(\d{1,2}):(\d{2})/),a=String(e).match(/(\d{1,2}):(\d{2})/);if(i&&a){let t=60*parseInt(i[1],10)+parseInt(i[2],10),e=60*parseInt(a[1],10)+parseInt(a[2],10);e<t&&(e+=1440);const n=e-t;return n>0?n:null}return null}function ht(t){return!(!t||!t.expected_departure)&&(t.expected_departure!==t.scheduled_departure&&!/\d{1,2}:\d{2}/.test(t.expected_departure))}function pt(t){return t?t.is_cancelled?"cancelled":t.is_no_service?"no-service":t.delay_minutes>=10?"major-delay":t.delay_minutes>0||ht(t)?"minor-delay":"on-time":"unknown"}function ut(t,e=!0){return e&&t?t.is_cancelled?"❌":t.is_no_service?"⊗":t.delay_minutes>=10?"🔴":t.delay_minutes>0||ht(t)?"⚠️":"✓":""}function _t(t){if(!t)return"";const e=t.cancel_reason||t.cancellation_reason||t["Cancel reason"]||t["Cancellation reason"]||"",i=t.delay_reason||t.reason||t["Delay reason"]||"";return t.is_cancelled&&e||i}function mt(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.delay_minutes>0?`Delayed ${t.delay_minutes} min${1!==t.delay_minutes?"s":""}`:ht(t)?"Delayed":"On time":"Unknown"}function gt(t){return t?t.is_cancelled?"Cancelled":t.is_no_service?"No service":t.expected_departure&&t.expected_departure!==t.scheduled_departure?`Exp ${ct(t.expected_departure)}`:"On time":"Unknown"}function ft(t,e=3){if(!t||0===t.length)return"";const i=t.slice(0,e),a=t.length-e;let n=i.join(", ");return a>0&&(n+=` +${a} more`),n}function yt(t,e="Platform"){return t?/bus/i.test(t)?t:`${e} ${t}`:`${e} —`}function vt(t,e=!1){const i=Math.round(Number(t));if(!Number.isFinite(i))return"";if(i<60)return e?`${i}m`:`${i} mins`;const a=Math.floor(i/60),n=i%60;if(e)return n?`${a}h ${n}m`:`${a}h`;const r=1===a?"hr":"hrs";return n?`${a} ${r} ${n} mins`:`${a} ${r}`}function bt(t){if(!t)return"";if(t.length<=12)return t;const e={London:"Ldn",Street:"St",Bridge:"Bdg",Junction:"Jn",Central:"Cen",International:"Intl",Station:"Stn",Road:"Rd",Cross:"X",Park:"Pk"};let i=t;for(const[t,a]of Object.entries(e))i=i.replace(new RegExp(t,"g"),a);return i.length>12&&(i=i.substring(0,11)+"…"),i}function $t(t,e){if(!t||0===t.length)return[];let i=[...t];return e.hide_on_time_trains&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||t.delay_minutes>0||ht(t))),e.min_delay_to_show>0&&(i=i.filter(t=>t.is_cancelled||t.is_no_service||ht(t)||t.delay_minutes>=e.min_delay_to_show)),i}function wt(t){return t&&0!==t.length?[...t].sort((t,e)=>{const i=new Date(t.scheduled_departure).getTime(),a=new Date(e.scheduled_departure).getTime(),n=!isNaN(i),r=!isNaN(a);return n||r?n?r?i-a:-1:1:0}):[]}function xt(t){const e=new Map;for(const i of t){const t=i.destination&&String(i.destination).trim()||"Unknown";e.has(t)||e.set(t,[]),e.get(t).push(i)}return e}function kt(t){if(!t||0===t.length)return"normal";if(t.some(t=>t.is_cancelled))return"critical";const e=Math.max(...t.map(t=>t.delay_minutes||0));return e>=15?"severe":e>=10?"major":e>0?"minor":"normal"}function Ct(t,e,i){return t?t.map((t,a)=>{const n=null!=t.train_number&&""!==t.train_number?String(t.train_number).toLowerCase().replace(/[^a-z0-9]/g,"_"):String(a+1),r=t.scheduled_departure,s=t.expected_departure,o=t.scheduled_arrival,l=t.estimated_arrival,c=/\d{1,2}:\d{2}/.test(String(s||"")),d=c?s:r,h=!c&&!!s&&s!==r&&!/^(on[\s-]?time|right\s*time)$/i.test(String(s||"").trim()),p=/\d{1,2}:\d{2}/.test(String(l||""))?l:o,u=null!=i?`leg_${i}_train_${n}`:`train_${n}`;return{...t,journey_duration:t.journey_duration||dt(d,p),journey_time_approx:t.journey_time_approx||h,train_id:`sensor.${e}_${u}`}}):[]}const St={"Missed Connection":"mdi:alert-octagon","Delayed Connection":"mdi:clock-alert","Tight Connection":"mdi:clock-alert-outline","Connection OK":"mdi:transit-connection-variant",Unknown:"mdi:help-circle-outline"};function Et(t){return St[t]||St.Unknown}const At={"Missed Connection":"connection-critical","Delayed Connection":"connection-major","Tight Connection":"connection-minor","Connection OK":"connection-normal",Unknown:"connection-normal"};function Dt(t){return At[t]||"connection-normal"}function Tt(t){const e=(t||"").toLowerCase();return e.includes("critical")||e.includes("severe")||e.includes("missed")?"status-critical":e.includes("major")||e.includes("delayed")?"status-major":e.includes("minor")||e.includes("tight")?"status-minor":"status-normal"}const Rt=new Set(["scheduled_departure","scheduled","departure","departure_time","std","aimed_departure_time","scheduled departure","expected_departure","expected","estimated","estimated_departure","etd","expected_arrival","expected departure","scheduled_arrival","sta","scheduled arrival","estimated_arrival","eta","estimated arrival","platform","operator","service_operator","is_cancelled","cancelled","is_no_service","no_service","delay_minutes","delay","minutes_late","delay minutes","delay_reason","reason","delay reason","cancel_reason","cancellation_reason","cancel reason","cancellation reason","calling_points","stops","calling_at","calling at","journey_duration","duration","journey_time_approx","service_type","type","train_number","train_id"]),jt=new Set(["attribution","icon","friendly_name","device_class","unit_of_measurement","supported_features","entity_picture","assumed_state","state_class","editable"]);function Pt(t){return t.replace(/[_-]+/g," ").trim().replace(/\b\w/g,t=>t.toUpperCase())}function Mt(t){if(null==t||""===t)return"—";if(Array.isArray(t))return t.length?t.join(", "):"—";if("boolean"==typeof t)return t?"Yes":"No";if("object"==typeof t)try{return JSON.stringify(t)}catch(e){return String(t)}return String(t)}customElements.define("my-rail-commute-card-editor",class extends st{static get properties(){return{hass:{type:Object},_config:{type:Object}}}static get styles(){return r`
       .card-config {
         padding: 16px;
       }
@@ -1734,6 +1935,20 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
           </div>
         `:""}
 
+        <!-- Delay Repay -->
+        <div class="section-header">Delay Repay</div>
+
+        <div class="switches">
+          <ha-formfield label="Show Delay Repay Claims">
+            <ha-switch
+              .checked=${!0===this._config.show_delay_repay}
+              @change=${this._toggleChanged("show_delay_repay")}
+            ></ha-switch>
+          </ha-formfield>
+        </div>
+
+        <div class="info">When enabled, a cash-refund button with a badge appears in the footer, and late or cancelled trains get a "Claim" chip. Tap the button to review unclaimed journeys and mark them claimed or dismissed. Requires "Track Delay Repay claims" to be turned on in the integration options.</div>
+
         <!-- Advanced Options -->
         <div class="section-header">Advanced Options</div>
 
@@ -1816,7 +2031,68 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
           </div>
         </div>
       </div>
-    `:B``}_entityChanged(t){if(!this._config||!this._hass)return;const e=t.detail.value??"";e!==(this._config.entity??"")&&(this._config={...this._config,entity:e},this._fireConfigChanged())}_titleChanged(t){this._config&&this._hass&&(this._config={...this._config,title:t.target.value},this._fireConfigChanged())}_viewChanged(t){this._config&&this._hass&&(this._config={...this._config,view:t.target.value},this._fireConfigChanged())}_themeChanged(t){this._config&&this._hass&&(this._config={...this._config,theme:t.target.value},this._fireConfigChanged())}_fontSizeChanged(t){this._config&&this._hass&&(this._config={...this._config,font_size:t.target.value},this._fireConfigChanged())}_toggleChanged(t){return e=>{this._config&&this._hass&&(this._config={...this._config,[t]:e.target.checked},this._fireConfigChanged())}}_minDelayChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||0;this._config={...this._config,min_delay_to_show:e},this._fireConfigChanged()}_maxCallingPointsChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||3;this._config={...this._config,max_calling_points:e},this._fireConfigChanged()}_statusEntityChanged(t){this._config&&this._hass&&(this._config={...this._config,status_entity:t.detail.value},this._fireConfigChanged())}_refreshIntervalChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||60;this._config={...this._config,refresh_interval:e},this._fireConfigChanged()}_tapActionChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{action:t.target.value}},this._fireConfigChanged())}_urlPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,url_path:t.target.value}},this._fireConfigChanged())}_navigationPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,navigation_path:t.target.value}},this._fireConfigChanged())}_holdActionChanged(t){this._config&&this._hass&&(this._config={...this._config,hold_action:{action:t.target.value}},this._fireConfigChanged())}_historyDaysChanged(t){this._config&&this._hass&&(this._config={...this._config,history_days:parseInt(t.target.value,10)},this._fireConfigChanged())}_isMultiDestinationSensor(){if(!this._hass||!this._config?.entity)return!1;const t=this._hass.states[this._config.entity];return!0===t?.attributes?.multi_destination}_isMultiLegSensor(){if(!this._hass||!this._config?.entity)return!1;const t=this._hass.states[this._config.entity];return!0===t?.attributes?.is_multi_leg}_fireConfigChanged(){const t=new CustomEvent("config-changed",{detail:{config:this._config},bubbles:!0,composed:!0});this.dispatchEvent(t)}}),console.info("%c MY-RAIL-COMMUTE-CARD \n%c Version 1.0.9 ","color: cyan; font-weight: bold; background: black","color: white; font-weight: bold; background: dimgray");class Rt extends ot{static get properties(){return{hass:{type:Object},config:{type:Object},_trains:{type:Array},_origin:{type:String},_destination:{type:String},_lastUpdated:{type:String},_hasDisruption:{type:Boolean},_disruptionSeverity:{type:String},_disruptionMessage:{type:String},_resolvedStatusEntityId:{type:String},_loading:{type:Boolean},_entityNotFound:{type:Boolean},_returnEntityId:{type:String},_showReturn:{type:Boolean},_historyPanelOpen:{type:Boolean},_histRelAttrs:{type:Object},_histDelAttrs:{type:Object},_isMultiDestination:{type:Boolean},_servicesByDestination:{type:Object},_isMultiLeg:{type:Boolean},_legs:{type:Array},_connections:{type:Array},_journeyFeasible:{type:Boolean},_trainDetailsTrain:{type:Object}}}static get styles(){return ct}constructor(){super(),this._trains=[],this._origin="",this._destination="",this._lastUpdated="",this._hasDisruption=!1,this._disruptionSeverity="",this._disruptionMessage="",this._resolvedStatusEntityId="",this._loading=!0,this._entityNotFound=!1,this._toastTimer=null,this._toastElement=null,this._returnEntityId=null,this._showReturn=!1,this._returnEntityCacheKey=null,this._historyPanelOpen=!1,this._histRelAttrs=null,this._histDelAttrs=null,this._isMultiDestination=!1,this._servicesByDestination=null,this._isMultiLeg=!1,this._legs=[],this._connections=[],this._journeyFeasible=!0,this._trainDetailsTrain=null,this._trainDetailsEscHandler=null}setConfig(t){if(!t)throw new Error("Invalid configuration");this.config={view:"full",theme:"auto",show_header:!0,show_route:!0,show_last_updated:!1,show_platform:!0,show_operator:!0,show_calling_points:!1,show_delay_reason:!0,show_journey_time:!1,show_service_type:!1,max_calling_points:3,hide_on_time_trains:!1,only_show_disrupted:!1,min_delay_to_show:0,auto_refresh:!0,refresh_interval:60,card_style:"departure-board",font_size:"medium",compact_height:!1,show_animations:!0,status_icons:!0,show_history_panel:!1,history_days:7,group_by_destination:!0,show_connection_details:!0,show_non_catchable_indicator:!0,...t},t.colors&&(t.colors.on_time&&this.style.setProperty("--custom-on-time-color",t.colors.on_time),t.colors.minor_delay&&this.style.setProperty("--custom-minor-delay-color",t.colors.minor_delay),t.colors.major_delay&&this.style.setProperty("--custom-major-delay-color",t.colors.major_delay),t.colors.cancelled&&this.style.setProperty("--custom-cancelled-color",t.colors.cancelled)),t.theme&&"auto"!==t.theme&&this.setAttribute("theme",t.theme),t.font_size&&this.setAttribute("font-size",t.font_size),!1===t.show_animations&&this.setAttribute("no-animations","")}set hass(t){if(this._hass=t,!this.config)return;if(!this.config.entity)return this._loading=!1,void(this._trains=[]);const e=t.states[this.config.entity];if(!e)return console.error("my-rail-commute-card: entity not found:",this.config.entity),this._entityNotFound=!0,this._loading=!1,void(this._trains=[]);this._entityNotFound=!1;const i=e.attributes.origin_name||e.attributes.origin||e.attributes.from_station||"",n=e.attributes.destination_name||e.attributes.destination||e.attributes.to_station||"",s=`${i}|${n}`;s!==this._returnEntityCacheKey?(this._returnEntityCacheKey=s,this._returnEntityId=this._findReturnEntity(t,i,n)):this._returnEntityId&&!t.states[this._returnEntityId]&&(this._returnEntityCacheKey=null,this._returnEntityId=this._findReturnEntity(t,i,n)),this._showReturn&&!this._returnEntityId&&(this._showReturn=!1);const a=this._showReturn&&this._returnEntityId?this._returnEntityId:this.config.entity,o=t.states[a];if(!o)return this._loading=!1,void(this._trains=[]);const r=a.replace("sensor.","").replace("_summary","").replace("_commute_summary","");let c;if(o.attributes.all_trains&&o.attributes.all_trains.length>0?this._trains=Ct(o.attributes.all_trains,r):this._trains=this._getTrainsFromIndividualSensors(t,a),this._isMultiDestination=!0===o.attributes.multi_destination,this._servicesByDestination=o.attributes.services_by_destination||null,this._isMultiLeg=!0===o.attributes.is_multi_leg,this._legs=this._isMultiLeg?(o.attributes.legs||[]).map((t,e)=>({...t,services:Ct(t.services||[],r,e+1)})):[],this._connections=this._isMultiLeg&&o.attributes.connections||[],this._journeyFeasible=!1!==o.attributes.journey_feasible,this._origin=this._showReturn?n:i,this._destination=this._isMultiDestination?null:this._showReturn?i:n,this._lastUpdated=o.attributes.last_updated||o.last_updated||o.last_changed||"",this._trains&&this._trains.length>0&&(this._trains=wt(this._trains)),this._hasDisruption=!1,this._disruptionSeverity="",this._disruptionMessage="",this._resolvedStatusEntityId="",this._showReturn&&this._returnEntityId){const e=`sensor.${this._returnEntityId.replace("sensor.","").replace("_summary","").replace("_commute_summary","")}_status`;t.states[e]&&(c=e)}else if(c=this.config.status_entity,!c){const e=`sensor.${this.config.entity.replace("sensor.","").replace("_summary","").replace("_commute_summary","")}_status`;t.states[e]&&(c=e)}if(c){this._resolvedStatusEntityId=c;const e=t.states[c];if(e){const t=(e.state||"").toLowerCase().trim();"normal"!==t&&"unknown"!==t&&"unavailable"!==t&&""!==t&&(this._hasDisruption=!0,t.includes("critical")?this._disruptionSeverity="critical":t.includes("severe")?this._disruptionSeverity="severe":t.includes("major")?this._disruptionSeverity="major":this._disruptionSeverity="minor",this._disruptionMessage=e.attributes.message||e.attributes.reason||e.attributes.disruption_message||"")}}if(this.config.show_history_panel){const e=a.replace("sensor.","").replace("_summary","").replace("_commute_summary",""),i=t.states[`sensor.${e}_historical_reliability`],n=t.states[`sensor.${e}_historical_delays`];i||n||console.warn("my-rail-commute-card: show_history_panel is enabled but no history sensors were found.",`Expected: sensor.${e}_historical_reliability / sensor.${e}_historical_delays`),this._histRelAttrs=i?i.attributes:null,this._histDelAttrs=n?n.attributes:null}this._trains&&this._trains.length>0&&(this._trains=$t(this._trains,this.config)),this._isMultiLeg&&(this._legs=this._legs.map(t=>({...t,services:$t(wt(t.services),this.config)}))),this._trainDetailsTrain&&(this._trainDetailsTrain=this._findTrainById(this._trainDetailsTrain.train_id)),this._loading=!1,this.requestUpdate()}_findTrainById(t){if(!t)return null;const e=(this._trains||[]).find(e=>e.train_id===t);if(e)return e;for(const e of this._legs||[]){const i=(e.services||[]).find(e=>e.train_id===t);if(i)return i}return null}_findReturnEntity(t,e,i){if(!e||!i||this._isMultiDestination)return null;const n=e.toLowerCase().trim(),s=i.toLowerCase().trim();for(const[e,i]of Object.entries(t.states)){if(e===this.config.entity)continue;if(!i.attributes)continue;const t=i.attributes;if(!(t.all_trains||t.origin_name||t.origin||t.from_station))continue;const a=(t.origin_name||t.origin||t.from_station||"").toLowerCase().trim(),o=(t.destination_name||t.destination||t.to_station||"").toLowerCase().trim();if(a&&o&&(a===s&&o===n))return e}return null}_toggleReturn(){this._showReturn=!this._showReturn,this._hass&&(this.hass=this._hass)}_toggleHistoryPanel(){this._historyPanelOpen=!this._historyPanelOpen}_getTrainsFromIndividualSensors(t,e){const i=(e||this.config.entity).replace("sensor.","").replace("_summary","").replace("_commute_summary",""),n=[`sensor.${i}_train_`,`sensor.${i}_train`,`sensor.${i.replace(/_/g,"-")}_train_`,`sensor.${i.replace(/_/g,"")}_train_`];let s=[];for(const e of n){const i=Object.keys(t.states).filter(t=>t.startsWith(e));if(i.length>0){s=i;break}}s.sort((t,e)=>parseInt(t.match(/train[_-]?(\d+)$/i)?.[1]||"0",10)-parseInt(e.match(/train[_-]?(\d+)$/i)?.[1]||"0",10));const a=s.map(e=>{const i=t.states[e];if(!i)return console.warn(`my-rail-commute-card: train sensor not found: ${e}`),null;let n=i.attributes.calling_points||i.attributes.stops||i.attributes.calling_at||i.attributes["Calling at"]||[];"string"==typeof n&&(n=n.split(",").map(t=>t.trim()).filter(t=>t));const s=i.attributes.scheduled_departure||i.attributes.scheduled||i.attributes.departure||i.attributes.departure_time||i.attributes.std||i.attributes.aimed_departure_time||i.attributes["Scheduled Departure"]||i.state,a=i.attributes.expected_departure||i.attributes.expected||i.attributes.estimated||i.attributes.estimated_departure||i.attributes.etd||i.attributes.expected_arrival||i.attributes["Expected Departure"]||s,o=i.attributes.scheduled_arrival||i.attributes.sta||i.attributes["Scheduled Arrival"]||null,r=i.attributes.estimated_arrival||i.attributes.eta||i.attributes["Estimated Arrival"]||o,c=/\d{1,2}:\d{2}/.test(String(a)),l=c?a:s,d=!c&&!!a&&a!==s&&!/^(on[\s-]?time|right\s*time)$/i.test(String(a).trim()),h=/\d{1,2}:\d{2}/.test(String(r))?r:o;return{train_id:e,scheduled_departure:s,expected_departure:a,scheduled_arrival:o,estimated_arrival:r,platform:i.attributes.platform||i.attributes.Platform||"",operator:i.attributes.operator||i.attributes.service_operator||i.attributes.Operator||"",is_cancelled:i.attributes.is_cancelled||i.attributes.cancelled||"Cancelled"===i.state||"Canceled"===i.state||!1,is_no_service:i.attributes.is_no_service||i.attributes.no_service||"No service"===i.state||"No Service"===i.state||!1,delay_minutes:parseInt(i.attributes.delay_minutes||i.attributes.delay||i.attributes.minutes_late||i.attributes["Delay minutes"]||"0",10),delay_reason:i.attributes.delay_reason||i.attributes.reason||i.attributes["Delay reason"]||"",cancel_reason:i.attributes.cancel_reason||i.attributes.cancellation_reason||i.attributes["Cancel reason"]||i.attributes["Cancellation reason"]||"",calling_points:n,journey_duration:i.attributes.journey_duration||i.attributes.duration||dt(l,h),journey_time_approx:d,service_type:i.attributes.service_type||i.attributes.type||""}}).filter(t=>null!==t);return a}getCardSize(){if(!this.config)return 3;const t=this.config.view||"full",e=this._trains?.length||0,i=this._isMultiLeg&&this._connections?.length||0;switch(t){case"compact":return 1+Math.ceil(.5*e)+i;case"next-only":return this._isMultiLeg?2+(this._legs?.length||0)+i:3;default:return 2+e+i}}render(){return B`
+    `:B``}_entityChanged(t){if(!this._config||!this._hass)return;const e=t.detail.value??"";e!==(this._config.entity??"")&&(this._config={...this._config,entity:e},this._fireConfigChanged())}_titleChanged(t){this._config&&this._hass&&(this._config={...this._config,title:t.target.value},this._fireConfigChanged())}_viewChanged(t){this._config&&this._hass&&(this._config={...this._config,view:t.target.value},this._fireConfigChanged())}_themeChanged(t){this._config&&this._hass&&(this._config={...this._config,theme:t.target.value},this._fireConfigChanged())}_fontSizeChanged(t){this._config&&this._hass&&(this._config={...this._config,font_size:t.target.value},this._fireConfigChanged())}_toggleChanged(t){return e=>{this._config&&this._hass&&(this._config={...this._config,[t]:e.target.checked},this._fireConfigChanged())}}_minDelayChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||0;this._config={...this._config,min_delay_to_show:e},this._fireConfigChanged()}_maxCallingPointsChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||3;this._config={...this._config,max_calling_points:e},this._fireConfigChanged()}_statusEntityChanged(t){this._config&&this._hass&&(this._config={...this._config,status_entity:t.detail.value},this._fireConfigChanged())}_refreshIntervalChanged(t){if(!this._config||!this._hass)return;const e=parseInt(t.target.value,10)||60;this._config={...this._config,refresh_interval:e},this._fireConfigChanged()}_tapActionChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{action:t.target.value}},this._fireConfigChanged())}_urlPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,url_path:t.target.value}},this._fireConfigChanged())}_navigationPathChanged(t){this._config&&this._hass&&(this._config={...this._config,tap_action:{...this._config.tap_action,navigation_path:t.target.value}},this._fireConfigChanged())}_holdActionChanged(t){this._config&&this._hass&&(this._config={...this._config,hold_action:{action:t.target.value}},this._fireConfigChanged())}_historyDaysChanged(t){this._config&&this._hass&&(this._config={...this._config,history_days:parseInt(t.target.value,10)},this._fireConfigChanged())}_isMultiDestinationSensor(){if(!this._hass||!this._config?.entity)return!1;const t=this._hass.states[this._config.entity];return!0===t?.attributes?.multi_destination}_isMultiLegSensor(){if(!this._hass||!this._config?.entity)return!1;const t=this._hass.states[this._config.entity];return!0===t?.attributes?.is_multi_leg}_fireConfigChanged(){const t=new CustomEvent("config-changed",{detail:{config:this._config},bubbles:!0,composed:!0});this.dispatchEvent(t)}}),console.info("%c MY-RAIL-COMMUTE-CARD \n%c Version 1.0.9 ","color: cyan; font-weight: bold; background: black","color: white; font-weight: bold; background: dimgray");class Ot extends st{static get properties(){return{hass:{type:Object},config:{type:Object},_trains:{type:Array},_origin:{type:String},_destination:{type:String},_lastUpdated:{type:String},_hasDisruption:{type:Boolean},_disruptionSeverity:{type:String},_disruptionMessage:{type:String},_resolvedStatusEntityId:{type:String},_loading:{type:Boolean},_entityNotFound:{type:Boolean},_returnEntityId:{type:String},_showReturn:{type:Boolean},_historyPanelOpen:{type:Boolean},_histRelAttrs:{type:Object},_histDelAttrs:{type:Object},_delayRepayPanelOpen:{type:Boolean},_drAttrs:{type:Object},_drCount:{type:Number},_drBusy:{type:Object},_drError:{type:String},_isMultiDestination:{type:Boolean},_servicesByDestination:{type:Object},_isMultiLeg:{type:Boolean},_legs:{type:Array},_connections:{type:Array},_journeyFeasible:{type:Boolean},_trainDetailsTrain:{type:Object}}}static get styles(){return lt}constructor(){super(),this._trains=[],this._origin="",this._destination="",this._lastUpdated="",this._hasDisruption=!1,this._disruptionSeverity="",this._disruptionMessage="",this._resolvedStatusEntityId="",this._loading=!0,this._entityNotFound=!1,this._toastTimer=null,this._toastElement=null,this._returnEntityId=null,this._showReturn=!1,this._returnEntityCacheKey=null,this._historyPanelOpen=!1,this._histRelAttrs=null,this._histDelAttrs=null,this._delayRepayPanelOpen=!1,this._drAttrs=null,this._drCount=0,this._drServiceIds=new Set,this._drBusy=new Set,this._drError="",this._drWarned=!1,this._drAvailable=!1,this._isMultiDestination=!1,this._servicesByDestination=null,this._isMultiLeg=!1,this._legs=[],this._connections=[],this._journeyFeasible=!0,this._trainDetailsTrain=null,this._trainDetailsEscHandler=null}setConfig(t){if(!t)throw new Error("Invalid configuration");this.config={view:"full",theme:"auto",show_header:!0,show_route:!0,show_last_updated:!1,show_platform:!0,show_operator:!0,show_calling_points:!1,show_delay_reason:!0,show_journey_time:!1,show_service_type:!1,max_calling_points:3,hide_on_time_trains:!1,only_show_disrupted:!1,min_delay_to_show:0,auto_refresh:!0,refresh_interval:60,card_style:"departure-board",font_size:"medium",compact_height:!1,show_animations:!0,status_icons:!0,show_history_panel:!1,history_days:7,show_delay_repay:!1,group_by_destination:!0,show_connection_details:!0,show_non_catchable_indicator:!0,...t},t.colors&&(t.colors.on_time&&this.style.setProperty("--custom-on-time-color",t.colors.on_time),t.colors.minor_delay&&this.style.setProperty("--custom-minor-delay-color",t.colors.minor_delay),t.colors.major_delay&&this.style.setProperty("--custom-major-delay-color",t.colors.major_delay),t.colors.cancelled&&this.style.setProperty("--custom-cancelled-color",t.colors.cancelled)),t.theme&&"auto"!==t.theme&&this.setAttribute("theme",t.theme),t.font_size&&this.setAttribute("font-size",t.font_size),!1===t.show_animations&&this.setAttribute("no-animations","")}set hass(t){if(this._hass=t,!this.config)return;if(!this.config.entity)return this._loading=!1,void(this._trains=[]);const e=t.states[this.config.entity];if(!e)return console.error("my-rail-commute-card: entity not found:",this.config.entity),this._entityNotFound=!0,this._loading=!1,void(this._trains=[]);this._entityNotFound=!1;const i=e.attributes.origin_name||e.attributes.origin||e.attributes.from_station||"",a=e.attributes.destination_name||e.attributes.destination||e.attributes.to_station||"",n=`${i}|${a}`;n!==this._returnEntityCacheKey?(this._returnEntityCacheKey=n,this._returnEntityId=this._findReturnEntity(t,i,a)):this._returnEntityId&&!t.states[this._returnEntityId]&&(this._returnEntityCacheKey=null,this._returnEntityId=this._findReturnEntity(t,i,a)),this._showReturn&&!this._returnEntityId&&(this._showReturn=!1);const r=this._showReturn&&this._returnEntityId?this._returnEntityId:this.config.entity,s=t.states[r];if(!s)return this._loading=!1,void(this._trains=[]);const o=r.replace("sensor.","").replace("_summary","").replace("_commute_summary","");let l;if(s.attributes.all_trains&&s.attributes.all_trains.length>0?this._trains=Ct(s.attributes.all_trains,o):this._trains=this._getTrainsFromIndividualSensors(t,r),this._isMultiDestination=!0===s.attributes.multi_destination,this._servicesByDestination=s.attributes.services_by_destination||null,this._isMultiLeg=!0===s.attributes.is_multi_leg,this._legs=this._isMultiLeg?(s.attributes.legs||[]).map((t,e)=>({...t,services:Ct(t.services||[],o,e+1)})):[],this._connections=this._isMultiLeg&&s.attributes.connections||[],this._journeyFeasible=!1!==s.attributes.journey_feasible,this._origin=this._showReturn?a:i,this._destination=this._isMultiDestination?null:this._showReturn?i:a,this._lastUpdated=s.attributes.last_updated||s.last_updated||s.last_changed||"",this._trains&&this._trains.length>0&&(this._trains=wt(this._trains)),this._hasDisruption=!1,this._disruptionSeverity="",this._disruptionMessage="",this._resolvedStatusEntityId="",this._showReturn&&this._returnEntityId){const e=`sensor.${this._returnEntityId.replace("sensor.","").replace("_summary","").replace("_commute_summary","")}_status`;t.states[e]&&(l=e)}else if(l=this.config.status_entity,!l){const e=`sensor.${this.config.entity.replace("sensor.","").replace("_summary","").replace("_commute_summary","")}_status`;t.states[e]&&(l=e)}if(l){this._resolvedStatusEntityId=l;const e=t.states[l];if(e){const t=(e.state||"").toLowerCase().trim();"normal"!==t&&"unknown"!==t&&"unavailable"!==t&&""!==t&&(this._hasDisruption=!0,t.includes("critical")?this._disruptionSeverity="critical":t.includes("severe")?this._disruptionSeverity="severe":t.includes("major")?this._disruptionSeverity="major":this._disruptionSeverity="minor",this._disruptionMessage=e.attributes.message||e.attributes.reason||e.attributes.disruption_message||"")}}if(this.config.show_history_panel){const e=r.replace("sensor.","").replace("_summary","").replace("_commute_summary",""),i=t.states[`sensor.${e}_historical_reliability`],a=t.states[`sensor.${e}_historical_delays`];i||a||console.warn("my-rail-commute-card: show_history_panel is enabled but no history sensors were found.",`Expected: sensor.${e}_historical_reliability / sensor.${e}_historical_delays`),this._histRelAttrs=i?i.attributes:null,this._histDelAttrs=a?a.attributes:null}this._discoverDelayRepay(t,r),this._trains&&this._trains.length>0&&(this._trains=$t(this._trains,this.config)),this._isMultiLeg&&(this._legs=this._legs.map(t=>({...t,services:$t(wt(t.services),this.config)}))),this._trainDetailsTrain&&(this._trainDetailsTrain=this._findTrainById(this._trainDetailsTrain.train_id)),this._loading=!1,this.requestUpdate()}_findTrainById(t){if(!t)return null;const e=(this._trains||[]).find(e=>e.train_id===t);if(e)return e;for(const e of this._legs||[]){const i=(e.services||[]).find(e=>e.train_id===t);if(i)return i}return null}_findReturnEntity(t,e,i){if(!e||!i||this._isMultiDestination)return null;const a=e.toLowerCase().trim(),n=i.toLowerCase().trim();for(const[e,i]of Object.entries(t.states)){if(e===this.config.entity)continue;if(!i.attributes)continue;const t=i.attributes;if(!(t.all_trains||t.origin_name||t.origin||t.from_station))continue;const r=(t.origin_name||t.origin||t.from_station||"").toLowerCase().trim(),s=(t.destination_name||t.destination||t.to_station||"").toLowerCase().trim();if(r&&s&&(r===n&&s===a))return e}return null}_toggleReturn(){this._showReturn=!this._showReturn,this._hass&&(this.hass=this._hass)}_toggleHistoryPanel(){this._historyPanelOpen=!this._historyPanelOpen}_toggleDelayRepayPanel(){this._delayRepayPanelOpen=!this._delayRepayPanelOpen,this._drError=""}_discoverDelayRepay(t,e){if(!this.config.show_delay_repay)return;const i=e.replace("sensor.","").replace("_summary","").replace("_commute_summary",""),a=t.states[`sensor.${i}_delay_repay_claims`],n=t.states[`binary_sensor.${i}_delay_repay_eligible`];a||n||this._drWarned||(this._drWarned=!0,console.warn("my-rail-commute-card: show_delay_repay is enabled but no Delay Repay sensors were found.",`Expected: sensor.${i}_delay_repay_claims / binary_sensor.${i}_delay_repay_eligible`,'(enable "Track Delay Repay claims" in the integration options)')),this._drAttrs=a?a.attributes||{}:null;const r=a?parseInt(a.state,10):NaN;this._drCount=Number.isFinite(r)?r:0;const s=this._todayIso(),o=new Set,l=t=>{t&&t.service_id&&(t.date&&t.date!==s||o.add(String(t.service_id)))};(this._drAttrs&&this._drAttrs.claims||[]).forEach(l),l(n&&n.attributes?n.attributes.latest:null),this._drServiceIds=o,this._drAvailable=!(!a&&!n)}_todayIso(){const t=new Date,e=t=>String(t).padStart(2,"0");return`${t.getFullYear()}-${e(t.getMonth()+1)}-${e(t.getDate())}`}_isClaimable(t){return!(!0!==this.config.show_delay_repay||!this._drAvailable)&&(!!t.is_cancelled||!!t.service_id&&this._drServiceIds.has(String(t.service_id)))}_renderClaimChip(t){if(!this._isClaimable(t))return"";const e=t.is_cancelled?"Cancelled - may be eligible for Delay Repay. Tap to open the claims panel.":"May be eligible for Delay Repay. Tap to open the claims panel.";return B`
+      <button
+        class="claim-chip"
+        title="${e}"
+        aria-label="${e}"
+        @click="${t=>{t.stopPropagation(),this._openDelayRepayPanel()}}"
+        @touchstart="${t=>t.stopPropagation()}"
+        @touchend="${t=>t.stopPropagation()}"
+      >Claim</button>
+    `}_openDelayRepayPanel(){this._delayRepayPanelOpen=!0}async _delayRepayAction(t,e){const i=this._drAttrs&&this._drAttrs.entry_id;if(i&&this._hass&&!this._drBusy.has(e.key)){this._drError="",this._drBusy=new Set([...this._drBusy,e.key]);try{await this._hass.callService("my_rail_commute",t,{entry_id:i,journeys:[e.key]})}catch(e){const i=e&&e.message?e.message:"unknown error";this._drError=`Could not ${"dismiss_delay_repay"===t?"dismiss":"mark as claimed"}: ${i}`}finally{const t=new Set(this._drBusy);t.delete(e.key),this._drBusy=t}}}_safeClaimUrl(t){if(!t||"string"!=typeof t)return null;try{const e=new URL(t);return"https:"===e.protocol||"http:"===e.protocol?e.href:null}catch(t){return null}}_renderDelayRepayPanel(){if(!this.config.show_delay_repay||!this._delayRepayPanelOpen)return"";const t=this._drAttrs;if(!t)return B`
+        <div class="delay-repay-panel">
+          <div class="delay-repay-empty">Delay Repay sensors not found. Enable "Track Delay Repay claims" in the My Rail Commute integration options.</div>
+        </div>
+      `;const e=Array.isArray(t.claims)?t.claims:[],i=e.some(t=>"estimated"===t.confirmation),a=t.oldest_claim_deadline;return B`
+      <div class="delay-repay-panel">
+        <div class="delay-repay-header">
+          <span class="delay-repay-count">${this._drCount} to claim</span>
+          ${a?B`<span class="delay-repay-deadline">claim by ${this._formatHistoryDate(a)}</span>`:""}
+        </div>
+
+        ${t.claims_truncated?B`
+          <div class="delay-repay-note">Showing the latest ${e.length} of ${this._drCount} journeys.</div>
+        `:""}
+
+        ${i?B`
+          <div class="delay-repay-note">Estimated times may differ from the official record - verify before claiming.</div>
+        `:""}
+
+        ${this._drError?B`<div class="delay-repay-error" role="alert">${this._drError}</div>`:""}
+
+        ${0===e.length?B`
+          <div class="delay-repay-empty">Nothing to claim - you're all caught up</div>
+        `:e.map(t=>this._renderClaimRow(t))}
+      </div>
+    `}_renderClaimRow(t){const e=this._drBusy.has(t.key),i=this._safeClaimUrl(t.claim_url),a=!0===t.is_cancelled,n=a?"Cancelled":null!=t.delay_minutes?`${t.delay_minutes} min late`:"Delayed",r=a?"dr-cancelled":(t.tier||t.delay_minutes||0)>=30?"dr-major":"dr-minor";return B`
+      <div class="delay-repay-row">
+        <div class="delay-repay-row-main">
+          <span class="dr-when">${this._formatHistoryDate(t.date)} ${ct(t.scheduled_departure)}</span>
+          <span class="dr-route">${t.origin} → ${t.destination}</span>
+          <span class="dr-delay ${r}">${n}</span>
+        </div>
+        <div class="delay-repay-row-meta">
+          ${t.operator?B`<span class="dr-operator">${t.operator}</span>`:""}
+          ${"estimated"===t.confirmation?B`
+            <span class="dr-estimated" title="Estimated - verify before claiming">estimated</span>
+          `:""}
+          ${i?B`<a class="dr-link" href="${i}" target="_blank" rel="noopener noreferrer">Claim online</a>`:""}
+        </div>
+        <div class="delay-repay-actions">
+          <button
+            class="dr-btn dr-btn-primary"
+            ?disabled="${e}"
+            @click="${()=>this._delayRepayAction("mark_delay_repay_claimed",t)}"
+          >Mark claimed</button>
+          <button
+            class="dr-btn"
+            ?disabled="${e}"
+            @click="${()=>this._delayRepayAction("dismiss_delay_repay",t)}"
+          >Dismiss</button>
+        </div>
+      </div>
+    `}_getTrainsFromIndividualSensors(t,e){const i=(e||this.config.entity).replace("sensor.","").replace("_summary","").replace("_commute_summary",""),a=[`sensor.${i}_train_`,`sensor.${i}_train`,`sensor.${i.replace(/_/g,"-")}_train_`,`sensor.${i.replace(/_/g,"")}_train_`];let n=[];for(const e of a){const i=Object.keys(t.states).filter(t=>t.startsWith(e));if(i.length>0){n=i;break}}n.sort((t,e)=>parseInt(t.match(/train[_-]?(\d+)$/i)?.[1]||"0",10)-parseInt(e.match(/train[_-]?(\d+)$/i)?.[1]||"0",10));const r=n.map(e=>{const i=t.states[e];if(!i)return console.warn(`my-rail-commute-card: train sensor not found: ${e}`),null;let a=i.attributes.calling_points||i.attributes.stops||i.attributes.calling_at||i.attributes["Calling at"]||[];"string"==typeof a&&(a=a.split(",").map(t=>t.trim()).filter(t=>t));const n=i.attributes.scheduled_departure||i.attributes.scheduled||i.attributes.departure||i.attributes.departure_time||i.attributes.std||i.attributes.aimed_departure_time||i.attributes["Scheduled Departure"]||i.state,r=i.attributes.expected_departure||i.attributes.expected||i.attributes.estimated||i.attributes.estimated_departure||i.attributes.etd||i.attributes.expected_arrival||i.attributes["Expected Departure"]||n,s=i.attributes.scheduled_arrival||i.attributes.sta||i.attributes["Scheduled Arrival"]||null,o=i.attributes.estimated_arrival||i.attributes.eta||i.attributes["Estimated Arrival"]||s,l=/\d{1,2}:\d{2}/.test(String(r)),c=l?r:n,d=!l&&!!r&&r!==n&&!/^(on[\s-]?time|right\s*time)$/i.test(String(r).trim()),h=/\d{1,2}:\d{2}/.test(String(o))?o:s;return{train_id:e,scheduled_departure:n,expected_departure:r,scheduled_arrival:s,estimated_arrival:o,platform:i.attributes.platform||i.attributes.Platform||"",operator:i.attributes.operator||i.attributes.service_operator||i.attributes.Operator||"",is_cancelled:i.attributes.is_cancelled||i.attributes.cancelled||"Cancelled"===i.state||"Canceled"===i.state||!1,is_no_service:i.attributes.is_no_service||i.attributes.no_service||"No service"===i.state||"No Service"===i.state||!1,delay_minutes:parseInt(i.attributes.delay_minutes||i.attributes.delay||i.attributes.minutes_late||i.attributes["Delay minutes"]||"0",10),delay_reason:i.attributes.delay_reason||i.attributes.reason||i.attributes["Delay reason"]||"",cancel_reason:i.attributes.cancel_reason||i.attributes.cancellation_reason||i.attributes["Cancel reason"]||i.attributes["Cancellation reason"]||"",calling_points:a,journey_duration:i.attributes.journey_duration||i.attributes.duration||dt(c,h),journey_time_approx:d,service_type:i.attributes.service_type||i.attributes.type||""}}).filter(t=>null!==t);return r}getCardSize(){if(!this.config)return 3;const t=this.config.view||"full",e=this._trains?.length||0,i=this._isMultiLeg&&this._connections?.length||0;switch(t){case"compact":return 1+Math.ceil(.5*e)+i;case"next-only":return this._isMultiLeg?2+(this._legs?.length||0)+i:3;default:return 2+e+i}}render(){return B`
       ${this._renderCard()}
       ${this._trainDetailsTrain?this._renderTrainDetailsDialog():""}
     `}_renderCard(){if(!this.config)return B``;if(!this.config.entity)return this._renderEmpty("No entity selected","Please select a rail commute summary sensor in the card configuration");if(this._loading)return this._renderLoading();if(t=this._hasDisruption,this.config.only_show_disrupted&&!t)return this._renderEmpty("No disruption detected","Trains will appear when there is disruption");var t;if(this._entityNotFound)return this._renderEmpty("Entity not found",`Cannot find entity: ${this.config.entity}`);if(!this._trains||0===this._trains.length)return this._renderEmpty();if(this._isMultiLeg)return this._renderMultiLeg();switch(this.config.view||"full"){case"compact":return this._renderCompact();case"next-only":return this._renderNextOnly();case"board":return this._renderBoard();default:return this._renderFull()}}_renderHeader(){const t=!1!==this.config.show_header,e=!1!==this.config.show_route;if(!t)return"";const i=String(this.config.title||"Rail Commute").replace(/<[^>]*>/g,"");return B`
@@ -1840,87 +2116,100 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
           </div>
         `:""}
       </div>
-    `}_renderDisruptionBanner(){if(!this._hasDisruption)return"";const t={minor:{cls:"disruption-minor",label:"Minor Delays",icon:"mdi:alert"},major:{cls:"disruption-major",label:"Major Delays",icon:"mdi:alert"},severe:{cls:"disruption-severe",label:"Severe Disruption",icon:"mdi:alert-circle"},critical:{cls:"disruption-critical",label:"Critical Disruption",icon:"mdi:alert-octagon"}},{cls:e,label:i,icon:n}=t[this._disruptionSeverity]||t.minor,s=!!this._resolvedStatusEntityId;return B`
+    `}_renderDisruptionBanner(){if(!this._hasDisruption)return"";const t={minor:{cls:"disruption-minor",label:"Minor Delays",icon:"mdi:alert"},major:{cls:"disruption-major",label:"Major Delays",icon:"mdi:alert"},severe:{cls:"disruption-severe",label:"Severe Disruption",icon:"mdi:alert-circle"},critical:{cls:"disruption-critical",label:"Critical Disruption",icon:"mdi:alert-octagon"}},{cls:e,label:i,icon:a}=t[this._disruptionSeverity]||t.minor,n=!!this._resolvedStatusEntityId;return B`
       <div
-        class="disruption-banner ${e} ${s?"disruption-clickable":""}"
-        @click="${s?()=>this._showDisruptionMoreInfo():null}"
-        role="${s?"button":"alert"}"
+        class="disruption-banner ${e} ${n?"disruption-clickable":""}"
+        @click="${n?()=>this._showDisruptionMoreInfo():null}"
+        role="${n?"button":"alert"}"
       >
-        <ha-icon icon="${n}" class="disruption-icon"></ha-icon>
+        <ha-icon icon="${a}" class="disruption-icon"></ha-icon>
         <div class="disruption-content">
           <span class="disruption-label">${i} on this route</span>
           ${this._disruptionMessage?B`
             <span class="disruption-message">${this._disruptionMessage}</span>
           `:""}
         </div>
-        ${s?B`
+        ${n?B`
           <ha-icon icon="mdi:chevron-right" class="disruption-chevron"></ha-icon>
         `:""}
       </div>
-    `}_showDisruptionMoreInfo(){if(!this._resolvedStatusEntityId)return;const t=new Event("hass-more-info",{bubbles:!0,composed:!0});t.detail={entityId:this._resolvedStatusEntityId},this.dispatchEvent(t)}_renderFooter(){const t=!0===this.config.show_last_updated,e=!0===this.config.show_history_panel;return t||e?B`
+    `}_showDisruptionMoreInfo(){if(!this._resolvedStatusEntityId)return;const t=new Event("hass-more-info",{bubbles:!0,composed:!0});t.detail={entityId:this._resolvedStatusEntityId},this.dispatchEvent(t)}_renderFooter(){const t=!0===this.config.show_last_updated,e=!0===this.config.show_history_panel,i=!0===this.config.show_delay_repay;return t||e||i?B`
       <div class="card-footer">
         ${t?B`
           <span class="last-updated">
-            Last updated: ${function(t){if(!t)return"Unknown";try{const e=new Date,i=new Date(t);if(isNaN(i.getTime()))return console.warn("getRelativeTime: invalid timestamp:",t),"Unknown";const n=Math.floor((e-i)/1e3);if(n<0)return"Just now";if(n<60)return"Just now";if(n<3600){const t=Math.floor(n/60);return`${t} minute${1!==t?"s":""} ago`}if(n<86400){const t=Math.floor(n/3600);return`${t} hour${1!==t?"s":""} ago`}const s=Math.floor(n/86400);return`${s} day${1!==s?"s":""} ago`}catch(t){return console.warn("getRelativeTime: error calculating relative time:",t),"Unknown"}}(this._lastUpdated)}
+            Last updated: ${function(t){if(!t)return"Unknown";try{const e=new Date,i=new Date(t);if(isNaN(i.getTime()))return console.warn("getRelativeTime: invalid timestamp:",t),"Unknown";const a=Math.floor((e-i)/1e3);if(a<0)return"Just now";if(a<60)return"Just now";if(a<3600){const t=Math.floor(a/60);return`${t} minute${1!==t?"s":""} ago`}if(a<86400){const t=Math.floor(a/3600);return`${t} hour${1!==t?"s":""} ago`}const n=Math.floor(a/86400);return`${n} day${1!==n?"s":""} ago`}catch(t){return console.warn("getRelativeTime: error calculating relative time:",t),"Unknown"}}(this._lastUpdated)}
           </span>
         `:B`<span></span>`}
-        ${e?B`
-          <button
-            class="history-toggle ${this._historyPanelOpen?"active":""}"
-            @click="${this._toggleHistoryPanel}"
-            title="${this._historyPanelOpen?"Hide reliability history":"Show reliability history"}"
-          >
-            <ha-icon icon="mdi:chart-line"></ha-icon>
-          </button>
-        `:""}
+        <div class="footer-actions">
+          ${i?B`
+            <button
+              class="delay-repay-toggle ${this._delayRepayPanelOpen?"active":""}"
+              @click="${this._toggleDelayRepayPanel}"
+              title="${this._delayRepayPanelOpen?"Hide Delay Repay claims":"Show Delay Repay claims"}"
+              aria-label="${this._delayRepayPanelOpen?"Hide Delay Repay claims":"Show Delay Repay claims"}"
+            >
+              <ha-icon icon="mdi:cash-refund"></ha-icon>
+              ${this._drCount>0?B`<span class="delay-repay-badge">${this._drCount>99?"99+":this._drCount}</span>`:""}
+            </button>
+          `:""}
+          ${e?B`
+            <button
+              class="history-toggle ${this._historyPanelOpen?"active":""}"
+              @click="${this._toggleHistoryPanel}"
+              title="${this._historyPanelOpen?"Hide reliability history":"Show reliability history"}"
+            >
+              <ha-icon icon="mdi:chart-line"></ha-icon>
+            </button>
+          `:""}
+        </div>
       </div>
     `:""}_renderHistoryPanel(){if(!this.config.show_history_panel||!this._historyPanelOpen)return"";const t=this._histRelAttrs,e=this._histDelAttrs;if(!t&&!e)return B`
         <div class="history-panel">
           <div class="history-empty">No reliability data available yet — check back after a few updates.</div>
         </div>
-      `;const i=Math.min(this.config.history_days||7,30),n=(t?.daily_breakdown||[]).slice(-i),s=t?.on_time_pct_today??null,a=t?.on_time_pct_7day??null,o=t?.on_time_pct_30day??null,r=e?.avg_delay_7day??null,c=e?.best_day??null,l=e?.worst_day??null;return B`
+      `;const i=Math.min(this.config.history_days||7,30),a=(t?.daily_breakdown||[]).slice(-i),n=t?.on_time_pct_today??null,r=t?.on_time_pct_7day??null,s=t?.on_time_pct_30day??null,o=e?.avg_delay_7day??null,l=e?.best_day??null,c=e?.worst_day??null;return B`
       <div class="history-panel">
         <div class="history-kpis">
-          ${this._renderKpiPill("Today",s,"%",!1)}
-          ${this._renderKpiPill("7-day",a,"%",!1)}
-          ${this._renderKpiPill("30-day",o,"%",!1)}
-          ${this._renderKpiPill("Avg delay",r," min",!0)}
+          ${this._renderKpiPill("Today",n,"%",!1)}
+          ${this._renderKpiPill("7-day",r,"%",!1)}
+          ${this._renderKpiPill("30-day",s,"%",!1)}
+          ${this._renderKpiPill("Avg delay",o," min",!0)}
         </div>
 
-        ${n.length>0?B`
+        ${a.length>0?B`
           <div class="history-days">
-            ${n.map(t=>this._renderDaySquare(t))}
+            ${a.map(t=>this._renderDaySquare(t))}
           </div>
         `:""}
 
-        ${c||l?B`
+        ${l||c?B`
           <div class="history-bestworst">
-            ${c?B`
+            ${l?B`
               <span class="history-best">
                 <ha-icon icon="mdi:thumb-up-outline"></ha-icon>
-                Best: ${this._formatHistoryDate(c.date)} (${c.on_time_pct}%)
+                Best: ${this._formatHistoryDate(l.date)} (${l.on_time_pct}%)
               </span>
             `:B`<span></span>`}
-            ${l?B`
+            ${c?B`
               <span class="history-worst">
                 <ha-icon icon="mdi:thumb-down-outline"></ha-icon>
-                Worst: ${this._formatHistoryDate(l.date)} (${l.on_time_pct}%)
+                Worst: ${this._formatHistoryDate(c.date)} (${c.on_time_pct}%)
               </span>
             `:""}
           </div>
         `:""}
       </div>
-    `}_renderKpiPill(t,e,i,n){const s=n?"kpi-neutral":null==(a=e)?"kpi-neutral":a>=90?"kpi-good":a>=70?"kpi-moderate":"kpi-poor";var a;return B`
-      <div class="kpi-pill ${s}">
+    `}_renderKpiPill(t,e,i,a){const n=a?"kpi-neutral":null==(r=e)?"kpi-neutral":r>=90?"kpi-good":r>=70?"kpi-moderate":"kpi-poor";var r;return B`
+      <div class="kpi-pill ${n}">
         <span class="kpi-value">${null!=e?`${e}${i}`:"—"}</span>
         <span class="kpi-label">${t}</span>
       </div>
-    `}_renderDaySquare(t){const e=t.on_time_pct;let i="day-sq-nodata";null!=e&&(i=e>=90?"day-sq-good":e>=70?"day-sq-moderate":"day-sq-poor");const[n,s,a]=t.date.split("-").map(Number),o=new Date(n,s-1,a).toLocaleDateString("en-GB",{weekday:"short"}),r=null!=e?`${Math.round(e)}%`:"—",c=null!=e?`${o} ${a}: ${e}% on-time${t.avg_delay_minutes?`, avg ${t.avg_delay_minutes} min late`:""}`:`${o} ${a}: No data`;return B`
-      <div class="day-sq ${i}" title="${c}">
-        <span class="day-sq-label">${o}</span>
-        <span class="day-sq-pct">${r}</span>
+    `}_renderDaySquare(t){const e=t.on_time_pct;let i="day-sq-nodata";null!=e&&(i=e>=90?"day-sq-good":e>=70?"day-sq-moderate":"day-sq-poor");const[a,n,r]=t.date.split("-").map(Number),s=new Date(a,n-1,r).toLocaleDateString("en-GB",{weekday:"short"}),o=null!=e?`${Math.round(e)}%`:"—",l=null!=e?`${s} ${r}: ${e}% on-time${t.avg_delay_minutes?`, avg ${t.avg_delay_minutes} min late`:""}`:`${s} ${r}: No data`;return B`
+      <div class="day-sq ${i}" title="${l}">
+        <span class="day-sq-label">${s}</span>
+        <span class="day-sq-pct">${o}</span>
       </div>
-    `}_formatHistoryDate(t){if(!t)return"";const[e,i,n]=t.split("-").map(Number);return new Date(e,i-1,n).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"})}_renderFull(){const t=this.config.compact_height?"compact-height":"",e=this._isMultiDestination&&!1!==this.config.group_by_destination;return B`
+    `}_formatHistoryDate(t){if(!t)return"";const[e,i,a]=t.split("-").map(Number);return new Date(e,i-1,a).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"})}_renderFull(){const t=this.config.compact_height?"compact-height":"",e=this._isMultiDestination&&!1!==this.config.group_by_destination;return B`
       <ha-card class="${t}">
         ${this._renderHeader()}
         ${this._renderDisruptionBanner()}
@@ -1930,9 +2219,10 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
         </div>
 
         ${this._renderHistoryPanel()}
+        ${this._renderDelayRepayPanel()}
         ${this._renderFooter()}
       </ha-card>
-    `}_renderTrainRow(t,e=!1){const i=pt(t),n=!1!==this.config.status_icons?ut(t):"",s=!1!==this.config.show_platform,a=!1!==this.config.show_operator,o=!1!==this.config.show_delay_reason,r=!0===this.config.show_calling_points,c=!0===this.config.show_journey_time,l=!1!==this.config.show_non_catchable_indicator&&!1===t.catchable;return B`
+    `}_renderTrainRow(t,e=!1){const i=pt(t),a=!1!==this.config.status_icons?ut(t):"",n=!1!==this.config.show_platform,r=!1!==this.config.show_operator,s=!1!==this.config.show_delay_reason,o=!0===this.config.show_calling_points,l=!0===this.config.show_journey_time,c=!1!==this.config.show_non_catchable_indicator&&!1===t.catchable;return B`
       <div
         class="train-row ${i}"
         @click="${()=>this._handleTap(t)}"
@@ -1943,65 +2233,66 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
         <div class="train-main">
           <div class="train-time">
             <ha-icon icon="${function(t){return t?t.is_cancelled?"mdi:close-circle":t.delay_minutes>0?"mdi:train-variant":"mdi:train":"mdi:train"}(t)}"></ha-icon>
-            <span class="time">${lt(t.scheduled_departure)}</span>
-            <span class="expected-time">${t.expected_departure&&t.expected_departure!==t.scheduled_departure?lt(t.expected_departure):""}</span>
+            <span class="time">${ct(t.scheduled_departure)}</span>
+            <span class="expected-time">${t.expected_departure&&t.expected_departure!==t.scheduled_departure?ct(t.expected_departure):""}</span>
           </div>
 
           ${e&&t.destination?B`
             <div class="train-destination">→ ${t.destination}</div>
           `:""}
 
-          ${s?B`
+          ${n?B`
             <div class="train-platform">
-              ${vt(t.platform)}
+              ${yt(t.platform)}
             </div>
           `:""}
 
           <div class="train-status">
-            ${n}
+            ${a}
             ${mt(t)}
-            ${l?B`<span class="not-catchable-badge" title="Won't make the next connection">✂</span>`:""}
+            ${c?B`<span class="not-catchable-badge" title="Won't make the next connection">✂</span>`:""}
+            ${this._renderClaimChip(t)}
           </div>
         </div>
 
         <div class="train-details">
-          ${a&&t.operator?B`
+          ${r&&t.operator?B`
             <span class="operator">${t.operator}</span>
           `:""}
 
-          ${o&&_t(t)?B`
+          ${s&&_t(t)?B`
             <div class="delay-reason">
               → ${_t(t)}
             </div>
           `:""}
 
-          ${r&&t.calling_points&&t.calling_points.length>0?B`
+          ${o&&t.calling_points&&t.calling_points.length>0?B`
             <div class="calling-points">
               Calling at: ${ft(t.calling_points,this.config.max_calling_points)}
             </div>
           `:""}
 
-          ${c&&t.journey_duration?B`
+          ${l&&t.journey_duration?B`
             <div class="journey-time">
-              Journey time: ${yt(t.journey_duration)}${t.journey_time_approx?"*":""}
+              Journey time: ${vt(t.journey_duration)}${t.journey_time_approx?"*":""}
             </div>
           `:""}
         </div>
       </div>
     `}_renderGroupedTrains(){const t=xt(this._trains);return B`
-      ${[...t.entries()].map(([t,e])=>{const i=this._servicesByDestination&&this._servicesByDestination[t],n=i?.status?i.status.toLowerCase().replace(/\s+/g,"-"):kt(e);return B`
+      ${[...t.entries()].map(([t,e])=>{const i=this._servicesByDestination&&this._servicesByDestination[t],a=i?.status?i.status.toLowerCase().replace(/\s+/g,"-"):kt(e);return B`
           <div class="destination-group">
-            ${this._renderDestinationGroupHeader(t,n)}
+            ${this._renderDestinationGroupHeader(t,a)}
             ${e.map(t=>this._renderTrainRow(t))}
           </div>
         `})}
-    `}_renderDestinationGroupHeader(t,e){const i=Dt(e);return B`
+    `}_renderDestinationGroupHeader(t,e){const i=Tt(e);return B`
       <div class="destination-group-header">
         <span class="dest-arrow">→</span>
         <span class="dest-name">${t}</span>
         <span class="dest-status-dot ${i}" title="${e}"></span>
       </div>
-    `}_renderCompactRow(t,e=!1){const i=!0===this.config.show_journey_time,n=!1!==this.config.show_non_catchable_indicator&&!1===t.catchable;return B`
+    `}_renderCompactRow(t,e=!1){const i=!0===this.config.show_journey_time,a=!1!==this.config.show_non_catchable_indicator&&!1===t.catchable;return B`
       <div
         class="train-row-compact ${e&&t.destination?"with-destination":""} ${pt(t)}"
         @click="${()=>this._handleTap(t)}"
@@ -2009,21 +2300,21 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
         @touchend="${this._handleTouchEnd}"
         @touchmove="${this._handleTouchMove}"
       >
-        <span class="time">${lt(t.scheduled_departure)}</span>
+        <span class="time">${ct(t.scheduled_departure)}</span>
         ${e&&t.destination?B`
           <span class="dest">→ ${bt(t.destination)}</span>
         `:""}
-        <span class="platform">${vt(t.platform,"Plat")}${i&&t.journey_duration?B` · ${yt(t.journey_duration,!0)}${t.journey_time_approx?"*":""}`:""}</span>
+        <span class="platform">${yt(t.platform,"Plat")}${i&&t.journey_duration?B` · ${vt(t.journey_duration,!0)}${t.journey_time_approx?"*":""}`:""}</span>
         <span class="status">
           ${!1!==this.config.status_icons?B`<span class="status-icon">${ut(t)}</span>`:""}
           ${t.delay_minutes>0?B`<span class="delay-text">+${t.delay_minutes}m</span>`:""}
-          ${n?B`<span class="not-catchable-badge" title="Won't make the next connection">✂</span>`:""}
+          ${a?B`<span class="not-catchable-badge" title="Won't make the next connection">✂</span>`:""}
         </span>
       </div>
     `}_renderCompact(){const t=this._isMultiDestination&&!1!==this.config.group_by_destination,e=e=>this._renderCompactRow(e,!t&&this._isMultiDestination),i=t?(()=>{const t=xt(this._trains);return B`
-            ${[...t.entries()].map(([t,i])=>{const n=this._servicesByDestination&&this._servicesByDestination[t],s=n?.status?n.status.toLowerCase().replace(/\s+/g,"-"):kt(i);return B`
+            ${[...t.entries()].map(([t,i])=>{const a=this._servicesByDestination&&this._servicesByDestination[t],n=a?.status?a.status.toLowerCase().replace(/\s+/g,"-"):kt(i);return B`
                 <div class="destination-group">
-                  ${this._renderDestinationGroupHeader(t,s)}
+                  ${this._renderDestinationGroupHeader(t,n)}
                   ${i.map(e)}
                 </div>
               `})}
@@ -2037,16 +2328,17 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
         </div>
 
         ${this._renderHistoryPanel()}
+        ${this._renderDelayRepayPanel()}
         ${this._renderFooter()}
       </ha-card>
-    `}_renderNextOnly(){const t=this._trains[0];if(!t)return this._renderEmpty();const e=pt(t),i=!1!==this.config.status_icons?ut(t):"",n=!0===this.config.show_journey_time;return B`
+    `}_renderNextOnly(){const t=this._trains[0];if(!t)return this._renderEmpty();const e=pt(t),i=!1!==this.config.status_icons?ut(t):"",a=!0===this.config.show_journey_time;return B`
       <ha-card class="${this.config.compact_height?"compact-height":""}">
         ${this._renderHeader()}
         ${this._renderDisruptionBanner()}
 
         <div class="card-content next-only">
           <div class="next-train-time">
-            ${lt(t.scheduled_departure)}
+            ${ct(t.scheduled_departure)}
           </div>
 
           ${this._isMultiDestination&&t.destination?B`
@@ -2057,12 +2349,12 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
 
           ${t.expected_departure&&t.expected_departure!==t.scheduled_departure?B`
             <div class="next-train-expected">
-              Expected: ${lt(t.expected_departure)}
+              Expected: ${ct(t.expected_departure)}
             </div>
           `:""}
 
           <div class="next-train-platform">
-            ${vt(t.platform)}
+            ${yt(t.platform)}
           </div>
 
           <div class="next-train-status ${e}">
@@ -2082,15 +2374,16 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
             </div>
           `:""}
 
-          ${n&&t.journey_duration?B`
+          ${a&&t.journey_duration?B`
             <div class="next-train-journey-time">
-              Journey time: ${yt(t.journey_duration)}${t.journey_time_approx?"*":""}
+              Journey time: ${vt(t.journey_duration)}${t.journey_time_approx?"*":""}
             </div>
           `:""}
 
         </div>
 
         ${this._renderHistoryPanel()}
+        ${this._renderDelayRepayPanel()}
         ${this._renderFooter()}
       </ha-card>
     `}_renderBoard(){const t=!0===this.config.show_journey_time;return B`
@@ -2118,7 +2411,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
                   @touchmove="${this._handleTouchMove}"
                 >
                   <span class="col-time">
-                    ${lt(e.scheduled_departure)}
+                    ${ct(e.scheduled_departure)}
                   </span>
                   <span class="col-dest">
                     ${this._isMultiDestination?bt(e.destination||""):bt(this._destination||"")}
@@ -2127,7 +2420,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
                     ${e.platform||"—"}
                   </span>
                   <span class="col-status">
-                    ${gt(e)}${t&&e.journey_duration?` · ${yt(e.journey_duration,!0)}${e.journey_time_approx?"*":""}`:""}
+                    ${gt(e)}${t&&e.journey_duration?` · ${vt(e.journey_duration,!0)}${e.journey_time_approx?"*":""}`:""}
                   </span>
                 </div>
               `)}
@@ -2135,6 +2428,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
         </div>
 
         ${this._renderHistoryPanel()}
+        ${this._renderDelayRepayPanel()}
         ${this._renderFooter()}
       </ha-card>
     `}_renderMultiLeg(){const t=this.config.view||"full";if("board"===t)return this._renderMultiLegBoard();const e=this.config.compact_height?"compact-height":"",i="compact"===t?t=>this._renderCompactRow(t):t=>this._renderTrainRow(t);return B`
@@ -2144,44 +2438,45 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
         ${this._renderJourneyInfeasibleBanner()}
 
         <div class="card-content ${"compact"===t?"compact":""}">
-          ${this._legs.map((e,n)=>B`
-            ${this._renderLegGroup(e,n,i,t)}
-            ${n<this._connections.length?this._renderConnectionRow(this._connections[n]):""}
+          ${this._legs.map((e,a)=>B`
+            ${this._renderLegGroup(e,a,i,t)}
+            ${a<this._connections.length?this._renderConnectionRow(this._connections[a]):""}
           `)}
         </div>
 
         ${this._renderHistoryPanel()}
+        ${this._renderDelayRepayPanel()}
         ${this._renderFooter()}
       </ha-card>
-    `}_renderLegGroup(t,e,i,n){const s=Dt(t.overall_status),a="next-only"===n?t.services[0]?[t.services[0]]:[]:t.services;return B`
+    `}_renderLegGroup(t,e,i,a){const n=Tt(t.overall_status),r="next-only"===a?t.services[0]?[t.services[0]]:[]:t.services;return B`
       <div class="destination-group leg-group">
         <div class="destination-group-header leg-group-header">
           <span class="dest-arrow">${e+1}.</span>
           <span class="dest-name">${t.origin_name} → ${t.destination_name}</span>
-          <span class="dest-status-dot ${s}" title="${t.overall_status}"></span>
+          <span class="dest-status-dot ${n}" title="${t.overall_status}"></span>
         </div>
-        ${a.map(t=>i(t))}
+        ${r.map(t=>i(t))}
       </div>
-    `}_renderConnectionRow(t){const e=Tt(t.status),i=St(t.status),n=!1!==this.config.show_connection_details;return B`
+    `}_renderConnectionRow(t){const e=Dt(t.status),i=Et(t.status),a=!1!==this.config.show_connection_details;return B`
       <div class="connection-row ${e}">
         <ha-icon icon="${i}" class="connection-icon"></ha-icon>
         <div class="connection-content">
           <span class="connection-station">Change at ${t.station_name||t.station}</span>
-          ${n?B`
+          ${a?B`
             <span class="connection-detail">
-              ${t.arrival_time?`Arr ${lt(t.arrival_time)}`:""}
-              ${t.connecting_departure?` → Dep ${lt(t.connecting_departure)}`:""}
+              ${t.arrival_time?`Arr ${ct(t.arrival_time)}`:""}
+              ${t.connecting_departure?` → Dep ${ct(t.connecting_departure)}`:""}
               ${null!=t.buffer_minutes?` (${t.buffer_minutes}m buffer)`:""}
             </span>
             ${t.connecting_summary?B`<span class="connection-summary">${t.connecting_summary}</span>`:""}
           `:""}
         </div>
       </div>
-    `}_renderConnectionBoardRow(t){const e=Tt(t.status),i=St(t.status),n=!1!==this.config.show_connection_details;return B`
+    `}_renderConnectionBoardRow(t){const e=Dt(t.status),i=Et(t.status),a=!1!==this.config.show_connection_details;return B`
       <div class="board-row board-connection-row ${e}">
         <ha-icon icon="${i}" class="connection-icon"></ha-icon>
         <span>
-          Change at ${t.station_name||t.station}${n&&t.connecting_summary?` — ${t.connecting_summary}`:""}
+          Change at ${t.station_name||t.station}${a&&t.connecting_summary?` — ${t.connecting_summary}`:""}
         </span>
       </div>
     `}_renderJourneyInfeasibleBanner(){return!this._isMultiLeg||this._journeyFeasible?"":B`
@@ -2217,7 +2512,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
                   @touchmove="${this._handleTouchMove}"
                 >
                   <span class="col-time">
-                    ${lt(i.scheduled_departure)}
+                    ${ct(i.scheduled_departure)}
                   </span>
                   <span class="col-dest">
                     ${bt(i.destination||e.destination_name||"")}
@@ -2226,7 +2521,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
                     ${i.platform||"—"}
                   </span>
                   <span class="col-status">
-                    ${gt(i)}${t&&i.journey_duration?` · ${yt(i.journey_duration,!0)}${i.journey_time_approx?"*":""}`:""}
+                    ${gt(i)}${t&&i.journey_duration?` · ${vt(i.journey_duration,!0)}${i.journey_time_approx?"*":""}`:""}
                   </span>
                 </div>
               `)}
@@ -2236,6 +2531,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
         </div>
 
         ${this._renderHistoryPanel()}
+        ${this._renderDelayRepayPanel()}
         ${this._renderFooter()}
       </ha-card>
     `}_renderEmpty(t="No trains found",e="Check your time window or station codes"){return B`
@@ -2257,7 +2553,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
           <div class="loading-message">Loading train information...</div>
         </div>
       </ha-card>
-    `}_handleTap(t){switch(this.config.tap_action?.action||"more-info"){case"more-info":this._showMoreInfo(t);break;case"train-details":this._showTrainDetails(t);break;case"url":this._openUrl(t);break;case"navigate":this._navigate(t)}}_showMoreInfo(t){const e=new Event("hass-more-info",{bubbles:!0,composed:!0}),i=t?.train_id||this.config.entity;e.detail={entityId:i},this.dispatchEvent(e)}_showTrainDetails(t){t&&(this._trainDetailsTrain=t,this._trainDetailsEscHandler||(this._trainDetailsEscHandler=t=>{"Escape"===t.key&&this._closeTrainDetails()}),document.addEventListener("keydown",this._trainDetailsEscHandler))}_closeTrainDetails(){this._trainDetailsTrain=null,this._trainDetailsEscHandler&&document.removeEventListener("keydown",this._trainDetailsEscHandler)}_renderTrainDetailsDialog(){const t=this._trainDetailsTrain;if(!t)return"";const e=this._hass?.states?.[t.train_id],i=e?e.attributes:t,n=(s=i)?Object.entries(s).filter(([t])=>{const e=t.toLowerCase();return!jt.has(e)&&!Mt.has(e)}).map(([t,e])=>({key:t,label:zt(t),value:Ot(e)})):[];var s;const a=mt(t),o=pt(t),r=/\d{1,2}:\d{2}/.test(String(t.expected_departure||"")),c=t.origin||t.origin_name||this._origin||"",l=this._isMultiDestination?t.destination||t.destination_name||"":this._destination;return B`
+    `}_handleTap(t){switch(this.config.tap_action?.action||"more-info"){case"more-info":this._showMoreInfo(t);break;case"train-details":this._showTrainDetails(t);break;case"url":this._openUrl(t);break;case"navigate":this._navigate(t)}}_showMoreInfo(t){const e=new Event("hass-more-info",{bubbles:!0,composed:!0}),i=t?.train_id||this.config.entity;e.detail={entityId:i},this.dispatchEvent(e)}_showTrainDetails(t){t&&(this._trainDetailsTrain=t,this._trainDetailsEscHandler||(this._trainDetailsEscHandler=t=>{"Escape"===t.key&&this._closeTrainDetails()}),document.addEventListener("keydown",this._trainDetailsEscHandler))}_closeTrainDetails(){this._trainDetailsTrain=null,this._trainDetailsEscHandler&&document.removeEventListener("keydown",this._trainDetailsEscHandler)}_renderTrainDetailsDialog(){const t=this._trainDetailsTrain;if(!t)return"";const e=this._hass?.states?.[t.train_id],i=e?e.attributes:t,a=(n=i)?Object.entries(n).filter(([t])=>{const e=t.toLowerCase();return!Rt.has(e)&&!jt.has(e)}).map(([t,e])=>({key:t,label:Pt(t),value:Mt(e)})):[];var n;const r=mt(t),s=pt(t),o=/\d{1,2}:\d{2}/.test(String(t.expected_departure||"")),l=t.origin||t.origin_name||this._origin||"",c=this._isMultiDestination?t.destination||t.destination_name||"":this._destination;return B`
       <div class="train-details-overlay" @click="${this._closeTrainDetails}">
         <div
           class="train-details-dialog"
@@ -2269,7 +2565,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
           <div class="train-details-header">
             <div class="train-details-title">
               <ha-icon icon="mdi:train"></ha-icon>
-              <span>${lt(t.scheduled_departure)}${c?B` ${c}`:""}${l?B` → ${l}`:""}</span>
+              <span>${ct(t.scheduled_departure)}${l?B` ${l}`:""}${c?B` → ${c}`:""}</span>
             </div>
             <button class="train-details-close" @click="${this._closeTrainDetails}" title="Close" aria-label="Close">
               <ha-icon icon="mdi:close"></ha-icon>
@@ -2277,29 +2573,29 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
           </div>
 
           <div class="train-details-content">
-            <div class="train-details-status ${o}">
-              ${a}${_t(t)?B` — ${_t(t)}`:""}
+            <div class="train-details-status ${s}">
+              ${r}${_t(t)?B` — ${_t(t)}`:""}
             </div>
 
             <div class="train-details-grid">
               <div class="train-details-field">
                 <span class="field-label">Scheduled departure</span>
-                <span class="field-value">${lt(t.scheduled_departure)}</span>
+                <span class="field-value">${ct(t.scheduled_departure)}</span>
               </div>
               <div class="train-details-field">
                 <span class="field-label">Expected departure</span>
-                <span class="field-value">${r?lt(t.expected_departure):t.expected_departure||"—"}</span>
+                <span class="field-value">${o?ct(t.expected_departure):t.expected_departure||"—"}</span>
               </div>
               ${t.scheduled_arrival?B`
                 <div class="train-details-field">
                   <span class="field-label">Scheduled arrival</span>
-                  <span class="field-value">${lt(t.scheduled_arrival)}</span>
+                  <span class="field-value">${ct(t.scheduled_arrival)}</span>
                 </div>
               `:""}
               ${t.estimated_arrival?B`
                 <div class="train-details-field">
                   <span class="field-label">Estimated arrival</span>
-                  <span class="field-value">${lt(t.estimated_arrival)}</span>
+                  <span class="field-value">${ct(t.estimated_arrival)}</span>
                 </div>
               `:""}
               <div class="train-details-field">
@@ -2319,7 +2615,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
               ${t.journey_duration?B`
                 <div class="train-details-field">
                   <span class="field-label">Journey time</span>
-                  <span class="field-value">${yt(t.journey_duration)}${t.journey_time_approx?" (approx)":""}</span>
+                  <span class="field-value">${vt(t.journey_duration)}${t.journey_time_approx?" (approx)":""}</span>
                 </div>
               `:""}
             </div>
@@ -2331,11 +2627,11 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
               </div>
             `:""}
 
-            ${n.length?B`
+            ${a.length?B`
               <div class="train-details-section">
                 <div class="train-details-section-title">Additional information</div>
                 <div class="train-details-grid">
-                  ${n.map(t=>B`
+                  ${a.map(t=>B`
                     <div class="train-details-field">
                       <span class="field-label">${t.label}</span>
                       <span class="field-value">${t.value}</span>
@@ -2356,4 +2652,4 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
           `:""}
         </div>
       </div>
-    `}_openUrl(t){const e=this.config.tap_action?.url_path;if(e)window.open(e,"_blank");else{const t=`https://www.nationalrail.co.uk/journey-planner/?from=${this._origin||""}&to=${this._destination||""}`;window.open(t,"_blank")}}_navigate(t){const e=this.config.tap_action?.navigation_path;if(e){window.history.pushState(null,"",e);const t=new Event("location-changed",{bubbles:!0,composed:!0});this.dispatchEvent(t)}}_handleTouchStart(t){const e=t.currentTarget;e._pressTimer=setTimeout(()=>{e._pressTimer=null,this._handleHold()},500)}_handleTouchEnd(t){const e=t.currentTarget;e._pressTimer&&(clearTimeout(e._pressTimer),e._pressTimer=null)}_handleTouchMove(t){const e=t.currentTarget;e._pressTimer&&(clearTimeout(e._pressTimer),e._pressTimer=null)}_handleHold(){"refresh"===(this.config.hold_action?.action||"refresh")&&this._refreshData()}_refreshData(){this._hass&&(this._hass.callService("homeassistant","update_entity",{entity_id:this.config.entity}),this._showRefreshFeedback())}_showRefreshFeedback(){this._toastTimer&&(clearTimeout(this._toastTimer),this._toastTimer=null),this._toastElement&&(this._toastElement.remove(),this._toastElement=null);const t=document.createElement("div");t.className="refresh-toast",t.textContent="Refreshing...",this.shadowRoot.appendChild(t),this._toastElement=t,this._toastTimer=setTimeout(()=>{this._toastTimer=null,this._toastElement=null,t.isConnected&&t.remove()},2e3)}disconnectedCallback(){super.disconnectedCallback(),this._toastTimer&&(clearTimeout(this._toastTimer),this._toastTimer=null),this._toastElement&&(this._toastElement.remove(),this._toastElement=null),this._trainDetailsEscHandler&&document.removeEventListener("keydown",this._trainDetailsEscHandler)}static getConfigElement(){return document.createElement("my-rail-commute-card-editor")}static getStubConfig(){return{entity:"",view:"full",show_platform:!0,show_operator:!0,show_calling_points:!1}}}customElements.define("my-rail-commute-card",Rt),window.customCards=window.customCards||[],window.customCards.push({type:"my-rail-commute-card",name:"My Rail Commute Card",description:"Display My Rail Commute departure information in a beautiful station-board interface",preview:!0,documentationURL:"https://github.com/adamf83/lovelace-my-rail-commute-card"});export{Rt as default};
+    `}_openUrl(t){const e=this.config.tap_action?.url_path;if(e)window.open(e,"_blank");else{const t=`https://www.nationalrail.co.uk/journey-planner/?from=${this._origin||""}&to=${this._destination||""}`;window.open(t,"_blank")}}_navigate(t){const e=this.config.tap_action?.navigation_path;if(e){window.history.pushState(null,"",e);const t=new Event("location-changed",{bubbles:!0,composed:!0});this.dispatchEvent(t)}}_handleTouchStart(t){const e=t.currentTarget;e._pressTimer=setTimeout(()=>{e._pressTimer=null,this._handleHold()},500)}_handleTouchEnd(t){const e=t.currentTarget;e._pressTimer&&(clearTimeout(e._pressTimer),e._pressTimer=null)}_handleTouchMove(t){const e=t.currentTarget;e._pressTimer&&(clearTimeout(e._pressTimer),e._pressTimer=null)}_handleHold(){"refresh"===(this.config.hold_action?.action||"refresh")&&this._refreshData()}_refreshData(){this._hass&&(this._hass.callService("homeassistant","update_entity",{entity_id:this.config.entity}),this._showRefreshFeedback())}_showRefreshFeedback(){this._toastTimer&&(clearTimeout(this._toastTimer),this._toastTimer=null),this._toastElement&&(this._toastElement.remove(),this._toastElement=null);const t=document.createElement("div");t.className="refresh-toast",t.textContent="Refreshing...",this.shadowRoot.appendChild(t),this._toastElement=t,this._toastTimer=setTimeout(()=>{this._toastTimer=null,this._toastElement=null,t.isConnected&&t.remove()},2e3)}disconnectedCallback(){super.disconnectedCallback(),this._toastTimer&&(clearTimeout(this._toastTimer),this._toastTimer=null),this._toastElement&&(this._toastElement.remove(),this._toastElement=null),this._trainDetailsEscHandler&&document.removeEventListener("keydown",this._trainDetailsEscHandler)}static getConfigElement(){return document.createElement("my-rail-commute-card-editor")}static getStubConfig(){return{entity:"",view:"full",show_platform:!0,show_operator:!0,show_calling_points:!1}}}customElements.define("my-rail-commute-card",Ot),window.customCards=window.customCards||[],window.customCards.push({type:"my-rail-commute-card",name:"My Rail Commute Card",description:"Display My Rail Commute departure information in a beautiful station-board interface",preview:!0,documentationURL:"https://github.com/adamf83/lovelace-my-rail-commute-card"});export{Ot as default};
