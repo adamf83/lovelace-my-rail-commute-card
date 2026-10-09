@@ -97,6 +97,8 @@ class MyRailCommuteCard extends LitElement {
     this._drAttrs = null;       // attributes of sensor.{base}_delay_repay_claims
     this._drCount = 0;          // that sensor's state (unclaimed journeys)
     this._drServiceIds = new Set(); // today's claimable service IDs (for the row chip)
+    this._drDepartures = new Set(); // today's claimable scheduled departures (chip fallback)
+    this._drPending = [];       // live journeys that become claimable once they finish
     this._drBusy = new Set();   // claim keys with a service call in flight
     this._drError = '';
     this._drWarned = false;
@@ -467,14 +469,23 @@ class MyRailCommuteCard extends LitElement {
     // repeats.
     const today = this._todayIso();
     const ids = new Set();
+    const departures = new Set();
     const consider = (claim) => {
-      if (!claim || !claim.service_id) return;
+      if (!claim) return;
       if (claim.date && claim.date !== today) return;
-      ids.add(String(claim.service_id));
+      if (claim.service_id) ids.add(String(claim.service_id));
+      if (claim.scheduled_departure) departures.add(String(claim.scheduled_departure));
     };
+    // `pending_claims` are live late/cancelled journeys that can't be claimed
+    // until they finish; they still flag the train and are listed in the panel
+    this._drPending = Array.isArray(this._drAttrs && this._drAttrs.pending_claims)
+      ? this._drAttrs.pending_claims
+      : [];
     ((this._drAttrs && this._drAttrs.claims) || []).forEach(consider);
+    this._drPending.forEach(consider);
     consider(eligibleEntity && eligibleEntity.attributes ? eligibleEntity.attributes.latest : null);
     this._drServiceIds = ids;
+    this._drDepartures = departures;
     this._drAvailable = !!(claimsEntity || eligibleEntity);
   }
 
@@ -486,8 +497,10 @@ class MyRailCommuteCard extends LitElement {
 
   _isClaimable(train) {
     if (this.config.show_delay_repay !== true || !this._drAvailable) return false;
-    if (train.is_cancelled) return true;
-    return !!train.service_id && this._drServiceIds.has(String(train.service_id));
+    // Only flag trains the integration has actually recorded, otherwise the
+    // panel opened by the chip would have nothing to show for them
+    if (train.service_id && this._drServiceIds.has(String(train.service_id))) return true;
+    return !!train.scheduled_departure && this._drDepartures.has(String(train.scheduled_departure));
   }
 
   _renderClaimChip(train) {
@@ -557,13 +570,14 @@ class MyRailCommuteCard extends LitElement {
     }
 
     const claims = Array.isArray(attrs.claims) ? attrs.claims : [];
-    const hasEstimated = claims.some(c => c.confirmation === 'estimated');
+    const pending = this._drPending || [];
+    const hasEstimated = claims.concat(pending).some(c => c.confirmation === 'estimated');
     const deadline = attrs.oldest_claim_deadline;
 
     return html`
       <div class="delay-repay-panel">
         <div class="delay-repay-header">
-          <span class="delay-repay-count">${this._drCount} to claim</span>
+          <span class="delay-repay-count">${this._drCount} to claim${pending.length ? ` · ${pending.length} in progress` : ''}</span>
           ${deadline ? html`<span class="delay-repay-deadline">claim by ${this._formatHistoryDate(deadline)}</span>` : ''}
         </div>
 
@@ -577,14 +591,19 @@ class MyRailCommuteCard extends LitElement {
 
         ${this._drError ? html`<div class="delay-repay-error" role="alert">${this._drError}</div>` : ''}
 
-        ${claims.length === 0 ? html`
+        ${claims.length === 0 && pending.length === 0 ? html`
           <div class="delay-repay-empty">Nothing to claim - you're all caught up</div>
-        ` : claims.map(claim => this._renderClaimRow(claim))}
+        ` : ''}
+        ${claims.map(claim => this._renderClaimRow(claim))}
+        ${pending.length ? html`
+          <div class="delay-repay-note">In progress - claimable once the journey has finished:</div>
+          ${pending.map(claim => this._renderClaimRow(claim, true))}
+        ` : ''}
       </div>
     `;
   }
 
-  _renderClaimRow(claim) {
+  _renderClaimRow(claim, inProgress = false) {
     const busy = this._drBusy.has(claim.key);
     const url = this._safeClaimUrl(claim.claim_url);
     const cancelled = claim.is_cancelled === true;
@@ -607,9 +626,9 @@ class MyRailCommuteCard extends LitElement {
           ${claim.confirmation === 'estimated' ? html`
             <span class="dr-estimated" title="Estimated - verify before claiming">estimated</span>
           ` : ''}
-          ${url ? html`<a class="dr-link" href="${url}" target="_blank" rel="noopener noreferrer">Claim online</a>` : ''}
+          ${url && !inProgress ? html`<a class="dr-link" href="${url}" target="_blank" rel="noopener noreferrer">Claim online</a>` : ''}
         </div>
-        <div class="delay-repay-actions">
+        ${inProgress ? '' : html`<div class="delay-repay-actions">
           <button
             class="dr-btn dr-btn-primary"
             ?disabled="${busy}"
@@ -620,7 +639,7 @@ class MyRailCommuteCard extends LitElement {
             ?disabled="${busy}"
             @click="${() => this._delayRepayAction('dismiss_delay_repay', claim)}"
           >Dismiss</button>
-        </div>
+        </div>`}
       </div>
     `;
   }
