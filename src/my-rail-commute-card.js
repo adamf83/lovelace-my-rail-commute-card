@@ -625,6 +625,7 @@ class MyRailCommuteCard extends LitElement {
             ? (cancelled ? 'Confirmed cancellation' : 'Confirmed against the actual arrival')
             : 'Estimated from the live forecast - verify before claiming'}</dd>
           ${full.operator ? html`<dt>Operator</dt><dd>${full.operator}</dd>` : ''}
+          ${full.service_id ? html`<dt>Service ID</dt><dd>${full.service_id}</dd>` : ''}
           ${details && details.platform ? html`<dt>Platform</dt><dd>${details.platform}</dd>` : ''}
           <dt>Departs</dt>
           <dd>${this._formatStopTime(full.scheduled_departure, details && details.expected_departure)} from ${full.origin}</dd>

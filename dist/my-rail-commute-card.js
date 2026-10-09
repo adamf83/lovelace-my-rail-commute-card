@@ -2139,6 +2139,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
           <dt>Status</dt>
           <dd>${s?n?"Confirmed cancellation":"Confirmed against the actual arrival":"Estimated from the live forecast - verify before claiming"}</dd>
           ${i.operator?B`<dt>Operator</dt><dd>${i.operator}</dd>`:""}
+          ${i.service_id?B`<dt>Service ID</dt><dd>${i.service_id}</dd>`:""}
           ${a&&a.platform?B`<dt>Platform</dt><dd>${a.platform}</dd>`:""}
           <dt>Departs</dt>
           <dd>${this._formatStopTime(i.scheduled_departure,a&&a.expected_departure)} from ${i.origin}</dd>
