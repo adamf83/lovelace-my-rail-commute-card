@@ -58,6 +58,8 @@ class MyRailCommuteCard extends LitElement {
       _drAttrs: { type: Object },
       _drCount: { type: Number },
       _drBusy: { type: Object },
+      _drExpanded: { type: Object },
+      _drDetails: { type: Object },
       _drError: { type: String },
       _isMultiDestination: { type: Boolean },
       _servicesByDestination: { type: Object },
@@ -100,6 +102,8 @@ class MyRailCommuteCard extends LitElement {
     this._drDepartures = new Set(); // today's claimable scheduled departures (chip fallback)
     this._drPending = [];       // live journeys that become claimable once they finish
     this._drBusy = new Set();   // claim keys with a service call in flight
+    this._drExpanded = new Set(); // claim keys whose service details are showing
+    this._drDetails = {};       // claim key -> { status: 'loading'|'ready'|'error', claim, error }
     this._drError = '';
     this._drWarned = false;
     this._drAvailable = false;
@@ -537,6 +541,120 @@ class MyRailCommuteCard extends LitElement {
     return (reg && reg.config_entry_id) || null;
   }
 
+  // Fetches one claim's full record (including its service details snapshot)
+  // from the integration; the sensor attribute leaves the stop list out to
+  // stay under the recorder's size limit.
+  async _fetchClaimDetails(claim) {
+    const entryId = this._resolveDelayRepayEntryId();
+    const setState = (state) => {
+      this._drDetails = { ...this._drDetails, [claim.key]: state };
+    };
+    if (!this._hass || !entryId) {
+      setState({ status: 'error', claim, error: 'Could not find the commute\'s config entry.' });
+      return;
+    }
+    const previous = this._drDetails[claim.key];
+    setState({ status: 'loading', claim: (previous && previous.claim) || claim });
+    try {
+      const result = await this._hass.callWS({
+        type: 'call_service',
+        domain: 'my_rail_commute',
+        service: 'get_delay_repay_claims',
+        service_data: { entry_id: entryId, journeys: [claim.key] },
+        return_response: true,
+      });
+      const full = result && result.response && Array.isArray(result.response.claims)
+        ? result.response.claims.find(c => c.key === claim.key)
+        : null;
+      setState({ status: 'ready', claim: full || claim });
+    } catch (err) {
+      const reason = (err && err.message) ? err.message : 'unknown error';
+      setState({ status: 'error', claim, error: `Could not load service details: ${reason}` });
+    }
+  }
+
+  _toggleClaimDetails(claim) {
+    const next = new Set(this._drExpanded);
+    if (next.has(claim.key)) {
+      next.delete(claim.key);
+      this._drExpanded = next;
+      return;
+    }
+    next.add(claim.key);
+    this._drExpanded = next;
+    // Refetch on every open: a live journey's details keep changing
+    this._fetchClaimDetails(claim);
+  }
+
+  _onClaimSummaryKey(event, claim) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this._toggleClaimDetails(claim);
+    }
+  }
+
+  _formatStopTime(scheduled, expected) {
+    if (!scheduled && !expected) return '';
+    const isClock = (v) => typeof v === 'string' && /^\d{2}:\d{2}$/.test(v);
+    if (isClock(expected) && expected !== scheduled) {
+      return html`<s>${formatTime(scheduled)}</s> <strong>${formatTime(expected)}</strong>`;
+    }
+    const base = scheduled ? formatTime(scheduled) : '';
+    if (expected && !isClock(expected) && String(expected).toLowerCase() !== 'on time') {
+      return html`${base} <em>${expected}</em>`;
+    }
+    return base;
+  }
+
+  _renderClaimDetails(claim) {
+    const state = this._drDetails[claim.key] || { status: 'loading', claim };
+    const full = state.claim || claim;
+    const details = full.details || null;
+    const stops = details && Array.isArray(details.calling_points) ? details.calling_points : [];
+    const cancelled = full.is_cancelled === true;
+    const confirmed = full.confirmation === 'confirmed';
+    const arrival = full.arrival && full.arrival !== 'On time' ? formatTime(full.arrival) : null;
+
+    return html`
+      <div class="dr-details" role="region" aria-label="Service details">
+        ${state.status === 'loading' ? html`<div class="dr-details-note">Loading service details…</div>` : ''}
+        ${state.status === 'error' ? html`<div class="dr-details-note dr-details-error">${state.error}</div>` : ''}
+        <dl class="dr-details-grid">
+          <dt>Status</dt>
+          <dd>${confirmed
+            ? (cancelled ? 'Confirmed cancellation' : 'Confirmed against the actual arrival')
+            : 'Estimated from the live forecast - verify before claiming'}</dd>
+          ${full.operator ? html`<dt>Operator</dt><dd>${full.operator}</dd>` : ''}
+          ${details && details.platform ? html`<dt>Platform</dt><dd>${details.platform}</dd>` : ''}
+          <dt>Departs</dt>
+          <dd>${this._formatStopTime(full.scheduled_departure, details && details.expected_departure)} from ${full.origin}</dd>
+          ${full.scheduled_arrival ? html`
+            <dt>${confirmed && !cancelled ? 'Arrived' : 'Arrives'}</dt>
+            <dd>${cancelled
+              ? `${formatTime(full.scheduled_arrival)} at ${full.destination} (cancelled)`
+              : html`${this._formatStopTime(full.scheduled_arrival, arrival)} at ${full.destination}`}</dd>
+          ` : ''}
+          ${full.delay_minutes != null && !cancelled ? html`<dt>Delay</dt><dd>${full.delay_minutes} min${full.tier ? ` (${full.tier}+ min band)` : ''}</dd>` : ''}
+          ${full.delay_reason ? html`<dt>Reason</dt><dd>${full.delay_reason}</dd>` : ''}
+          ${full.claim_deadline ? html`<dt>Claim by</dt><dd>${this._formatHistoryDate(full.claim_deadline)}</dd>` : ''}
+        </dl>
+        ${stops.length ? html`
+          <div class="dr-stops-title">Calling at</div>
+          <ol class="dr-stops">
+            ${stops.map(stop => html`
+              <li class="${stop.is_cancelled ? 'dr-stop-cancelled' : ''}">
+                <span class="dr-stop-name">${stop.name}</span>
+                <span class="dr-stop-time">${stop.is_cancelled ? 'Cancelled' : this._formatStopTime(stop.scheduled, stop.expected)}</span>
+              </li>
+            `)}
+          </ol>
+        ` : (state.status === 'ready' ? html`
+          <div class="dr-details-note">Stop details were not recorded for this journey.</div>
+        ` : '')}
+      </div>
+    `;
+  }
+
   async _delayRepayAction(service, claim) {
     if (!this._hass || this._drBusy.has(claim.key)) return;
 
@@ -632,20 +750,34 @@ class MyRailCommuteCard extends LitElement {
       ? 'dr-cancelled'
       : ((claim.tier || claim.delay_minutes || 0) >= 30 ? 'dr-major' : 'dr-minor');
 
+    const expanded = this._drExpanded.has(claim.key);
+
     return html`
       <div class="delay-repay-row">
+        <div
+          class="dr-summary"
+          role="button"
+          tabindex="0"
+          aria-expanded="${expanded ? 'true' : 'false'}"
+          aria-label="Service details for the ${formatTime(claim.scheduled_departure)} ${claim.origin} to ${claim.destination}"
+          @click="${() => this._toggleClaimDetails(claim)}"
+          @keydown="${(e) => this._onClaimSummaryKey(e, claim)}"
+        >
         <div class="delay-repay-row-main">
           <span class="dr-when">${this._formatHistoryDate(claim.date)} ${formatTime(claim.scheduled_departure)}</span>
           <span class="dr-route">${claim.origin} → ${claim.destination}</span>
           <span class="dr-delay ${tierClass}">${delay}</span>
+          <span class="dr-chevron ${expanded ? 'open' : ''}" aria-hidden="true">▾</span>
         </div>
         <div class="delay-repay-row-meta">
           ${claim.operator ? html`<span class="dr-operator">${claim.operator}</span>` : ''}
           ${claim.confirmation === 'estimated' ? html`
             <span class="dr-estimated" title="Estimated - verify before claiming">estimated</span>
           ` : ''}
-          ${url && !inProgress ? html`<a class="dr-link" href="${url}" target="_blank" rel="noopener noreferrer">Claim online</a>` : ''}
+          ${url && !inProgress ? html`<a class="dr-link" href="${url}" target="_blank" rel="noopener noreferrer" @click="${(e) => e.stopPropagation()}">Claim online</a>` : ''}
         </div>
+        </div>
+        ${expanded ? this._renderClaimDetails(claim) : ''}
         ${inProgress ? '' : html`<div class="delay-repay-actions">
           <button
             class="dr-btn dr-btn-primary"

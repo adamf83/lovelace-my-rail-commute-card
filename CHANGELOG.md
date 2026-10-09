@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Delay Repay claim assistant (opt-in via `show_delay_repay`): footer button with an unclaimed-journeys badge, a claims panel with "Mark claimed" and "Dismiss" actions, and a "Claim" chip on late or cancelled trains. Needs Delay Repay tracking enabled in the integration
 - Visual editor toggle for `show_delay_repay`
+- Delay Repay: tap a claim to see its service details (platform, scheduled vs expected or actual times, delay reason and calling points). Needs the matching integration version, which keeps a snapshot of the service while the train is live and returns it from `get_delay_repay_claims`; older versions show the claim's basic fields with a note that stop details were not recorded
 
 ### Fixed
 - Delay Repay: "Mark claimed" and "Dismiss" did nothing because the claims sensor did not expose its config entry ID. The card now falls back to the entity registry and shows an error if the entry cannot be found (the integration also now exposes `entry_id`)

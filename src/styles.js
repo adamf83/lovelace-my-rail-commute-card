@@ -816,6 +816,11 @@ export const styles = css`
     color: #ffcc00;
   }
 
+  ha-card.departure-board .dr-details,
+  ha-card.departure-board .dr-summary:hover {
+    background: #1a1a1a;
+  }
+
   /* ==================== FOOTER ==================== */
 
   .card-footer {
@@ -1149,6 +1154,92 @@ export const styles = css`
     margin-top: 2px;
     font-size: 0.78rem;
     color: var(--secondary-text-color, #757575);
+  }
+
+  .dr-summary {
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .dr-summary:hover {
+    background: var(--card-background-color, #fff);
+  }
+
+  .dr-summary:focus-visible {
+    outline: 2px solid var(--primary-color, #03a9f4);
+    outline-offset: 2px;
+  }
+
+  .dr-chevron {
+    margin-left: auto;
+    color: var(--secondary-text-color, #757575);
+    transition: transform 0.15s ease;
+  }
+
+  .dr-chevron.open {
+    transform: rotate(180deg);
+  }
+
+  .dr-details {
+    margin: 6px 0 2px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: var(--card-background-color, #fff);
+    font-size: 0.8rem;
+  }
+
+  .dr-details-grid {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 2px 12px;
+    margin: 0;
+  }
+
+  .dr-details-grid dt {
+    color: var(--secondary-text-color, #757575);
+  }
+
+  .dr-details-grid dd {
+    margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .dr-details-note {
+    margin-bottom: 6px;
+    color: var(--secondary-text-color, #757575);
+  }
+
+  .dr-details-error {
+    color: var(--status-cancelled, #d32f2f);
+  }
+
+  .dr-stops-title {
+    margin: 8px 0 2px;
+    font-weight: 600;
+  }
+
+  .dr-stops {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .dr-stops li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 2px 0;
+    border-top: 1px dotted var(--divider-color, #e0e0e0);
+  }
+
+  .dr-stop-cancelled {
+    color: var(--status-cancelled, #d32f2f);
+    text-decoration: line-through;
+  }
+
+  .dr-stop-time {
+    white-space: nowrap;
   }
 
   .dr-estimated {
