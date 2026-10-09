@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Visual editor toggle for `show_delay_repay`
 
 ### Fixed
+- Delay Repay: "Mark claimed" and "Dismiss" did nothing because the claims sensor did not expose its config entry ID. The card now falls back to the entity registry and shows an error if the entry cannot be found (the integration also now exposes `entry_id`)
 - Delay Repay: tapping "Claim" on a live late or cancelled train opened an empty panel because only finished journeys were listed. In-progress journeys are now shown (with the integration's `pending_claims` attribute), and the chip only appears on trains the integration has recorded
 
 ## [1.0.9] - 2026-09-28
