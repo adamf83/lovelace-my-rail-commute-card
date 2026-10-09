@@ -457,6 +457,7 @@ class MyRailCommuteCard extends LitElement {
     }
 
     this._drAttrs = claimsEntity ? (claimsEntity.attributes || {}) : null;
+    this._drClaimsEntityId = claimsEntity ? `sensor.${drBase}_delay_repay_claims` : null;
     const count = claimsEntity ? parseInt(claimsEntity.state, 10) : NaN;
     this._drCount = Number.isFinite(count) ? count : 0;
 
@@ -524,9 +525,26 @@ class MyRailCommuteCard extends LitElement {
     this._delayRepayPanelOpen = true;
   }
 
+  // The claims sensor exposes `entry_id` (integration 1.x with the fix); older
+  // versions don't, so fall back to the entity registry's config entry.
+  _resolveDelayRepayEntryId() {
+    const fromAttrs = this._drAttrs && this._drAttrs.entry_id;
+    if (fromAttrs) return fromAttrs;
+    const entityId = this._drClaimsEntityId;
+    const reg = this._hass && this._hass.entities && entityId
+      ? this._hass.entities[entityId]
+      : null;
+    return (reg && reg.config_entry_id) || null;
+  }
+
   async _delayRepayAction(service, claim) {
-    const entryId = this._drAttrs && this._drAttrs.entry_id;
-    if (!entryId || !this._hass || this._drBusy.has(claim.key)) return;
+    if (!this._hass || this._drBusy.has(claim.key)) return;
+
+    const entryId = this._resolveDelayRepayEntryId();
+    if (!entryId) {
+      this._drError = 'Could not find the commute\'s config entry. Update the My Rail Commute integration to the latest version.';
+      return;
+    }
 
     this._drError = '';
     this._drBusy = new Set([...this._drBusy, claim.key]);
