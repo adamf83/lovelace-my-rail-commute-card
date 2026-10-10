@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.10] - 2026-10-10
+
 ### Added
 - Delay Repay claim assistant (opt-in via `show_delay_repay`): footer button with an unclaimed-journeys badge, a claims panel with "Mark claimed" and "Dismiss" actions, and a "Claim" chip on late or cancelled trains. Needs Delay Repay tracking enabled in the integration
 - Visual editor toggle for `show_delay_repay`
