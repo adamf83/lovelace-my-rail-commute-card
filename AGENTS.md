@@ -8,6 +8,7 @@ Unless the user asks otherwise:
 
 1. **Answer questions from the code.** If the user asks a question, always refer to the code (read the relevant files) instead of guessing or answering from memory.
 2. **Code changes go through a PR, then merge.** For any code change, create a branch, open a pull request, and merge it. There are no CI tests in this repo, so there is nothing to wait for before merging. Report back once merged.
+3. **Never close GitHub issues.** When working on a GitHub issue, do not close it (including via closing keywords like `Fixes #123` / `Closes #123` in PRs or commits, or by using the issue tools) unless the user explicitly asks. The user prefers to close issues manually. Reference issues without closing keywords instead (e.g. `Refs #123`, `Related to #123`).
 
 ## Project Overview
 
