@@ -14,7 +14,7 @@ const t=globalThis,e=t.ShadowRoot&&(void 0===t.ShadyCSS||t.ShadyCSS.nativeShadow
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{createHTML:t=>t}):void 0,S="$lit$",E=`lit$${Math.random().toFixed(9).slice(2)}$`,A="?"+E,D=`<${A}>`,T=document,R=()=>T.createComment(""),j=t=>null===t||"object"!=typeof t&&"function"!=typeof t,P=Array.isArray,M="[ \t\n\f\r]",O=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,z=/-->/g,I=/>/g,N=RegExp(`>|${M}(?:([^\\s"'>=/]+)(${M}*=${M}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),H=/'/g,U=/"/g,L=/^(?:script|style|textarea|title)$/i,B=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),q=Symbol.for("lit-noChange"),F=Symbol.for("lit-nothing"),W=new WeakMap,V=T.createTreeWalker(T,129);function G(t,e){if(!P(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==C?C.createHTML(e):e}const J=(t,e)=>{const i=t.length-1,a=[];let r,n=2===e?"<svg>":3===e?"<math>":"",s=O;for(let e=0;e<i;e++){const i=t[e];let o,l,d=-1,c=0;for(;c<i.length&&(s.lastIndex=c,l=s.exec(i),null!==l);)c=s.lastIndex,s===O?"!--"===l[1]?s=z:void 0!==l[1]?s=I:void 0!==l[2]?(L.test(l[2])&&(r=RegExp("</"+l[2],"g")),s=N):void 0!==l[3]&&(s=N):s===N?">"===l[0]?(s=r??O,d=-1):void 0===l[1]?d=-2:(d=s.lastIndex-l[2].length,o=l[1],s=void 0===l[3]?N:'"'===l[3]?U:H):s===U||s===H?s=N:s===z||s===I?s=O:(s=N,r=void 0);const h=s===N&&t[e+1].startsWith("/>")?" ":"";n+=s===O?i+D:d>=0?(a.push(o),i.slice(0,d)+S+i.slice(d)+E+h):i+E+(-2===d?e:h)}return[G(t,n+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),a]};class K{constructor({strings:t,_$litType$:e},i){let a;this.parts=[];let r=0,n=0;const s=t.length-1,o=this.parts,[l,d]=J(t,e);if(this.el=K.createElement(l,i),V.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(a=V.nextNode())&&o.length<s;){if(1===a.nodeType){if(a.hasAttributes())for(const t of a.getAttributeNames())if(t.endsWith(S)){const e=d[n++],i=a.getAttribute(t).split(E),s=/([.?@])?(.*)/.exec(e);o.push({type:1,index:r,name:s[2],strings:i,ctor:"."===s[1]?tt:"?"===s[1]?et:"@"===s[1]?it:Q}),a.removeAttribute(t)}else t.startsWith(E)&&(o.push({type:6,index:r}),a.removeAttribute(t));if(L.test(a.tagName)){const t=a.textContent.split(E),e=t.length-1;if(e>0){a.textContent=k?k.emptyScript:"";for(let i=0;i<e;i++)a.append(t[i],R()),V.nextNode(),o.push({type:2,index:++r});a.append(t[e],R())}}}else if(8===a.nodeType)if(a.data===A)o.push({type:2,index:r});else{let t=-1;for(;-1!==(t=a.data.indexOf(E,t+1));)o.push({type:7,index:r}),t+=E.length-1}r++}}static createElement(t,e){const i=T.createElement("template");return i.innerHTML=t,i}}function Y(t,e,i=t,a){if(e===q)return e;let r=void 0!==a?i._$Co?.[a]:i._$Cl;const n=j(e)?void 0:e._$litDirective$;return r?.constructor!==n&&(r?._$AO?.(!1),void 0===n?r=void 0:(r=new n(t),r._$AT(t,i,a)),void 0!==a?(i._$Co??=[])[a]=r:i._$Cl=r),void 0!==r&&(e=Y(t,r._$AS(t,e.values),r,a)),e}class X{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,a=(t?.creationScope??T).importNode(e,!0);V.currentNode=a;let r=V.nextNode(),n=0,s=0,o=i[0];for(;void 0!==o;){if(n===o.index){let e;2===o.type?e=new Z(r,r.nextSibling,this,t):1===o.type?e=new o.ctor(r,o.name,o.strings,this,t):6===o.type&&(e=new at(r,this,t)),this._$AV.push(e),o=i[++s]}n!==o?.index&&(r=V.nextNode(),n++)}return V.currentNode=T,a}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class Z{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,a){this.type=2,this._$AH=F,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=a,this._$Cv=a?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Y(this,t,e),j(t)?t===F||null==t||""===t?(this._$AH!==F&&this._$AR(),this._$AH=F):t!==this._$AH&&t!==q&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>P(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==F&&j(this._$AH)?this._$AA.nextSibling.data=t:this.T(T.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,a="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=K.createElement(G(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===a)this._$AH.p(e);else{const t=new X(a,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=W.get(t.strings);return void 0===e&&W.set(t.strings,e=new K(t)),e}k(t){P(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,a=0;for(const r of t)a===e.length?e.push(i=new Z(this.O(R()),this.O(R()),this,this.options)):i=e[a],i._$AI(r),a++;a<e.length&&(this._$AR(i&&i._$AB.nextSibling,a),e.length=a)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=x(t).nextSibling;x(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class Q{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,a,r){this.type=1,this._$AH=F,this._$AN=void 0,this.element=t,this.name=e,this._$AM=a,this.options=r,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=F}_$AI(t,e=this,i,a){const r=this.strings;let n=!1;if(void 0===r)t=Y(this,t,e,0),n=!j(t)||t!==this._$AH&&t!==q,n&&(this._$AH=t);else{const a=t;let s,o;for(t=r[0],s=0;s<r.length-1;s++)o=Y(this,a[i+s],e,s),o===q&&(o=this._$AH[s]),n||=!j(o)||o!==this._$AH[s],o===F?t=F:t!==F&&(t+=(o??"")+r[s+1]),this._$AH[s]=o}n&&!a&&this.j(t)}j(t){t===F?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class tt extends Q{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===F?void 0:t}}class et extends Q{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==F)}}class it extends Q{constructor(t,e,i,a,r){super(t,e,i,a,r),this.type=5}_$AI(t,e=this){if((t=Y(this,t,e,0)??F)===q)return;const i=this._$AH,a=t===F&&i!==F||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,r=t!==F&&(i===F||a);a&&this.element.removeEventListener(this.name,this,i),r&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class at{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Y(this,t)}}const rt=w.litHtmlPolyfillSupport;rt?.(K,Z),(w.litHtmlVersions??=[]).push("3.3.2");const nt=globalThis;
+const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{createHTML:t=>t}):void 0,S="$lit$",E=`lit$${Math.random().toFixed(9).slice(2)}$`,A="?"+E,D=`<${A}>`,T=document,R=()=>T.createComment(""),j=t=>null===t||"object"!=typeof t&&"function"!=typeof t,P=Array.isArray,M="[ \t\n\f\r]",O=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,z=/-->/g,I=/>/g,N=RegExp(`>|${M}(?:([^\\s"'>=/]+)(${M}*=${M}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),H=/'/g,L=/"/g,U=/^(?:script|style|textarea|title)$/i,B=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),q=Symbol.for("lit-noChange"),F=Symbol.for("lit-nothing"),W=new WeakMap,V=T.createTreeWalker(T,129);function G(t,e){if(!P(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==C?C.createHTML(e):e}const J=(t,e)=>{const i=t.length-1,a=[];let r,n=2===e?"<svg>":3===e?"<math>":"",s=O;for(let e=0;e<i;e++){const i=t[e];let o,l,d=-1,c=0;for(;c<i.length&&(s.lastIndex=c,l=s.exec(i),null!==l);)c=s.lastIndex,s===O?"!--"===l[1]?s=z:void 0!==l[1]?s=I:void 0!==l[2]?(U.test(l[2])&&(r=RegExp("</"+l[2],"g")),s=N):void 0!==l[3]&&(s=N):s===N?">"===l[0]?(s=r??O,d=-1):void 0===l[1]?d=-2:(d=s.lastIndex-l[2].length,o=l[1],s=void 0===l[3]?N:'"'===l[3]?L:H):s===L||s===H?s=N:s===z||s===I?s=O:(s=N,r=void 0);const h=s===N&&t[e+1].startsWith("/>")?" ":"";n+=s===O?i+D:d>=0?(a.push(o),i.slice(0,d)+S+i.slice(d)+E+h):i+E+(-2===d?e:h)}return[G(t,n+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),a]};class K{constructor({strings:t,_$litType$:e},i){let a;this.parts=[];let r=0,n=0;const s=t.length-1,o=this.parts,[l,d]=J(t,e);if(this.el=K.createElement(l,i),V.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(a=V.nextNode())&&o.length<s;){if(1===a.nodeType){if(a.hasAttributes())for(const t of a.getAttributeNames())if(t.endsWith(S)){const e=d[n++],i=a.getAttribute(t).split(E),s=/([.?@])?(.*)/.exec(e);o.push({type:1,index:r,name:s[2],strings:i,ctor:"."===s[1]?tt:"?"===s[1]?et:"@"===s[1]?it:Q}),a.removeAttribute(t)}else t.startsWith(E)&&(o.push({type:6,index:r}),a.removeAttribute(t));if(U.test(a.tagName)){const t=a.textContent.split(E),e=t.length-1;if(e>0){a.textContent=k?k.emptyScript:"";for(let i=0;i<e;i++)a.append(t[i],R()),V.nextNode(),o.push({type:2,index:++r});a.append(t[e],R())}}}else if(8===a.nodeType)if(a.data===A)o.push({type:2,index:r});else{let t=-1;for(;-1!==(t=a.data.indexOf(E,t+1));)o.push({type:7,index:r}),t+=E.length-1}r++}}static createElement(t,e){const i=T.createElement("template");return i.innerHTML=t,i}}function Y(t,e,i=t,a){if(e===q)return e;let r=void 0!==a?i._$Co?.[a]:i._$Cl;const n=j(e)?void 0:e._$litDirective$;return r?.constructor!==n&&(r?._$AO?.(!1),void 0===n?r=void 0:(r=new n(t),r._$AT(t,i,a)),void 0!==a?(i._$Co??=[])[a]=r:i._$Cl=r),void 0!==r&&(e=Y(t,r._$AS(t,e.values),r,a)),e}class X{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,a=(t?.creationScope??T).importNode(e,!0);V.currentNode=a;let r=V.nextNode(),n=0,s=0,o=i[0];for(;void 0!==o;){if(n===o.index){let e;2===o.type?e=new Z(r,r.nextSibling,this,t):1===o.type?e=new o.ctor(r,o.name,o.strings,this,t):6===o.type&&(e=new at(r,this,t)),this._$AV.push(e),o=i[++s]}n!==o?.index&&(r=V.nextNode(),n++)}return V.currentNode=T,a}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class Z{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,a){this.type=2,this._$AH=F,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=a,this._$Cv=a?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Y(this,t,e),j(t)?t===F||null==t||""===t?(this._$AH!==F&&this._$AR(),this._$AH=F):t!==this._$AH&&t!==q&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>P(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==F&&j(this._$AH)?this._$AA.nextSibling.data=t:this.T(T.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,a="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=K.createElement(G(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===a)this._$AH.p(e);else{const t=new X(a,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=W.get(t.strings);return void 0===e&&W.set(t.strings,e=new K(t)),e}k(t){P(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,a=0;for(const r of t)a===e.length?e.push(i=new Z(this.O(R()),this.O(R()),this,this.options)):i=e[a],i._$AI(r),a++;a<e.length&&(this._$AR(i&&i._$AB.nextSibling,a),e.length=a)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=x(t).nextSibling;x(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class Q{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,a,r){this.type=1,this._$AH=F,this._$AN=void 0,this.element=t,this.name=e,this._$AM=a,this.options=r,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=F}_$AI(t,e=this,i,a){const r=this.strings;let n=!1;if(void 0===r)t=Y(this,t,e,0),n=!j(t)||t!==this._$AH&&t!==q,n&&(this._$AH=t);else{const a=t;let s,o;for(t=r[0],s=0;s<r.length-1;s++)o=Y(this,a[i+s],e,s),o===q&&(o=this._$AH[s]),n||=!j(o)||o!==this._$AH[s],o===F?t=F:t!==F&&(t+=(o??"")+r[s+1]),this._$AH[s]=o}n&&!a&&this.j(t)}j(t){t===F?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class tt extends Q{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===F?void 0:t}}class et extends Q{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==F)}}class it extends Q{constructor(t,e,i,a,r){super(t,e,i,a,r),this.type=5}_$AI(t,e=this){if((t=Y(this,t,e,0)??F)===q)return;const i=this._$AH,a=t===F&&i!==F||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,r=t!==F&&(i===F||a);a&&this.element.removeEventListener(this.name,this,i),r&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class at{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Y(this,t)}}const rt=w.litHtmlPolyfillSupport;rt?.(K,Z),(w.litHtmlVersions??=[]).push("3.3.2");const nt=globalThis;
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -1592,6 +1592,19 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
     word-break: break-word;
   }
 
+  .train-details-dialog .copyable {
+    cursor: copy;
+    position: relative;
+  }
+
+  .train-details-dialog .copyable.copied::after {
+    content: 'Copied';
+    margin-left: 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--primary-color, #03a9f4);
+  }
+
   .train-details-footer {
     padding: 12px var(--card-padding);
     border-top: 1px solid var(--divider-color, #e0e0e0);
@@ -2695,14 +2708,14 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
           <div class="loading-message">Loading train information...</div>
         </div>
       </ha-card>
-    `}_handleTap(t){switch(this.config.tap_action?.action||"more-info"){case"more-info":this._showMoreInfo(t);break;case"train-details":this._showTrainDetails(t);break;case"url":this._openUrl(t);break;case"navigate":this._navigate(t)}}_showMoreInfo(t){const e=new Event("hass-more-info",{bubbles:!0,composed:!0}),i=t?.train_id||this.config.entity;e.detail={entityId:i},this.dispatchEvent(e)}_showTrainDetails(t){t&&(this._trainDetailsTrain=t,this._trainDetailsEscHandler||(this._trainDetailsEscHandler=t=>{"Escape"===t.key&&this._closeTrainDetails()}),document.addEventListener("keydown",this._trainDetailsEscHandler))}_closeTrainDetails(){this._trainDetailsTrain=null,this._trainDetailsEscHandler&&document.removeEventListener("keydown",this._trainDetailsEscHandler)}_renderTrainDetailsDialog(){const t=this._trainDetailsTrain;if(!t)return"";const e=this._hass?.states?.[t.train_id],i=e?e.attributes:t,a=(r=i)?Object.entries(r).filter(([t])=>{const e=t.toLowerCase();return!Rt.has(e)&&!jt.has(e)}).map(([t,e])=>({key:t,label:Pt(t),value:Mt(e)})):[];var r;const n=mt(t),s=pt(t),o=/\d{1,2}:\d{2}/.test(String(t.expected_departure||"")),l=t.origin||t.origin_name||this._origin||"",d=this._isMultiDestination?t.destination||t.destination_name||"":this._destination;return B`
+    `}_handleTap(t){switch(this.config.tap_action?.action||"more-info"){case"more-info":this._showMoreInfo(t);break;case"train-details":this._showTrainDetails(t);break;case"url":this._openUrl(t);break;case"navigate":this._navigate(t)}}_showMoreInfo(t){const e=new Event("hass-more-info",{bubbles:!0,composed:!0}),i=t?.train_id||this.config.entity;e.detail={entityId:i},this.dispatchEvent(e)}_showTrainDetails(t){t&&(this._trainDetailsTrain=t,this._trainDetailsEscHandler||(this._trainDetailsEscHandler=t=>{"Escape"===t.key&&this._closeTrainDetails()}),document.addEventListener("keydown",this._trainDetailsEscHandler))}_onTrainDetailsClick(t){t.stopPropagation();const e=t.target.closest?t.target.closest(".copyable"):null;e&&this._copyToClipboard(e)}async _copyToClipboard(t){const e=(t.textContent||"").trim();if(!e||"—"===e)return;let i=!1;try{await navigator.clipboard.writeText(e),i=!0}catch(t){}if(!i){const t=document.createElement("textarea");t.value=e,t.style.position="fixed",t.style.opacity="0",document.body.appendChild(t),t.select();try{i=document.execCommand("copy")}catch(t){i=!1}t.remove()}i&&(t.classList.add("copied"),setTimeout(()=>t.classList.remove("copied"),1200))}_closeTrainDetails(){this._trainDetailsTrain=null,this._trainDetailsEscHandler&&document.removeEventListener("keydown",this._trainDetailsEscHandler)}_renderTrainDetailsDialog(){const t=this._trainDetailsTrain;if(!t)return"";const e=this._hass?.states?.[t.train_id],i=e?e.attributes:t,a=(r=i)?Object.entries(r).filter(([t])=>{const e=t.toLowerCase();return!Rt.has(e)&&!jt.has(e)}).map(([t,e])=>({key:t,label:Pt(t),value:Mt(e)})):[];var r;const n=mt(t),s=pt(t),o=/\d{1,2}:\d{2}/.test(String(t.expected_departure||"")),l=t.origin||t.origin_name||this._origin||"",d=this._isMultiDestination?t.destination||t.destination_name||"":this._destination;return B`
       <div class="train-details-overlay" @click="${this._closeTrainDetails}">
         <div
           class="train-details-dialog"
           role="dialog"
           aria-modal="true"
           aria-label="Train details"
-          @click="${t=>t.stopPropagation()}"
+          @click="${this._onTrainDetailsClick}"
         >
           <div class="train-details-header">
             <div class="train-details-title">
@@ -2722,42 +2735,42 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
             <div class="train-details-grid">
               <div class="train-details-field">
                 <span class="field-label">Scheduled departure</span>
-                <span class="field-value">${dt(t.scheduled_departure)}</span>
+                <span class="field-value copyable" title="Tap to copy">${dt(t.scheduled_departure)}</span>
               </div>
               <div class="train-details-field">
                 <span class="field-label">Expected departure</span>
-                <span class="field-value">${o?dt(t.expected_departure):t.expected_departure||"—"}</span>
+                <span class="field-value copyable" title="Tap to copy">${o?dt(t.expected_departure):t.expected_departure||"—"}</span>
               </div>
               ${t.scheduled_arrival?B`
                 <div class="train-details-field">
                   <span class="field-label">Scheduled arrival</span>
-                  <span class="field-value">${dt(t.scheduled_arrival)}</span>
+                  <span class="field-value copyable" title="Tap to copy">${dt(t.scheduled_arrival)}</span>
                 </div>
               `:""}
               ${t.estimated_arrival?B`
                 <div class="train-details-field">
                   <span class="field-label">Estimated arrival</span>
-                  <span class="field-value">${dt(t.estimated_arrival)}</span>
+                  <span class="field-value copyable" title="Tap to copy">${dt(t.estimated_arrival)}</span>
                 </div>
               `:""}
               <div class="train-details-field">
                 <span class="field-label">Platform</span>
-                <span class="field-value">${t.platform||"—"}</span>
+                <span class="field-value copyable" title="Tap to copy">${t.platform||"—"}</span>
               </div>
               <div class="train-details-field">
                 <span class="field-label">Operator</span>
-                <span class="field-value">${t.operator||"—"}</span>
+                <span class="field-value copyable" title="Tap to copy">${t.operator||"—"}</span>
               </div>
               ${t.service_type?B`
                 <div class="train-details-field">
                   <span class="field-label">Service type</span>
-                  <span class="field-value">${t.service_type}</span>
+                  <span class="field-value copyable" title="Tap to copy">${t.service_type}</span>
                 </div>
               `:""}
               ${t.journey_duration?B`
                 <div class="train-details-field">
                   <span class="field-label">Journey time</span>
-                  <span class="field-value">${vt(t.journey_duration)}${t.journey_time_approx?" (approx)":""}</span>
+                  <span class="field-value copyable" title="Tap to copy">${vt(t.journey_duration)}${t.journey_time_approx?" (approx)":""}</span>
                 </div>
               `:""}
             </div>
@@ -2765,7 +2778,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
             ${t.calling_points&&t.calling_points.length?B`
               <div class="train-details-section">
                 <div class="train-details-section-title">Calling at</div>
-                <div class="train-details-calling-points">${ft(t.calling_points,t.calling_points.length)}</div>
+                <div class="train-details-calling-points copyable" title="Tap to copy">${ft(t.calling_points,t.calling_points.length)}</div>
               </div>
             `:""}
 
@@ -2776,7 +2789,7 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
                   ${a.map(t=>B`
                     <div class="train-details-field">
                       <span class="field-label">${t.label}</span>
-                      <span class="field-value">${t.value}</span>
+                      <span class="field-value copyable" title="Tap to copy">${t.value}</span>
                     </div>
                   `)}
                 </div>

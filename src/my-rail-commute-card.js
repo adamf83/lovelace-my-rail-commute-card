@@ -1789,6 +1789,43 @@ class MyRailCommuteCard extends LitElement {
     document.addEventListener('keydown', this._trainDetailsEscHandler);
   }
 
+  // Stop clicks inside the dialog reaching the overlay (which closes it) and
+  // copy the tapped value to the clipboard.
+  _onTrainDetailsClick(e) {
+    e.stopPropagation();
+    const target = e.target.closest ? e.target.closest('.copyable') : null;
+    if (target) this._copyToClipboard(target);
+  }
+
+  async _copyToClipboard(el) {
+    const text = (el.textContent || '').trim();
+    if (!text || text === '—') return;
+    let copied = false;
+    try {
+      await navigator.clipboard.writeText(text);
+      copied = true;
+    } catch (err) {
+      // navigator.clipboard is unavailable over plain HTTP; fall back below.
+    }
+    if (!copied) {
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.appendChild(area);
+      area.select();
+      try {
+        copied = document.execCommand('copy');
+      } catch (err) {
+        copied = false;
+      }
+      area.remove();
+    }
+    if (!copied) return;
+    el.classList.add('copied');
+    setTimeout(() => el.classList.remove('copied'), 1200);
+  }
+
   _closeTrainDetails() {
     this._trainDetailsTrain = null;
     if (this._trainDetailsEscHandler) {
@@ -1825,7 +1862,7 @@ class MyRailCommuteCard extends LitElement {
           role="dialog"
           aria-modal="true"
           aria-label="Train details"
-          @click="${(e) => e.stopPropagation()}"
+          @click="${this._onTrainDetailsClick}"
         >
           <div class="train-details-header">
             <div class="train-details-title">
@@ -1845,42 +1882,42 @@ class MyRailCommuteCard extends LitElement {
             <div class="train-details-grid">
               <div class="train-details-field">
                 <span class="field-label">Scheduled departure</span>
-                <span class="field-value">${formatTime(train.scheduled_departure)}</span>
+                <span class="field-value copyable" title="Tap to copy">${formatTime(train.scheduled_departure)}</span>
               </div>
               <div class="train-details-field">
                 <span class="field-label">Expected departure</span>
-                <span class="field-value">${expectedIsTime ? formatTime(train.expected_departure) : (train.expected_departure || '—')}</span>
+                <span class="field-value copyable" title="Tap to copy">${expectedIsTime ? formatTime(train.expected_departure) : (train.expected_departure || '—')}</span>
               </div>
               ${train.scheduled_arrival ? html`
                 <div class="train-details-field">
                   <span class="field-label">Scheduled arrival</span>
-                  <span class="field-value">${formatTime(train.scheduled_arrival)}</span>
+                  <span class="field-value copyable" title="Tap to copy">${formatTime(train.scheduled_arrival)}</span>
                 </div>
               ` : ''}
               ${train.estimated_arrival ? html`
                 <div class="train-details-field">
                   <span class="field-label">Estimated arrival</span>
-                  <span class="field-value">${formatTime(train.estimated_arrival)}</span>
+                  <span class="field-value copyable" title="Tap to copy">${formatTime(train.estimated_arrival)}</span>
                 </div>
               ` : ''}
               <div class="train-details-field">
                 <span class="field-label">Platform</span>
-                <span class="field-value">${train.platform || '—'}</span>
+                <span class="field-value copyable" title="Tap to copy">${train.platform || '—'}</span>
               </div>
               <div class="train-details-field">
                 <span class="field-label">Operator</span>
-                <span class="field-value">${train.operator || '—'}</span>
+                <span class="field-value copyable" title="Tap to copy">${train.operator || '—'}</span>
               </div>
               ${train.service_type ? html`
                 <div class="train-details-field">
                   <span class="field-label">Service type</span>
-                  <span class="field-value">${train.service_type}</span>
+                  <span class="field-value copyable" title="Tap to copy">${train.service_type}</span>
                 </div>
               ` : ''}
               ${train.journey_duration ? html`
                 <div class="train-details-field">
                   <span class="field-label">Journey time</span>
-                  <span class="field-value">${formatDuration(train.journey_duration)}${train.journey_time_approx ? ' (approx)' : ''}</span>
+                  <span class="field-value copyable" title="Tap to copy">${formatDuration(train.journey_duration)}${train.journey_time_approx ? ' (approx)' : ''}</span>
                 </div>
               ` : ''}
             </div>
@@ -1888,7 +1925,7 @@ class MyRailCommuteCard extends LitElement {
             ${train.calling_points && train.calling_points.length ? html`
               <div class="train-details-section">
                 <div class="train-details-section-title">Calling at</div>
-                <div class="train-details-calling-points">${formatCallingPoints(train.calling_points, train.calling_points.length)}</div>
+                <div class="train-details-calling-points copyable" title="Tap to copy">${formatCallingPoints(train.calling_points, train.calling_points.length)}</div>
               </div>
             ` : ''}
 
@@ -1899,7 +1936,7 @@ class MyRailCommuteCard extends LitElement {
                   ${additional.map(attr => html`
                     <div class="train-details-field">
                       <span class="field-label">${attr.label}</span>
-                      <span class="field-value">${attr.value}</span>
+                      <span class="field-value copyable" title="Tap to copy">${attr.value}</span>
                     </div>
                   `)}
                 </div>

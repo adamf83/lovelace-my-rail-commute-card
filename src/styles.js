@@ -1576,6 +1576,19 @@ export const styles = css`
     word-break: break-word;
   }
 
+  .train-details-dialog .copyable {
+    cursor: copy;
+    position: relative;
+  }
+
+  .train-details-dialog .copyable.copied::after {
+    content: 'Copied';
+    margin-left: 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--primary-color, #03a9f4);
+  }
+
   .train-details-footer {
     padding: 12px var(--card-padding);
     border-top: 1px solid var(--divider-color, #e0e0e0);
