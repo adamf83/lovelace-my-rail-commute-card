@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+- Train details popup: tap any value (service ID, platform, times, calling points) to copy it to the clipboard
+
 ## [1.0.10] - 2026-10-10
 
 ### Added
