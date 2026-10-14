@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Favourites card (`my-rail-commute-favourites-card`): a separate card type that lists your favourite daily trains with their live state (upcoming, departed, cancelled, later today, not running), including trains that have already left. Reads the `favourite_trains` attribute of the summary sensor, so it needs a My Rail Commute version with favourite trains and times entered under **Configure**. The existing card is unchanged
+- Favourites card now uses the same row layout as the main card (larger times, platform column, status icons, operator line); the operator is shown by default
 - Train details popup: tap any value (service ID, platform, times, calling points) to copy it to the clipboard
 
 ## [1.0.10] - 2026-10-10

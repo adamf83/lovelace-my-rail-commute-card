@@ -76,7 +76,7 @@ class MyRailCommuteFavouritesCardEditor extends LitElement {
         <div class="option">
           <ha-formfield label="Show operator">
             <ha-switch
-              .checked=${this._config.show_operator === true}
+              .checked=${this._config.show_operator !== false}
               @change=${(e) => this._update('show_operator', e.target.checked)}
             ></ha-switch>
           </ha-formfield>

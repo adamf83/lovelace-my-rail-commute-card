@@ -320,7 +320,7 @@ type: custom:my-rail-commute-favourites-card
 entity: sensor.morning_commute_summary
 title: My usual trains   # optional
 show_platform: true      # optional, default true
-show_operator: false     # optional, default false
+show_operator: true      # optional, default true
 show_header: true        # optional, default true
 ```
 
