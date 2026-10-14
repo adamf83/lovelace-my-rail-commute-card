@@ -309,6 +309,23 @@ show_delay_repay: true
 - **Estimated entries**: rows marked `estimated` were recorded from live data and may differ from the official record, so verify them before claiming.
 - **Actions**: each row has **Mark claimed** and **Dismiss** buttons, which call the integration services `my_rail_commute.mark_delay_repay_claimed` and `my_rail_commute.dismiss_delay_repay` with `entry_id` (from the claims sensor) and the row's `journeys: [key]`. Buttons are disabled while the call is running, and an error is shown if it fails.
 
+## Favourites Card
+
+A separate card, `my-rail-commute-favourites-card`, shows your favourite daily trains (for example every weekday's 08:15) with their live state, including trains that have already left. It is bundled in the same file, so there is nothing extra to install, and it does not change the main card.
+
+It needs a My Rail Commute integration version with favourite trains. Enter the departure times under **Settings → Devices & Services → My Rail Commute → Configure → Favourite trains**, for example `07:42, 08:15`. The card reads the `favourite_trains` attribute from the commute's summary sensor. If the attribute is missing (an older integration, or no favourites set), the card says so instead of showing an error. Favourites apply to the first leg of multi-leg commutes.
+
+```yaml
+type: custom:my-rail-commute-favourites-card
+entity: sensor.morning_commute_summary
+title: My usual trains   # optional
+show_platform: true      # optional, default true
+show_operator: false     # optional, default false
+show_header: true        # optional, default true
+```
+
+Each row shows one of: **On time** or **Delayed N min** (upcoming), **Departed** (with how late it was), **Cancelled**, **Later today** (outside the integration's time window) or **Not running** (not on today's board).
+
 ## Train Details Dialog
 
 Set `tap_action: { action: train-details }` to have tapping a train open a dialog built from that train's own data — scheduled/expected departure, scheduled/estimated arrival, platform, operator, status, delay reason, journey time, and calling points, plus any other attributes your integration exposes that aren't already shown, listed under "Additional information".
