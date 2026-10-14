@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { styles } from './styles.js';
-import { formatTime } from './utils.js';
+import { formatTime, formatPlatform, getStatusIcon } from './utils.js';
 import './favourites-editor.js'; // Import editor to bundle it
 
 /**
@@ -45,48 +45,25 @@ class MyRailCommuteFavouritesCard extends LitElement {
     return [
       styles,
       css`
-        .fav-row {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          padding: var(--row-padding) var(--card-padding);
-          border-bottom: 1px solid var(--divider-color, #e0e0e0);
+        .train-row {
+          cursor: default;
         }
-        .fav-row:last-child {
-          border-bottom: none;
+        .train-row:hover {
+          background-color: transparent;
         }
-        .fav-time {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 1.1rem;
-          font-weight: 500;
-          min-width: 110px;
+        .train-row.departed,
+        .train-row.scheduled,
+        .train-row.not-running {
+          opacity: 0.6;
         }
-        .fav-expected {
-          font-size: 0.9rem;
-          color: var(--secondary-text-color, #757575);
+        .train-row.departed .train-status,
+        .train-row.scheduled .train-status,
+        .train-row.not-running .train-status {
+          color: var(--status-no-service);
         }
-        .fav-detail {
-          flex: 1;
-          color: var(--secondary-text-color, #757575);
-          font-size: 0.9rem;
+        .train-row .train-details:empty {
+          display: none;
         }
-        .fav-status {
-          font-weight: 500;
-          text-align: right;
-        }
-        .fav-row.on-time .fav-status { color: var(--status-on-time); }
-        .fav-row.minor-delay .fav-status { color: var(--status-minor-delay); }
-        .fav-row.major-delay .fav-status { color: var(--status-major-delay); }
-        .fav-row.cancelled .fav-status { color: var(--status-cancelled); }
-        .fav-row.cancelled .time { text-decoration: line-through; }
-        .fav-row.departed,
-        .fav-row.scheduled,
-        .fav-row.not-running { opacity: 0.75; }
-        .fav-row.departed .fav-status,
-        .fav-row.scheduled .fav-status,
-        .fav-row.not-running .fav-status { color: var(--status-no-service); }
         .fav-message {
           padding: var(--card-padding);
           color: var(--secondary-text-color, #757575);
@@ -102,7 +79,7 @@ class MyRailCommuteFavouritesCard extends LitElement {
     this.config = {
       show_header: true,
       show_platform: true,
-      show_operator: false,
+      show_operator: true,
       ...config,
     };
   }
@@ -174,22 +151,39 @@ class MyRailCommuteFavouritesCard extends LitElement {
 
   _renderRow(fav) {
     const { icon, cls, label } = describeFavourite(fav);
+    const live = fav.state === 'upcoming' || fav.state === 'cancelled';
     const showExpected = fav.expected_departure && fav.expected_departure !== fav.scheduled_departure
       && fav.state === 'upcoming';
-    const details = [];
-    if (this.config.show_platform !== false && fav.platform) details.push(`Platform ${fav.platform}`);
-    if (this.config.show_operator === true && fav.operator) details.push(fav.operator);
-    if (fav.destination) details.push(`→ ${fav.destination}`);
+    const statusIcon = live
+      ? getStatusIcon({
+        is_cancelled: fav.state === 'cancelled',
+        delay_minutes: Number(fav.delay_minutes) || 0,
+      })
+      : '';
+    const showDestination = fav.destination
+      && fav.destination !== this._getEntity()?.attributes?.destination_name;
+    const showPlatform = this.config.show_platform !== false && (live || fav.platform);
+    const showOperator = this.config.show_operator !== false && fav.operator;
+    const reason = fav.state === 'cancelled'
+      ? fav.cancel_reason || fav.cancellation_reason
+      : fav.delay_reason;
 
     return html`
-      <div class="fav-row ${cls}">
-        <div class="fav-time">
-          <ha-icon icon="${icon}"></ha-icon>
-          <span class="time">${formatTime(fav.scheduled_departure)}</span>
-          ${showExpected ? html`<span class="fav-expected">${formatTime(fav.expected_departure)}</span>` : ''}
+      <div class="train-row ${cls}">
+        <div class="train-main">
+          <div class="train-time">
+            <ha-icon icon="${icon}"></ha-icon>
+            <span class="time">${formatTime(fav.scheduled_departure)}</span>
+            <span class="expected-time">${showExpected ? formatTime(fav.expected_departure) : ''}</span>
+          </div>
+          ${showDestination ? html`<div class="train-destination">→ ${fav.destination}</div>` : ''}
+          ${showPlatform ? html`<div class="train-platform">${formatPlatform(fav.platform)}</div>` : ''}
+          <div class="train-status">${statusIcon} ${label}</div>
         </div>
-        <div class="fav-detail">${details.join(' · ')}</div>
-        <div class="fav-status">${label}</div>
+        <div class="train-details">
+          ${showOperator ? html`<span class="operator">${fav.operator}</span>` : ''}
+          ${reason ? html`<div class="delay-reason">→ ${reason}</div>` : ''}
+        </div>
       </div>
     `;
   }
