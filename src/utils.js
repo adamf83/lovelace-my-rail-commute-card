@@ -620,7 +620,7 @@ const KNOWN_TRAIN_ATTR_KEYS = new Set([
 const META_ATTR_KEYS = new Set([
   'attribution', 'icon', 'friendly_name', 'device_class',
   'unit_of_measurement', 'supported_features', 'entity_picture',
-  'assumed_state', 'state_class', 'editable',
+  'assumed_state', 'state_class', 'editable', 'options',
 ]);
 
 function _formatAttributeLabel(key) {
