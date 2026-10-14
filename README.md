@@ -322,7 +322,19 @@ title: My usual trains   # optional
 show_platform: true      # optional, default true
 show_operator: true      # optional, default true
 show_header: true        # optional, default true
+show_route: true         # optional, default true
+show_delay_reason: true  # optional, default true
+show_calling_points: false  # optional, default false
+max_calling_points: 3    # optional, default 3
+show_journey_time: false # optional, default false
+status_icons: true       # optional, default true
+tap_action:              # optional, default train-details (also more-info, url, navigate, none)
+  action: train-details
+hold_action:             # optional, default refresh (also more-info, none)
+  action: refresh
 ```
+
+Tapping a row opens the same [train details dialog](#train-details-dialog) as the main card. Calling points, arrival times, journey time and delay reasons need a My Rail Commute integration version that includes them in `favourite_trains` (newer than the first favourites release); older versions simply omit those fields.
 
 Each row shows one of: **On time** or **Delayed N min** (upcoming), **Departed** (with how late it was), **Cancelled**, **Later today** (outside the integration's time window) or **Not running** (not on today's board).
 

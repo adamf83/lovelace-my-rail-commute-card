@@ -1,6 +1,15 @@
 import { LitElement, html, css } from 'lit';
 import { styles } from './styles.js';
-import { formatTime, formatPlatform, getStatusIcon } from './utils.js';
+import {
+  formatTime,
+  formatPlatform,
+  formatDuration,
+  formatCallingPoints,
+  getStatusIcon,
+  getDisruptionReason,
+  normalizeTrains,
+} from './utils.js';
+import { TrainDetailsMixin } from './train-details.js';
 import './favourites-editor.js'; // Import editor to bundle it
 
 /**
@@ -33,11 +42,12 @@ export function describeFavourite(fav) {
   return { icon: info.icon, cls, label };
 }
 
-class MyRailCommuteFavouritesCard extends LitElement {
+class MyRailCommuteFavouritesCard extends TrainDetailsMixin(LitElement) {
   static get properties() {
     return {
       hass: { type: Object },
       config: { type: Object },
+      _trainDetailsTrain: { type: Object },
     };
   }
 
@@ -45,12 +55,6 @@ class MyRailCommuteFavouritesCard extends LitElement {
     return [
       styles,
       css`
-        .train-row {
-          cursor: default;
-        }
-        .train-row:hover {
-          background-color: transparent;
-        }
         .train-row.departed,
         .train-row.scheduled,
         .train-row.not-running {
@@ -60,9 +64,6 @@ class MyRailCommuteFavouritesCard extends LitElement {
         .train-row.scheduled .train-status,
         .train-row.not-running .train-status {
           color: var(--status-no-service);
-        }
-        .train-row .train-details:empty {
-          display: none;
         }
         .fav-message {
           padding: var(--card-padding);
@@ -80,6 +81,11 @@ class MyRailCommuteFavouritesCard extends LitElement {
       show_header: true,
       show_platform: true,
       show_operator: true,
+      show_delay_reason: true,
+      show_calling_points: false,
+      show_journey_time: false,
+      status_icons: true,
+      show_route: true,
       ...config,
     };
   }
@@ -97,6 +103,112 @@ class MyRailCommuteFavouritesCard extends LitElement {
   _getFavourites() {
     const favs = this._getEntity()?.attributes?.favourite_trains;
     return Array.isArray(favs) ? favs : null;
+  }
+
+  willUpdate(changed) {
+    // Keep an open details dialog in step with the latest data
+    if (this._trainDetailsTrain && changed.has('hass')) {
+      const fav = (this._getFavourites() || []).find(
+        (f) => f.scheduled_departure === this._trainDetailsTrain.scheduled_departure,
+      );
+      this._trainDetailsTrain = fav ? this._prepareTrain(fav) : null;
+      if (!fav) this._closeTrainDetails();
+    }
+  }
+
+  _baseName() {
+    return (this.config?.entity || '')
+      .replace('sensor.', '')
+      .replace('_commute_summary', '')
+      .replace('_summary', '');
+  }
+
+  // The favourite's own sensor (sensor.<name>_favourite_hh_mm), if it exists
+  _favouriteEntityId(fav) {
+    const id = `sensor.${this._baseName()}_favourite_${String(fav.scheduled_departure).replace(':', '_')}`;
+    return this.hass?.states?.[id] ? id : null;
+  }
+
+  // Shape a favourite like a main-card train so shared helpers work on it
+  _prepareTrain(fav) {
+    const [train] = normalizeTrains([{ ...fav, is_cancelled: fav.state === 'cancelled' }], this._baseName());
+    train.train_id = this._favouriteEntityId(fav) || undefined;
+    return train;
+  }
+
+  _getTrainDetailsContext(train) {
+    const entity = train.train_id ? this.hass?.states?.[train.train_id] : null;
+    const attrs = this._getEntity()?.attributes || {};
+    const { cls, label } = describeFavourite(train);
+    const live = train.state === 'upcoming' || train.state === 'cancelled';
+    const rawAttrs = entity
+      ? entity.attributes
+      : Object.fromEntries(Object.entries(train).filter(([k]) => !['state', 'train_id', 'journey_duration', 'journey_time_approx'].includes(k)));
+    return {
+      entity,
+      rawAttrs,
+      originLabel: attrs.origin_name || '',
+      destLabel: attrs.destination_name || train.destination || '',
+      statusText: label,
+      statusClass: live ? cls : 'no-service',
+    };
+  }
+
+  _handleTap(train) {
+    const action = this.config.tap_action?.action || 'train-details';
+    switch (action) {
+      case 'more-info': {
+        const event = new Event('hass-more-info', { bubbles: true, composed: true });
+        event.detail = { entityId: train.train_id || this.config.entity };
+        this.dispatchEvent(event);
+        break;
+      }
+      case 'train-details':
+        this._showTrainDetails(train);
+        break;
+      case 'url': {
+        const url = this.config.tap_action?.url_path;
+        if (url) window.open(url, '_blank');
+        break;
+      }
+      case 'navigate': {
+        const path = this.config.tap_action?.navigation_path;
+        if (path) {
+          window.history.pushState(null, '', path);
+          this.dispatchEvent(new Event('location-changed', { bubbles: true, composed: true }));
+        }
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
+  _handleTouchStart(e) {
+    const el = e.currentTarget;
+    el._pressTimer = setTimeout(() => {
+      el._pressTimer = null;
+      this._handleHold();
+    }, 500);
+  }
+
+  _cancelPress(e) {
+    const el = e.currentTarget;
+    if (el._pressTimer) {
+      clearTimeout(el._pressTimer);
+      el._pressTimer = null;
+    }
+  }
+
+  _handleHold() {
+    const action = this.config.hold_action?.action || 'refresh';
+    if (action === 'refresh' && this.hass && this.config.entity) {
+      this.hass.callService('homeassistant', 'update_entity', { entity_id: this.config.entity });
+    } else if (action === 'more-info') {
+      const event = new Event('hass-more-info', { bubbles: true, composed: true });
+      event.detail = { entityId: this.config.entity };
+      this.dispatchEvent(event);
+    }
   }
 
   render() {
@@ -141,20 +253,22 @@ class MyRailCommuteFavouritesCard extends LitElement {
               <ha-icon icon="mdi:star"></ha-icon>
               <span class="header-title">${this.config.title || 'Favourite trains'}</span>
             </div>
-            ${route ? html`<div class="route">${route}</div>` : ''}
+            ${route && this.config.show_route !== false ? html`<div class="route">${route}</div>` : ''}
           </div>
         ` : ''}
         ${content}
       </ha-card>
+      ${this._trainDetailsTrain ? this._renderTrainDetailsDialog() : ''}
     `;
   }
 
   _renderRow(fav) {
+    const train = this._prepareTrain(fav);
     const { icon, cls, label } = describeFavourite(fav);
     const live = fav.state === 'upcoming' || fav.state === 'cancelled';
     const showExpected = fav.expected_departure && fav.expected_departure !== fav.scheduled_departure
       && fav.state === 'upcoming';
-    const statusIcon = live
+    const statusIcon = live && this.config.status_icons !== false
       ? getStatusIcon({
         is_cancelled: fav.state === 'cancelled',
         delay_minutes: Number(fav.delay_minutes) || 0,
@@ -164,12 +278,18 @@ class MyRailCommuteFavouritesCard extends LitElement {
       && fav.destination !== this._getEntity()?.attributes?.destination_name;
     const showPlatform = this.config.show_platform !== false && (live || fav.platform);
     const showOperator = this.config.show_operator !== false && fav.operator;
-    const reason = fav.state === 'cancelled'
-      ? fav.cancel_reason || fav.cancellation_reason
-      : fav.delay_reason;
+    const reason = this.config.show_delay_reason !== false ? getDisruptionReason(train) : '';
+    const showCallingPoints = this.config.show_calling_points === true && train.calling_points?.length;
+    const showJourneyTime = this.config.show_journey_time === true && train.journey_duration;
 
     return html`
-      <div class="train-row ${cls}">
+      <div
+        class="train-row ${cls}"
+        @click="${() => this._handleTap(train)}"
+        @touchstart="${this._handleTouchStart}"
+        @touchend="${this._cancelPress}"
+        @touchmove="${this._cancelPress}"
+      >
         <div class="train-main">
           <div class="train-time">
             <ha-icon icon="${icon}"></ha-icon>
@@ -183,6 +303,16 @@ class MyRailCommuteFavouritesCard extends LitElement {
         <div class="train-details">
           ${showOperator ? html`<span class="operator">${fav.operator}</span>` : ''}
           ${reason ? html`<div class="delay-reason">→ ${reason}</div>` : ''}
+          ${showCallingPoints ? html`
+            <div class="calling-points">
+              Calling at: ${formatCallingPoints(train.calling_points, this.config.max_calling_points)}
+            </div>
+          ` : ''}
+          ${showJourneyTime ? html`
+            <div class="journey-time">
+              Journey time: ${formatDuration(train.journey_duration)}${train.journey_time_approx ? '*' : ''}
+            </div>
+          ` : ''}
         </div>
       </div>
     `;
