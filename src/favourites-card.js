@@ -141,9 +141,11 @@ class MyRailCommuteFavouritesCard extends TrainDetailsMixin(LitElement) {
     const attrs = this._getEntity()?.attributes || {};
     const { cls, label } = describeFavourite(train);
     const live = train.state === 'upcoming' || train.state === 'cancelled';
-    const rawAttrs = entity
-      ? entity.attributes
-      : Object.fromEntries(Object.entries(train).filter(([k]) => !['state', 'train_id', 'journey_duration', 'journey_time_approx'].includes(k)));
+    // Destination is already in the dialog title, and the main card's dialog doesn't list it
+    const hidden = ['state', 'train_id', 'journey_duration', 'journey_time_approx', 'destination'];
+    const rawAttrs = Object.fromEntries(
+      Object.entries(entity ? entity.attributes : train).filter(([k]) => !hidden.includes(k)),
+    );
     return {
       entity,
       rawAttrs,
