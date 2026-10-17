@@ -10,6 +10,9 @@ All notable changes to this project will be documented in this file.
 - Favourites card: tapping a row opens the same train details dialog as the main card, and it gains the main card's display options (`show_route`, `show_delay_reason`, `show_calling_points`, `max_calling_points`, `show_journey_time`, `status_icons`, `tap_action`, `hold_action`). The dialog is now shared between both cards
 - Train details popup: tap any value (service ID, platform, times, calling points) to copy it to the clipboard
 
+### Changed
+- Favourites card editor: the entity picker now only lists My Rail Commute summary sensors (previously any sensor)
+
 ## [1.0.10] - 2026-10-10
 
 ### Added
