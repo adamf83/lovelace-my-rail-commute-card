@@ -62,6 +62,14 @@ class MyRailCommuteFavouritesCardEditor extends LitElement {
     this._config = config;
   }
 
+  // Only My Rail Commute summary sensors carry the favourite_trains attribute
+  _filterSummaryEntities(entity) {
+    const id = entity.entity_id;
+    if (!id.endsWith('_summary')) return false;
+    const integration = this.hass?.states?.[id]?.attributes?.integration;
+    return !integration || integration === 'my_rail_commute';
+  }
+
   _update(key, value) {
     const config = { ...this._config, [key]: value };
     if (value === '' || value === undefined) delete config[key];
@@ -84,13 +92,14 @@ class MyRailCommuteFavouritesCardEditor extends LitElement {
     return html`
       <div class="card-config">
         <div class="option">
-          <ha-selector
+          <ha-entity-picker
             .hass=${this.hass}
             .label=${'Summary sensor'}
-            .selector=${{ entity: { domain: 'sensor' } }}
+            .includeDomains=${['sensor']}
+            .entityFilter=${this._filterSummaryEntities.bind(this)}
             .value=${this._config.entity || ''}
             @value-changed=${(e) => this._update('entity', e.detail.value)}
-          ></ha-selector>
+          ></ha-entity-picker>
         </div>
         <div class="option">
           <ha-textfield

@@ -2280,16 +2280,17 @@ const w=globalThis,x=t=>t,k=w.trustedTypes,C=k?k.createPolicy("lit-html",{create
         border-top: 6px solid var(--secondary-text-color, rgba(0,0,0,0.54));
         pointer-events: none;
       }
-    `}setConfig(t){this._config=t}_update(t,e){const i={...this._config,[t]:e};""!==e&&void 0!==e||delete i[t],this._config=i,this.dispatchEvent(new CustomEvent("config-changed",{detail:{config:i},bubbles:!0,composed:!0}))}_updateAction(t,e,i={}){const a=this._config[t]?.action===e?this._config[t]:{};this._update(t,{...a,...i,action:e})}render(){if(!this.hass||!this._config)return B``;const t=this._config.tap_action?.action||"train-details";return B`
+    `}setConfig(t){this._config=t}_filterSummaryEntities(t){const e=t.entity_id;if(!e.endsWith("_summary"))return!1;const i=this.hass?.states?.[e]?.attributes?.integration;return!i||"my_rail_commute"===i}_update(t,e){const i={...this._config,[t]:e};""!==e&&void 0!==e||delete i[t],this._config=i,this.dispatchEvent(new CustomEvent("config-changed",{detail:{config:i},bubbles:!0,composed:!0}))}_updateAction(t,e,i={}){const a=this._config[t]?.action===e?this._config[t]:{};this._update(t,{...a,...i,action:e})}render(){if(!this.hass||!this._config)return B``;const t=this._config.tap_action?.action||"train-details";return B`
       <div class="card-config">
         <div class="option">
-          <ha-selector
+          <ha-entity-picker
             .hass=${this.hass}
             .label=${"Summary sensor"}
-            .selector=${{entity:{domain:"sensor"}}}
+            .includeDomains=${["sensor"]}
+            .entityFilter=${this._filterSummaryEntities.bind(this)}
             .value=${this._config.entity||""}
             @value-changed=${t=>this._update("entity",t.detail.value)}
-          ></ha-selector>
+          ></ha-entity-picker>
         </div>
         <div class="option">
           <ha-textfield
